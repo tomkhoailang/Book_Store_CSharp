@@ -1,0 +1,75 @@
+﻿@model WebApplication2.Models.BOOK_EDITION
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BOOK_EDITION</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionPageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionPageCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionAuthor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionAuthor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STOCK_INVENTORY.EditionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STOCK_INVENTORY.EditionID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EditionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,43 @@
+﻿@model WebApplication2.Models.STOCK_RECEIVED_NOTE
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>STOCK_RECEIVED_NOTE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StockReceivedNoteDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockReceivedNoteDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MANAGER.ManagerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MANAGER.ManagerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PUBLISHER.PublisherName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PUBLISHER.PublisherName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StockReceivedNoteID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

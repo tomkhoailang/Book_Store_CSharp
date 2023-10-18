@@ -1,0 +1,70 @@
+﻿@model IEnumerable<WebApplication2.Models.BOOK_EDITION>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EditionPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditionDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditionYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditionPageCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditionAuthor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STOCK_INVENTORY.EditionID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditionPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditionDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditionYear)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditionPageCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditionAuthor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STOCK_INVENTORY.EditionID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EditionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EditionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EditionID })
+        </td>
+    </tr>
+}
+
+</table>
