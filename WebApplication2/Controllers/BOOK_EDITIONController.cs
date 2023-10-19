@@ -11,7 +11,6 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    //[Authorize(Roles ="Manager,Staff")]
     public class BOOK_EDITIONController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -19,7 +18,7 @@ namespace WebApplication2.Controllers
         // GET: BOOK_EDITION
         public ActionResult Index()
         {
-            var bOOK_EDITION = db.BOOK_EDITION.Include(b => b.STOCK_INVENTORY);
+            var bOOK_EDITION = db.BOOK_EDITION.Include(b => b.BOOK_COLLECTION).Include(b => b.STOCK_INVENTORY);
             return View(bOOK_EDITION.ToList());
         }
 
@@ -39,13 +38,9 @@ namespace WebApplication2.Controllers
         }
 
         // GET: BOOK_EDITION/Create
-        //public ActionResult Create()
-        //{
-        //    ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID");
-        //    return View("~/Views/Book/Create.cshtml");
-        //}
         public ActionResult Create()
-        { 
+        {
+            ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName");
             ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID");
             return View();
         }
@@ -55,7 +50,7 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EditionID,EditionPrice,EditionDescription,EditionYear,EditionPageCount,EditionName,EditionAuthor")] BOOK_EDITION bOOK_EDITION)
+        public ActionResult Create([Bind(Include = "EditionID,EditionPrice,EditionDescription,EditionYear,EditionPageCount,EditionName,EditionAuthor,BookCollectionID")] BOOK_EDITION bOOK_EDITION)
         {
             if (ModelState.IsValid)
             {
@@ -73,12 +68,13 @@ namespace WebApplication2.Controllers
                     };
                     db.BOOK_EDITION_IMAGE.Add(insertImage);
                 }
-                db.SaveChanges();
             }
+
+
+                ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
             ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
             return View(bOOK_EDITION);
         }
-
 
         // GET: BOOK_EDITION/Edit/5
         public ActionResult Edit(int? id)
@@ -92,6 +88,7 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
             ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
             return View(bOOK_EDITION);
         }
@@ -101,7 +98,7 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EditionID,EditionPrice,EditionDescription,EditionYear,EditionPageCount,EditionName,EditionAuthor")] BOOK_EDITION bOOK_EDITION)
+        public ActionResult Edit([Bind(Include = "EditionID,EditionPrice,EditionDescription,EditionYear,EditionPageCount,EditionName,EditionAuthor,BookCollectionID")] BOOK_EDITION bOOK_EDITION)
         {
             if (ModelState.IsValid)
             {
@@ -109,6 +106,7 @@ namespace WebApplication2.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
             ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
             return View(bOOK_EDITION);
         }

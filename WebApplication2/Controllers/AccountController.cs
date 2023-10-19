@@ -156,6 +156,7 @@ namespace WebApplication2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     using (var dbContext = new BookStoreManagerEntities())
                     {
 

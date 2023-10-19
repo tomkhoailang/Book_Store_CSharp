@@ -20,7 +20,6 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        //[Authorize(Roles ="Manager")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

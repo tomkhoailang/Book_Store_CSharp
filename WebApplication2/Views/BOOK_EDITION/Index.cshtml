@@ -31,6 +31,9 @@
             @Html.DisplayNameFor(model => model.EditionAuthor)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.BOOK_COLLECTION.BookCollectionName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.STOCK_INVENTORY.EditionID)
         </th>
         <th></th>
@@ -55,6 +58,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.EditionAuthor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BOOK_COLLECTION.BookCollectionName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.STOCK_INVENTORY.EditionID)

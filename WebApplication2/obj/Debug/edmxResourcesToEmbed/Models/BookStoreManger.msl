@@ -67,6 +67,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="BOOK_COLLECTION">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.BOOK_COLLECTION">
+        <MappingFragment StoreEntitySet="BOOK_COLLECTION">
+          <ScalarProperty Name="BookCollectionID" ColumnName="BookCollectionID" />
+          <ScalarProperty Name="BookCollectionName" ColumnName="BookCollectionName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="BOOK_EDITION">
       <EntityTypeMapping TypeName="BookStoreManagerModel.BOOK_EDITION">
         <MappingFragment StoreEntitySet="BOOK_EDITION">
@@ -77,6 +85,7 @@
           <ScalarProperty Name="EditionPageCount" ColumnName="EditionPageCount" />
           <ScalarProperty Name="EditionName" ColumnName="EditionName" />
           <ScalarProperty Name="EditionAuthor" ColumnName="EditionAuthor" />
+          <ScalarProperty Name="BookCollectionID" ColumnName="BookCollectionID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -297,6 +306,5 @@
         <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
       </EndProperty>
     </AssociationSetMapping>
-    <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
   </EntityContainerMapping>
 </Mapping>

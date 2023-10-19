@@ -12,8 +12,6 @@ namespace WebApplication2.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class BookStoreManagerEntities : DbContext
     {
@@ -33,6 +31,7 @@ namespace WebApplication2.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<BANK_ACCOUNT> BANK_ACCOUNT { get; set; }
+        public virtual DbSet<BOOK_COLLECTION> BOOK_COLLECTION { get; set; }
         public virtual DbSet<BOOK_EDITION> BOOK_EDITION { get; set; }
         public virtual DbSet<BOOK_EDITION_IMAGE> BOOK_EDITION_IMAGE { get; set; }
         public virtual DbSet<BOOK_REVIEW> BOOK_REVIEW { get; set; }
@@ -52,14 +51,5 @@ namespace WebApplication2.Models
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
-    
-        public virtual int SP_Inital_Manager(string accountID)
-        {
-            var accountIDParameter = accountID != null ?
-                new ObjectParameter("AccountID", accountID) :
-                new ObjectParameter("AccountID", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Manager", accountIDParameter);
-        }
     }
 }

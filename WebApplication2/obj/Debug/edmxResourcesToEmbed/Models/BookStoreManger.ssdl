@@ -79,6 +79,13 @@
     <Property Name="CategoryID" Type="int" Nullable="false" />
     <Property Name="EditionID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="BOOK_COLLECTION">
+    <Key>
+      <PropertyRef Name="BookCollectionID" />
+    </Key>
+    <Property Name="BookCollectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookCollectionName" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
   <EntityType Name="BOOK_EDITION">
     <Key>
       <PropertyRef Name="EditionID" />
@@ -87,9 +94,10 @@
     <Property Name="EditionPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
     <Property Name="EditionDescription" Type="nvarchar" MaxLength="500" />
     <Property Name="EditionYear" Type="nvarchar" MaxLength="4" Nullable="false" />
-    <Property Name="EditionPageCount" Type="decimal" Precision="5" Scale="0" Nullable="false" />
+    <Property Name="EditionPageCount" Type="int" Nullable="false" />
     <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="EditionAuthor" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="BookCollectionID" Type="int" />
   </EntityType>
   <EntityType Name="BOOK_EDITION_IMAGE">
     <Key>
@@ -276,7 +284,7 @@
     <Property Name="CustomerID" Type="int" />
     <Property Name="Balance" Type="decimal" Precision="12" Scale="2" Nullable="false" />
   </EntityType>
-  <Association Name="FK__BANK_ACCO__Walle__4E88ABD4">
+  <Association Name="FK__BANK_ACCO__Walle__4D94879B">
     <End Role="WALLET" Type="Self.WALLET" Multiplicity="0..1" />
     <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="*" />
     <ReferentialConstraint>
@@ -288,7 +296,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_CATE__Categ__71D1E811">
+  <Association Name="FK__BOOK_CATE__Categ__70DDC3D8">
     <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
     <End Role="BOOK_CATEGORY" Type="Self.BOOK_CATEGORY" Multiplicity="*" />
     <ReferentialConstraint>
@@ -300,7 +308,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_CATE__Editi__72C60C4A">
+  <Association Name="FK__BOOK_CATE__Editi__71D1E811">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
     <End Role="BOOK_CATEGORY" Type="Self.BOOK_CATEGORY" Multiplicity="*" />
     <ReferentialConstraint>
@@ -312,7 +320,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_EDIT__Editi__1332DBDC">
+  <Association Name="FK__BOOK_EDIT__Editi__123EB7A3">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="0..1" />
     <End Role="BOOK_EDITION_IMAGE" Type="Self.BOOK_EDITION_IMAGE" Multiplicity="*" />
     <ReferentialConstraint>
@@ -324,7 +332,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_PROM__Editi__76969D2E">
+  <Association Name="FK__BOOK_PROM__Editi__75A278F5">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
     <End Role="BOOK_PROMOTION" Type="Self.BOOK_PROMOTION" Multiplicity="*" />
     <ReferentialConstraint>
@@ -336,7 +344,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_PROM__Promo__75A278F5">
+  <Association Name="FK__BOOK_PROM__Promo__74AE54BC">
     <End Role="PROMOTION" Type="Self.PROMOTION" Multiplicity="1" />
     <End Role="BOOK_PROMOTION" Type="Self.BOOK_PROMOTION" Multiplicity="*" />
     <ReferentialConstraint>
@@ -348,7 +356,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_REVI__Custo__10566F31">
+  <Association Name="FK__BOOK_REVI__Custo__0F624AF8">
     <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="0..1" />
     <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
     <ReferentialConstraint>
@@ -360,7 +368,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__BOOK_REVI__Editi__0F624AF8">
+  <Association Name="FK__BOOK_REVI__Editi__0E6E26BF">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="0..1" />
     <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
     <ReferentialConstraint>
@@ -372,7 +380,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER___Custo__1EA48E88">
+  <Association Name="FK__CUSTOMER___Custo__1DB06A4F">
     <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="0..1" />
     <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
     <ReferentialConstraint>
@@ -384,7 +392,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER___Editi__245D67DE">
+  <Association Name="FK__CUSTOMER___Editi__236943A5">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
     <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
     <ReferentialConstraint>
@@ -396,7 +404,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER___Order__25518C17">
+  <Association Name="FK__CUSTOMER___Order__245D67DE">
     <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
     <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
     <ReferentialConstraint>
@@ -408,7 +416,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER___Shipp__1F98B2C1">
+  <Association Name="FK__CUSTOMER___Shipp__1EA48E88">
     <End Role="SHIPPER" Type="Self.SHIPPER" Multiplicity="0..1" />
     <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
     <ReferentialConstraint>
@@ -420,7 +428,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER___Staff__1DB06A4F">
+  <Association Name="FK__CUSTOMER___Staff__1CBC4616">
     <End Role="STAFF" Type="Self.STAFF" Multiplicity="0..1" />
     <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
     <ReferentialConstraint>
@@ -432,7 +440,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER__TierID__440B1D61">
+  <Association Name="FK__CUSTOMER__TierID__4316F928">
     <End Role="TIER" Type="Self.TIER" Multiplicity="1" />
     <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="*" />
     <ReferentialConstraint>
@@ -444,7 +452,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SHIP_CONF__Order__29221CFB">
+  <Association Name="FK__SHIP_CONF__Order__282DF8C2">
     <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="0..1" />
     <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
     <ReferentialConstraint>
@@ -456,7 +464,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__SHIP_CONF__Shipp__2A164134">
+  <Association Name="FK__SHIP_CONF__Shipp__29221CFB">
     <End Role="SHIPPER" Type="Self.SHIPPER" Multiplicity="0..1" />
     <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
     <ReferentialConstraint>
@@ -468,7 +476,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__STOCK_INV__Editi__0A9D95DB">
+  <Association Name="FK__STOCK_INV__Editi__09A971A2">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
     <End Role="STOCK_INVENTORY" Type="Self.STOCK_INVENTORY" Multiplicity="0..1" />
     <ReferentialConstraint>
@@ -480,7 +488,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__STOCK_REC__Editi__02084FDA">
+  <Association Name="FK__STOCK_REC__Editi__01142BA1">
     <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
     <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
     <ReferentialConstraint>
@@ -492,7 +500,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__STOCK_REC__Manag__7C4F7684">
+  <Association Name="FK__STOCK_REC__Manag__7B5B524B">
     <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="0..1" />
     <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
     <ReferentialConstraint>
@@ -504,7 +512,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__STOCK_REC__Publi__7B5B524B">
+  <Association Name="FK__STOCK_REC__Publi__7A672E12">
     <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="0..1" />
     <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
     <ReferentialConstraint>
@@ -516,7 +524,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__STOCK_REC__Stock__02FC7413">
+  <Association Name="FK__STOCK_REC__Stock__02084FDA">
     <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="1" />
     <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
     <ReferentialConstraint>
@@ -528,7 +536,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TRANSACTI__BankA__52593CB8">
+  <Association Name="FK__TRANSACTI__BankA__5165187F">
     <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="0..1" />
     <End Role="TRANSACTION_DETAIL" Type="Self.TRANSACTION_DETAIL" Multiplicity="*" />
     <ReferentialConstraint>
@@ -540,7 +548,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__WALLET__Customer__48CFD27E">
+  <Association Name="FK__WALLET__Customer__47DBAE45">
     <End Role="CUSTOMER" Type="Self.CUSTOMER" Multiplicity="0..1" />
     <End Role="WALLET" Type="Self.WALLET" Multiplicity="*" />
     <ReferentialConstraint>
@@ -549,6 +557,18 @@
       </Principal>
       <Dependent Role="WALLET">
         <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BookCollectionID">
+    <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="0..1" />
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_COLLECTION">
+        <PropertyRef Name="BookCollectionID" />
+      </Principal>
+      <Dependent Role="BOOK_EDITION">
+        <PropertyRef Name="BookCollectionID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -656,10 +676,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="PROC_CHECK_IN_STORAGE_WHEN_REFRESHING" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="sessionEditionIDList" Type="nvarchar(max)" Mode="In" />
-    <Parameter Name="sessionQuantityList" Type="nvarchar(max)" Mode="In" />
-  </Function>
   <Function Name="SP_Inital_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
   </Function>
@@ -675,6 +691,7 @@
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BANK_ACCOUNT" EntityType="Self.BANK_ACCOUNT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BOOK_CATEGORY" EntityType="Self.BOOK_CATEGORY" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BOOK_COLLECTION" EntityType="Self.BOOK_COLLECTION" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BOOK_EDITION" EntityType="Self.BOOK_EDITION" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BOOK_EDITION_IMAGE" EntityType="Self.BOOK_EDITION_IMAGE" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="BOOK_PROMOTION" EntityType="Self.BOOK_PROMOTION" Schema="dbo" store:Type="Tables" />
@@ -695,97 +712,101 @@
     <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TRANSACTION_DETAIL" EntityType="Self.TRANSACTION_DETAIL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__BANK_ACCO__Walle__4E88ABD4" Association="Self.FK__BANK_ACCO__Walle__4E88ABD4">
+    <AssociationSet Name="FK__BANK_ACCO__Walle__4D94879B" Association="Self.FK__BANK_ACCO__Walle__4D94879B">
       <End Role="WALLET" EntitySet="WALLET" />
       <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_CATE__Categ__71D1E811" Association="Self.FK__BOOK_CATE__Categ__71D1E811">
+    <AssociationSet Name="FK__BOOK_CATE__Categ__70DDC3D8" Association="Self.FK__BOOK_CATE__Categ__70DDC3D8">
       <End Role="CATEGORY" EntitySet="CATEGORY" />
       <End Role="BOOK_CATEGORY" EntitySet="BOOK_CATEGORY" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_CATE__Editi__72C60C4A" Association="Self.FK__BOOK_CATE__Editi__72C60C4A">
+    <AssociationSet Name="FK__BOOK_CATE__Editi__71D1E811" Association="Self.FK__BOOK_CATE__Editi__71D1E811">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="BOOK_CATEGORY" EntitySet="BOOK_CATEGORY" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_EDIT__Editi__1332DBDC" Association="Self.FK__BOOK_EDIT__Editi__1332DBDC">
+    <AssociationSet Name="FK__BOOK_EDIT__Editi__123EB7A3" Association="Self.FK__BOOK_EDIT__Editi__123EB7A3">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="BOOK_EDITION_IMAGE" EntitySet="BOOK_EDITION_IMAGE" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_PROM__Editi__76969D2E" Association="Self.FK__BOOK_PROM__Editi__76969D2E">
+    <AssociationSet Name="FK__BOOK_PROM__Editi__75A278F5" Association="Self.FK__BOOK_PROM__Editi__75A278F5">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="BOOK_PROMOTION" EntitySet="BOOK_PROMOTION" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_PROM__Promo__75A278F5" Association="Self.FK__BOOK_PROM__Promo__75A278F5">
+    <AssociationSet Name="FK__BOOK_PROM__Promo__74AE54BC" Association="Self.FK__BOOK_PROM__Promo__74AE54BC">
       <End Role="PROMOTION" EntitySet="PROMOTION" />
       <End Role="BOOK_PROMOTION" EntitySet="BOOK_PROMOTION" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_REVI__Custo__10566F31" Association="Self.FK__BOOK_REVI__Custo__10566F31">
+    <AssociationSet Name="FK__BOOK_REVI__Custo__0F624AF8" Association="Self.FK__BOOK_REVI__Custo__0F624AF8">
       <End Role="CUSTOMER" EntitySet="CUSTOMER" />
       <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
     </AssociationSet>
-    <AssociationSet Name="FK__BOOK_REVI__Editi__0F624AF8" Association="Self.FK__BOOK_REVI__Editi__0F624AF8">
+    <AssociationSet Name="FK__BOOK_REVI__Editi__0E6E26BF" Association="Self.FK__BOOK_REVI__Editi__0E6E26BF">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Custo__1EA48E88" Association="Self.FK__CUSTOMER___Custo__1EA48E88">
+    <AssociationSet Name="FK__CUSTOMER___Custo__1DB06A4F" Association="Self.FK__CUSTOMER___Custo__1DB06A4F">
       <End Role="CUSTOMER" EntitySet="CUSTOMER" />
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Editi__245D67DE" Association="Self.FK__CUSTOMER___Editi__245D67DE">
+    <AssociationSet Name="FK__CUSTOMER___Editi__236943A5" Association="Self.FK__CUSTOMER___Editi__236943A5">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Order__25518C17" Association="Self.FK__CUSTOMER___Order__25518C17">
+    <AssociationSet Name="FK__CUSTOMER___Order__245D67DE" Association="Self.FK__CUSTOMER___Order__245D67DE">
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
       <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Shipp__1F98B2C1" Association="Self.FK__CUSTOMER___Shipp__1F98B2C1">
+    <AssociationSet Name="FK__CUSTOMER___Shipp__1EA48E88" Association="Self.FK__CUSTOMER___Shipp__1EA48E88">
       <End Role="SHIPPER" EntitySet="SHIPPER" />
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Staff__1DB06A4F" Association="Self.FK__CUSTOMER___Staff__1DB06A4F">
+    <AssociationSet Name="FK__CUSTOMER___Staff__1CBC4616" Association="Self.FK__CUSTOMER___Staff__1CBC4616">
       <End Role="STAFF" EntitySet="STAFF" />
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER__TierID__440B1D61" Association="Self.FK__CUSTOMER__TierID__440B1D61">
+    <AssociationSet Name="FK__CUSTOMER__TierID__4316F928" Association="Self.FK__CUSTOMER__TierID__4316F928">
       <End Role="TIER" EntitySet="TIER" />
       <End Role="CUSTOMER" EntitySet="CUSTOMER" />
     </AssociationSet>
-    <AssociationSet Name="FK__SHIP_CONF__Order__29221CFB" Association="Self.FK__SHIP_CONF__Order__29221CFB">
+    <AssociationSet Name="FK__SHIP_CONF__Order__282DF8C2" Association="Self.FK__SHIP_CONF__Order__282DF8C2">
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
       <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
     </AssociationSet>
-    <AssociationSet Name="FK__SHIP_CONF__Shipp__2A164134" Association="Self.FK__SHIP_CONF__Shipp__2A164134">
+    <AssociationSet Name="FK__SHIP_CONF__Shipp__29221CFB" Association="Self.FK__SHIP_CONF__Shipp__29221CFB">
       <End Role="SHIPPER" EntitySet="SHIPPER" />
       <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
     </AssociationSet>
-    <AssociationSet Name="FK__STOCK_INV__Editi__0A9D95DB" Association="Self.FK__STOCK_INV__Editi__0A9D95DB">
+    <AssociationSet Name="FK__STOCK_INV__Editi__09A971A2" Association="Self.FK__STOCK_INV__Editi__09A971A2">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="STOCK_INVENTORY" EntitySet="STOCK_INVENTORY" />
     </AssociationSet>
-    <AssociationSet Name="FK__STOCK_REC__Editi__02084FDA" Association="Self.FK__STOCK_REC__Editi__02084FDA">
+    <AssociationSet Name="FK__STOCK_REC__Editi__01142BA1" Association="Self.FK__STOCK_REC__Editi__01142BA1">
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
     </AssociationSet>
-    <AssociationSet Name="FK__STOCK_REC__Manag__7C4F7684" Association="Self.FK__STOCK_REC__Manag__7C4F7684">
+    <AssociationSet Name="FK__STOCK_REC__Manag__7B5B524B" Association="Self.FK__STOCK_REC__Manag__7B5B524B">
       <End Role="MANAGER" EntitySet="MANAGER" />
       <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
     </AssociationSet>
-    <AssociationSet Name="FK__STOCK_REC__Publi__7B5B524B" Association="Self.FK__STOCK_REC__Publi__7B5B524B">
+    <AssociationSet Name="FK__STOCK_REC__Publi__7A672E12" Association="Self.FK__STOCK_REC__Publi__7A672E12">
       <End Role="PUBLISHER" EntitySet="PUBLISHER" />
       <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
     </AssociationSet>
-    <AssociationSet Name="FK__STOCK_REC__Stock__02FC7413" Association="Self.FK__STOCK_REC__Stock__02FC7413">
+    <AssociationSet Name="FK__STOCK_REC__Stock__02084FDA" Association="Self.FK__STOCK_REC__Stock__02084FDA">
       <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
       <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
     </AssociationSet>
-    <AssociationSet Name="FK__TRANSACTI__BankA__52593CB8" Association="Self.FK__TRANSACTI__BankA__52593CB8">
+    <AssociationSet Name="FK__TRANSACTI__BankA__5165187F" Association="Self.FK__TRANSACTI__BankA__5165187F">
       <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
       <End Role="TRANSACTION_DETAIL" EntitySet="TRANSACTION_DETAIL" />
     </AssociationSet>
-    <AssociationSet Name="FK__WALLET__Customer__48CFD27E" Association="Self.FK__WALLET__Customer__48CFD27E">
+    <AssociationSet Name="FK__WALLET__Customer__47DBAE45" Association="Self.FK__WALLET__Customer__47DBAE45">
       <End Role="CUSTOMER" EntitySet="CUSTOMER" />
       <End Role="WALLET" EntitySet="WALLET" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BookCollectionID" Association="Self.FK_BookCollectionID">
+      <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
     </AssociationSet>
     <AssociationSet Name="FK_CUSTOMER_AspNetUsers" Association="Self.FK_CUSTOMER_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
