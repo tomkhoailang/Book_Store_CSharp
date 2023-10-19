@@ -297,5 +297,6 @@
         <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
   </EntityContainerMapping>
 </Mapping>

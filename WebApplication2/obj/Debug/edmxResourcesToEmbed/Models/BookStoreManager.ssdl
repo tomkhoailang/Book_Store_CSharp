@@ -663,6 +663,9 @@
   <Function Name="SP_Inital_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
+  </Function>
   <EntityContainer Name="BookStoreManagerModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />

@@ -1,0 +1,35 @@
+﻿@model WebApplication2.Models.BOOK_EDITION_IMAGE
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BOOK_EDITION_IMAGE</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EditionImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditionImage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BOOK_EDITION.EditionDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EditionImageID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

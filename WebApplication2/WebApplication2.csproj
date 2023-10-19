@@ -171,6 +171,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
+    <Compile Include="Controllers\BOOK_EDITION_IMAGEController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\STOCK_RECEIVED_NOTEController.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Models\BANK_ACCOUNT.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BookManagerViewModel.cs" />
     <Compile Include="Models\BookStoreManager.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -362,6 +364,12 @@
     <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Details.cshtml" />
     <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Edit.cshtml" />
     <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Index.cshtml" />
+    <Content Include="Views\BOOK_EDITION_IMAGE\Create.cshtml" />
+    <Content Include="Views\BOOK_EDITION_IMAGE\Delete.cshtml" />
+    <Content Include="Views\BOOK_EDITION_IMAGE\Details.cshtml" />
+    <Content Include="Views\BOOK_EDITION_IMAGE\Edit.cshtml" />
+    <Content Include="Views\BOOK_EDITION_IMAGE\Index.cshtml" />
+    <Content Include="Views\Book\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

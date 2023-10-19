@@ -762,5 +762,8 @@
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="PROMOTION" EntitySet="PROMOTIONs" />
     </AssociationSet>
+    <FunctionImport Name="SP_Inital_Manager">
+      <Parameter Name="AccountID" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
 </Schema>

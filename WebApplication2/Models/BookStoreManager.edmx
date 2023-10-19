@@ -668,6 +668,9 @@
         <Function Name="SP_Inital_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="BookStoreManagerModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -1588,6 +1591,9 @@
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="PROMOTION" EntitySet="PROMOTIONs" />
           </AssociationSet>
+          <FunctionImport Name="SP_Inital_Manager">
+            <Parameter Name="AccountID" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -1891,6 +1897,7 @@
               <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

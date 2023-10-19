@@ -161,7 +161,7 @@ namespace WebApplication2.Controllers
 
                         //using this to create the admin first
 
-                        //await dbContext.Database.ExecuteSqlCommandAsync("EXEC SP_Inital_Manager @AccountID", new SqlParameter("@AccountID", user.Id));
+                        await dbContext.Database.ExecuteSqlCommandAsync("EXEC SP_Inital_Manager @AccountID", new SqlParameter("@AccountID", user.Id));
 
                         //then run the below section to create customer
 

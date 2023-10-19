@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,7 +11,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    [Authorize(Roles ="Manager,Customer")]
+    //[Authorize(Roles ="Manager,Staff")]
     public class BOOK_EDITIONController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -38,8 +39,13 @@ namespace WebApplication2.Controllers
         }
 
         // GET: BOOK_EDITION/Create
+        //public ActionResult Create()
+        //{
+        //    ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID");
+        //    return View("~/Views/Book/Create.cshtml");
+        //}
         public ActionResult Create()
-        {
+        { 
             ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID");
             return View();
         }
@@ -54,13 +60,25 @@ namespace WebApplication2.Controllers
             if (ModelState.IsValid)
             {
                 db.BOOK_EDITION.Add(bOOK_EDITION);
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    HttpPostedFileBase file = Request.Files[i];
+                    string uniqueFileName = Guid.NewGuid().ToString();
+                    var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
+                    file.SaveAs(path);
+                    BOOK_EDITION_IMAGE insertImage = new BOOK_EDITION_IMAGE()
+                    {
+                        EditionID = bOOK_EDITION.EditionID,
+                        EditionImage = uniqueFileName
+                    };
+                    db.BOOK_EDITION_IMAGE.Add(insertImage);
+                }
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
             ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
             return View(bOOK_EDITION);
         }
+
 
         // GET: BOOK_EDITION/Edit/5
         public ActionResult Edit(int? id)
