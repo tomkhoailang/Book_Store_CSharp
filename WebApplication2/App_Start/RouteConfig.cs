@@ -16,7 +16,7 @@ namespace WebApplication2
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "BOOK_EDITION", action = "Create", id = UrlParameter.Optional }
+                defaults: new { controller = "BOOK_EDITION", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

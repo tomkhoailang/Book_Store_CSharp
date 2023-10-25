@@ -44,7 +44,7 @@ namespace WebApplication2.Models
         [Required(ErrorMessage = "The page count is empty")]
 
         [DisplayName("Page number")]
-        public string EditionPageCount { get; set; }
+        public int EditionPageCount { get; set; }
         [Required(ErrorMessage = "The name is empty")]
 
         [DisplayName("Name of the book")]

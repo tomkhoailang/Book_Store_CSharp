@@ -34,6 +34,8 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
+            // get list of review
+
             return View(bOOK_EDITION);
         }
 
@@ -41,7 +43,7 @@ namespace WebApplication2.Controllers
         public ActionResult Create()
         {
             ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName");
-            ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID");
+            //ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID");
             return View();
         }
 
@@ -58,7 +60,7 @@ namespace WebApplication2.Controllers
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     HttpPostedFileBase file = Request.Files[i];
-                    string uniqueFileName = Guid.NewGuid().ToString();
+                    string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
                     var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
                     file.SaveAs(path);
                     BOOK_EDITION_IMAGE insertImage = new BOOK_EDITION_IMAGE()
@@ -68,12 +70,11 @@ namespace WebApplication2.Controllers
                     };
                     db.BOOK_EDITION_IMAGE.Add(insertImage);
                 }
+                db.SaveChanges();
             }
 
-
-                ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
-            ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
-            return View(bOOK_EDITION);
+            ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
+            return RedirectToAction("Index");
         }
 
         // GET: BOOK_EDITION/Edit/5
@@ -88,8 +89,9 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.images = db.BOOK_EDITION_IMAGE.Where(a => a.EditionID == id).Select(a => a.EditionImage).ToList();
+            //bOOK_EDITION.EditionPrice = Convert.ToInt32(bOOK_EDITION.EditionPrice);
             ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
-            ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
             return View(bOOK_EDITION);
         }
 
