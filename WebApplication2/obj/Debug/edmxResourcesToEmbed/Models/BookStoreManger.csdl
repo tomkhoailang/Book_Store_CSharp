@@ -124,6 +124,7 @@
     <Property Name="EditionID" Type="Int32" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_REVI__Editi__0E6E26BF" FromRole="BOOK_REVIEW" ToRole="BOOK_EDITION" />
     <NavigationProperty Name="CUSTOMER" Relationship="Self.FK__BOOK_REVI__Custo__0F624AF8" FromRole="BOOK_REVIEW" ToRole="CUSTOMER" />
+    <Property Name="ReviewRating" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="CATEGORY">
     <Key>

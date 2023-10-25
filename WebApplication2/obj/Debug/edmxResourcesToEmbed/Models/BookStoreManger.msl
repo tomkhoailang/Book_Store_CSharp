@@ -101,6 +101,7 @@
     <EntitySetMapping Name="BOOK_REVIEW">
       <EntityTypeMapping TypeName="BookStoreManagerModel.BOOK_REVIEW">
         <MappingFragment StoreEntitySet="BOOK_REVIEW">
+          <ScalarProperty Name="ReviewRating" ColumnName="ReviewRating" />
           <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
           <ScalarProperty Name="ReviewDescription" ColumnName="ReviewDescription" />
           <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />

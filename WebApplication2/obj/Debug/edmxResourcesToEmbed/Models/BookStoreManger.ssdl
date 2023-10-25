@@ -124,6 +124,7 @@
     <Property Name="ReviewDate" Type="datetime" Nullable="false" />
     <Property Name="CustomerID" Type="int" />
     <Property Name="EditionID" Type="int" />
+    <Property Name="ReviewRating" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CATEGORY">
     <Key>

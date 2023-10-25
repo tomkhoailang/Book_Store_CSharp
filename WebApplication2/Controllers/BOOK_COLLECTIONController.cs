@@ -110,8 +110,16 @@ namespace WebApplication2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             BOOK_COLLECTION bOOK_COLLECTION = db.BOOK_COLLECTION.Find(id);
-            db.BOOK_COLLECTION.Remove(bOOK_COLLECTION);
-            db.SaveChanges();
+            if ((db.BOOK_EDITION.FirstOrDefault(e => e.BookCollectionID == id)) != null)
+            {
+                ViewBag.ShowPopup = true;
+                return View(bOOK_COLLECTION);   
+            }
+            else
+            {
+                db.BOOK_COLLECTION.Remove(bOOK_COLLECTION);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

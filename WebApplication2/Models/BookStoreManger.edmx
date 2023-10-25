@@ -129,6 +129,7 @@
           <Property Name="ReviewDate" Type="datetime" Nullable="false" />
           <Property Name="CustomerID" Type="int" />
           <Property Name="EditionID" Type="int" />
+          <Property Name="ReviewRating" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="CATEGORY">
           <Key>
@@ -974,6 +975,7 @@
           <Property Name="EditionID" Type="Int32" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_REVI__Editi__0E6E26BF" FromRole="BOOK_REVIEW" ToRole="BOOK_EDITION" />
           <NavigationProperty Name="CUSTOMER" Relationship="Self.FK__BOOK_REVI__Custo__0F624AF8" FromRole="BOOK_REVIEW" ToRole="CUSTOMER" />
+          <Property Name="ReviewRating" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="CATEGORY">
           <Key>
@@ -1746,6 +1748,7 @@
           <EntitySetMapping Name="BOOK_REVIEW">
             <EntityTypeMapping TypeName="BookStoreManagerModel.BOOK_REVIEW">
               <MappingFragment StoreEntitySet="BOOK_REVIEW">
+                <ScalarProperty Name="ReviewRating" ColumnName="ReviewRating" />
                 <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
                 <ScalarProperty Name="ReviewDescription" ColumnName="ReviewDescription" />
                 <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />

@@ -19,6 +19,7 @@ namespace WebApplication2.Models
         public System.DateTime ReviewDate { get; set; }
         public Nullable<int> CustomerID { get; set; }
         public Nullable<int> EditionID { get; set; }
+        public int ReviewRating { get; set; }
     
         public virtual BOOK_EDITION BOOK_EDITION { get; set; }
         public virtual CUSTOMER CUSTOMER { get; set; }

@@ -74,6 +74,29 @@
         <dd>
             @Html.DisplayFor(model => model.STOCK_INVENTORY.EditionID)
         </dd>
+        @foreach (var images in Model.BOOK_EDITION_IMAGE)
+        {
+            <dd>
+                <img src="~/Images/@images.EditionImage" style="width:50%;height:50%"/>
+            </dd>
+        }
+
+        @foreach (var review in ViewBag.list_of_review)
+        {
+
+            <dd>
+                @review.CUSTOMER.CustomerName
+            </dd>
+            <dd>
+                @review.ReviewRating
+            </dd>
+            <dd>
+                @review.ReviewDescription
+            </dd>
+            <dd>
+                @review.ReviewDate
+            </dd>
+        }
 
     </dl>
 </div>

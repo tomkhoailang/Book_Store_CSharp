@@ -35,6 +35,8 @@ namespace WebApplication2.Controllers
                 return HttpNotFound();
             }
             // get list of review
+            ViewBag.list_of_review = db.BOOK_REVIEW.Where(e => e.EditionID == id).ToList();
+
 
             return View(bOOK_EDITION);
         }
@@ -125,6 +127,7 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ShowPopup = false;
             return View(bOOK_EDITION);
         }
 

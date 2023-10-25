@@ -11,18 +11,24 @@
 <div>
     <h4>BOOK_COLLECTION</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.BookCollectionName)
-        </dt>
+    <div id="dialog" title="Dialog Title">
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.BookCollectionName)
-        </dd>
+    <dl class="dl-horizontal">
+
+
+
+        <dt>@Html.DisplayNameFor(model => model.BookCollectionName)</dt>
+        <dd>@Html.DisplayFor(model => model.BookCollectionName)</dd>
+
 
     </dl>
 
-    @using (Html.BeginForm()) {
+
+
+
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
@@ -31,3 +37,14 @@
         </div>
     }
 </div>
+<script>
+    if (@Html.Raw(Json.Encode(ViewBag.ShowPopup)))
+    {
+        var para = document.createElement("p");
+        para.textContent = "Unable to to this action.There is many book which are linked to this collection.";
+        para.style.color = "red";
+        var dialog = document.getElementById("dialog");
+        dialog.appendChild(para);
+    }
+
+</script>
