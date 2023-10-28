@@ -11,10 +11,7 @@ namespace WebApplication2.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using Custom_Functions;
-
+    
     public partial class BOOK_EDITION
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,32 +24,14 @@ namespace WebApplication2.Models
             this.CATEGORies = new HashSet<CATEGORY>();
             this.PROMOTIONs = new HashSet<PROMOTION>();
         }
-
+    
         public int EditionID { get; set; }
-
-        [Required(ErrorMessage = "The price is empty")]
-        [DisplayName("Price")]
         public decimal EditionPrice { get; set; }
-
-        [DisplayName("Description")]
-        [Required(ErrorMessage = "The description is empty")]
         public string EditionDescription { get; set; }
-        [Required(ErrorMessage = "The year is empty")]
-        [DisplayName("Year of publication")]
-        [Custom_Functions.YearRangeAttribute(1000, ErrorMessage = "Year of publication must be a equal or less than the current year.")]
         public string EditionYear { get; set; }
-        [Required(ErrorMessage = "The page count is empty")]
-
-        [DisplayName("Page number")]
         public int EditionPageCount { get; set; }
-        [Required(ErrorMessage = "The name is empty")]
-
-        [DisplayName("Name of the book")]
         public string EditionName { get; set; }
-        [DisplayName("Author")]
-        [Required(ErrorMessage = "The author is empty")]
         public string EditionAuthor { get; set; }
-        [DisplayName("Collection ID")]
         public Nullable<int> BookCollectionID { get; set; }
     
         public virtual BOOK_COLLECTION BOOK_COLLECTION { get; set; }

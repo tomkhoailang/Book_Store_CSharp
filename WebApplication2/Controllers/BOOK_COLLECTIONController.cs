@@ -38,6 +38,7 @@ namespace WebApplication2.Controllers
         // GET: BOOK_COLLECTION/Create
         public ActionResult Create()
         {
+            ViewBag.list_of_product = db.BOOK_EDITION;
             return View();
         }
 
@@ -50,8 +51,17 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BOOK_COLLECTION.Add(bOOK_COLLECTION);
-                db.SaveChanges();
+                if( (db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionName == bOOK_COLLECTION.BookCollectionName)) == null)
+                {
+                    db.BOOK_COLLECTION.Add(bOOK_COLLECTION);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    // case when there is a promotion with the same name
+                    ViewBag.ShowPopup = true;
+                    return View(bOOK_COLLECTION);
+                }
                 return RedirectToAction("Index");
             }
 
@@ -69,6 +79,17 @@ namespace WebApplication2.Controllers
             if (bOOK_COLLECTION == null)
             {
                 return HttpNotFound();
+            }
+            if ((db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionName == bOOK_COLLECTION.BookCollectionName)) == null)
+            {
+                db.BOOK_COLLECTION.Add(bOOK_COLLECTION);
+                db.SaveChanges();
+            }
+            else
+            {
+                // case when there is a promotion with the same name
+                ViewBag.ShowPopup = true;
+                return View(bOOK_COLLECTION);
             }
             return View(bOOK_COLLECTION);
         }
@@ -112,6 +133,7 @@ namespace WebApplication2.Controllers
             BOOK_COLLECTION bOOK_COLLECTION = db.BOOK_COLLECTION.Find(id);
             if ((db.BOOK_EDITION.FirstOrDefault(e => e.BookCollectionID == id)) != null)
             {
+                //case when there are books which are linked with this collection
                 ViewBag.ShowPopup = true;
                 return View(bOOK_COLLECTION);   
             }

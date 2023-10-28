@@ -59,12 +59,14 @@ namespace WebApplication2.Controllers
             if (ModelState.IsValid)
             {
                 db.BOOK_EDITION.Add(bOOK_EDITION);
+                var a = bOOK_EDITION;
+                //handle file
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     HttpPostedFileBase file = Request.Files[i];
                     string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
                     var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
-                    file.SaveAs(path);
+                    file.SaveAs(path); 
                     BOOK_EDITION_IMAGE insertImage = new BOOK_EDITION_IMAGE()
                     {
                         EditionID = bOOK_EDITION.EditionID,
@@ -107,6 +109,44 @@ namespace WebApplication2.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(bOOK_EDITION).State = EntityState.Modified;
+                //handle file
+                var a = Request.Files;
+                bool isAttached = false;
+                foreach(string filename in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[filename];
+                    if (file != null && file.ContentLength >0)
+                    {
+                        isAttached = true;
+                        break;
+                    }
+                }
+                if (isAttached == true)
+                {
+                    var imagesToDelete = db.BOOK_EDITION_IMAGE.Where(img => img.EditionID == bOOK_EDITION.EditionID);
+                    if(imagesToDelete.Count() != 0)
+                    {
+                        foreach (var image in imagesToDelete)
+                        {
+                            db.BOOK_EDITION_IMAGE.Remove(image);
+                        }
+                    }
+                   
+
+                    for (int i = 0; i < Request.Files.Count; i++)
+                    {
+                        HttpPostedFileBase file = Request.Files[i];
+                        string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
+                        var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
+                        file.SaveAs(path);
+                        BOOK_EDITION_IMAGE insertImage = new BOOK_EDITION_IMAGE()
+                        {
+                            EditionID = bOOK_EDITION.EditionID,
+                            EditionImage = uniqueFileName
+                        };
+                        db.BOOK_EDITION_IMAGE.Add(insertImage);
+                    }
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

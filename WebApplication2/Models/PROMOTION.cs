@@ -25,6 +25,7 @@ namespace WebApplication2.Models
         public decimal PromotionDiscount { get; set; }
         public System.DateTime PromotionStartDate { get; set; }
         public System.DateTime PromotionEndDate { get; set; }
+        public string PromotionDetails { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOK_EDITION> BOOK_EDITION { get; set; }

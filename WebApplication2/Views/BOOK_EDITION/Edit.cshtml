@@ -11,7 +11,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","BOOK_EDITION", FormMethod.Post, new { enctype= "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -81,6 +81,7 @@
             <label for="imageUpload">Select multiple images:</label>
             <input type="file" name="imageUpload" id="imageUpload" multiple accept="image/*">
         </div>
+
         <div id="preview"></div>
 
 

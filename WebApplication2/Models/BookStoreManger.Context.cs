@@ -51,5 +51,6 @@ namespace WebApplication2.Models
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

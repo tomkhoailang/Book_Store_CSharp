@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c4927867d2f14bf5823ff09c96996901" Name="Diagram1">
+      <Diagram DiagramId="c4927867d2f14bf5823ff09c96996901" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="BookStoreManagerModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.AspNetRole" Width="1.5" PointX="1.5" PointY="20.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="22.875" IsExpanded="true" />
@@ -20,7 +20,7 @@
         <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER_DETAIL" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.MANAGER" Width="1.5" PointX="3.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.PROMOTION" Width="1.5" PointX="5.25" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.PROMOTION" PointX="7.375" PointY="15.25" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.PUBLISHER" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.SHIP_CONFIRMATION" Width="1.5" PointX="5.25" PointY="27.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.SHIPPER" Width="1.5" PointX="0.75" PointY="26.5" IsExpanded="true" />
@@ -59,7 +59,8 @@
         <AssociationConnector Association="BookStoreManagerModel.FK__STOCK_REC__Stock__02084FDA" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.BOOK_CATEGORY" ManuallyRouted="false" />
-        <AssociationConnector Association="BookStoreManagerModel.BOOK_PROMOTION" ManuallyRouted="false" />
+        <AssociationConnector ManuallyRouted="false" Association="BookStoreManagerModel.BOOK_PROMOTION" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.sysdiagram" Width="1.5" PointX="7.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
