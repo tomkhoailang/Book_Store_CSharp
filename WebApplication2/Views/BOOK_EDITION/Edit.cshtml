@@ -11,7 +11,7 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm("Edit","BOOK_EDITION", FormMethod.Post, new { enctype= "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "BOOK_EDITION", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -76,6 +76,27 @@
                 @Html.ValidationMessageFor(model => model.BookCollectionID, "", new { @class = "text-danger" })
             </div>
         </div>
+        @if (ViewBag.CategoryList.Count > 0)
+        {
+            <div class="form-group">
+                <div>Category</div>
+                @foreach (var c in ViewBag.CategoryList)
+                {
+                    if (ViewBag.SelectedCategoryList != null  && ViewBag.SelectedCategoryList.Contains(c.CategoryID.ToString()))
+                    {
+                        <input checked="checked" type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" />
+                        <label for="@c.CategoryID">@c.CategoryName.</label>
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" />
+                        <label for="@c.CategoryID">@c.CategoryName.</label>
+                    }
+                }
+
+            </div>
+        }
+
 
         <div class="form-group">
             <label for="imageUpload">Select multiple images:</label>

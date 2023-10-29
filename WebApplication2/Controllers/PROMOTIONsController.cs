@@ -150,8 +150,17 @@ namespace WebApplication2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PROMOTION pROMOTION = db.PROMOTIONs.Find(id);
-            db.PROMOTIONs.Remove(pROMOTION);
-            db.SaveChanges();
+
+            if (pROMOTION.BOOK_EDITION.Any() == false)
+            {
+                db.PROMOTIONs.Remove(pROMOTION);
+                db.SaveChanges();
+            }
+            else
+            {
+                // if the promotion is currently linked with other
+                ViewBag.Promotion_FK_constraint = true;
+            }
             return RedirectToAction("Index");
         }
 

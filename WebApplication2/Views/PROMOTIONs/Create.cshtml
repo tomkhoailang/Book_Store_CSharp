@@ -60,7 +60,7 @@
     @foreach (var book in ViewBag.list_of_book)
     {
         <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID">
-        <label for="book@index">@book.EditionName</label><br>
+        <label for="@book.EditionID">@book.EditionName</label><br>
     }
 
     <div class="form-group">

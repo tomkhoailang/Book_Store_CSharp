@@ -792,6 +792,9 @@
       <End Role="PROMOTION" EntitySet="PROMOTIONs" />
     </AssociationSet>
     <EntitySet Name="sysdiagrams" EntityType="BookStoreManagerModel.sysdiagram" />
+    <FunctionImport Name="Sp_check_valid_promotion" EntitySet="PROMOTIONs" ReturnType="Collection(BookStoreManagerModel.PROMOTION)">
+      <Parameter Name="editionID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <EntityType Name="sysdiagram">
     <Key>

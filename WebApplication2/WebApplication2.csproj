@@ -172,6 +172,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BOOK_COLLECTIONController.cs" />
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
+    <Compile Include="Controllers\CATEGORiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PROMOTIONsController.cs" />
@@ -389,6 +390,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="libs\owlcarousel\LICENSE" />
     <None Include="packages.config" />
+    <Content Include="Views\CATEGORies\Create.cshtml" />
+    <Content Include="Views\CATEGORies\Delete.cshtml" />
+    <Content Include="Views\CATEGORies\Details.cshtml" />
+    <Content Include="Views\CATEGORies\Edit.cshtml" />
+    <Content Include="Views\CATEGORies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

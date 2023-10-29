@@ -1,4 +1,4 @@
-create database BookStoreManager;
+--create database BookStoreManager;
 
 -- INITAL 1: running this section after running the database using register an account in identity
 --ALTER TABLE CUSTOMER ADD CONSTRAINT FK_CUSTOMER_AspNetUsers FOREIGN KEY (AccountID) REFERENCES AspNetUsers(Id)
@@ -8,6 +8,7 @@ create database BookStoreManager;
 
 
 use BookStoreManager;
+
 CREATE TABLE ACCOUNT(
 	AccountID INT PRIMARY KEY IDENTITY(1,1),
 	AccountUserName NVARCHAR(50) NOT NULL UNIQUE,
@@ -16,6 +17,7 @@ CREATE TABLE ACCOUNT(
 		CONSTRAINT CHK_AccountType
 		CHECK(AccountType IN ('CUSTOMER','STAFF', 'SHIPPER','MANAGER'))
 )
+
 CREATE TABLE TIER(
 	TierID INT PRIMARY KEY IDENTITY(1,1),
 	TierName NVARCHAR(50) UNIQUE,
@@ -131,6 +133,11 @@ CREATE TABLE PROMOTION(
 	PromotionIsValid bit default 0 NOT NULL
 )
 alter table PROMOTION add PromotionDetails TEXT;
+CREATE TABLE BOOK_COLLECTION(
+	BookCollectionID INT PRIMARY KEY IDENTITY(1,1),
+	BookCollectionName NVARCHAR(200) NOT NULL
+)
+alter table book_collection add constraint UQ_BookCollectionName Unique(BookCollectionName)
 
 CREATE TABLE BOOK_EDITION(
 	EditionID INT PRIMARY KEY IDENTITY(1,1),
@@ -151,11 +158,9 @@ CREATE TABLE BOOK_EDITION(
 	CategoryID INT,
 	FOREIGN KEY (CategoryID) REFERENCES CATEGORY(CategoryID)
 )
-CREATE TABLE BOOK_COLLECTION(
-	BookCollectionID INT PRIMARY KEY IDENTITY(1,1),
-	BookCollectionName NVARCHAR(200) NOT NULL
-)
-alter table book_collection add constraint UQ_BookCollectionName Unique(BookCollectionName)
+alter table BOOK_EDITION add BookCollectionID int;
+alter table BOOK_EDITION add foreign key (BookCollectionID) REFERENCES BOOK_COLLECTION(BookCollectionID)
+
 CREATE TABLE BOOK_PROMOTION(
 	PromotionID INT,
 	EditionID INT,

@@ -80,17 +80,6 @@ namespace WebApplication2.Controllers
             {
                 return HttpNotFound();
             }
-            if ((db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionName == bOOK_COLLECTION.BookCollectionName)) == null)
-            {
-                db.BOOK_COLLECTION.Add(bOOK_COLLECTION);
-                db.SaveChanges();
-            }
-            else
-            {
-                // case when there is a promotion with the same name
-                ViewBag.ShowPopup = true;
-                return View(bOOK_COLLECTION);
-            }
             return View(bOOK_COLLECTION);
         }
 
@@ -103,7 +92,14 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
+                if ((db.BOOK_EDITION.FirstOrDefault(e => e.BookCollectionID == bOOK_COLLECTION.BookCollectionID)) != null)
+                {
+                    //case when there are books with the same name
+                    ViewBag.ShowPopup = true;
+                    return View(bOOK_COLLECTION);
+                }
                 db.Entry(bOOK_COLLECTION).State = EntityState.Modified;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
