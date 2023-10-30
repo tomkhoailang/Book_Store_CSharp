@@ -12,6 +12,8 @@ namespace WebApplication2.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BookStoreManagerEntities : DbContext
     {
@@ -51,5 +53,24 @@ namespace WebApplication2.Models
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+    
+        public virtual ObjectResult<PROMOTION> Sp_check_valid_promotion(Nullable<int> editionID)
+        {
+            var editionIDParameter = editionID.HasValue ?
+                new ObjectParameter("editionID", editionID) :
+                new ObjectParameter("editionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PROMOTION>("Sp_check_valid_promotion", editionIDParameter);
+        }
+    
+        public virtual ObjectResult<PROMOTION> Sp_check_valid_promotion(Nullable<int> editionID, MergeOption mergeOption)
+        {
+            var editionIDParameter = editionID.HasValue ?
+                new ObjectParameter("editionID", editionID) :
+                new ObjectParameter("editionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PROMOTION>("Sp_check_valid_promotion", mergeOption, editionIDParameter);
+        }
     }
 }

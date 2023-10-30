@@ -1,0 +1,2 @@
+Trim something like name of attribute
+double click in create two record will be saved

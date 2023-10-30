@@ -62,13 +62,24 @@
                 @Html.ValidationMessageFor(model => model.EditionPageCount, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.BookCollectionID, "BookCollectionID", htmlAttributes: new { @class = "control-label col-md-2" })
 
             @Html.DropDownList("BookCollectionID", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.BookCollectionID, "", new { @class = "text-danger" })
         </div>
-
+        @if (ViewBag.CategoryList.Count > 0)
+        {
+            <div class="form-group">
+                <div>Category</div>
+                @foreach (var c in ViewBag.CategoryList)
+                {
+                    <input type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" />
+                    <label for="@c.CategoryID">@c.CategoryName.</label>
+                }
+            </div>
+        }
 
         <div class="form-group">
             <div>Did not find your book collection? Create now</div>

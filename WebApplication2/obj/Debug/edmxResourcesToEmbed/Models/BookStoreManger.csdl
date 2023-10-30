@@ -205,6 +205,7 @@
     <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
+    <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="PUBLISHER">
     <Key>
@@ -790,5 +791,19 @@
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
       <End Role="PROMOTION" EntitySet="PROMOTIONs" />
     </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="BookStoreManagerModel.sysdiagram" />
+    <FunctionImport Name="Sp_check_valid_promotion" EntitySet="PROMOTIONs" ReturnType="Collection(BookStoreManagerModel.PROMOTION)">
+      <Parameter Name="editionID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
 </Schema>

@@ -189,6 +189,7 @@
     <Property Name="PromotionDiscount" Type="decimal" Precision="4" Scale="2" Nullable="false" />
     <Property Name="PromotionStartDate" Type="datetime" Nullable="false" />
     <Property Name="PromotionEndDate" Type="datetime" Nullable="false" />
+    <Property Name="PromotionDetails" Type="text" />
   </EntityType>
   <EntityType Name="PUBLISHER">
     <Key>
@@ -258,6 +259,16 @@
     <Property Name="NoteDetailPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
     <Property Name="EditionID" Type="int" Nullable="false" />
     <Property Name="StockReceivedNoteID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TIER">
     <Key>
@@ -677,6 +688,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="editionID" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_Inital_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
   </Function>
@@ -710,6 +724,7 @@
     <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TRANSACTION_DETAIL" EntityType="Self.TRANSACTION_DETAIL" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />

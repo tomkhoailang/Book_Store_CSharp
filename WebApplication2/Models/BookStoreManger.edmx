@@ -194,6 +194,7 @@
           <Property Name="PromotionDiscount" Type="decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="PromotionStartDate" Type="datetime" Nullable="false" />
           <Property Name="PromotionEndDate" Type="datetime" Nullable="false" />
+          <Property Name="PromotionDetails" Type="text" />
         </EntityType>
         <EntityType Name="PUBLISHER">
           <Key>
@@ -263,6 +264,16 @@
           <Property Name="NoteDetailPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="EditionID" Type="int" Nullable="false" />
           <Property Name="StockReceivedNoteID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TIER">
           <Key>
@@ -682,6 +693,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="editionID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Inital_Customer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
         </Function>
@@ -715,6 +729,7 @@
           <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSACTION_DETAIL" EntityType="Self.TRANSACTION_DETAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />
@@ -1056,6 +1071,7 @@
           <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
+          <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PUBLISHER">
           <Key>
@@ -1641,13 +1657,27 @@
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="PROMOTION" EntitySet="PROMOTIONs" />
           </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="BookStoreManagerModel.sysdiagram" />
+          <FunctionImport Name="Sp_check_valid_promotion" EntitySet="PROMOTIONs" ReturnType="Collection(BookStoreManagerModel.PROMOTION)">
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BookStoreManagerModelStoreContainer" CdmEntityContainer="BookStoreManagerEntities">
+        <EntityContainerMapping CdmEntityContainer="BookStoreManagerEntities" StorageEntityContainer="BookStoreManagerModelStoreContainer">
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="BookStoreManagerModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -1818,6 +1848,7 @@
           <EntitySetMapping Name="PROMOTIONs">
             <EntityTypeMapping TypeName="BookStoreManagerModel.PROMOTION">
               <MappingFragment StoreEntitySet="PROMOTION">
+                <ScalarProperty Name="PromotionDetails" ColumnName="PromotionDetails" />
                 <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
                 <ScalarProperty Name="PromotionName" ColumnName="PromotionName" />
                 <ScalarProperty Name="PromotionDiscount" ColumnName="PromotionDiscount" />
@@ -1954,6 +1985,18 @@
               <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_check_valid_promotion" FunctionName="BookStoreManagerModel.Store.Sp_check_valid_promotion" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
