@@ -23,20 +23,23 @@ namespace WebApplication2.Models
             this.STOCK_RECEIVED_NOTE_DETAIL = new HashSet<STOCK_RECEIVED_NOTE_DETAIL>();
             this.CATEGORies = new HashSet<CATEGORY>();
             this.PROMOTIONs = new HashSet<PROMOTION>();
+            this.People = new HashSet<Person>();
         }
     
         public int EditionID { get; set; }
         public decimal EditionPrice { get; set; }
         public string EditionDescription { get; set; }
         public string EditionYear { get; set; }
-        public int EditionPageCount { get; set; }
+        public Nullable<int> EditionPageCount { get; set; }
         public string EditionName { get; set; }
         public string EditionAuthor { get; set; }
+        public int ManagerID { get; set; }
         public Nullable<int> BookCollectionID { get; set; }
     
         public virtual BOOK_COLLECTION BOOK_COLLECTION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOK_EDITION_IMAGE> BOOK_EDITION_IMAGE { get; set; }
+        public virtual MANAGER MANAGER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOK_REVIEW> BOOK_REVIEW { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -48,5 +51,7 @@ namespace WebApplication2.Models
         public virtual ICollection<CATEGORY> CATEGORies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PROMOTION> PROMOTIONs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Person> People { get; set; }
     }
 }

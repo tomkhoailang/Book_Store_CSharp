@@ -71,7 +71,7 @@ namespace WebApplication2.Controllers
                     CATEGORY category = db.CATEGORies.Find(categoryID);
                     bOOK_EDITION.CATEGORies.Add(category);
                 }
-                db.BOOK_EDITION.Add(bOOK_EDITION);
+                bOOK_EDITION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                 //handle file
                 bool isAttached = false;
                 foreach (string filename in Request.Files)
@@ -91,16 +91,19 @@ namespace WebApplication2.Controllers
                         string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
                         var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
                         file.SaveAs(path);
-                        BOOK_EDITION_IMAGE insertImage = new BOOK_EDITION_IMAGE()
+
+                        BOOK_EDITION_IMAGE insertedImage = new BOOK_EDITION_IMAGE()
                         {
                             EditionID = bOOK_EDITION.EditionID,
                             EditionImage = uniqueFileName
                         };
-                        db.BOOK_EDITION_IMAGE.Add(insertImage);
+                        bOOK_EDITION.BOOK_EDITION_IMAGE.Add(insertedImage);
                     }
                 }
-                
+                db.BOOK_EDITION.Add(bOOK_EDITION);
                 db.SaveChanges();
+
+
             }
 
             ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
@@ -160,45 +163,40 @@ namespace WebApplication2.Controllers
                         CATEGORY category = db.CATEGORies.Find(categoryID);
                         bOOK_EDITION.CATEGORies.Add(category);
                     }
+                    book.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
+                    //handle file
+                    bool isAttached = false;
+                    foreach (string filename in Request.Files)
+                    {
+                        HttpPostedFileBase file = Request.Files[filename];
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            isAttached = true;
+                            break;
+                        }
+                    }
+                    if (isAttached)
+                    {
+                        for (int i = 0; i < Request.Files.Count; i++)
+                        {
+                            HttpPostedFileBase file = Request.Files[i];
+                            string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
+                            var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
+                            file.SaveAs(path);
+
+                            BOOK_EDITION_IMAGE insertedImage = new BOOK_EDITION_IMAGE()
+                            {
+                                EditionID = bOOK_EDITION.EditionID,
+                                EditionImage = uniqueFileName
+                            };
+                            book.BOOK_EDITION_IMAGE.Add(insertedImage);
+                        }
+                    }
                     db.SaveChanges();
                 }
                 //handle file
 
-                //bool isAttached = false;
-                //foreach(string filename in Request.Files)
-                //{
-                //    HttpPostedFileBase file = Request.Files[filename];
-                //    if (file != null && file.ContentLength >0)
-                //    {
-                //        isAttached = true;
-                //        break;
-                //    }
-                //}
-                //if (isAttached == true)
-                //{
-                //    var imagesToDelete = db.BOOK_EDITION_IMAGE.Where(img => img.EditionID == bOOK_EDITION.EditionID);
-                //    if(imagesToDelete.Count() != 0)
-                //    {
-                //        foreach (var image in imagesToDelete)
-                //        {
-                //            db.BOOK_EDITION_IMAGE.Remove(image);
-                //        }
-                //    }
-                //    for (int i = 0; i < Request.Files.Count; i++)
-                //    {
-                //        HttpPostedFileBase file = Request.Files[i];
-                //        string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
-                //        var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
-                //        file.SaveAs(path);
-                //        BOOK_EDITION_IMAGE insertImage = new BOOK_EDITION_IMAGE()
-                //        {
-                //            EditionID = bOOK_EDITION.EditionID,
-                //            EditionImage = uniqueFileName
-                //        };
-                //        db.BOOK_EDITION_IMAGE.Add(insertImage);
-                //    }
-                //    db.SaveChanges();
-                //}
+                
                 return RedirectToAction("Index");
             }
             ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
@@ -228,8 +226,15 @@ namespace WebApplication2.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             BOOK_EDITION bOOK_EDITION = db.BOOK_EDITION.Find(id);
-            db.BOOK_EDITION.Remove(bOOK_EDITION);
-            db.SaveChanges();
+            if(db.CUSTOMER_ORDER_DETAIL.Any(b => b.EditionID == bOOK_EDITION.EditionID))
+            {
+                //case when the book is existed in customer order
+                ViewBag.existedInCustomerOrder = true;
+            }else
+            {
+                db.BOOK_EDITION.Remove(bOOK_EDITION);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

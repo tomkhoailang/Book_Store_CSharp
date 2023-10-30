@@ -17,15 +17,17 @@ namespace WebApplication2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TIER()
         {
-            this.CUSTOMERs = new HashSet<CUSTOMER>();
+            this.People = new HashSet<Person>();
         }
     
         public int TierID { get; set; }
         public string TierName { get; set; }
         public decimal TierDiscount { get; set; }
         public int TierLevel { get; set; }
+        public int ManagerID { get; set; }
     
+        public virtual MANAGER MANAGER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CUSTOMER> CUSTOMERs { get; set; }
+        public virtual ICollection<Person> People { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace WebApplication2.Models
     {
         public int EditionImageID { get; set; }
         public string EditionImage { get; set; }
-        public Nullable<int> EditionID { get; set; }
+        public int EditionID { get; set; }
     
         public virtual BOOK_EDITION BOOK_EDITION { get; set; }
     }

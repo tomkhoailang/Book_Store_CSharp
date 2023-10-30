@@ -53,6 +53,7 @@ namespace WebApplication2.Controllers
             {
                 if( (db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionName == bOOK_COLLECTION.BookCollectionName)) == null)
                 {
+                    bOOK_COLLECTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                     db.BOOK_COLLECTION.Add(bOOK_COLLECTION);
                     db.SaveChanges();
                 }
@@ -98,9 +99,13 @@ namespace WebApplication2.Controllers
                     ViewBag.ShowPopup = true;
                     return View(bOOK_COLLECTION);
                 }
-                db.Entry(bOOK_COLLECTION).State = EntityState.Modified;
-
-                db.SaveChanges();
+                else
+                {
+                    bOOK_COLLECTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
+                    db.Entry(bOOK_COLLECTION).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                
                 return RedirectToAction("Index");
             }
             return View(bOOK_COLLECTION);

@@ -28,14 +28,14 @@ namespace WebApplication2.Models
         public string OrderShippingMethod { get; set; }
         public string OrderPaymentMethod { get; set; }
         public Nullable<int> StaffID { get; set; }
-        public Nullable<int> CustomerID { get; set; }
+        public int CustomerID { get; set; }
         public Nullable<int> ShipperID { get; set; }
     
-        public virtual CUSTOMER CUSTOMER { get; set; }
+        public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CUSTOMER_ORDER_DETAIL> CUSTOMER_ORDER_DETAIL { get; set; }
-        public virtual SHIPPER SHIPPER { get; set; }
-        public virtual STAFF STAFF { get; set; }
+        public virtual Person Person1 { get; set; }
+        public virtual Person Person2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SHIP_CONFIRMATION> SHIP_CONFIRMATION { get; set; }
     }

@@ -14,13 +14,12 @@ namespace WebApplication2.Models
     
     public partial class SHIP_CONFIRMATION
     {
-        public int ShipConfirmationID { get; set; }
         public System.DateTime ConfirmationDate { get; set; }
         public string ConfirmationImage { get; set; }
-        public Nullable<int> OrderID { get; set; }
-        public Nullable<int> ShipperID { get; set; }
+        public int OrderID { get; set; }
+        public int ShipperID { get; set; }
     
         public virtual CUSTOMER_ORDER CUSTOMER_ORDER { get; set; }
-        public virtual SHIPPER SHIPPER { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

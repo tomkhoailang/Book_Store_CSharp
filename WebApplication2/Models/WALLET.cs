@@ -14,18 +14,10 @@ namespace WebApplication2.Models
     
     public partial class WALLET
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public WALLET()
-        {
-            this.BANK_ACCOUNT = new HashSet<BANK_ACCOUNT>();
-        }
-    
         public int WalletID { get; set; }
-        public Nullable<int> CustomerID { get; set; }
+        public int CustomerID { get; set; }
         public decimal Balance { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BANK_ACCOUNT> BANK_ACCOUNT { get; set; }
-        public virtual CUSTOMER CUSTOMER { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

@@ -226,9 +226,6 @@
     <Compile Include="Models\CATEGORY.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CUSTOMER.cs">
-      <DependentUpon>BookStoreManger.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CUSTOMER_ORDER.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
@@ -243,19 +240,19 @@
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Person.cs">
+      <DependentUpon>BookStoreManger.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PROMOTION.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PUBLISHER.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SHIPPER.cs">
-      <DependentUpon>BookStoreManger.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SHIP_CONFIRMATION.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\STAFF.cs">
+    <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_INVENTORY.cs">
@@ -306,27 +303,19 @@
     <Content Include="libs\owlcarousel\assets\owl.video.play.png" />
     <Content Include="libs\owlcarousel\owl.carousel.js" />
     <Content Include="libs\owlcarousel\owl.carousel.min.js" />
+    <Content Include="libs\animate\animate.min.css" />
+    <Content Include="libs\easing\easing.js" />
+    <Content Include="libs\easing\easing.min.js" />
     <Content Include="Models\BookStoreManger.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BookStoreManger.edmx</DependentUpon>
       <LastGenOutput>BookStoreManger.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookStoreManger.edmx.sql" />
     <Content Include="Models\BookStoreManger.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BookStoreManger.edmx</DependentUpon>
       <LastGenOutput>BookStoreManger.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="Models\BookStoreManger.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreManger.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BookStoreManger.edmx.diagram">
-      <DependentUpon>BookStoreManger.edmx</DependentUpon>
-    </Content>
-    <Content Include="libs\animate\animate.min.css" />
-    <Content Include="libs\easing\easing.js" />
-    <Content Include="libs\easing\easing.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
@@ -389,6 +378,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="libs\owlcarousel\LICENSE" />
+    <EntityDeploy Include="Models\BookStoreManger.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BookStoreManger.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BookStoreManger.edmx.diagram">
+      <DependentUpon>BookStoreManger.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\CATEGORies\Create.cshtml" />
     <Content Include="Views\CATEGORies\Delete.cshtml" />

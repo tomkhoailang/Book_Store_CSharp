@@ -60,6 +60,7 @@ namespace WebApplication2.Controllers
                         pROMOTION.BOOK_EDITION.Add(book);
                     }
                 }
+                pROMOTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                 db.PROMOTIONs.Add(pROMOTION);
 
 
@@ -111,6 +112,7 @@ namespace WebApplication2.Controllers
                 {
                     p.BOOK_EDITION.Clear();
                     db.Entry(p).CurrentValues.SetValues(pROMOTION);
+                    p.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                     for (int i = 7; i < form.AllKeys.Length; i++)
                     {
                         // add the new book id

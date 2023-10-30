@@ -12,40 +12,47 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MANAGER
+    public partial class Person
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MANAGER()
+        public Person()
         {
-            this.BOOK_COLLECTION = new HashSet<BOOK_COLLECTION>();
+            this.BANK_ACCOUNT = new HashSet<BANK_ACCOUNT>();
+            this.BOOK_REVIEW = new HashSet<BOOK_REVIEW>();
+            this.CUSTOMER_ORDER = new HashSet<CUSTOMER_ORDER>();
+            this.CUSTOMER_ORDER1 = new HashSet<CUSTOMER_ORDER>();
+            this.CUSTOMER_ORDER2 = new HashSet<CUSTOMER_ORDER>();
+            this.SHIP_CONFIRMATION = new HashSet<SHIP_CONFIRMATION>();
+            this.WALLETs = new HashSet<WALLET>();
             this.BOOK_EDITION = new HashSet<BOOK_EDITION>();
-            this.CATEGORies = new HashSet<CATEGORY>();
-            this.People = new HashSet<Person>();
-            this.PROMOTIONs = new HashSet<PROMOTION>();
-            this.PUBLISHERs = new HashSet<PUBLISHER>();
-            this.STOCK_RECEIVED_NOTE = new HashSet<STOCK_RECEIVED_NOTE>();
-            this.TIERs = new HashSet<TIER>();
         }
     
-        public int ManagerID { get; set; }
+        public int PersonID { get; set; }
+        public string PersonName { get; set; }
+        public string PersonAddress { get; set; }
+        public string PersonStatus { get; set; }
         public string AccountID { get; set; }
+        public int TierID { get; set; }
+        public int ManagerID { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BOOK_COLLECTION> BOOK_COLLECTION { get; set; }
+        public virtual ICollection<BANK_ACCOUNT> BANK_ACCOUNT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BOOK_REVIEW> BOOK_REVIEW { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CUSTOMER_ORDER> CUSTOMER_ORDER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CUSTOMER_ORDER> CUSTOMER_ORDER1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CUSTOMER_ORDER> CUSTOMER_ORDER2 { get; set; }
+        public virtual MANAGER MANAGER { get; set; }
+        public virtual TIER TIER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SHIP_CONFIRMATION> SHIP_CONFIRMATION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WALLET> WALLETs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOK_EDITION> BOOK_EDITION { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CATEGORY> CATEGORies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Person> People { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PROMOTION> PROMOTIONs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PUBLISHER> PUBLISHERs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TIER> TIERs { get; set; }
     }
 }

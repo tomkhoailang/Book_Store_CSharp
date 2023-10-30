@@ -1,7 +1,14 @@
 use BookStoreManager
 go
 --check promotion
-
+go
+create  proc Sp_check_valid_promotion(@editionID int) as
+begin
+	select top 1 p.* from PROMOTION p, BOOK_PROMOTION bp
+	where getdate() between p.PromotionStartDate and p.PromotionEndDate and
+	p.PromotionID = bp.PromotionID and bp.EditionID = @editionID 
+	order by p.PromotionDiscount desc
+end
 -- check stock when refresh page
 
 GO
@@ -52,18 +59,17 @@ END
 ---- create attach account to customer
 
 go
-create proc SP_Inital_Manager(@AccountID nvarchar(128)) as
+create or alter proc SP_Inital_Manager(@AccountID nvarchar(128)) as
 begin
-	INSERT INTO MANAGER(ManagerName, ManagerPhoneNumber, ManagerAddress, AccountID) VALUES
-    ('Admin', null, 'Address', @AccountID)
+	INSERT INTO MANAGER(AccountID) VALUES (@AccountID)
 end
 -----------
 
 go
-create proc SP_Inital_Customer(@AccountID nvarchar(128)) as
+create or alter proc SP_Inital_Customer(@AccountID nvarchar(128)) as
 begin
-	INSERT INTO CUSTOMER(CustomerName, CustomerPhoneNumber, CustomerAddress, AccountID) VALUES
-    ('Customer', null, 'Address', @AccountID)
+	INSERT INTO Person(PersonName, PersonAddress, AccountID) VALUES
+    ('Customer', 'Address', @AccountID)
 end
 
 

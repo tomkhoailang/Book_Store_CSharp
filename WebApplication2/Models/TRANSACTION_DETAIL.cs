@@ -17,7 +17,7 @@ namespace WebApplication2.Models
         public int TransactionID { get; set; }
         public System.DateTime TransactionDate { get; set; }
         public decimal TransactionAmount { get; set; }
-        public Nullable<int> BankAccountID { get; set; }
+        public int BankAccountID { get; set; }
     
         public virtual BANK_ACCOUNT BANK_ACCOUNT { get; set; }
     }

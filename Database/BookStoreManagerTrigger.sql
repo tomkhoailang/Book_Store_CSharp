@@ -6,7 +6,7 @@ CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_TRANSACTION_DETAIL ON  TRAN
 BEGIN
 	Declare @walletID INT;
 	select @walletID =  W.WalletID from  BANK_ACCOUNT BA, WALLET  W, INSERTED I
-	WHERE I.BankAccountID = BA.BankAccountID AND BA.WalletID = W.WalletID 
+	WHERE I.BankAccountID = BA.BankAccountID AND BA.CustomerID = W.CustomerID 
 
 	Declare @currentBalance decimal(12,2) = 0;
 	Declare @insertedTransaction decimal(12,2) = 0;
@@ -50,8 +50,8 @@ BEGIN
 	Declare @orderID int;
 	DECLARE @orderCurrentTotalPrice decimal(12,2) = 0;
 
-	select @customerID = W.CustomerID from CUSTOMER C, INSERTED I, WALLET W
-	where C.CustomerID = I.CustomerID AND C.CustomerID = W.CustomerID
+	select @customerID = W.CustomerID from Person p, INSERTED I, WALLET W
+	where p.PersonID = I.CustomerID AND p.PersonID = W.CustomerID
 
 	SELECT @orderCurrentTotalPrice = I.OrderTotalPrice FROM INSERTED I
 	
@@ -101,7 +101,7 @@ BEGIN
 		WHERE @totalSpending >= TierLevel
 		ORDER BY TierLevel DESC
 		
-		update CUSTOMER set CUSTOMER.TierID = @tierID where CustomerID = @customerID
+		update PERSON set PERSON.TierID = @tierID where PersonID = @customerID
 	END
 END
 
@@ -113,8 +113,8 @@ go
 create trigger TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL on CUSTOMER_ORDER_DETAIL for insert as
 begin
 	declare @tierID int ;
-	select @tierID = CUSTOMER.TierID from inserted i, CUSTOMER , CUSTOMER_ORDER
-	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = CUSTOMER.CustomerID
+	select @tierID = Person.TierID from inserted i, Person , CUSTOMER_ORDER
+	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = Person.PersonID
 
 	declare @tierDiscount decimal(4,2);
 	select @tierDiscount = TierDiscount from TIER where TierID = @tierID
@@ -199,21 +199,13 @@ BEGIN
 END
 --TRIGGER INITIAL WALLET 
 go
-CREATE TRIGGER TR_INITIAL_WALLET ON CUSTOMER for insert AS
+CREATE TRIGGER TR_INITIAL_WALLET ON Person for insert AS
 BEGIN
 	DECLARE @CustomerID int;
-	SELECT @CustomerID =  CustomerID from INSERTED
+	SELECT @CustomerID =  PersonID from INSERTED
 	INSERT INTO WALLET(CustomerID, Balance) VALUES (@CustomerID, 0)
 END
--- triger to have only 1 admin
-go
-CREATE TRIGGER TR_ONLY_ONE_MANAGER ON MANAGER for insert AS
-BEGIN
-	IF EXISTS (SELECT * FROM MANAGER)
-	BEGIN
-		ROLLBACK TRAN
-	END
-END
+
 --trigger to check start date must be < enddate
 go
 CREATE TRIGGER TR_CHECK_PROMOTION_DATE ON Promotion for insert,update AS
@@ -225,26 +217,31 @@ BEGIN
 	end
 
 END
+-- trigger to trim and upper ccase
+go
+CREATE TRIGGER TR_TRIM_AND_LOWERCASE ON Category for insert,update AS
+BEGIN
+	declare @categoryName nvarchar(128) = (select lower(CategoryName) from inserted)
+	
+	WHILE CHARINDEX('  ', @categoryName) > 0
+	BEGIN
+		SET @categoryName = REPLACE(@categoryName, '  ', ' ')
+	END
+
+	update category set CategoryName = @categoryName where CategoryID = (select CategoryID from inserted)
+END
+
+
+
+
+
+
+
+
 
 --after having asptable in datase. running this
 
-----trigger to set manager role
---go
---CREATE TRIGGER TR_INITIAL_MANAGER_ROLE ON MANAGER for insert AS
---BEGIN
---	DECLARE @AccountID  NVARCHAR(128);
---	SELECT @AccountID =  AccountID from INSERTED
---	INSERT INTO AspNetUserRoles(UserId,RoleId) VALUES (@AccountID, 1)
---END
 
-----trigger to set customer role
---go
---CREATE TRIGGER TR_INITIAL_CUSTOMER_ROLE ON CUSTOMER for insert AS
---BEGIN
---	DECLARE @AccountID NVARCHAR(128);
---	SELECT @AccountID =  AccountID from INSERTED
---	INSERT INTO AspNetUserRoles(UserId,RoleId) VALUES (@AccountID, 4)
---END
 ----trigger to set STAFF role
 --go
 --CREATE TRIGGER TR_INITIAL_STAFF_ROLE ON STAFF for insert AS

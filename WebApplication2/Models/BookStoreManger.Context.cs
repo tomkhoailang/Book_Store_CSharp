@@ -38,39 +38,37 @@ namespace WebApplication2.Models
         public virtual DbSet<BOOK_EDITION_IMAGE> BOOK_EDITION_IMAGE { get; set; }
         public virtual DbSet<BOOK_REVIEW> BOOK_REVIEW { get; set; }
         public virtual DbSet<CATEGORY> CATEGORies { get; set; }
-        public virtual DbSet<CUSTOMER> CUSTOMERs { get; set; }
         public virtual DbSet<CUSTOMER_ORDER> CUSTOMER_ORDER { get; set; }
         public virtual DbSet<CUSTOMER_ORDER_DETAIL> CUSTOMER_ORDER_DETAIL { get; set; }
         public virtual DbSet<MANAGER> MANAGERs { get; set; }
+        public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PROMOTION> PROMOTIONs { get; set; }
         public virtual DbSet<PUBLISHER> PUBLISHERs { get; set; }
         public virtual DbSet<SHIP_CONFIRMATION> SHIP_CONFIRMATION { get; set; }
-        public virtual DbSet<SHIPPER> SHIPPERs { get; set; }
-        public virtual DbSet<STAFF> STAFFs { get; set; }
         public virtual DbSet<STOCK_INVENTORY> STOCK_INVENTORY { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE_DETAIL> STOCK_RECEIVED_NOTE_DETAIL { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
-        public virtual ObjectResult<PROMOTION> Sp_check_valid_promotion(Nullable<int> editionID)
+        public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {
             var editionIDParameter = editionID.HasValue ?
                 new ObjectParameter("editionID", editionID) :
                 new ObjectParameter("editionID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PROMOTION>("Sp_check_valid_promotion", editionIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
         }
     
-        public virtual ObjectResult<PROMOTION> Sp_check_valid_promotion(Nullable<int> editionID, MergeOption mergeOption)
+        public virtual int sp_Inital_Manager(string accountID)
         {
-            var editionIDParameter = editionID.HasValue ?
-                new ObjectParameter("editionID", editionID) :
-                new ObjectParameter("editionID", typeof(int));
+            var accountIDParameter = accountID != null ?
+                new ObjectParameter("AccountID", accountID) :
+                new ObjectParameter("AccountID", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PROMOTION>("Sp_check_valid_promotion", mergeOption, editionIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Inital_Manager", accountIDParameter);
         }
     }
 }

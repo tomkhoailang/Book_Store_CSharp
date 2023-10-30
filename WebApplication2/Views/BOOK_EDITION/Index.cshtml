@@ -34,7 +34,7 @@
             @Html.DisplayNameFor(model => model.BOOK_COLLECTION.BookCollectionName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.STOCK_INVENTORY.EditionID)
+            @Html.DisplayNameFor(model => model.EditionID)
         </th>
         <th></th>
     </tr>
@@ -63,7 +63,7 @@
             @Html.DisplayFor(modelItem => item.BOOK_COLLECTION.BookCollectionName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.STOCK_INVENTORY.EditionID)
+            @Html.DisplayFor(modelItem => item.EditionID)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.EditionID }) |

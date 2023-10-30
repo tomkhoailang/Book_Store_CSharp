@@ -1,7 +1,10 @@
 select * from BOOK_EDITION
+select * from BOOK_CATEGORY
+select * from CATEGORY
+
 select * from CUSTOMER
 select * from BOOK_REVIEW
-select * from BOOK_EDITION_IMAGE
+
 select * from BOOK_COLLECTION
 
 insert into BOOK_REVIEW(CustomerID, EditionID, ReviewDescription, ReviewRating)
@@ -12,3 +15,11 @@ select * from BOOK_EDITION
 
 select * from PROMOTION
 select * from BOOK_PROMOTION
+
+select * from MANAGER
+select * from AspNetUsers
+
+select * from category
+select * from BOOK_CATEGORY
+
+select * from PROMOTION

@@ -22,8 +22,8 @@ namespace WebApplication2.Models
     
         public int StockReceivedNoteID { get; set; }
         public System.DateTime StockReceivedNoteDate { get; set; }
-        public Nullable<int> PublisherID { get; set; }
-        public Nullable<int> ManagerID { get; set; }
+        public int PublisherID { get; set; }
+        public int ManagerID { get; set; }
     
         public virtual MANAGER MANAGER { get; set; }
         public virtual PUBLISHER PUBLISHER { get; set; }

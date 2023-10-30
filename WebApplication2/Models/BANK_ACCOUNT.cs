@@ -24,9 +24,9 @@ namespace WebApplication2.Models
         public string BankAccountNumber { get; set; }
         public string BankAccountName { get; set; }
         public string BankCVC { get; set; }
-        public Nullable<int> WalletID { get; set; }
+        public int CustomerID { get; set; }
     
-        public virtual WALLET WALLET { get; set; }
+        public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
     }

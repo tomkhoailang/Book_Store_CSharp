@@ -13,9 +13,8 @@ namespace WebApplication2.Controllers
     public class CATEGORiesController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
-
-        // GET: CATEGORies
-        public ActionResult Index()
+    // GET: CATEGORies
+    public ActionResult Index()
         {
             return View(db.CATEGORies.ToList());
         }
@@ -52,6 +51,7 @@ namespace WebApplication2.Controllers
             {
                 if((db.CATEGORies.FirstOrDefault(c => c.CategoryName == cATEGORY.CategoryName)) == null)
                 {
+                    cATEGORY.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                     db.CATEGORies.Add(cATEGORY);
                     db.SaveChanges();
                 }
@@ -89,9 +89,11 @@ namespace WebApplication2.Controllers
         {
             if (ModelState.IsValid)
             {
-                if ((db.CATEGORies.FirstOrDefault(c => c.CategoryName == cATEGORY.CategoryName)) == null)
+                CATEGORY c = db.CATEGORies.Find(cATEGORY.CategoryID);
+                if (c != null)
                 {
-                    db.Entry(cATEGORY).State = EntityState.Modified;
+                    db.Entry(c).CurrentValues.SetValues(cATEGORY);
+                    c.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                     db.SaveChanges();
                 }
                 else

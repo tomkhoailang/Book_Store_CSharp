@@ -91,7 +91,7 @@
     <Property Name="EditionPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
     <Property Name="EditionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="EditionYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="EditionPageCount" Type="Int32" />
+    <Property Name="EditionPageCount" Type="Decimal" />
     <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="EditionAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />

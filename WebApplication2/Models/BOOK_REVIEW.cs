@@ -17,11 +17,11 @@ namespace WebApplication2.Models
         public int ReviewID { get; set; }
         public string ReviewDescription { get; set; }
         public System.DateTime ReviewDate { get; set; }
-        public Nullable<int> CustomerID { get; set; }
-        public Nullable<int> EditionID { get; set; }
+        public int CustomerID { get; set; }
+        public int EditionID { get; set; }
         public int ReviewRating { get; set; }
     
         public virtual BOOK_EDITION BOOK_EDITION { get; set; }
-        public virtual CUSTOMER CUSTOMER { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

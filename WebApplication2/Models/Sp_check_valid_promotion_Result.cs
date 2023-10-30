@@ -10,16 +10,9 @@
 namespace WebApplication2.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PROMOTION
+    public partial class Sp_check_valid_promotion_Result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PROMOTION()
-        {
-            this.BOOK_EDITION = new HashSet<BOOK_EDITION>();
-        }
-    
         public int PromotionID { get; set; }
         public string PromotionName { get; set; }
         public decimal PromotionDiscount { get; set; }
@@ -28,9 +21,5 @@ namespace WebApplication2.Models
         public bool PromotionIsValid { get; set; }
         public int ManagerID { get; set; }
         public string PromotionDetails { get; set; }
-    
-        public virtual MANAGER MANAGER { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BOOK_EDITION> BOOK_EDITION { get; set; }
     }
 }

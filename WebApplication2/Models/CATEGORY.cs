@@ -23,7 +23,9 @@ namespace WebApplication2.Models
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
+        public int ManagerID { get; set; }
     
+        public virtual MANAGER MANAGER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BOOK_EDITION> BOOK_EDITION { get; set; }
     }
