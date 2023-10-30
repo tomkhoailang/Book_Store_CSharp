@@ -174,6 +174,7 @@
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SharedViewsController.cs" />
     <Compile Include="Custom_Functions\Custom_Functions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -321,7 +322,8 @@
     <Content Include="libs\animate\animate.min.css" />
     <Content Include="libs\easing\easing.js" />
     <Content Include="libs\easing\easing.min.js" />
-    <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\Main.js" />
+    <Content Include="Scripts\UIHandler.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -379,6 +381,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="libs\owlcarousel\LICENSE" />
     <None Include="packages.config" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

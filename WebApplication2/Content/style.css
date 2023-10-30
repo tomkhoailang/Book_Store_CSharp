@@ -9710,3 +9710,18 @@ a.text-dark:hover, a.text-dark:focus {
     transform: translateY(-15px);
   }
 }
+
+.slide-left {
+    animation: slide_left ease .3s;
+}
+
+@keyframes slide_left {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px);
+    }
+}
