@@ -7,12 +7,11 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class HomeController : Controller
+    public class SharedViewsController : Controller
     {
-		private BookStoreManagerEntities db = new BookStoreManagerEntities();
-		public ActionResult Index()
-		{
-			var categories = new List<CATEGORY>
+        public ActionResult Navbar()
+        {
+            var data = new List<CATEGORY>
 			{
 				new CATEGORY
 				{
@@ -75,24 +74,8 @@ namespace WebApplication2.Controllers
 					CategoryDescription = "Automotive category description"
 				}
 			};
-
-			ViewBag.categoriesList = categories;
-
-			return View();
-		}
-
-		public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+			ViewBag.categoriesList = data;
+			return PartialView("_Navbar");
         }
     }
 }
