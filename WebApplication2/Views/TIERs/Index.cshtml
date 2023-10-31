@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebApplication2.Models.TIER>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TierName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TierDiscount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TierLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MANAGER.AccountID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TierName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TierDiscount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TierLevel)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TierID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TierID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TierID })
+        </td>
+    </tr>
+}
+
+</table>

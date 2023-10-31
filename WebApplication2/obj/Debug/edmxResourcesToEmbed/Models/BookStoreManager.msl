@@ -140,6 +140,7 @@
     <EntitySetMapping Name="CUSTOMER_ORDER_DETAIL">
       <EntityTypeMapping TypeName="BookStoreManagerModel.CUSTOMER_ORDER_DETAIL">
         <MappingFragment StoreEntitySet="CUSTOMER_ORDER_DETAIL">
+          <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
           <ScalarProperty Name="DetailCurrentPrice" ColumnName="DetailCurrentPrice" />
           <ScalarProperty Name="DetailQuantity" ColumnName="DetailQuantity" />
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -196,6 +197,7 @@
     <EntitySetMapping Name="SHIP_CONFIRMATION">
       <EntityTypeMapping TypeName="BookStoreManagerModel.SHIP_CONFIRMATION">
         <MappingFragment StoreEntitySet="SHIP_CONFIRMATION">
+          <ScalarProperty Name="ConfirmationID" ColumnName="ConfirmationID" />
           <ScalarProperty Name="ConfirmationDate" ColumnName="ConfirmationDate" />
           <ScalarProperty Name="ConfirmationImage" ColumnName="ConfirmationImage" />
           <ScalarProperty Name="OrderID" ColumnName="OrderID" />
@@ -226,21 +228,11 @@
     <EntitySetMapping Name="STOCK_RECEIVED_NOTE_DETAIL">
       <EntityTypeMapping TypeName="BookStoreManagerModel.STOCK_RECEIVED_NOTE_DETAIL">
         <MappingFragment StoreEntitySet="STOCK_RECEIVED_NOTE_DETAIL">
+          <ScalarProperty Name="NoteDetailID" ColumnName="NoteDetailID" />
           <ScalarProperty Name="NoteDetailQuantity" ColumnName="NoteDetailQuantity" />
           <ScalarProperty Name="NoteDetailPrice" ColumnName="NoteDetailPrice" />
           <ScalarProperty Name="EditionID" ColumnName="EditionID" />
           <ScalarProperty Name="StockReceivedNoteID" ColumnName="StockReceivedNoteID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -255,13 +247,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TRANSACTION_DETAIL">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.TRANSACTION_DETAIL">
-        <MappingFragment StoreEntitySet="TRANSACTION_DETAIL">
+    <EntitySetMapping Name="TRANSACTION_DETAILS">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.TRANSACTION_DETAILS">
+        <MappingFragment StoreEntitySet="TRANSACTION_DETAILS">
           <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
           <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
           <ScalarProperty Name="TransactionAmount" ColumnName="TransactionAmount" />
+          <ScalarProperty Name="WalletID" ColumnName="WalletID" />
           <ScalarProperty Name="BankAccountID" ColumnName="BankAccountID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -306,20 +301,5 @@
         <ScalarProperty Name="EditionID" ColumnName="EditionID" />
       </EndProperty>
     </AssociationSetMapping>
-    <FunctionImportMapping FunctionImportName="Sp_check_valid_promotion" FunctionName="BookStoreManagerModel.Store.Sp_check_valid_promotion">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BookStoreManagerModel.Sp_check_valid_promotion_Result">
-          <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
-          <ScalarProperty Name="PromotionName" ColumnName="PromotionName" />
-          <ScalarProperty Name="PromotionDiscount" ColumnName="PromotionDiscount" />
-          <ScalarProperty Name="PromotionStartDate" ColumnName="PromotionStartDate" />
-          <ScalarProperty Name="PromotionEndDate" ColumnName="PromotionEndDate" />
-          <ScalarProperty Name="PromotionIsValid" ColumnName="PromotionIsValid" />
-          <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
-          <ScalarProperty Name="PromotionDetails" ColumnName="PromotionDetails" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Inital_Manager" FunctionName="BookStoreManagerModel.Store.sp_Inital_Manager" />
   </EntityContainerMapping>
 </Mapping>

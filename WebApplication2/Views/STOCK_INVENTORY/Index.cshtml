@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebApplication2.Models.STOCK_INVENTORY>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InventoryStockInTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InventoryStockOutTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InventoryAvailableStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.InventoryStockInTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InventoryStockOutTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InventoryAvailableStock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionDescription)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EditionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EditionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EditionID })
+        </td>
+    </tr>
+}
+
+</table>

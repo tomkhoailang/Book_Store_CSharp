@@ -21,5 +21,13 @@ select * from AspNetUsers
 
 select * from category
 select * from BOOK_CATEGORY
+select * from STOCK_RECEIVED_NOTE
 
 select * from PROMOTION
+
+select * from publisher
+
+select * from STOCK_INVENTORY
+select * from STOCK_RECEIVED_NOTE_DETAIL
+
+

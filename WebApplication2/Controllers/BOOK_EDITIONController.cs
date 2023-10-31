@@ -230,12 +230,19 @@ namespace WebApplication2.Controllers
             {
                 //case when the book is existed in customer order
                 ViewBag.existedInCustomerOrder = true;
-            }else
-            {
-                db.BOOK_EDITION.Remove(bOOK_EDITION);
-                db.SaveChanges();
+                return RedirectToAction("Index");
+
             }
+            if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(n => n.EditionID == bOOK_EDITION.EditionID)){
+                //case when the book is existed in stock receive notge
+                ViewBag.existedInStockReceiveNote = true;
+                return RedirectToAction("Index");
+
+            }
+            db.BOOK_EDITION.Remove(bOOK_EDITION);
+            db.SaveChanges();
             return RedirectToAction("Index");
+
         }
 
         protected override void Dispose(bool disposing)

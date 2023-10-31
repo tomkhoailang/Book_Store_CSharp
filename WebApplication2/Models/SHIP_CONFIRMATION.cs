@@ -14,6 +14,7 @@ namespace WebApplication2.Models
     
     public partial class SHIP_CONFIRMATION
     {
+        public int ConfirmationID { get; set; }
         public System.DateTime ConfirmationDate { get; set; }
         public string ConfirmationImage { get; set; }
         public int OrderID { get; set; }

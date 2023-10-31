@@ -48,19 +48,9 @@ namespace WebApplication2.Models
         public virtual DbSet<STOCK_INVENTORY> STOCK_INVENTORY { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE_DETAIL> STOCK_RECEIVED_NOTE_DETAIL { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TIER> TIERs { get; set; }
-        public virtual DbSet<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
+        public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
-    
-        public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
-        {
-            var editionIDParameter = editionID.HasValue ?
-                new ObjectParameter("editionID", editionID) :
-                new ObjectParameter("editionID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
-        }
     
         public virtual int sp_Inital_Manager(string accountID)
         {
@@ -69,6 +59,15 @@ namespace WebApplication2.Models
                 new ObjectParameter("AccountID", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Inital_Manager", accountIDParameter);
+        }
+    
+        public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
+        {
+            var editionIDParameter = editionID.HasValue ?
+                new ObjectParameter("editionID", editionID) :
+                new ObjectParameter("editionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
         }
     }
 }

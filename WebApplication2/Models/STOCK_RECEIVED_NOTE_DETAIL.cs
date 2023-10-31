@@ -14,6 +14,7 @@ namespace WebApplication2.Models
     
     public partial class STOCK_RECEIVED_NOTE_DETAIL
     {
+        public int NoteDetailID { get; set; }
         public int NoteDetailQuantity { get; set; }
         public decimal NoteDetailPrice { get; set; }
         public int EditionID { get; set; }

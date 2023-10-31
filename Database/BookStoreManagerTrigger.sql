@@ -84,7 +84,10 @@ BEGIN
 	end
 END
 
--- trigger to set tier
+-- trigger to set tier -- modify this one
+select CustomerID, sum(OrderTotalPrice) as Consumption from CUSTOMER_ORDER where OrderStatus = 'SUCCESS'
+group by CustomerID
+
 go
 create trigger TR_SET_TIER_FROM_SPEDNING ON CUSTOMER_ORDER for  UPDATE AS
 BEGIN
@@ -143,7 +146,7 @@ END
 
 -- trigger ON STOCK_RECEIVED_NOTE_DETAIL to update InventoryStockInTotal
 go
-CREATE TRIGGER TR_UPDATE_INVENTORY_STOCK_IN_TOTAL on STOCK_RECEIVED_NOTE_DETAIL for insert,update as
+CREATE or alter TRIGGER TR_UPDATE_INVENTORY_STOCK_IN_TOTAL on STOCK_RECEIVED_NOTE_DETAIL for insert,update,delete as
 begin
 	--declare @isNewEdition bit;
 	declare @editionID int;
@@ -151,13 +154,18 @@ begin
 	declare @deletedQuantity int = 0;
 
 	select @editionID = EditionID from inserted i
+	if exists (select * from deleted)
+	begin
+		select @editionID = EditionID from deleted i
+	end
+
 	select @insertedQuantity = NoteDetailQuantity from inserted 
 	select @deletedQuantity = NoteDetailQuantity from deleted
 
 	UPDATE STOCK_INVENTORY set InventoryStockInTotal = InventoryStockInTotal + @insertedQuantity - @deletedQuantity
 	where STOCK_INVENTORY.EditionID = @editionID
-end
 
+end
 -- restore stock when cancel by customer
 GO
 CREATE TRIGGER TR_RESTORE_STOCK ON CUSTOMER_ORDER
@@ -231,8 +239,7 @@ BEGIN
 	update category set CategoryName = @categoryName where CategoryID = (select CategoryID from inserted)
 END
 
-
-
+-- trigger to check type of transation
 
 
 

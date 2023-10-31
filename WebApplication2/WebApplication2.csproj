@@ -176,6 +176,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PROMOTIONsController.cs" />
+    <Compile Include="Controllers\PUBLISHERsController.cs" />
+    <Compile Include="Controllers\STOCK_INVENTORYController.cs" />
+    <Compile Include="Controllers\STOCK_RECEIVED_NOTEController.cs" />
+    <Compile Include="Controllers\STOCK_RECEIVED_NOTE_DETAILController.cs" />
+    <Compile Include="Controllers\TIERsController.cs" />
     <Compile Include="Custom_Functions\Custom_Functions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -264,13 +269,10 @@
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>BookStoreManger.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TIER.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\TRANSACTION_DETAIL.cs">
+    <Compile Include="Models\TRANSACTION_DETAILS.cs">
       <DependentUpon>BookStoreManger.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WALLET.cs">
@@ -391,6 +393,31 @@
     <Content Include="Views\CATEGORies\Details.cshtml" />
     <Content Include="Views\CATEGORies\Edit.cshtml" />
     <Content Include="Views\CATEGORies\Index.cshtml" />
+    <Content Include="Views\TIERs\Create.cshtml" />
+    <Content Include="Views\TIERs\Delete.cshtml" />
+    <Content Include="Views\TIERs\Details.cshtml" />
+    <Content Include="Views\TIERs\Edit.cshtml" />
+    <Content Include="Views\TIERs\Index.cshtml" />
+    <Content Include="Views\STOCK_INVENTORY\Create.cshtml" />
+    <Content Include="Views\STOCK_INVENTORY\Delete.cshtml" />
+    <Content Include="Views\STOCK_INVENTORY\Details.cshtml" />
+    <Content Include="Views\STOCK_INVENTORY\Edit.cshtml" />
+    <Content Include="Views\STOCK_INVENTORY\Index.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE\Create.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE\Delete.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE\Details.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE\Edit.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE\Index.cshtml" />
+    <Content Include="Views\PUBLISHERs\Create.cshtml" />
+    <Content Include="Views\PUBLISHERs\Delete.cshtml" />
+    <Content Include="Views\PUBLISHERs\Details.cshtml" />
+    <Content Include="Views\PUBLISHERs\Edit.cshtml" />
+    <Content Include="Views\PUBLISHERs\Index.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Create.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Delete.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Details.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Edit.cshtml" />
+    <Content Include="Views\STOCK_RECEIVED_NOTE_DETAIL\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

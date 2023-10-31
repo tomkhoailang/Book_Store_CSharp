@@ -160,7 +160,7 @@ namespace WebApplication2.Controllers
                     using (var dbContext = new BookStoreManagerEntities())
                     {
                         //using this to create the admin first
-                        //dbContext.sp_Inital_Manager(user.Id);
+                        dbContext.sp_Inital_Manager(user.Id);
                         //then run the below section to create customer
 
                         //await dbContext.Database.ExecuteSqlCommandAsync("EXEC SP_Inital_Customer @AccountID", new SqlParameter("@AccountID", user.Id));

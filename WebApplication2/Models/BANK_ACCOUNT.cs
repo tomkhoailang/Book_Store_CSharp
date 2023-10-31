@@ -17,7 +17,7 @@ namespace WebApplication2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BANK_ACCOUNT()
         {
-            this.TRANSACTION_DETAIL = new HashSet<TRANSACTION_DETAIL>();
+            this.TRANSACTION_DETAILS = new HashSet<TRANSACTION_DETAILS>();
         }
     
         public int BankAccountID { get; set; }
@@ -28,6 +28,6 @@ namespace WebApplication2.Models
     
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TRANSACTION_DETAIL> TRANSACTION_DETAIL { get; set; }
+        public virtual ICollection<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
     }
 }

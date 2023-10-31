@@ -1,0 +1,51 @@
+﻿@model WebApplication2.Models.STOCK_INVENTORY
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>STOCK_INVENTORY</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InventoryStockInTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InventoryStockInTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InventoryStockOutTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InventoryStockOutTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InventoryAvailableStock)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InventoryAvailableStock)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BOOK_EDITION.EditionDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EditionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

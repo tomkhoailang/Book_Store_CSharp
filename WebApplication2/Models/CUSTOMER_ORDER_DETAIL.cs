@@ -14,6 +14,7 @@ namespace WebApplication2.Models
     
     public partial class CUSTOMER_ORDER_DETAIL
     {
+        public int OrderDetailID { get; set; }
         public Nullable<decimal> DetailCurrentPrice { get; set; }
         public int DetailQuantity { get; set; }
         public int OrderID { get; set; }

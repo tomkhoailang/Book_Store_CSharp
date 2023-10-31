@@ -19,6 +19,7 @@ namespace WebApplication2.Models
         {
             this.CUSTOMER_ORDER_DETAIL = new HashSet<CUSTOMER_ORDER_DETAIL>();
             this.SHIP_CONFIRMATION = new HashSet<SHIP_CONFIRMATION>();
+            this.TRANSACTION_DETAILS = new HashSet<TRANSACTION_DETAILS>();
         }
     
         public int OrderID { get; set; }
@@ -38,5 +39,7 @@ namespace WebApplication2.Models
         public virtual Person Person2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SHIP_CONFIRMATION> SHIP_CONFIRMATION { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
     }
 }
