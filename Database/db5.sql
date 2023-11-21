@@ -48,7 +48,7 @@ CREATE TABLE WALLET(
 )
 CREATE TABLE BANK_ACCOUNT(
 	BankAccountID INT PRIMARY KEY IDENTITY(1,1),
-	BankAccountNumber NVARCHAR(16)
+	BankAccountNumber NVARCHAR(16) unique
 		 CONSTRAINT CK_BankAccountNumber
 		 CHECK (BankAccountNumber LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
 	BankAccountName NVARCHAR(50) NOT NULL,

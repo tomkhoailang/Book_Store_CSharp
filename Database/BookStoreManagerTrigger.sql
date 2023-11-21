@@ -2,22 +2,28 @@
 -- trigger to calculate balance from transaction
 use BookStoreManager;
 GO
-CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_TRANSACTION_DETAIL ON  TRANSACTION_DETAIL FOR INSERT, UPDATE, DELETE AS
+CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_TRANSACTION_DETAIL ON  TRANSACTION_DETAILS FOR INSERT AS
 BEGIN
 	Declare @walletID INT;
-	select @walletID =  W.WalletID from  BANK_ACCOUNT BA, WALLET  W, INSERTED I
-	WHERE I.BankAccountID = BA.BankAccountID AND BA.CustomerID = W.CustomerID 
+	select @walletID =  W.WalletID from WALLET  W, INSERTED I
+	WHERE W.WalletID = I.WalletID
 
 	Declare @currentBalance decimal(12,2) = 0;
 	Declare @insertedTransaction decimal(12,2) = 0;
-	Declare @deletedTransaction decimal(12,2) = 0;
 
 	select @currentBalance = W.Balance FROM WALLET W WHERE W.WalletID = @walletID
-	select @insertedTransaction =  i.TransactionAmount  FROM INSERTED I 
-	select @deletedTransaction =  d.TransactionAmount  FROM DELETED D  
+	select @insertedTransaction =  i.TransactionAmount  FROM INSERTED i 
 
-	update WALLET set Balance = @currentBalance + @insertedTransaction - @deletedTransaction
-	where WalletID = @walletID
+	if exists (select 1 from inserted i where i.TransactionType like ('Deposit'))
+	begin
+		update WALLET set Balance = @currentBalance + @insertedTransaction 
+		where WalletID = @walletID
+	end
+	else
+	begin
+		update WALLET set Balance = @currentBalance - @insertedTransaction 
+		where WalletID = @walletID
+	end
 END
 --trigger to check if book is in stock when adding
 --note when the user taps on proceed to payment, a order will be created and each book from card will be added to this order

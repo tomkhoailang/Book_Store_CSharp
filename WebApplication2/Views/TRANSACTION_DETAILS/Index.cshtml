@@ -1,0 +1,119 @@
+﻿@model IEnumerable<WebApplication2.Models.TRANSACTION_DETAILS>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModalDeposit">Deposit</button>
+
+<button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModalWithdrawal">Withdrawal</button>
+
+<div id="myModalDeposit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Header</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="LoadDepositPartialView">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="myModalWithdrawal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Header</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="LoadWithdrawalPartialView">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BANK_ACCOUNT.BankAccountNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CUSTOMER_ORDER.OrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WALLET.WalletID)
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BANK_ACCOUNT.BankAccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WALLET.WalletID)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.TransactionID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.TransactionID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.TransactionID })
+                </td>*@
+        </tr>
+    }
+
+</table>
+
+<script>
+    $.ajax({
+        url: '/TRANSACTION_DETAILS/CreateDeposit',
+        type: 'GET',
+        success: function (data) {
+            $('#LoadDepositPartialView').html(data);
+        }
+    });
+</script>
+
+<script>
+    $.ajax({
+        url: '/TRANSACTION_DETAILS/CreateWithdrawal',
+        type: 'GET',
+        success: function (data) {
+            $('#LoadWithdrawalPartialView').html(data);
+        }
+    });
+</script>
