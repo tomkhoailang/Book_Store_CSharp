@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebApplication2.Models.CartModels>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+@if(Model.Count() == 0 || Model == null)
+            {
+                <p>null</p>
+            }
+else{
+    <form action="@Url.Action("CreateOrder")" method="post">
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Book_Information.EditionID) </th>
+                <th>@Html.DisplayNameFor(model => model.BookImage) </th>
+                <th>@Html.DisplayNameFor(model => model.Book_Information.EditionName) </th>
+                <th>@Html.DisplayNameFor(model => model.Book_Information.EditionPrice) </th>
+                <th>@Html.DisplayNameFor(model => model.Discount) </th>
+                <th>@Html.DisplayNameFor(model => model.Amount) </th>
+                <th>@Html.DisplayNameFor(model => model.Total) </th>
+            </tr>
+            @foreach (var cart in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => cart.Book_Information.EditionID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => cart.BookImage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => cart.Book_Information.EditionName)
+                    </td>
+                    <td>
+                        @cart.Book_Information.EditionPrice.ToString("#,##0").Replace(",", ".")VND
+                    </td>
+                    <td>
+                        @cart.Discount.ToString("#,##0").Replace(",", ".")%
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => cart.Amount)
+                    </td>
+                    <td>
+                        @cart.Total.ToString("#,##0").Replace(",", ".")VND
+                    </td>
+
+                </tr>
+            }
+            <tr>
+                <td>@Html.Label("Shipping method")</td>
+                <td>
+                    @Html.RadioButton("ShippingMethod", "SHIPPING", true) SHIPPING
+                    @Html.RadioButton("ShippingMethod", "RECEIVE AT STORE") RECEIVE AT STORE
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.Label("Payment method")</td>
+                <td>
+                    @Html.RadioButton("PaymentMethod", "CASH", true) CASH
+                    @Html.RadioButton("PaymentMethod", "CURRENT BALANCE") CURRENT BALANCE
+                </td>
+            </tr>
+
+
+        </table>
+        <div style="width:100%; height:60px;position:relative">
+            <div style="position:absolute; right:0; width:40%">
+                <p style="display: inline; padding-inline: 10px">Total: </p>
+
+                <p id="txtTotal" style="display: inline; padding-inline: 10px; width: 80%; text-align: right">@TempData["Total"] VND</p>
+                <input type="submit" id="confirm" class="btn btn-primary" style="right:0" onclick="return confirm('Are you sure ?')" />
+            </div>
+
+        </div>
+    </form>
+    
+}
+

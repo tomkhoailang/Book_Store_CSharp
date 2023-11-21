@@ -1,0 +1,129 @@
+﻿@model IEnumerable<WebApplication2.Models.CartModels>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+
+</script>
+<h2>Cart</h2>
+<div style="margin:auto; width:90%; position">
+    @if (Model.Count() == 0 || Model == null)
+    {
+        <p>Gio hang rong</p>
+    }
+    else
+    {
+            @*@Html.BeginForm("SubmitCart", "BookCart", FormMethod.Get);*@
+            <table class="table">
+                <tr>
+                    <th>Select</th>
+                    <th>@Html.DisplayNameFor(model => model.Book_Information.EditionID) </th>
+                    <th>@Html.DisplayNameFor(model => model.BookImage) </th>
+                    <th>@Html.DisplayNameFor(model => model.Book_Information.EditionName) </th>
+                    <th>@Html.DisplayNameFor(model => model.Book_Information.EditionPrice) </th>
+                    <th>@Html.DisplayNameFor(model => model.Discount) </th>
+                    <th>@Html.DisplayNameFor(model => model.Amount) </th>
+                    <th>@Html.DisplayNameFor(model => model.Total) </th>
+                </tr>
+                @foreach (var cart in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="@cart.Book_Information.EditionID" name="checkSelect" value="@cart.Total" onclick="checkMes()" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => cart.Book_Information.EditionID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => cart.BookImage)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => cart.Book_Information.EditionName)
+                        </td>
+                        <td>
+                            @cart.Book_Information.EditionPrice.ToString("#,##0").Replace(",", ".")VND
+                        </td>
+                        <td>
+                            @cart.Discount.ToString("#,##0").Replace(",", ".")%
+                        </td>
+                        <td>
+                            <form action="@Url.Action("UpdateAmount")" method="get">
+                                <input type="hidden" name="BookID" value="@cart.Book_Information.EditionID" />
+                                <input type="number" name="Amount" min="1" step="1" value="@cart.Amount" style="width:60px; height:37.6px" />
+                                <button type="submit" class="btn btn-dark">
+                                    OK
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            @cart.Total.ToString("#,##0").Replace(",", ".")VND
+                        </td>
+                        <td>
+                            <form action="@Url.Action("DeleteCart")" method="get">
+                                <input type="hidden" name="BookID" value="@cart.Book_Information.EditionID" />
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure to delete this item ?')">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                }
+
+
+            </table>
+            <div style="width:100%; height:60px;position:relative">
+                <div style="position:absolute; right:0; width:40%">
+                    <p style="display: inline; padding-inline: 10px">Total: </p>
+
+                    <p id="txtTotal" style="display: inline; padding-inline: 10px; width: 80%; text-align: right">0 VND</p>
+                    <button id="confirm" class="btn btn-primary" style="right:0" onclick="Confirm()">CONFIRM</button>
+                </div>
+
+            </div>
+
+            <script>
+
+                $(document).ready(function () {
+                    $("#confirm").click(function () {
+                        var chbox = $("[name='checkSelect']");
+                        var listID = new Array();
+
+                        for (var i = 0; i < chbox.length; ++i) {
+                            if (chbox[i].checked == true) {
+                                listID.push(Number(chbox[i].id))
+                            }
+                        }
+                        if (listID.length == 0)
+                            alert("empty cart")
+                        else {
+
+                            var url = '/BookCart/SubmitCart?listID=' + listID.join(',');
+                            console.log(listID);
+                            // Redirect to the constructed URL
+                            window.location.href = url;
+                        }
+                        
+                    });
+                });
+                function checkMes() {
+                    var chbox = document.getElementsByName("checkSelect");
+                    var text = 0
+                    for (var i = 0; i < chbox.length; ++i) {
+                        if (chbox[i].checked) {
+                            text += Number(chbox[i].value)
+                        }
+                    }
+                    document.getElementById("txtTotal").innerHTML = text.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
+
+                }
+
+            </script>
+    }
+</div>
+
+
+    
+
