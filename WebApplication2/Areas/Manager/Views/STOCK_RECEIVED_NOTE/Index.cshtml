@@ -1,0 +1,174 @@
+﻿@model IEnumerable<WebApplication2.Models.STOCK_RECEIVED_NOTE>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+}
+
+<!--**********************************
+            Content body start
+        ***********************************-->
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+        Thêm phiếu nhập mới
+    </button>
+    <hr />
+
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Phiếu nhập</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="CreatePartialViewContainer">
+                    <!-- The partial view will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Phiếu nhập</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="edit-modal-body modal-body ">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- row -->
+    @*@using (Html.BeginForm("Index", "STOCK_RECEIVED_NOTE", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <div class="form-group">
+                <label>Tên nhà xuất bản: </label>
+                <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
+                <input type="submit" class="btn btn-danger" value="Tìm kiếm">
+            </div><hr />
+        }*@
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Data Table</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.StockReceivedNoteDate)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.PUBLISHER.PublisherName)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StockReceivedNoteDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PUBLISHER.PublisherName)
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" id="@item.StockReceivedNoteID" data-toggle="modal" data-target="#editModal" value="@item.StockReceivedNoteID" onclick="loadPartialView(this.value)">
+                                                    Chỉnh sửa
+                                                </button>
+                                                <button type="button" class="btn btn-primary" id="@item.StockReceivedNoteID" data-toggle="modal" data-target="#editModal" value="@item.StockReceivedNoteID" onclick="loadDetailsPartialView(this.value)">
+                                                    Thêm chi tiết phiếu nhập
+                                                </button>
+                                                <button type="button" class="btn btn-primary" id="@item.StockReceivedNoteID" value="@item.StockReceivedNoteID" onclick="redirectToDetails(this.value)">
+                                                    Chi tiết phiếu nhập
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+
+<script>
+    function loadCreatePartialView() {
+        $.ajax({
+            url: '/Manager/STOCK_RECEIVED_NOTE/Create',
+            type: 'GET',
+            success: function (data) {
+                $('#CreatePartialViewContainer').html(data);
+            },
+            error: function () {
+                $('#CreatePartialViewContainer').html("<p>Error loading partial view.</p>")
+            }
+        });
+    }
+    loadCreatePartialView();
+</script>
+
+<script>
+    function redirectToDetails(stockReceivedNoteID) {
+        var url = "/Manager/STOCK_RECEIVED_NOTE_DETAIL/Index/" + stockReceivedNoteID;
+        window.location.href = url;
+    }
+</script>
+<script>
+    function loadPartialView(id) {
+        $.ajax({
+            url: '/Manager/STOCK_RECEIVED_NOTE/Edit',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('.edit-modal-body').html(data);
+            }
+        });
+    }
+    function loadDetailsPartialView(id) {
+        $.ajax({
+            url: '/Manager/STOCK_RECEIVED_NOTE_DETAIL/CREATE',
+            data: { stockReceivedNoteID: id },
+            type: 'GET',
+            success: function (data) {
+                $('.edit-modal-body').html(data);
+            }
+        });
+    }
+</script>

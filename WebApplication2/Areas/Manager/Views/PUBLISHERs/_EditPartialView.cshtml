@@ -1,0 +1,131 @@
+﻿@model WebApplication2.Models.PUBLISHER
+@{
+    ViewBag.Title = "Edit";
+
+}
+
+<h2>Chỉnh sửa</h2>
+
+
+@using (Html.BeginForm("Edit", "Publishers", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <div class="error-message">
+            @Html.Partial("_ErrorMessagePartialView")
+        </div>
+    </div>
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.PublisherID)
+    <h4>Thông tin nhà xuất bản</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublisherName, new { @class = "control-label" })
+        <div id="editDuplicate" class="col-md-10">
+            @Html.TextBoxFor(m => m.PublisherName, new { @class = "form-control", @onchange = "handleDuplicateEdit()", @required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublisherDescription, new { @class = " control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PublisherDescription, new { @class = "form-control", @required = "required" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="publisherImgEdit">Ảnh của nhà xuất bản:</label>
+        <input type="file" id="publisherImgEdit" name="publisherImgEdit" accept="image/*" />
+    </div>
+
+    <div class="form-group">
+        <div id="previewEdit">
+            @if (ViewBag.publisherIcon != null)
+            {
+                <img id="publisherIcon" src="~/Images/@ViewBag.publisherIcon" style="width:50%; height:50%" />
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="editButton" type="submit" value="Lưu" class="btn btn-default" />
+            <button type="button" class="btn btn-primary" onclick="loadController(@Model.PublisherID)">Xóa</button>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div id="edit-error-message">
+        </div>
+    </div>
+}
+
+
+
+<script>
+    document.getElementById('publisherImgEdit').addEventListener('change', function () {
+        console.log(document.getElementById('publisherImgEdit'))
+        var preview = document.getElementById('previewEdit');
+        preview.innerHTML = '';
+        var files = this.files;
+
+
+        if (files.length !== 0) {
+            var element = document.getElementById("publisherIcon");
+            if (element) {
+                element.parentNode.removeChild(element);
+            }
+            var file = files[0];
+            var reader = new FileReader();
+            reader.onload = function () {
+                var img = document.createElement('img');
+                img.id = "publisherIcon";
+                img.src = this.result;
+                img.style.width = '50%';
+                img.style.height = '50%';
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<script>
+    function loadController(id) {
+        var userResponse = confirm("Bạn có chắc muốn xóa nhà xuất bản này?");
+        if (userResponse == true) {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                url: '/Manager/PUBLISHERs/Delete',
+                data: { id: id, __RequestVerificationToken: token },
+                type: 'POST',
+                success: function (data) {
+                    if (data.redirectToAction) {
+                        window.location.href = data.actionUrl;
+                    } else {
+                        $(".error-message").html(data);
+                    }
+                }
+            });
+        }
+
+    }
+
+</script>
+<script>
+    function handleDuplicateEdit() {
+        var publisherName = $('#editDuplicate').find('#PublisherName').val();
+        var listOfName = @Html.Raw(Json.Encode(ViewBag.usedName));
+        console.log("run")
+
+        if (listOfName != null && listOfName.includes(publisherName)) {
+            $('#edit-error-message').html('<p style="color:red">Tên nhà xuất bản bị trùng</p>')
+            $('#editButton').prop('disabled', true);
+        } else {
+            $('#edit-error-message').html('')
+            $('#editButton').prop('disabled', false);
+        }
+    }
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -43,6 +43,7 @@ BEGIN
 	end
 END
 
+
 GO	
 create trigger TR_HANDLE_CUSTOMER_ORDER ON CUSTOMER_ORDER for  UPDATE AS
 BEGIN
@@ -204,14 +205,6 @@ BEGIN
 		CLOSE CursorStock
 		DEALLOCATE CursorStock
 	END
-END
---TRIGGER INITIAL WALLET 
-go
-CREATE TRIGGER TR_INITIAL_WALLET ON Person for insert AS
-BEGIN
-	DECLARE @CustomerID int;
-	SELECT @CustomerID =  PersonID from INSERTED
-	INSERT INTO WALLET(CustomerID, Balance) VALUES (@CustomerID, 0)
 END
 
 --trigger to check start date must be < enddate

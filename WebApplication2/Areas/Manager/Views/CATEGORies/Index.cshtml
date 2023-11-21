@@ -1,0 +1,152 @@
+﻿@model IEnumerable<WebApplication2.Models.CATEGORY>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+}
+<!--**********************************
+            Content body start
+        ***********************************-->
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+        Thêm danh mục mới
+    </button>
+    <hr />
+
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Danh mục</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="CreatePartialViewContainer">
+                    <!-- The partial view will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Danh mục</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="edit-modal-body modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- row -->
+    @using (Html.BeginForm("Index", "CATEGORies", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="form-group">
+            <label>Tên danh mục: </label>
+            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
+            <input type="submit" class="btn btn-danger" value="Tìm kiếm">
+        </div><hr />
+    }
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Danh sách danh mục</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CategoryName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CategoryDescription)
+                                        </th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CategoryName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CategoryDescription)
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" id="@item.CategoryID" data-toggle="modal" data-target="#editModal" value="@item.CategoryID" onclick="loadPartialView(this.value)">
+
+                                                    Chỉnh sửa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+
+<script>
+    function loadCreatePartialView() {
+        $.ajax({
+            url: '/Manager/CATEGORies/Create',
+            type: 'GET',
+            success: function (data) {
+                $('#CreatePartialViewContainer').html(data);
+            },
+            error: function () {
+                $('#CreatePartialViewContainer').html("<p>Error loading partial view.</p>")
+            }
+        });
+    }
+    loadCreatePartialView();
+</script>
+
+<script>
+    function loadPartialView(id) {
+        $.ajax({
+            url: '/Manager/CATEGORies/Edit',
+            data: { id: id },
+            type: 'GET',
+            success: function (data) {
+                $('.edit-modal-body').html(data);
+            }
+        });
+    }
+</script>
+

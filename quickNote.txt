@@ -1,2 +1,9 @@
 Trim something like name of attribute
 double click in create two record will be saved
+Using fulltext index to search
+add validate with the same name: category, publisher, tier, book edition, book collection
+create trigger for promotion details
+
+promotion: the discount price be able to set to 11,5..., only accept number and 1 "," character, the maximum value must be less than 100 of create, edit view
+
+trigger: promo start and end date

@@ -197,7 +197,6 @@
     <Property Name="PromotionDiscount" Type="decimal" Precision="4" Scale="2" Nullable="false" />
     <Property Name="PromotionStartDate" Type="datetime" Nullable="false" />
     <Property Name="PromotionEndDate" Type="datetime" Nullable="false" />
-    <Property Name="PromotionIsValid" Type="bit" Nullable="false" />
     <Property Name="ManagerID" Type="int" Nullable="false" />
     <Property Name="PromotionDetails" Type="text" />
   </EntityType>
@@ -784,6 +783,10 @@
   </Function>
   <Function Name="sp_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Inital_Person" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
+    <Parameter Name="ManagerID" Type="int" Mode="In" />
   </Function>
   <EntityContainer Name="BookStoreManagerModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />

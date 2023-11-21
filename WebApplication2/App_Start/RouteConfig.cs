@@ -16,8 +16,14 @@ namespace WebApplication2
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "STOCK_RECEIVED_NOTE_DETAIL", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
             );
+
+            //routes.MapRoute(
+            //    name: "Default",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "User", action = "Index", id = UrlParameter.Optional }
+            //).DataTokens.Add("Area", "Manager");
         }
     }
 }

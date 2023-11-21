@@ -1,0 +1,67 @@
+﻿@model WebApplication2.Models.Person
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Person</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MANAGER.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MANAGER.AccountID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TIER.TierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TIER.TierName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PersonID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

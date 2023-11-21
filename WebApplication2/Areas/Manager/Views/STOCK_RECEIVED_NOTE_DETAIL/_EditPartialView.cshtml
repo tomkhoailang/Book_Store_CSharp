@@ -1,0 +1,72 @@
+﻿@model WebApplication2.Models.STOCK_RECEIVED_NOTE_DETAIL
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>STOCK_RECEIVED_NOTE_DETAIL</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoteDetailQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoteDetailQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoteDetailQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoteDetailPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NoteDetailPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NoteDetailPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.EditionID)
+
+        @Html.HiddenFor(model => model.StockReceivedNoteID)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<button type="button" class="btn btn-primary" onclick="loadController(@Model.NoteDetailID)">Xoa</button>
+
+<script>
+
+    function loadController(id) {
+        var userResponse = confirm("Ban sure chua?");
+        if (userResponse == true) {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                url: '/Manager/STOCK_RECEIVED_NOTE_DETAIL/Delete',
+                data: { id: id, __RequestVerificationToken: token },
+                type: 'POST',
+                success: function (data) {
+                    if (data.redirectToAction) {
+                        window.location.href = data.actionUrl;
+                    }
+                }
+            });
+        }
+
+    }
+
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -6,6 +6,16 @@
 }
 @{
     int editionPrice = Convert.ToInt32(Model.EditionPrice);
+
+    var selectList = ViewBag.BookCollectionID;
+    foreach (SelectListItem item in selectList)
+    {
+        if (item.Value == Model.BookCollectionID.ToString())
+        {
+            item.Selected = true;
+            break;
+        }
+    }
 }
 
 <h2>Edit</h2>
@@ -48,7 +58,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EditionPageCount, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionPageCount, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.EditorFor(model => model.EditionPageCount, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EditionPageCount, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -72,8 +82,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BookCollectionID, "BookCollectionID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("BookCollectionID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BookCollectionID, "", new { @class = "text-danger" })
+                <select name="BookCollectionID" class="form-control">
+                    @foreach (var item in selectList)
+                    {
+                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                    }
+                </select>
             </div>
         </div>
         @if (ViewBag.CategoryList.Count > 0)
@@ -82,7 +96,7 @@
                 <div>Category</div>
                 @foreach (var c in ViewBag.CategoryList)
                 {
-                    if (ViewBag.SelectedCategoryList != null  && ViewBag.SelectedCategoryList.Contains(c.CategoryID.ToString()))
+                    if (ViewBag.SelectedCategoryList != null && ViewBag.SelectedCategoryList.Contains(c.CategoryID.ToString()))
                     {
                         <input checked="checked" type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" />
                         <label for="@c.CategoryID">@c.CategoryName.</label>
@@ -129,6 +143,7 @@
 
 
     document.getElementById('imageUpload').addEventListener('change', function () {
+        console.log("hehe")
         var preview = document.getElementById('preview');
         preview.innerHTML = '';
         var files = this.files;

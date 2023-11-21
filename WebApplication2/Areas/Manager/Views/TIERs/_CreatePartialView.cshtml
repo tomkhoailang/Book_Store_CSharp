@@ -1,0 +1,69 @@
+﻿@model WebApplication2.Models.TIER
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Thêm mới</h2>
+
+
+@using (Html.BeginForm("Create", "TIERs", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>Thông tin hạng</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.TierName, htmlAttributes: new { @class = "control-label" })
+        <div id="createDuplicate" class="col-md-10">
+            @Html.EditorFor(model => model.TierName, new { htmlAttributes = new { @class = "form-control", @onchange="handleDuplicate()" , @required = "required" } })
+            @Html.ValidationMessageFor(model => model.TierName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TierDiscount, htmlAttributes: new { @class = "control-label " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TierDiscount, new { htmlAttributes = new { @class = "form-control" , @required = "required" } })
+            @Html.ValidationMessageFor(model => model.TierDiscount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TierLevel, htmlAttributes: new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TierLevel, new { htmlAttributes = new { @class = "form-control" , @required = "required" } })
+            @Html.ValidationMessageFor(model => model.TierLevel, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="createButton" type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div id="create-error-message">
+        </div>
+    </div>
+</div>
+}
+<script>
+    function handleDuplicate() {
+        var tierName = $('#createDuplicate').find('#TierName').val();
+        var listOfName = @Html.Raw(Json.Encode(ViewBag.usedName));
+
+        if (listOfName != null && listOfName.includes(tierName)) {
+            $('#create-error-message').html('<p style="color:red">Tên hạng bị trùng</p>')
+            $('#createButton').prop('disabled', true);
+        } else {
+            $('#create-error-message').html('')
+            $('#createButton').prop('disabled', false);
+        }
+    }
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

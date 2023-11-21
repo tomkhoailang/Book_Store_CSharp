@@ -57,6 +57,8 @@
     <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="MANAGERs" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="AspNetUsers" ToRole="MANAGER" />
+    <NavigationProperty Name="People" Relationship="Self.FK_Person_AspNetUsers" FromRole="AspNetUsers" ToRole="Person" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
   </EntityType>
   <EntityType Name="BANK_ACCOUNT">
@@ -176,6 +178,7 @@
     </Key>
     <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="MANAGER" ToRole="AspNetUsers" />
     <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__5FB337D6" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__656C112C" FromRole="MANAGER" ToRole="BOOK_EDITION" />
     <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__571DF1D5" FromRole="MANAGER" ToRole="CATEGORY" />
@@ -190,12 +193,13 @@
       <PropertyRef Name="PersonID" />
     </Key>
     <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="PersonAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="PersonStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PersonStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="TierID" Type="Int32" Nullable="false" />
+    <Property Name="TierID" Type="Int32" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Person_AspNetUsers" FromRole="Person" ToRole="AspNetUsers" />
     <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__4F7CD00D" FromRole="Person" ToRole="BANK_ACCOUNT" />
     <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Custo__0B91BA14" FromRole="Person" ToRole="BOOK_REVIEW" />
     <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Custo__1AD3FDA4" FromRole="Person" ToRole="CUSTOMER_ORDER" />
@@ -216,7 +220,6 @@
     <Property Name="PromotionDiscount" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
     <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="PromotionIsValid" Type="Boolean" Nullable="false" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />
     <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="PROMOTION" ToRole="MANAGER" />
@@ -342,6 +345,30 @@
       </Principal>
       <Dependent Role="AspNetUserLogins">
         <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MANAGER_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MANAGER">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Person_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="AccountID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -622,7 +649,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Person__TierID__44FF419A">
-    <End Role="TIER" Type="Self.TIER" Multiplicity="1" />
+    <End Role="TIER" Type="Self.TIER" Multiplicity="0..1" />
     <End Role="Person" Type="Self.Person" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TIER">
@@ -741,6 +768,14 @@
     <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Person" EntitySet="People" />
     </AssociationSet>
     <AssociationSet Name="FK__BANK_ACCO__Custo__4F7CD00D" Association="Self.FK__BANK_ACCO__Custo__4F7CD00D">
       <End Role="Person" EntitySet="People" />
@@ -874,5 +909,37 @@
       <End Role="Person" EntitySet="People" />
       <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
     </AssociationSet>
+    <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
+      <Parameter Name="editionID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Inital_Manager">
+      <Parameter Name="AccountID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Inital_Person">
+      <Parameter Name="AccountID" Mode="In" Type="String" />
+      <Parameter Name="ManagerID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="V_UserRole" EntityType="BookStoreManagerModel.V_UserRole" />
   </EntityContainer>
+  <ComplexType Name="Sp_check_valid_promotion_Result">
+    <Property Type="Int32" Name="PromotionID" Nullable="false" />
+    <Property Type="String" Name="PromotionName" Nullable="false" MaxLength="200" />
+    <Property Type="Decimal" Name="PromotionDiscount" Nullable="false" Precision="4" Scale="2" />
+    <Property Type="DateTime" Name="PromotionStartDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="PromotionEndDate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="ManagerID" Nullable="false" />
+    <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
+  </ComplexType>
+  <EntityType Name="V_UserRole">
+    <Key>
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="PersonID" />
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

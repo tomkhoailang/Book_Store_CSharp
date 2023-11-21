@@ -1,0 +1,51 @@
+﻿@model WebApplication2.Models.TIER
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TIER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TierDiscount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TierDiscount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TierLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TierLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MANAGER.AccountID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MANAGER.AccountID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TierID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

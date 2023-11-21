@@ -1,0 +1,51 @@
+﻿@model WebApplication2.Models.PROMOTION
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PROMOTION</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PromotionName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromotionName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PromotionDiscount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromotionDiscount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PromotionStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromotionStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PromotionEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PromotionEndDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PromotionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

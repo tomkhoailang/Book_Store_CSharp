@@ -1,0 +1,57 @@
+﻿@model WebApplication2.Models.BOOK_COLLECTION
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Thêm mới</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Thông tin bộ sưu tập</h4>
+    <hr />
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookCollectionName, htmlAttributes: new { @class = "control-label  col-md-10" })
+        <div id="createDuplicate" class="col-md-10">
+            @Html.EditorFor(model => model.BookCollectionName, new { htmlAttributes = new { @class = "form-control" , @onchange = "handleDuplicate()" , @required = "required" } })
+            @Html.ValidationMessageFor(model => model.BookCollectionName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="createButton" type="submit" value="Tạo mới" class="btn btn-default" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div id="create-error-message">
+        </div>
+    </div>
+
+</div>
+}
+
+<script>
+    function handleDuplicate() {
+        var bookCollectionName = $('#createDuplicate').find('#BookCollectionName').val();
+        var listOfName = @Html.Raw(Json.Encode(ViewBag.usedName));
+        if (listOfName != null && listOfName.includes(bookCollectionName)) {
+            $('#create-error-message').html('<p style="color:red">Tên danh mục bị trùng</p>')
+            $('#createButton').prop('disabled', true);
+        } else {
+            $('#create-error-message').html('')
+            $('#createButton').prop('disabled', false);
+        }
+    }
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

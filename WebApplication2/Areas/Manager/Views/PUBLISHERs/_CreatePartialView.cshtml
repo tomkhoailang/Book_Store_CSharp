@@ -1,0 +1,83 @@
+﻿@model WebApplication2.Models.PUBLISHER
+@{
+    ViewBag.Title = "Add";
+}
+
+
+<h2>Thêm mới</h2>
+
+@using (Html.BeginForm("Create", "Publishers", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Thông tin nhà xuất bản</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublisherName, new { @class = "control-label" })
+        <div id="createDuplicate" class="col-md-10">
+            @Html.TextBoxFor(m => m.PublisherName, new { @class = "form-control", @onchange = "handleDuplicateCreate()" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PublisherDescription, new { @class = "control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PublisherDescription, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Ảnh của nhà xuất bản: </label>
+        <input type="file" id="publisherImg" name="publisherImg" accept="image/*" />
+    </div>
+
+    <div class="form-group">
+        <div id="preview"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id ="createButton" type="submit" value="Thêm" class="btn btn-default" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div id="create-error-message">
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    document.getElementById('publisherImg').addEventListener('change', function () {
+        var preview = document.getElementById('preview');
+        preview.innerHTML = '';
+        var files = this.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+            reader.onload = function () {
+                var img = document.createElement('img');
+                img.src = this.result;
+                img.style.width = '50%';
+                img.style.height = '50%';
+                preview.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+<script>
+    function handleDuplicateCreate() {
+        var publisherName = $('#createDuplicate').find('#PublisherName').val();
+        var listOfName = @Html.Raw(Json.Encode(ViewBag.usedName));
+
+
+        if (listOfName != null && listOfName.includes(publisherName)) {
+            $('#create-error-message').html('<p style="color:red">Tên nhà xuất bản bị trùng</p>')
+            $('#createButton').prop('disabled', true);
+        } else {
+            $('#create-error-message').html('')
+            $('#createButton').prop('disabled', false);
+        }
+    }
+</script>

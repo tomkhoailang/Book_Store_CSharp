@@ -17,19 +17,28 @@ CREATE TABLE TIER(
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )
 
+
 CREATE TABLE Person(
 	PersonID INT PRIMARY KEY IDENTITY(1,1),
-	PersonName NVARCHAR(50) NOT NULL,
+	PersonName NVARCHAR(50),
 	PersonAddress NVARCHAR(100),
-	PersonStatus NVARCHAR(50) DEFAULT 'ACTIVE',
+	PersonStatus NVARCHAR(50) NOT NULL DEFAULT 'ACTIVE',
 		CONSTRAINT CHK_PersonStatus
 		CHECK(PersonStatus IN('ACTIVE', 'LOCKED')),
-	AccountID nvarchar(128) UNIQUE,
-	TierID INT not null,
+	AccountID nvarchar(128) UNIQUE ,
+	TierID INT,
 	FOREIGN KEY (TierID) REFERENCES TIER(TierID),
 	ManagerID INT not null,
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )
+--alter table Person alter column TierID INT 
+--alter table Person alter column PersonName NVARCHAR(50)
+--alter table Person alter column PersonAddress NVARCHAR(100)
+--alter table Person alter column PersonStatus NVARCHAR(50) not null
+
+
+
+
 
 CREATE TABLE WALLET(
 	WalletID INT PRIMARY KEY IDENTITY(1,1),
@@ -71,7 +80,6 @@ CREATE TABLE PROMOTION(
 	PromotionDiscount DECIMAL(4,2) NOT NULL,
 	PromotionStartDate DATETIME DEFAULT GETDATE() NOT NULL,
 	PromotionEndDate DATETIME DEFAULT DATEADD(DAY,14,GETDATE()) NOT NULL,
-	PromotionIsValid bit default 0 NOT NULL,
 	ManagerID INT not null,
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )

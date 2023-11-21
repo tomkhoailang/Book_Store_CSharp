@@ -209,7 +209,6 @@ D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\M
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.OAuth.xml
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.AssemblyReference.cache
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
@@ -430,3 +429,4 @@ F:\GitClone\BTL_WEB(2023)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplica
 F:\GitClone\BTL_WEB(2023)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 F:\GitClone\BTL_WEB(2023)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
 F:\GitClone\BTL_WEB(2023)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.pdb
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.AssemblyReference.cache

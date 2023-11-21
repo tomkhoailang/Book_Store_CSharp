@@ -1,0 +1,81 @@
+﻿@model IEnumerable<WebApplication2.Models.ManageUserViewModelItem>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.PersonName)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.PersonAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.PersonStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person.TIER.TierName)
+        </th>
+        <th>
+            Role
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.PersonName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.PersonAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.PersonStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.AspNetUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.TIER.TierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountType)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Person.PersonID }) |
+
+                @using (Html.BeginForm("ChangeUserStatus", "User", FormMethod.Post))
+                {
+                    if (item.Person.PersonStatus == "ACTIVE")
+                    {
+                        @Html.Hidden("id", item.Person.PersonID)
+                        <button type="submit">Lock</button>
+                    }
+                    else
+                    {
+                        @Html.Hidden("id", item.Person.PersonID)
+                        <button type="submit">Active</button>
+                    }
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

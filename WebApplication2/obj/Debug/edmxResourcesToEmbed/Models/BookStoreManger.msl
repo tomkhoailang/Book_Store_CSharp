@@ -177,7 +177,6 @@
           <ScalarProperty Name="PromotionDiscount" ColumnName="PromotionDiscount" />
           <ScalarProperty Name="PromotionStartDate" ColumnName="PromotionStartDate" />
           <ScalarProperty Name="PromotionEndDate" ColumnName="PromotionEndDate" />
-          <ScalarProperty Name="PromotionIsValid" ColumnName="PromotionIsValid" />
           <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
           <ScalarProperty Name="PromotionDetails" ColumnName="PromotionDetails" />
         </MappingFragment>
@@ -316,5 +315,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
   </EntityContainerMapping>
 </Mapping>

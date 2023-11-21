@@ -181,11 +181,11 @@
       <PropertyRef Name="PersonID" />
     </Key>
     <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PersonName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PersonName" Type="nvarchar" MaxLength="50" />
     <Property Name="PersonAddress" Type="nvarchar" MaxLength="100" />
-    <Property Name="PersonStatus" Type="nvarchar" MaxLength="50" />
+    <Property Name="PersonStatus" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="AccountID" Type="nvarchar" MaxLength="128" />
-    <Property Name="TierID" Type="int" Nullable="false" />
+    <Property Name="TierID" Type="int" />
     <Property Name="ManagerID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PROMOTION">
@@ -197,7 +197,6 @@
     <Property Name="PromotionDiscount" Type="decimal" Precision="4" Scale="2" Nullable="false" />
     <Property Name="PromotionStartDate" Type="datetime" Nullable="false" />
     <Property Name="PromotionEndDate" Type="datetime" Nullable="false" />
-    <Property Name="PromotionIsValid" Type="bit" Nullable="false" />
     <Property Name="ManagerID" Type="int" Nullable="false" />
     <Property Name="PromotionDetails" Type="text" />
   </EntityType>
@@ -278,6 +277,20 @@
     <Property Name="WalletID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CustomerID" Type="int" Nullable="false" />
     <Property Name="Balance" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="PersonID" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK__BANK_ACCO__Custo__4F7CD00D">
     <End Role="Person" Type="Self.Person" Multiplicity="1" />
@@ -520,7 +533,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Person__TierID__44FF419A">
-    <End Role="TIER" Type="Self.TIER" Multiplicity="1" />
+    <End Role="TIER" Type="Self.TIER" Multiplicity="0..1" />
     <End Role="Person" Type="Self.Person" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TIER">
@@ -755,6 +768,40 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_MANAGER_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MANAGER">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Person_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="editionID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SP_Inital_Person" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
+    <Parameter Name="ManagerID" Type="int" Mode="In" />
+  </Function>
   <EntityContainer Name="BookStoreManagerModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -784,6 +831,14 @@
     <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_UserRole].[Id] AS [Id], 
+    [V_UserRole].[Name] AS [Name], 
+    [V_UserRole].[UserId] AS [UserId], 
+    [V_UserRole].[PersonID] AS [PersonID]
+    FROM [dbo].[V_UserRole] AS [V_UserRole]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK__BANK_ACCO__Custo__4F7CD00D" Association="Self.FK__BANK_ACCO__Custo__4F7CD00D">
       <End Role="Person" EntitySet="Person" />
       <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
@@ -939,6 +994,14 @@
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="MANAGER" EntitySet="MANAGER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Person" EntitySet="Person" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

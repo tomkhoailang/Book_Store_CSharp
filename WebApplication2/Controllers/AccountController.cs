@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -18,12 +19,13 @@ namespace WebApplication2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -35,9 +37,9 @@ namespace WebApplication2.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -80,6 +82,10 @@ namespace WebApplication2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (((db.AspNetRoles.FirstOrDefault(a => a.Id == "1").AspNetUsers).ToList())[0].Email == model.Email)
+                    {
+                        return RedirectToAction("Index", "User", new { area = "Manager" });
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -121,7 +127,7 @@ namespace WebApplication2.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -140,8 +146,14 @@ namespace WebApplication2.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            // note: User.Identity.IsAuthenticated && User.IsInRole("Manager") later
+            //if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+            //{
+            //    ViewBag.AccountType = new SelectList(db.AspNetRoles, "Id", "Name");
+            //}
             return View();
         }
+
 
         //
         // POST: /Account/Register
@@ -156,23 +168,41 @@ namespace WebApplication2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
-                    using (var dbContext = new BookStoreManagerEntities())
+                    string role = "";
+                    switch (model.AccountType)
                     {
-                        //using this to create the admin first
-                        dbContext.sp_Inital_Manager(user.Id);
-                        //then run the below section to create customer
-
-                        //await dbContext.Database.ExecuteSqlCommandAsync("EXEC SP_Inital_Customer @AccountID", new SqlParameter("@AccountID", user.Id));
+                        case 2:
+                            role = "Staff";
+                            break;
+                        case 3:
+                            role = "Shipper";
+                            break;
+                        case 4:
+                            role = "Customer";
+                            break;
+                        default:
+                            role = "Customer";
+                            break;
                     }
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await UserManager.AddToRoleAsync(user.Id, role);
+
+                    //create shipper, staff, customer
+                    db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
+                    //uncomment this to create manager (only 1 manager is allowed)
+                    //db.sp_Inital_Manager(user.Id);
+
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+                    {
+                        return RedirectToAction("Index", "User", new { area = "Manager" });
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

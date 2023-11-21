@@ -1,0 +1,87 @@
+﻿@model WebApplication2.Models.CATEGORY
+
+
+<h2>Chỉnh sửa</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Thông tin danh mục</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.CategoryID)
+
+
+    <div  class="form-group">
+        @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-10 " })
+        <div id="editDuplicate" class="col-md-10">
+            @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", @required = "required", @onchange = "handleDuplicate()" } })
+            @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CategoryDescription, htmlAttributes: new { @class = "control-label col-md-10  " })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CategoryDescription, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.CategoryDescription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="editButton" type="submit" value="Lưu" class="btn btn-default" />
+            <button type="button" class="btn btn-primary" onclick="loadController(@Model.CategoryID)">Xóa</button>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div id="edit-error-message">
+        </div>
+    </div>
+</div>
+}
+
+
+
+<script>
+    function loadController(id) {
+        var userResponse = confirm("Bạn có chắc muốn xóa danh mục này ?");
+        if (userResponse == true) {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                url: '/Manager/CATEGORies/Delete',
+                data: { id: id, __RequestVerificationToken: token },
+                type: 'POST',
+                success: function (data) {
+                    if (data.redirectToAction) {
+                        window.location.href = data.actionUrl;
+                    } else {
+                        $(".error-message").html(data);
+                    }
+                }
+            });
+        }
+
+    }
+
+</script>
+<script>
+    function handleDuplicate() {
+        var categoryName = $('#editDuplicate').find('#CategoryName').val();
+        var listOfName = @Html.Raw(Json.Encode(ViewBag.usedName));
+        if (listOfName != null && listOfName.includes(categoryName)) {
+            $('#edit-error-message').html('<p style="color:red">Tên danh mục bị trùng</p>')
+            $('#editButton').prop('disabled', true);
+        } else {
+            $('#edit-error-message').html('')
+            $('#editButton').prop('disabled', false);
+        }
+    }
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
