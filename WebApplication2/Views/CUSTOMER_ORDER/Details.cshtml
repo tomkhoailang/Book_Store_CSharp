@@ -1,0 +1,83 @@
+﻿@model WebApplication2.Models.CUSTOMER_ORDER
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CUSTOMER_ORDER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderTotalPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderTotalPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderShippingMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderShippingMethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderPaymentMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderPaymentMethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person1.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person1.PersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person2.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person2.PersonName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.OrderID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

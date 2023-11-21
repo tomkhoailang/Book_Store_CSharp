@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8bdd7b1df756405a8036c97c6b240e07" Name="Diagram1">
+        <EntityTypeShape EntityType="BookStoreManagerModel1.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.AspNetRole" Width="1.5" PointX="0.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.AspNetUser" Width="1.5" PointX="3" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.BANK_ACCOUNT" Width="1.5" PointX="12" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.BOOK_COLLECTION" Width="1.5" PointX="7.5" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.BOOK_EDITION" Width="1.5" PointX="9.75" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.BOOK_EDITION_IMAGE" Width="1.5" PointX="12" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.BOOK_REVIEW" Width="1.5" PointX="15" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.CATEGORY" Width="1.5" PointX="7.5" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.CUSTOMER_ORDER" Width="1.5" PointX="12" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.CUSTOMER_ORDER_DETAIL" Width="1.5" PointX="15.25" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.MANAGER" Width="1.5" PointX="5.25" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.Person" Width="1.5" PointX="9.75" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.PROMOTION" Width="1.5" PointX="15" PointY="23.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.PUBLISHER" Width="1.5" PointX="7.5" PointY="37.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.SHIP_CONFIRMATION" Width="1.5" PointX="17.25" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.STOCK_INVENTORY" Width="1.5" PointX="12" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.STOCK_RECEIVED_NOTE" Width="1.5" PointX="12.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.STOCK_RECEIVED_NOTE_DETAIL" Width="1.5" PointX="18" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.TIER" Width="1.5" PointX="7.5" PointY="41" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.TRANSACTION_DETAILS" Width="1.5" PointX="14.25" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel1.WALLET" Width="1.5" PointX="12" PointY="43.75" IsExpanded="true" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK_MANAGER_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK_Person_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BANK_ACCO__Custo__5EBF139D" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__TRANSACTI__BankA__367C1819" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BOOK_COLL__Manag__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BOOK_EDIT__BookC__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BOOK_EDIT__Editi__1EA48E88" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BOOK_EDIT__Manag__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BOOK_REVI__Editi__19DFD96B" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__CUSTOMER___Editi__2FCF1A8A" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__STOCK_INV__Editi__151B244E" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__STOCK_REC__Editi__0C85DE4D" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__BOOK_REVI__Custo__1AD3FDA4" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__CATEGORY__Manage__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__CUSTOMER___Custo__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__CUSTOMER___Order__30C33EC3" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__CUSTOMER___Shipp__2B0A656D" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__CUSTOMER___Staff__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__SHIP_CONF__Order__3D2915A8" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__TRANSACTI__Order__37703C52" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__Person__ManagerI__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__PROMOTION__Manag__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__PUBLISHER__Manag__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__STOCK_REC__Manag__05D8E0BE" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__TIER__ManagerID__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__Person__TierID__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__SHIP_CONF__Shipp__3E1D39E1" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__WALLET__Customer__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__STOCK_REC__Publi__04E4BC85" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__STOCK_REC__Stock__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.FK__TRANSACTI__Walle__3587F3E0" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.BOOK_CATEGORY" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.BOOK_PROMOTION" ManuallyRouted="false" />
+        <AssociationConnector Association="BookStoreManagerModel1.MARKED_BOOK" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
