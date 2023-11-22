@@ -1,7 +1,18 @@
 use BookStoreManager;
 --tier
 insert into TIER values('S',20,1,1)
+
 select * from tier
+--order_status
+insert into ORDER_STATUS values ('INITIAL'),
+('WAITING'),
+('CANCEL BY CUSTOMER'),
+('PROCESSING'),
+('IS AVAILABLE AT STORE'),
+('DELIVERING'),
+('SUCCESS'),
+('CANCEL BECAUSE OF MANY FAILED DELIVERING')
+
 --person
 insert into Person values('Duy', 'aaaa', 'ACTIVE', '45dfe5a4-58c1-4751-9aa0-c87b9dcf7b66', 2, 1)
 select * from Person
@@ -49,7 +60,17 @@ select * from STOCK_INVENTORY
 update STOCK_INVENTORY set InventoryStockOutTotal = 99 where EditionID = 6
 --cústom-order-detail
 insert into CUSTOMER_ORDER_DETAIL(DetailCurrentPrice,DetailQuantity,OrderID,EditionID) values(10000,2,1,4)
+
 select * from AspNetUsers
 select * from CUSTOMER_ORDER
 select * from CUSTOMER_ORDER_DETAIL
+
 delete from CUSTOMER_ORDER_DETAIL
+delete from CUSTOMER_ORDER
+
+drop table CUSTOMER_ORDER_DETAIL
+drop table CUSTOMER_ORDER
+drop table TRANSACTION_DETAILS
+drop table SHIP_CONFIRMATION
+drop table CUSTOMER_ORDER_STATUS
+drop table ORDER_STATUS

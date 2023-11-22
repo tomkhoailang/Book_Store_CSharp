@@ -12,20 +12,18 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BOOK_COLLECTION
+    public partial class ORDER_STATUS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public BOOK_COLLECTION()
+        public ORDER_STATUS()
         {
-            this.BOOK_EDITION = new HashSet<BOOK_EDITION>();
+            this.CUSTOMER_ORDER_STATUS = new HashSet<CUSTOMER_ORDER_STATUS>();
         }
     
-        public int BookCollectionID { get; set; }
-        public string BookCollectionName { get; set; }
-        public int ManagerID { get; set; }
+        public int StatusID { get; set; }
+        public string OrderStatus { get; set; }
     
-        public virtual MANAGER MANAGER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BOOK_EDITION> BOOK_EDITION { get; set; }
+        public virtual ICollection<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
     }
 }

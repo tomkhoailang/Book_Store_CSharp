@@ -1,17 +1,24 @@
-
+use BookStoreManager;
+--DANG CHINH, DUNG VO T DAM =))
 go
-CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_ORDER ON CUSTOMER_ORDER FOR INSERT, UPDATE, DELETE AS
+CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_ORDER ON CUSTOMER_ORDER FOR INSERT, UPDATE AS
 BEGIN
 	declare @customerID int;
 	declare @OrderPaymentMethod NVARCHAR(50);
 	declare @TotalPrice DECIMAL(12,2);
 	declare @OrderStatus NVARCHAR(50);
+	declare @OrderID int;
 
-	select @customerID = i.CustomerID, 
+	select	@OrderID = i.OrderID,
+			@customerID = i.CustomerID, 
 			@OrderPaymentMethod = i.OrderPaymentMethod, 
 			@TotalPrice = i.OrderTotalPrice, 
 			@OrderStatus = i.OrderStatus from inserted i;
+	
+	if (select count(*) from deleted) == 0
+	begin
 
+	end
 	if @OrderPaymentMethod in ('CURRENT BALANCE') and @OrderStatus in ('INITIAL')
 	begin
 		declare @oldPrice decimal(12,2) = 0;
@@ -24,7 +31,6 @@ BEGIN
 	end
 END
 
-drop TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_ORDER
 --trigger to check if book is in stock when adding
 --note when the user taps on proceed to payment, a order will be created and each book from card will be added to this order
 GO
@@ -122,3 +128,9 @@ END
 select * from CUSTOMER_ORDER_DETAIL
 select * from CUSTOMER_ORDER
 select * from STOCK_INVENTORY
+
+drop TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_ORDER
+drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
+drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
+drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
+drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK
