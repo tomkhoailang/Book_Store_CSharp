@@ -52,6 +52,9 @@ namespace WebApplication2.Models
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
+        public virtual DbSet<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
+        public virtual DbSet<ORDER_STATUS> ORDER_STATUS { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {

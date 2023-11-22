@@ -67,6 +67,11 @@
         <AssociationConnector Association="BookStoreManagerModel.BOOK_PROMOTION" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.MARKED_BOOK" ManuallyRouted="false" />
         <EntityTypeShape EntityType="BookStoreManagerModel.V_UserRole" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER_STATUS" Width="1.5" PointX="14.625" PointY="40" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.ORDER_STATUS" Width="1.5" PointX="12.375" PointY="47.25" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.sysdiagram" Width="1.5" PointX="0.75" PointY="3.75" />
+        <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Order__16CE6296" />
+        <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Statu__17C286CF" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

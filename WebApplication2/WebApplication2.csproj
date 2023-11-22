@@ -249,6 +249,9 @@
     <Compile Include="Models\CUSTOMER_ORDER_DETAIL.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CUSTOMER_ORDER_STATUS.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -257,6 +260,10 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ManageUserViewModel.cs" />
+    <Compile Include="Models\ORDER_STATUS.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Person.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -281,13 +288,15 @@
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TIER.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSACTION_DETAILS.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ManageUserViewModel.cs" />
     <Compile Include="Models\V_UserRole.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -5218,6 +5227,7 @@
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
       <LastGenOutput>BookStoreManager.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\BookStoreManager.edmx.sql" />
     <Content Include="Models\BookStoreManager.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BookStoreManager.edmx</DependentUpon>

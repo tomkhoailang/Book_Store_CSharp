@@ -12,13 +12,14 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class STOCK_INVENTORY
+    public partial class CUSTOMER_ORDER_STATUS
     {
-        public int InventoryStockInTotal { get; set; }
-        public int InventoryStockOutTotal { get; set; }
-        public int InventoryAvailableStock { get; set; }
-        public int EditionID { get; set; }
+        public int OrderStatusID { get; set; }
+        public int OrderID { get; set; }
+        public int StatusID { get; set; }
+        public System.DateTime UpdateTime { get; set; }
     
-        public virtual BOOK_EDITION BOOK_EDITION { get; set; }
+        public virtual CUSTOMER_ORDER CUSTOMER_ORDER { get; set; }
+        public virtual ORDER_STATUS ORDER_STATUS { get; set; }
     }
 }
