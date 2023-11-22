@@ -1,0 +1,51 @@
+﻿@model WebApplication2.Models.BANK_ACCOUNT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BANK_ACCOUNT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAccountNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAccountNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAccountName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAccountName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCVC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCVC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.PersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.PersonName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BankAccountID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
