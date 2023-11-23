@@ -93,7 +93,7 @@
     </Key>
     <Property Name="EditionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EditionPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
-    <Property Name="EditionDescription" Type="nvarchar" MaxLength="500" />
+    <Property Name="EditionDescription" Type="text" />
     <Property Name="EditionYear" Type="nvarchar" MaxLength="4" Nullable="false" />
     <Property Name="EditionPageCount" Type="int" />
     <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />

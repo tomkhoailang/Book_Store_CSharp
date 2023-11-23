@@ -536,3 +536,4 @@ C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\W
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.pdb
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.AssemblyReference.cache

@@ -89,7 +89,7 @@
     </Key>
     <Property Name="EditionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="EditionPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
-    <Property Name="EditionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="EditionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="EditionYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="EditionPageCount" Type="Int32" />
     <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
