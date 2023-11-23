@@ -1,5 +1,8 @@
 use BookStoreManager;
---DANG CHINH, DUNG VO T DAM =))
+--TR_HANDLE_CUSTOMER_ORDER dung de tinh tien dang bi loi, dung co chay
+--su dung exec SP_CREATE_CUSTOMER_ORDER_STATUS @OrderID, @StatusID de tao CUSTOMER_ORDER_STATUS
+--May cai lien quan den OrderStatus vui long xem db5, thac mac thi hoi, minh seen chu ko rep =))
+
 go
 CREATE or alter TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER ON CUSTOMER_ORDER FOR INSERT, update AS
 BEGIN
@@ -25,7 +28,7 @@ END
 
 --
 GO
-CREATE TRIGGER TR_UPDATE_STOCK_WITH_INSERT ON CUSTOMER_ORDER_STATUS FOR INSERT AS
+CREATE or alter TRIGGER TR_UPDATE_STOCK_WITH_INSERT ON CUSTOMER_ORDER_STATUS FOR INSERT AS
 BEGIN
 	DECLARE @orderID int = 0;
 	DECLARE @statusID int = 0;
@@ -57,17 +60,18 @@ BEGIN
 				end
 				else
 				begin
-				if @statusID = 4 -- proccessing
-				begin
-					update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal + @orderQuantity 
-					where EditionID = @editionID
+					if @statusID = 4 -- proccessing
+					begin
+						update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal + @orderQuantity 
+						where EditionID = @editionID
+					end
+					else if @statusID = 8 -- cancel by failed delivering
+					begin
+						update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal - @orderQuantity 
+						where EditionID = @editionID
+					end
 				end
-				else if @statusID = 8 -- cancel by failed delivering
-				begin
-					update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal - @orderQuantity 
-					where EditionID = @editionID
-				end
-				end
+				FETCH NEXT FROM @MyCursor INTO @editionID, @orderQuantity, @currentAvailableStock
 			END; 
 
 			CLOSE @MyCursor ;
@@ -132,7 +136,6 @@ BEGIN
 
 END
 
-exec SP_CREATE_CUSTOMER_ORDER_STATUS 20,2
 -- CUSTOMER_ORDER TABLE
 
 -- trigger to calculate OrderTotalPrice from  DetailCurrentPrice and  DetailQuantity
@@ -153,8 +156,10 @@ end
 
 
 select * from CUSTOMER_ORDER_DETAIL
+select * from CUSTOMER_ORDER_STATUS
 select * from CUSTOMER_ORDER
 select * from STOCK_INVENTORY
+exec SP_CREATE_CUSTOMER_ORDER_STATUS 22,4
 
 DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
 drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
