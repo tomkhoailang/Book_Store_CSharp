@@ -180,22 +180,17 @@
     <Compile Include="Areas\Manager\Controllers\UserController.cs" />
     <Compile Include="Areas\Manager\ManagerAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\BANK_ACCOUNTController.cs" />
-    <Compile Include="Controllers\BookCartController.cs" />
     <Compile Include="Controllers\BOOK_COLLECTIONController.cs" />
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
     <Compile Include="Controllers\CATEGORiesController.cs" />
-    <Compile Include="Controllers\CUSTOMER_ORDERController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PROMOTIONsController.cs" />
     <Compile Include="Areas\Manager\Controllers\PUBLISHERsController.cs" />
     <Compile Include="Controllers\STOCK_INVENTORYController.cs" />
     <Compile Include="Controllers\STOCK_RECEIVED_NOTEController.cs" />
     <Compile Include="Controllers\STOCK_RECEIVED_NOTE_DETAILController.cs" />
     <Compile Include="Controllers\TIERsController.cs" />
-    <Compile Include="Controllers\TRANSACTION_DETAILSController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Custom\Custom_Function.cs" />
     <Compile Include="Custom\Custom_Class.cs" />
@@ -204,19 +199,19 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BANK_ACCOUNT.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BookStoreManager.Context.cs">
       <AutoGen>True</AutoGen>
@@ -233,95 +228,86 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\BookStoreModel.Context.cs" />
-    <Compile Include="Models\BookStoreModel.Context1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStoreModel.cs" />
-    <Compile Include="Models\BookStoreModel.Designer.cs">
-      <DependentUpon>BookStoreModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStoreModel1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStoreModel1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\BOOK_COLLECTION.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_EDITION.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_EDITION_IMAGE.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_REVIEW.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CartModels.cs" />
     <Compile Include="Models\CATEGORY.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CUSTOMER_ORDER.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CUSTOMER_ORDER_DETAIL.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CUSTOMER_ORDER_STATUS.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MANAGER.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ManageUserViewModel.cs" />
+    <Compile Include="Models\ORDER_STATUS.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Person.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROMOTION.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PUBLISHER.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SHIP_CONFIRMATION.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_Inital_Person_Result.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\STOCK_INVENTORY.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIER.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSACTION_DETAILS.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ManageUserViewModel.cs" />
+    <Compile Include="Models\V_CustomerSpending.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_UserRole.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WALLET.cs">
-      <DependentUpon>BookStoreModel.tt</DependentUpon>
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -5252,14 +5238,6 @@
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
       <LastGenOutput>BookStoreManager.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookStoreModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BookStoreModel.Context1.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\BookStoreModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>BookStoreModel1.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
@@ -5324,13 +5302,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="libs\owlcarousel\LICENSE" />
-    <EntityDeploy Include="Models\BookStoreManager.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BookStoreManager.edmx.diagram">
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Manager\Views\web.config" />
     <Content Include="Areas\Manager\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Manager\Views\User\Index.cshtml" />
@@ -5643,12 +5614,12 @@
     <Content Include="Areas\Manager\Views\BOOK_EDITION\Details.cshtml" />
     <Content Include="Areas\Manager\Views\BOOK_EDITION\_EditPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\BOOK_EDITION\Index.cshtml" />
-    <EntityDeploy Include="Models\BookStoreModel.edmx">
+    <EntityDeploy Include="Models\BookStoreManager.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreModel1.Designer.cs</LastGenOutput>
+      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BookStoreModel.edmx.diagram">
-      <DependentUpon>BookStoreModel.edmx</DependentUpon>
+    <Content Include="Models\BookStoreManager.edmx.diagram">
+      <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="Views\CATEGORies\Create.cshtml" />

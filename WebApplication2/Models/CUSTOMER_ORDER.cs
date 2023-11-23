@@ -17,10 +17,10 @@ namespace WebApplication2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CUSTOMER_ORDER()
         {
+            this.CUSTOMER_ORDER_STATUS = new HashSet<CUSTOMER_ORDER_STATUS>();
             this.CUSTOMER_ORDER_DETAIL = new HashSet<CUSTOMER_ORDER_DETAIL>();
             this.SHIP_CONFIRMATION = new HashSet<SHIP_CONFIRMATION>();
             this.TRANSACTION_DETAILS = new HashSet<TRANSACTION_DETAILS>();
-            this.CUSTOMER_ORDER_STATUS = new HashSet<CUSTOMER_ORDER_STATUS>();
         }
     
         public int OrderID { get; set; }
@@ -34,6 +34,8 @@ namespace WebApplication2.Models
     
         public virtual Person Person { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CUSTOMER_ORDER_DETAIL> CUSTOMER_ORDER_DETAIL { get; set; }
         public virtual Person Person1 { get; set; }
         public virtual Person Person2 { get; set; }
@@ -41,7 +43,5 @@ namespace WebApplication2.Models
         public virtual ICollection<SHIP_CONFIRMATION> SHIP_CONFIRMATION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
     }
 }

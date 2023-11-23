@@ -4,6 +4,16 @@ ALTER TABLE Person ADD CONSTRAINT FK_Person_AspNetUsers FOREIGN KEY (AccountID) 
 ALTER TABLE MANAGER ADD CONSTRAINT FK_MANAGER_AspNetUsers FOREIGN KEY (AccountID) REFERENCES AspNetUsers(Id)
 
 
+--set up order status
+insert into ORDER_STATUS values ('INITIAL'),
+('WAITING'),
+('CANCEL BY CUSTOMER'),
+('PROCESSING'),
+('IS AVAILABLE AT STORE'),
+('DELIVERING'),
+('SUCCESS'),
+('CANCEL BECAUSE OF MANY FAILED DELIVERING')
+
 --set default roles 
 insert into AspNetRoles(Id, Name) values
 	(1,'Manager'),
@@ -95,7 +105,15 @@ begin
 	INSERT INTO Person(PersonName, PersonAddress, AccountID, ManagerID) VALUES
     ('', '', @AccountID, @ManagerID)
 end
-select * from Person
+--initial manager
+go
+create proc SP_Inital_Manager(@AccountID nvarchar(128)) as
+begin
+	INSERT INTO MANAGER(AccountID) VALUES (@AccountID)
+end
+--select * from MANAGER
+--select * from aspnetroles
+--select * from aspnetuserroles
 --check promotion
 go
 create  proc Sp_check_valid_promotion(@editionID int) as
@@ -113,17 +131,21 @@ create or alter view V_UserRole as
 select anr.Id,anr.Name, anur.UserId, p.PersonID 
 from AspNetRoles anr, AspNetUserRoles anur,Person p
 where anr.Id = anur.RoleId and anur.UserId = p.AccountID
+
+
 -- view customer spending
 go
 create or alter view V_CustomerSpending as
-select CustomerID, sum(OrderTotalPrice) as TotalSpending 
-from CUSTOMER_ORDER 
-where OrderStatus = 'Success'
+select CustomerID, sum(CUSTOMER_ORDER.OrderTotalPrice) as TotalSpending 
+from CUSTOMER_ORDER , CUSTOMER_ORDER_STATUS 
+where CUSTOMER_ORDER.OrderID = CUSTOMER_ORDER_STATUS.OrderID
+and CUSTOMER_ORDER_STATUS.OrderStatusID = 7
 group by CustomerID
 
 
---Function
---get the current tierID
+
+----Function
+----get the current tierID
 go
 create or alter function FN_GetTierID(@personID int) returns int as
 begin
@@ -136,7 +158,7 @@ begin
 end
 
 
---Trigger on Tier
+----Trigger on Tier
 go
 create or alter trigger TR_UPDATE_TIER_OF_CUSTOMER on Tier after insert,delete, update as
 begin

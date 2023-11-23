@@ -10,13 +10,15 @@
 namespace WebApplication2.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_UserRole
+    public partial class SP_Inital_Person_Result
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string UserId { get; set; }
         public int PersonID { get; set; }
+        public string PersonName { get; set; }
+        public string PersonAddress { get; set; }
+        public string PersonStatus { get; set; }
+        public string AccountID { get; set; }
+        public Nullable<int> TierID { get; set; }
+        public int ManagerID { get; set; }
     }
 }
