@@ -84,6 +84,7 @@ CREATE TABLE PROMOTION(
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )
 alter table PROMOTION add PromotionDetails TEXT;
+
 CREATE TABLE BOOK_COLLECTION(
 	BookCollectionID INT PRIMARY KEY IDENTITY(1,1),
 	BookCollectionName NVARCHAR(200) NOT NULL,
@@ -107,6 +108,9 @@ CREATE TABLE BOOK_EDITION(
 	ManagerID INT not null,
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )
+alter table BOOK_EDITION alter column EditionDescription text;
+
+
 alter table BOOK_EDITION alter column EditionPageCount int
 alter table BOOK_EDITION drop constraint CHK_EditionPrice
 

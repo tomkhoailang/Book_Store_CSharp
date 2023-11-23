@@ -13,20 +13,23 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.PublisherName, new { @class = "control-label" })
+        @Html.LabelFor(m => m.PublisherName, new { @class = "control-label col-md-10" })
         <div id="createDuplicate" class="col-md-10">
             @Html.TextBoxFor(m => m.PublisherName, new { @class = "form-control", @onchange = "handleDuplicateCreate()" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.PublisherDescription, new { @class = "control-label" })
+        @Html.LabelFor(m => m.PublisherDescription, new { @class = "control-label col-md-10" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.PublisherDescription, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        <label>Ảnh của nhà xuất bản: </label>
-        <input type="file" id="publisherImg" name="publisherImg" accept="image/*" />
+        <div class="col-md-10">
+            <label> Ảnh của nhà xuất bản: </label>
+            <input type="file" id="publisherImg" name="publisherImg" accept="image/*" />
+        </div>
+        
     </div>
 
     <div class="form-group">

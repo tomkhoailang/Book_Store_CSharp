@@ -142,8 +142,8 @@
         $.ajax({
             url: '/Manager/PROMOTIONs/Create',
             type: 'GET',
-            ePartialViewContainer').html(data);        success: function (data) {
-                $('#Creat
+            success: function (data) {
+                $('#CreatePartialViewContainer').html(data);
             },
             error: function () {
                 $('#CreatePartialViewContainer').html("<p>Error loading partial view.</p>")

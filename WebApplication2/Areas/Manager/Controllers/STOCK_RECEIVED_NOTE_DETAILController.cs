@@ -17,11 +17,16 @@ namespace WebApplication2.Areas.Manager.Controllers
         // GET: STOCK_RECEIVED_NOTE_DETAIL
         public ActionResult Index(int? id)
         {
+            //note: this id is the StockReceivedNoteID
             var sTOCK_RECEIVED_NOTE_DETAIL = db.STOCK_RECEIVED_NOTE_DETAIL.Include(s => s.BOOK_EDITION).Include(s => s.STOCK_RECEIVED_NOTE);
+            var a = id;
             if (id != null)
             {
                 sTOCK_RECEIVED_NOTE_DETAIL = sTOCK_RECEIVED_NOTE_DETAIL.Where(s => s.StockReceivedNoteID == id);
-                ViewBag.id = id;
+                if (sTOCK_RECEIVED_NOTE_DETAIL != null)
+                    ViewBag.id = id;
+                else
+                    return HttpNotFound();
             }
             return View("Index", sTOCK_RECEIVED_NOTE_DETAIL.ToList());
         }
@@ -86,10 +91,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                     db.STOCK_RECEIVED_NOTE_DETAIL.Add(sTOCK_RECEIVED_NOTE_DETAIL);
                     db.SaveChanges();
                 }
-                
-
-                return RedirectToAction("Index");
-                //return View(db.STOCK_RECEIVED_NOTE.ToList());
+                return RedirectToAction("Index", new { id = sTOCK_RECEIVED_NOTE_DETAIL.StockReceivedNoteID});
 
             }
             return RedirectToAction("Index", "STOCK_RECEIVED_NOTE");
@@ -107,8 +109,6 @@ namespace WebApplication2.Areas.Manager.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionDescription", sTOCK_RECEIVED_NOTE_DETAIL.EditionID);
-            ViewBag.StockReceivedNoteID = new SelectList(db.STOCK_RECEIVED_NOTE, "StockReceivedNoteID", "StockReceivedNoteID", sTOCK_RECEIVED_NOTE_DETAIL.StockReceivedNoteID);
             return PartialView("_EditPartialView", sTOCK_RECEIVED_NOTE_DETAIL);
 
         }
@@ -118,16 +118,16 @@ namespace WebApplication2.Areas.Manager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NoteDetailQuantity,NoteDetailPrice,EditionID,StockReceivedNoteID")] STOCK_RECEIVED_NOTE_DETAIL sTOCK_RECEIVED_NOTE_DETAIL)
+        public ActionResult Edit([Bind(Include = "NoteDetailID,NoteDetailQuantity,NoteDetailPrice,EditionID,StockReceivedNoteID")] STOCK_RECEIVED_NOTE_DETAIL sTOCK_RECEIVED_NOTE_DETAIL)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sTOCK_RECEIVED_NOTE_DETAIL).State = EntityState.Modified;
+                var s = db.STOCK_RECEIVED_NOTE_DETAIL.Find(sTOCK_RECEIVED_NOTE_DETAIL.NoteDetailID);
+                db.Entry(s).CurrentValues.SetValues(sTOCK_RECEIVED_NOTE_DETAIL);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionDescription", sTOCK_RECEIVED_NOTE_DETAIL.EditionID);
-            ViewBag.StockReceivedNoteID = new SelectList(db.STOCK_RECEIVED_NOTE, "StockReceivedNoteID", "StockReceivedNoteID", sTOCK_RECEIVED_NOTE_DETAIL.StockReceivedNoteID);
+           
             return View(sTOCK_RECEIVED_NOTE_DETAIL);
         }
 
@@ -152,9 +152,11 @@ namespace WebApplication2.Areas.Manager.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             STOCK_RECEIVED_NOTE_DETAIL sTOCK_RECEIVED_NOTE_DETAIL = db.STOCK_RECEIVED_NOTE_DETAIL.Find(id);
+            
             db.STOCK_RECEIVED_NOTE_DETAIL.Remove(sTOCK_RECEIVED_NOTE_DETAIL);
+            
             db.SaveChanges();
-            return Json(new { redirectToAction = true, actionUrl = Url.Action("Index") });
+            return Json(new { redirectToAction = true, actionUrl = Url.Action("Index", new { id = sTOCK_RECEIVED_NOTE_DETAIL.StockReceivedNoteID}) });
         }
 
         protected override void Dispose(bool disposing)

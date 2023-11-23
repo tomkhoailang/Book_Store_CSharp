@@ -11,36 +11,40 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        <h4>Thông tin phiếu nhập</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.StockReceivedNoteID)
+<div class="form-horizontal">
+    <h4>Thông tin phiếu nhập</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.StockReceivedNoteID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
-            <div class="col-md-10">
-                <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" class="form-control" value="@ViewBag.StockDate" required/>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PublisherID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-10" })
-            <div class="col-md-10">
-                @Html.DropDownList("PublisherID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PublisherID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu" class="btn btn-default" />
-                <button type="button" class="btn btn-primary" onclick="loadController(@Model.StockReceivedNoteID)">Xoa</button>
-
-            </div>
+    <div class="form-group">
+        <div class="error-message">
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
+        <div class="col-md-10">
+            <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" class="form-control" value="@ViewBag.StockDate" required />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PublisherID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            @Html.DropDownList("PublisherID", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PublisherID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu" class="btn btn-default" />
+            <button type="button" class="btn btn-primary" onclick="loadController(@Model.StockReceivedNoteID)">Xoá</button>
+
+        </div>
+    </div>
+</div>
 }
 
 
@@ -55,8 +59,11 @@
                 data: { id: id, __RequestVerificationToken: token },
                 type: 'POST',
                 success: function (data) {
+                    console.log(data)
                     if (data.redirectToAction) {
                         window.location.href = data.actionUrl;
+                    } else {
+                        $(".error-message").html(data);
                     }
                 }
             });

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -98,7 +98,7 @@
           </Key>
           <Property Name="EditionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EditionPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
-          <Property Name="EditionDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="EditionDescription" Type="text" />
           <Property Name="EditionYear" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="EditionPageCount" Type="int" />
           <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -1087,8 +1087,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1181,7 +1180,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </Key>
           <Property Name="EditionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EditionPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
-          <Property Name="EditionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EditionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="EditionYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EditionPageCount" Type="Int32" />
           <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2087,10 +2086,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
-            <Parameter Name="editionID" Mode="In" Type="Int32" />
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
-            <Parameter Name="AccountID" Mode="In" Type="String" />
+          <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Person" ReturnType="Collection(BookStoreManagerModel.SP_Inital_Person_Result)">
             <Parameter Name="AccountID" Mode="In" Type="String" />

@@ -65,18 +65,6 @@
         </div>
     </div>
 
-    <!-- row -->
-    @using (Html.BeginForm("Index", "TIERs", FormMethod.Get, new { @class = "form-inline" }))
-    {
-        <div class="form-group">
-            @*<label>Loại người dùng: </label>
-                @Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control" })*@
-            <label>Tên hạng: </label>
-            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
-            <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-        </div><hr />
-    }
-
 
     <div class="container-fluid">
         <div class="row">

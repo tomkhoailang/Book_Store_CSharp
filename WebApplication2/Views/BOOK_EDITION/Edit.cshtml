@@ -32,7 +32,7 @@
         @Html.HiddenFor(model => model.EditionID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
                 @Html.EditorFor(model => editionPrice, new { htmlAttributes = new { @class = "form-control", oninput = "this.value = this.value.slice(0, 18)" } })
                 @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })

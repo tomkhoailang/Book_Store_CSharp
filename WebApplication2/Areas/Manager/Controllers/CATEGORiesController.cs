@@ -146,8 +146,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             }
             else
             {
-                // if the category is currently linked with other
-                ViewBag.ErrorMessage = "Unable to delete. The category is currently linked with other edition";
+                ViewBag.ErrorMessage = "Không thể xóa. Danh mục này đang được liên kết với sách";
                 return PartialView("_ErrorMessagePartialView");
 
             }

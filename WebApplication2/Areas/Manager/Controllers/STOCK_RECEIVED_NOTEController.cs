@@ -41,6 +41,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         public ActionResult Create()
         {
             ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "selectDataTextField");
+            ViewBag.havePublisher = db.PUBLISHERs.ToList();
             return PartialView("_CreatePartialView");
         }
 
@@ -121,7 +122,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             STOCK_RECEIVED_NOTE sTOCK_RECEIVED_NOTE = db.STOCK_RECEIVED_NOTE.Find(id);
             if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(s => s.StockReceivedNoteID == id))
             {
-                ViewBag.ErrorMessage = "Unable to delete. The stock note is currently linked with stock details";
+                ViewBag.ErrorMessage = "Vui lòng xóa chi tiết của phiếu nhập này trước !";
                 return PartialView("_ErrorMessagePartialView");
             }
             else
