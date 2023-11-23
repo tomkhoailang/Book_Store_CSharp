@@ -1,18 +1,21 @@
 use BookStoreManager;
 --tier
+SET IDENTITY_INSERT ORDER_STATUS ON
 insert into TIER values('S',20,1,1)
-
+insert into TIER values(1,'B',5,3,1)
 select * from tier
 --order_status
-insert into ORDER_STATUS values ('INITIAL'),
-('WAITING'),
-('CANCEL BY CUSTOMER'),
-('PROCESSING'),
-('IS AVAILABLE AT STORE'),
-('DELIVERING'),
-('SUCCESS'),
-('CANCEL BECAUSE OF MANY FAILED DELIVERING')
+insert into ORDER_STATUS(StatusID, OrderStatus) values (1,'INITIAL'),
+(2,'WAITING'),
+(3,'CANCEL BY CUSTOMER'),
+(4,'PROCESSING'),
+(5,'IS AVAILABLE AT STORE'),
+(6,'DELIVERING'),
+(7,'SUCCESS'),
+(8,'CANCEL BECAUSE OF MANY FAILED DELIVERING')
 
+select * from ORDER_STATUS
+delete from ORDER_STATUS
 --person
 insert into Person values('Duy', 'aaaa', 'ACTIVE', '45dfe5a4-58c1-4751-9aa0-c87b9dcf7b66', 2, 1)
 select * from Person
@@ -50,6 +53,8 @@ select * from BOOK_COLLECTION
 insert into BOOK_EDITION values (100000,'hihihi123',2002,300, 'nhom truong nhu c', 'le van a', 1, 2),
 								(120000,'h2hihi',2010,300, 'naruto', 'le van b', 1, 3),
 								(200000,'hi3242hi',2000,300, 'gi gi do', 'le van c', 1, 1)
+
+delete from BOOK_EDITION where EditionID = 6
 select * from BOOK_EDITION
 --book-edition_image
 insert into BOOK_EDITION_IMAGE values ('image1.jpg',3),('image2.jpg',4),('image3.jpg',5)
@@ -64,9 +69,11 @@ insert into CUSTOMER_ORDER_DETAIL(DetailCurrentPrice,DetailQuantity,OrderID,Edit
 select * from AspNetUsers
 select * from CUSTOMER_ORDER
 select * from CUSTOMER_ORDER_DETAIL
+select * from CUSTOMER_ORDER_STATUS
 
 delete from CUSTOMER_ORDER_DETAIL
 delete from CUSTOMER_ORDER
+delete from CUSTOMER_ORDER_STATUS where OrderID = 20 and StatusID = 2 
 
 drop table CUSTOMER_ORDER_DETAIL
 drop table CUSTOMER_ORDER

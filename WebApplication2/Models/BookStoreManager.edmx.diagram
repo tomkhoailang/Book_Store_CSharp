@@ -18,7 +18,6 @@
         <EntityTypeShape EntityType="BookStoreManagerModel.CATEGORY" Width="1.5" PointX="7.5" PointY="25" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER" Width="1.5" PointX="12" PointY="39.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER_DETAIL" Width="1.5" PointX="15.25" PointY="32.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER_STATUS" Width="1.5" PointX="14.25" PointY="40.625" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.MANAGER" Width="1.5" PointX="5.25" PointY="26.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.ORDER_STATUS" Width="1.5" PointX="12" PointY="47.875" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.Person" Width="1.5" PointX="9.75" PointY="31.25" IsExpanded="true" />
@@ -51,13 +50,11 @@
         <AssociationConnector Association="BookStoreManagerModel.FK__BOOK_REVI__Custo__0B91BA14" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__CATEGORY__Manage__5812160E" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Custo__18EBB532" ManuallyRouted="false" />
-        <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Order__1EA48E88" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Order__25518C17" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Shipp__19DFD96B" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Staff__17F790F9" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__SHIP_CONF__Order__31B762FC" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__TRANSACTI__Order__2BFE89A6" ManuallyRouted="false" />
-        <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Statu__1F98B2C1" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__Person__ManagerI__45F365D3" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__PROMOTION__Manag__5CD6CB2B" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK__PUBLISHER__Manag__5441852A" ManuallyRouted="false" />
@@ -73,6 +70,9 @@
         <AssociationConnector Association="BookStoreManagerModel.BOOK_CATEGORY" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.BOOK_PROMOTION" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.MARKED_BOOK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.CUSTOMER_ORDER_STATUS" Width="1.5" PointX="14.25" PointY="43.625" />
+        <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Order__5006DFF2" />
+        <AssociationConnector Association="BookStoreManagerModel.FK__CUSTOMER___Statu__50FB042B" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

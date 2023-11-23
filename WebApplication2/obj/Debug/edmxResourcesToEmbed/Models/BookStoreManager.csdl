@@ -89,7 +89,7 @@
     </Key>
     <Property Name="EditionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="EditionPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
-    <Property Name="EditionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="EditionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="EditionYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="EditionPageCount" Type="Int32" />
     <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
@@ -153,12 +153,12 @@
     <Property Name="CustomerID" Type="Int32" Nullable="false" />
     <Property Name="ShipperID" Type="Int32" />
     <NavigationProperty Name="Person" Relationship="Self.FK__CUSTOMER___Custo__18EBB532" FromRole="CUSTOMER_ORDER" ToRole="Person" />
-    <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Order__1EA48E88" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_STATUS" />
     <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Order__25518C17" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_DETAIL" />
     <NavigationProperty Name="Person1" Relationship="Self.FK__CUSTOMER___Shipp__19DFD96B" FromRole="CUSTOMER_ORDER" ToRole="Person" />
     <NavigationProperty Name="Person2" Relationship="Self.FK__CUSTOMER___Staff__17F790F9" FromRole="CUSTOMER_ORDER" ToRole="Person" />
     <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Order__31B762FC" FromRole="CUSTOMER_ORDER" ToRole="SHIP_CONFIRMATION" />
     <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Order__2BFE89A6" FromRole="CUSTOMER_ORDER" ToRole="TRANSACTION_DETAILS" />
+    <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="BookStoreManagerModel.FK__CUSTOMER___Order__5006DFF2" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_STATUS" />
   </EntityType>
   <EntityType Name="CUSTOMER_ORDER_DETAIL">
     <Key>
@@ -171,17 +171,6 @@
     <Property Name="EditionID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__CUSTOMER___Editi__245D67DE" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="BOOK_EDITION" />
     <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__25518C17" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="CUSTOMER_ORDER" />
-  </EntityType>
-  <EntityType Name="CUSTOMER_ORDER_STATUS">
-    <Key>
-      <PropertyRef Name="OrderStatusID" />
-    </Key>
-    <Property Name="OrderStatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="OrderID" Type="Int32" Nullable="false" />
-    <Property Name="StatusID" Type="Int32" Nullable="false" />
-    <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
-    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__1EA48E88" FromRole="CUSTOMER_ORDER_STATUS" ToRole="CUSTOMER_ORDER" />
-    <NavigationProperty Name="ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__1F98B2C1" FromRole="CUSTOMER_ORDER_STATUS" ToRole="ORDER_STATUS" />
   </EntityType>
   <EntityType Name="MANAGER">
     <Key>
@@ -205,18 +194,18 @@
     </Key>
     <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__1F98B2C1" FromRole="ORDER_STATUS" ToRole="CUSTOMER_ORDER_STATUS" />
+    <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="BookStoreManagerModel.FK__CUSTOMER___Statu__50FB042B" FromRole="ORDER_STATUS" ToRole="CUSTOMER_ORDER_STATUS" />
   </EntityType>
   <EntityType Name="Person">
     <Key>
       <PropertyRef Name="PersonID" />
     </Key>
     <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="PersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="PersonAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="PersonStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PersonStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="TierID" Type="Int32" />
+    <Property Name="TierID" Type="Int32" Nullable="false" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />
     <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Person_AspNetUsers" FromRole="Person" ToRole="AspNetUsers" />
     <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__5070F446" FromRole="Person" ToRole="BANK_ACCOUNT" />
@@ -225,7 +214,7 @@
     <NavigationProperty Name="CUSTOMER_ORDER1" Relationship="Self.FK__CUSTOMER___Shipp__19DFD96B" FromRole="Person" ToRole="CUSTOMER_ORDER" />
     <NavigationProperty Name="CUSTOMER_ORDER2" Relationship="Self.FK__CUSTOMER___Staff__17F790F9" FromRole="Person" ToRole="CUSTOMER_ORDER" />
     <NavigationProperty Name="MANAGER" Relationship="Self.FK__Person__ManagerI__45F365D3" FromRole="Person" ToRole="MANAGER" />
-    <NavigationProperty Name="TIER" Relationship="Self.FK__Person__TierID__44FF419A" FromRole="Person" ToRole="TIER" />
+    <NavigationProperty Name="TIER" Relationship="BookStoreManagerModel.FK__Person__TierID__44FF419A" FromRole="Person" ToRole="TIER" />
     <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Shipp__32AB8735" FromRole="Person" ToRole="SHIP_CONFIRMATION" />
     <NavigationProperty Name="WALLETs" Relationship="Self.FK__WALLET__Customer__4AB81AF0" FromRole="Person" ToRole="WALLET" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.MARKED_BOOK" FromRole="Person" ToRole="BOOK_EDITION" />
@@ -243,6 +232,7 @@
     <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="PROMOTION" ToRole="MANAGER" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
+    <Property Name="PromotionIsValid" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="PUBLISHER">
     <Key>
@@ -576,18 +566,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CUSTOMER___Order__1EA48E88">
-    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
-    <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CUSTOMER_ORDER">
-        <PropertyRef Name="OrderID" />
-      </Principal>
-      <Dependent Role="CUSTOMER_ORDER_STATUS">
-        <PropertyRef Name="OrderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__CUSTOMER___Order__25518C17">
     <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
     <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
@@ -645,18 +623,6 @@
       </Principal>
       <Dependent Role="TRANSACTION_DETAILS">
         <PropertyRef Name="OrderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__CUSTOMER___Statu__1F98B2C1">
-    <End Role="ORDER_STATUS" Type="Self.ORDER_STATUS" Multiplicity="1" />
-    <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ORDER_STATUS">
-        <PropertyRef Name="StatusID" />
-      </Principal>
-      <Dependent Role="CUSTOMER_ORDER_STATUS">
-        <PropertyRef Name="StatusID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -721,7 +687,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Person__TierID__44FF419A">
-    <End Role="TIER" Type="Self.TIER" Multiplicity="0..1" />
+    <End Role="TIER" Type="Self.TIER" Multiplicity="1" />
     <End Role="Person" Type="Self.Person" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TIER">
@@ -822,7 +788,6 @@
     <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
     <EntitySet Name="CUSTOMER_ORDER" EntityType="Self.CUSTOMER_ORDER" />
     <EntitySet Name="CUSTOMER_ORDER_DETAIL" EntityType="Self.CUSTOMER_ORDER_DETAIL" />
-    <EntitySet Name="CUSTOMER_ORDER_STATUS" EntityType="Self.CUSTOMER_ORDER_STATUS" />
     <EntitySet Name="MANAGERs" EntityType="Self.MANAGER" />
     <EntitySet Name="ORDER_STATUS" EntityType="Self.ORDER_STATUS" />
     <EntitySet Name="People" EntityType="Self.Person" />
@@ -906,10 +871,6 @@
       <End Role="Person" EntitySet="People" />
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
     </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Order__1EA48E88" Association="Self.FK__CUSTOMER___Order__1EA48E88">
-      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
-      <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
-    </AssociationSet>
     <AssociationSet Name="FK__CUSTOMER___Order__25518C17" Association="Self.FK__CUSTOMER___Order__25518C17">
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
       <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
@@ -929,10 +890,6 @@
     <AssociationSet Name="FK__TRANSACTI__Order__2BFE89A6" Association="Self.FK__TRANSACTI__Order__2BFE89A6">
       <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
       <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
-    </AssociationSet>
-    <AssociationSet Name="FK__CUSTOMER___Statu__1F98B2C1" Association="Self.FK__CUSTOMER___Statu__1F98B2C1">
-      <End Role="ORDER_STATUS" EntitySet="ORDER_STATUS" />
-      <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
     </AssociationSet>
     <AssociationSet Name="FK__Person__ManagerI__45F365D3" Association="Self.FK__Person__ManagerI__45F365D3">
       <End Role="MANAGER" EntitySet="MANAGERs" />
@@ -1004,6 +961,19 @@
       <Parameter Name="AccountID" Mode="In" Type="String" />
       <Parameter Name="ManagerID" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
+      <Parameter Name="OrderID" Mode="In" Type="Int32" />
+      <Parameter Name="StatusID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="CUSTOMER_ORDER_STATUS" EntityType="BookStoreManagerModel.CUSTOMER_ORDER_STATUS" />
+    <AssociationSet Name="FK__CUSTOMER___Order__5006DFF2" Association="BookStoreManagerModel.FK__CUSTOMER___Order__5006DFF2">
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+      <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Statu__50FB042B" Association="BookStoreManagerModel.FK__CUSTOMER___Statu__50FB042B">
+      <End Role="ORDER_STATUS" EntitySet="ORDER_STATUS" />
+      <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1023,4 +993,39 @@
     <Property Type="Int32" Name="TierID" Nullable="true" />
     <Property Type="Int32" Name="ManagerID" Nullable="false" />
   </ComplexType>
+  <EntityType Name="CUSTOMER_ORDER_STATUS">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="BookStoreManagerModel.FK__CUSTOMER___Order__5006DFF2" FromRole="CUSTOMER_ORDER_STATUS" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="ORDER_STATUS" Relationship="BookStoreManagerModel.FK__CUSTOMER___Statu__50FB042B" FromRole="CUSTOMER_ORDER_STATUS" ToRole="ORDER_STATUS" />
+  </EntityType>
+  <Association Name="FK__CUSTOMER___Order__5006DFF2">
+    <End Type="BookStoreManagerModel.CUSTOMER_ORDER" Role="CUSTOMER_ORDER" Multiplicity="1" />
+    <End Type="BookStoreManagerModel.CUSTOMER_ORDER_STATUS" Role="CUSTOMER_ORDER_STATUS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_ORDER">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER_STATUS">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Statu__50FB042B">
+    <End Type="BookStoreManagerModel.ORDER_STATUS" Role="ORDER_STATUS" Multiplicity="1" />
+    <End Type="BookStoreManagerModel.CUSTOMER_ORDER_STATUS" Role="CUSTOMER_ORDER_STATUS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ORDER_STATUS">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER_STATUS">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

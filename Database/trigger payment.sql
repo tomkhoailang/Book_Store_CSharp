@@ -1,101 +1,138 @@
 use BookStoreManager;
 --DANG CHINH, DUNG VO T DAM =))
 go
-CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_ORDER ON CUSTOMER_ORDER FOR INSERT, UPDATE AS
+CREATE or alter TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER ON CUSTOMER_ORDER FOR INSERT, update AS
 BEGIN
 	declare @customerID int;
 	declare @OrderPaymentMethod NVARCHAR(50);
 	declare @TotalPrice DECIMAL(12,2);
-	declare @OrderStatus NVARCHAR(50);
 	declare @OrderID int;
 
 	select	@OrderID = i.OrderID,
 			@customerID = i.CustomerID, 
 			@OrderPaymentMethod = i.OrderPaymentMethod, 
-			@TotalPrice = i.OrderTotalPrice, 
-			@OrderStatus = i.OrderStatus from inserted i;
+			@TotalPrice = i.OrderTotalPrice from inserted i;
 	
-	if (select count(*) from deleted) == 0
+	if (select count(*) from deleted) = 0
 	begin
+		exec SP_CREATE_CUSTOMER_ORDER_STATUS @OrderID, 1;
+	end
 
-	end
-	if @OrderPaymentMethod in ('CURRENT BALANCE') and @OrderStatus in ('INITIAL')
-	begin
-		declare @oldPrice decimal(12,2) = 0;
-		Declare @currentBalance decimal(12,2) = 0;
-		select @oldPrice = d.OrderTotalPrice from deleted d;
-		select @currentBalance = W.Balance FROM WALLET W WHERE W.CustomerID = @customerID
-		update WALLET 
-		set Balance = @currentBalance - @TotalPrice + @oldPrice
-		where CustomerID = @customerID
-	end
 END
 
 --trigger to check if book is in stock when adding
 --note when the user taps on proceed to payment, a order will be created and each book from card will be added to this order
+
+--
 GO
-CREATE TRIGGER TR_UPDATE_STOCK_WITH_INSERT ON CUSTOMER_ORDER_DETAIL FOR INSERT AS
+CREATE TRIGGER TR_UPDATE_STOCK_WITH_INSERT ON CUSTOMER_ORDER_STATUS FOR INSERT AS
 BEGIN
+	DECLARE @orderID int = 0;
+	DECLARE @statusID int = 0;
+	select @orderID = i.OrderID, @statusID = i.StatusID from inserted i;
+
 	DECLARE @editionID int = 0;
 	DECLARE @currentAvailableStock int = 0;
 	DECLARE @orderQuantity int = 0;
-	DECLARE @orderID int = 0
-	
-	SELECT @editionID = EditionID,  @orderQuantity = DetailQuantity, @orderID = OrderID from INSERTED
-	SELECT @currentAvailableStock = InventoryAvailableStock from STOCK_INVENTORY where EditionID = @editionID
-	if(@orderQuantity > @currentAvailableStock)
+	DECLARE @MyCursor CURSOR;
+
+	if @statusID = 4 or @statusID = 8--proccessing or cancel by failed delivering
 	begin
-		print('The number of quantity is not enough in storage for book id : '+ cast(@editionID as varchar(20)))
-		delete CUSTOMER_ORDER_DETAIL where OrderID = @orderID and EditionID = @editionID
-	end
-	else
-	begin
-		update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal + @orderQuantity 
-		where EditionID = @editionID
+		BEGIN
+			SET @MyCursor = CURSOR FOR
+			select c.EditionID, c.DetailQuantity, s.InventoryAvailableStock 
+			from CUSTOMER_ORDER_DETAIL c, STOCK_INVENTORY s 
+			where c.EditionID = s.EditionID and c.OrderID = @orderID
+
+			OPEN @MyCursor 
+			FETCH NEXT FROM @MyCursor 
+			INTO @editionID, @orderQuantity, @currentAvailableStock
+
+			WHILE @@FETCH_STATUS = 0
+			BEGIN
+			  	if(@orderQuantity > @currentAvailableStock)
+				begin
+					print('The number of quantity is not enough in storage for book id : '+ cast(@editionID as varchar(20)))
+					delete CUSTOMER_ORDER_DETAIL where OrderID = @orderID and EditionID = @editionID
+				end
+				else
+				begin
+				if @statusID = 4 -- proccessing
+				begin
+					update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal + @orderQuantity 
+					where EditionID = @editionID
+				end
+				else if @statusID = 8 -- cancel by failed delivering
+				begin
+					update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal - @orderQuantity 
+					where EditionID = @editionID
+				end
+				end
+			END; 
+
+			CLOSE @MyCursor ;
+			DEALLOCATE @MyCursor;
+		END;
 	end
 END
 
-GO	
-create or alter trigger TR_HANDLE_CUSTOMER_ORDER ON CUSTOMER_ORDER for  UPDATE AS
+GO
+CREATE or alter TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK ON STOCK_INVENTORY FOR UPDATE AS
 BEGIN
-	Declare @customerID int;
-	Declare @orderID int;
-	DECLARE @orderCurrentTotalPrice decimal(12,2) = 0;
-
-	select @customerID = W.CustomerID from Person p, INSERTED I, WALLET W
-	where p.PersonID = I.CustomerID AND p.PersonID = W.CustomerID
-
-	SELECT @orderCurrentTotalPrice = I.OrderTotalPrice FROM INSERTED I
-	
-	select @orderID = OrderID from inserted
-
-	IF (select count(*) from DELETED  where OrderPaymentMethod = 'CURRENT BALANCE' and OrderStatus = 'INITIAL') >0
-	and 
-	(SELECT COUNT(*) FROM INSERTED I WHERE I.OrderPaymentMethod = 'CURRENT BALANCE' AND OrderStatus = 'WAITING' ) > 0
-	BEGIN
-		-- check current balance
-		IF(SELECT COUNT(*) FROM WALLET WHERE CustomerID = @customerID AND Balance >= @orderCurrentTotalPrice ) > 0
-			UPDATE WALLET SET Balance = Balance - @orderCurrentTotalPrice WHERE CustomerID = @customerID
-		begin
-			print('Current balance of CustomerID:  ' + CAST(@customerID as varchar(10)) + ' for OrderID: ' + cast(@orderID as varchar(10)) +' is not enough')
-			--rollback tran
-			delete CUSTOMER_ORDER_DETAIL where OrderID = @orderID
-			delete CUSTOMER_ORDER where OrderID = @orderID
-		end
-	END
-
-
-	--note: sua cai nay nhe dai ka duy dep zai
-	else IF (select  count(*) from DELETED D where OrderPaymentMethod = 'CURRENT BALANCE' and OrderStatus = 'WAITING' ) > 0
-	and 
-	--note: tach ra if cancel by customer then return value, in the if, check if using current balance, return the balance
-	(SELECT COUNT(*) FROM INSERTED I WHERE I.OrderPaymentMethod = 'CURRENT BALANCE' AND I.OrderStatus = 'CANCEL BY CUSTOMER' ) > 0
-	begin
-		SELECT @orderCurrentTotalPrice = I.OrderTotalPrice FROM INSERTED I
-		UPDATE WALLET SET Balance = Balance + @orderCurrentTotalPrice WHERE CustomerID = @customerID
+	IF UPDATE(InventoryStockInTotal) OR UPDATE(InventoryStockOutTotal)
+    BEGIN
+		update STOCK_INVENTORY set InventoryAvailableStock = i.InventoryStockInTotal - i.InventoryStockOutTotal
+		from inserted i where STOCK_INVENTORY.EditionID = i.EditionID
 	end
 END
 
+-- ----------------------------
+-- trigger for wallet when order is waiting
+GO	
+create or alter trigger TR_HANDLE_CUSTOMER_ORDER ON CUSTOMER_ORDER_STATUS for INSERT AS
+BEGIN
+	Declare @orderID int;
+	declare @statusID int;
+	Declare @customerID int;
+	select @orderID = i.OrderID, @statusID = i.StatusID from inserted i;
+	select @customerID = CustomerID from CUSTOMER_ORDER where OrderID = @orderID;
+	
+	DECLARE @orderCurrentTotalPrice decimal(12,2) = 0;
+	Declare @orderPaymentMethod NVARCHAR(50);
+	SELECT @orderCurrentTotalPrice = OrderTotalPrice, @orderPaymentMethod = OrderPaymentMethod FROM CUSTOMER_ORDER where OrderID = @orderID
+
+	if @orderPaymentMethod = 'CURRENT BALANCE'
+	begin
+	-- Tru tien khi order o trang thai waiting
+		IF @statusID = 2
+		BEGIN
+			-- check current balance
+			IF(SELECT COUNT(*) FROM WALLET WHERE CustomerID = @customerID AND Balance >= @orderCurrentTotalPrice ) > 0
+			begin
+			UPDATE WALLET SET Balance = Balance - @orderCurrentTotalPrice WHERE CustomerID = @customerID
+			print 'OK'
+			end
+				
+			ELSE
+			begin
+				print('Current balance of CustomerID:  ' + CAST(@customerID as varchar(10)) + ' for OrderID: ' + cast(@orderID as varchar(10)) +' is not enough')
+				--rollback tran
+				delete CUSTOMER_ORDER_DETAIL where OrderID = @orderID
+				delete CUSTOMER_ORDER_STATUS where OrderID = @orderID
+				delete CUSTOMER_ORDER where OrderID = @orderID
+			end
+		END
+		-- Cong tien khi order o trang thai cancel by customer hoac cancel by failed delivering
+		else IF @statusID = 3 or @statusID = 8
+		begin
+			UPDATE WALLET SET Balance = Balance + @orderCurrentTotalPrice WHERE CustomerID = @customerID
+			print'not ok'
+		end
+	end
+
+END
+
+exec SP_CREATE_CUSTOMER_ORDER_STATUS 20,2
 -- CUSTOMER_ORDER TABLE
 
 -- trigger to calculate OrderTotalPrice from  DetailCurrentPrice and  DetailQuantity
@@ -114,22 +151,12 @@ begin
 	from inserted i where CUSTOMER_ORDER.OrderID = i.OrderID
 end
 
-GO
-CREATE or alter TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK ON STOCK_INVENTORY FOR UPDATE AS
-BEGIN
-	IF UPDATE(InventoryStockInTotal) OR UPDATE(InventoryStockOutTotal)
-    BEGIN
-		update STOCK_INVENTORY set InventoryAvailableStock = i.InventoryStockInTotal - i.InventoryStockOutTotal
-		from inserted i where STOCK_INVENTORY.EditionID = i.EditionID
-	end
-END
-
 
 select * from CUSTOMER_ORDER_DETAIL
 select * from CUSTOMER_ORDER
 select * from STOCK_INVENTORY
 
-drop TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_ORDER
+DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
 drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
 drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
 drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL

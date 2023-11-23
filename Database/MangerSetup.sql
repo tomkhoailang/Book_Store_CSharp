@@ -1,4 +1,4 @@
-﻿use BookStoreManager
+use BookStoreManager
 --add constraint
 ALTER TABLE Person ADD CONSTRAINT FK_Person_AspNetUsers FOREIGN KEY (AccountID) REFERENCES AspNetUsers(Id)
 ALTER TABLE MANAGER ADD CONSTRAINT FK_MANAGER_AspNetUsers FOREIGN KEY (AccountID) REFERENCES AspNetUsers(Id)
@@ -67,16 +67,6 @@ BEGIN
     BEGIN
 		update STOCK_INVENTORY set InventoryAvailableStock = i.InventoryStockInTotal - i.InventoryStockOutTotal
 		from inserted i where STOCK_INVENTORY.EditionID = i.EditionID
-	end
-END
--- TRIGER ON TR_STOCK_INVENTORY TO check startdate and enddate 
-GO
-CREATE or alter TRIGGER TR_CHECK_PROMO_DATE ON PROMOTION FOR INSERT, UPDATE AS
-BEGIN
-	if(SELECT PromotionStartDate FROM inserted) > (SELECT PromotionEndDate FROM inserted)
-	begin
-		raiserror(N'Ngày bắt đầu phải bé hơn ngày kết thúc',16,1)
-		rollback tran
 	end
 END
 
@@ -192,7 +182,6 @@ begin
 	CLOSE currentCursor
 	DEALLOCATE currentCursor
 end
--- trigger to set promotion details
 
 
 

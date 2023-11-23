@@ -270,6 +270,10 @@ namespace WebApplication2.Areas.Manager.Controllers
 
         }
 
+        public ActionResult AddToCart(int id)
+        {
+            return RedirectToAction("AddToCart", "BookCart", new { id = id });
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
