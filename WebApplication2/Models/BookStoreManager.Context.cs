@@ -40,7 +40,9 @@ namespace WebApplication2.Models
         public virtual DbSet<CATEGORY> CATEGORies { get; set; }
         public virtual DbSet<CUSTOMER_ORDER> CUSTOMER_ORDER { get; set; }
         public virtual DbSet<CUSTOMER_ORDER_DETAIL> CUSTOMER_ORDER_DETAIL { get; set; }
+        public virtual DbSet<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
         public virtual DbSet<MANAGER> MANAGERs { get; set; }
+        public virtual DbSet<ORDER_STATUS> ORDER_STATUS { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PROMOTION> PROMOTIONs { get; set; }
         public virtual DbSet<PUBLISHER> PUBLISHERs { get; set; }
@@ -48,13 +50,12 @@ namespace WebApplication2.Models
         public virtual DbSet<STOCK_INVENTORY> STOCK_INVENTORY { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE_DETAIL> STOCK_RECEIVED_NOTE_DETAIL { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
+        public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
-        public virtual DbSet<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
-        public virtual DbSet<ORDER_STATUS> ORDER_STATUS { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {
@@ -65,16 +66,16 @@ namespace WebApplication2.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
         }
     
-        public virtual int sp_Inital_Manager(string accountID)
+        public virtual int SP_Inital_Manager(string accountID)
         {
             var accountIDParameter = accountID != null ?
                 new ObjectParameter("AccountID", accountID) :
                 new ObjectParameter("AccountID", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Inital_Manager", accountIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Manager", accountIDParameter);
         }
     
-        public virtual int SP_Inital_Person(string accountID, Nullable<int> managerID)
+        public virtual ObjectResult<SP_Inital_Person_Result> SP_Inital_Person(string accountID, Nullable<int> managerID)
         {
             var accountIDParameter = accountID != null ?
                 new ObjectParameter("AccountID", accountID) :
@@ -84,7 +85,7 @@ namespace WebApplication2.Models
                 new ObjectParameter("ManagerID", managerID) :
                 new ObjectParameter("ManagerID", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Person", accountIDParameter, managerIDParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_Inital_Person_Result>("SP_Inital_Person", accountIDParameter, managerIDParameter);
         }
     }
 }

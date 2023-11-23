@@ -279,6 +279,9 @@
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SP_Inital_Person_Result.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -295,6 +298,9 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSACTION_DETAILS.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_CustomerSpending.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_UserRole.cs">
@@ -5227,7 +5233,6 @@
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
       <LastGenOutput>BookStoreManager.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookStoreManager.edmx.sql" />
     <Content Include="Models\BookStoreManager.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
@@ -5297,13 +5302,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="libs\owlcarousel\LICENSE" />
-    <EntityDeploy Include="Models\BookStoreManager.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BookStoreManager.edmx.diagram">
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Manager\Views\web.config" />
     <Content Include="Areas\Manager\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Manager\Views\User\Index.cshtml" />
@@ -5616,6 +5614,13 @@
     <Content Include="Areas\Manager\Views\BOOK_EDITION\Details.cshtml" />
     <Content Include="Areas\Manager\Views\BOOK_EDITION\_EditPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\BOOK_EDITION\Index.cshtml" />
+    <EntityDeploy Include="Models\BookStoreManager.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BookStoreManager.edmx.diagram">
+      <DependentUpon>BookStoreManager.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\CATEGORies\Create.cshtml" />
     <Content Include="Views\CATEGORies\Delete.cshtml" />

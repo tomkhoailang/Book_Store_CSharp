@@ -12,11 +12,9 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class V_UserRole
+    public partial class V_CustomerSpending
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string UserId { get; set; }
-        public int PersonID { get; set; }
+        public int CustomerID { get; set; }
+        public Nullable<decimal> TotalSpending { get; set; }
     }
 }
