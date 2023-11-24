@@ -38,7 +38,6 @@ namespace WebApplication2.Controllers
             {
                 OrderTotalPrice = 0,
                 OrderDate = DateTime.Today,
-                OrderStatus = "INITIAL",
                 OrderShippingMethod = Request["ShippingMethod"].ToString(),
                 OrderPaymentMethod = Request["PaymentMethod"].ToString(),
                 CustomerID = 3
@@ -55,10 +54,10 @@ namespace WebApplication2.Controllers
                     OrderID = id,
                     EditionID = cart.Book_Information.EditionID
                 };
-                db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);
-                
+                db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);   
                 
             }
+            db.SP_CREATE_CUSTOMER_ORDER_STATUS(id, 2);
             db.SaveChanges();
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
             foreach (CartModels cart in carts)

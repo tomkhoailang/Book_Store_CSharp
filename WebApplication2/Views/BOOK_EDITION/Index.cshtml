@@ -66,9 +66,10 @@
             @Html.DisplayFor(modelItem => item.EditionID)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EditionID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EditionID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EditionID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.EditionID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.EditionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.EditionID }) |
+            @Html.ActionLink("Add to cart", "AddToCart", new { id = item.EditionID })
         </td>
     </tr>
 }

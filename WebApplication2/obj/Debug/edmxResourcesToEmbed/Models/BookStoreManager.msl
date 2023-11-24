@@ -147,16 +147,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CUSTOMER_ORDER_STATUS">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.CUSTOMER_ORDER_STATUS">
-        <MappingFragment StoreEntitySet="CUSTOMER_ORDER_STATUS">
-          <ScalarProperty Name="OrderStatusID" ColumnName="OrderStatusID" />
-          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="MANAGERs">
       <EntityTypeMapping TypeName="BookStoreManagerModel.MANAGER">
         <MappingFragment StoreEntitySet="MANAGER">
@@ -189,6 +179,7 @@
     <EntitySetMapping Name="PROMOTIONs">
       <EntityTypeMapping TypeName="BookStoreManagerModel.PROMOTION">
         <MappingFragment StoreEntitySet="PROMOTION">
+          <ScalarProperty Name="PromotionIsValid" ColumnName="PromotionIsValid" />
           <ScalarProperty Name="PromotionID" ColumnName="PromotionID" />
           <ScalarProperty Name="PromotionName" ColumnName="PromotionName" />
           <ScalarProperty Name="PromotionDiscount" ColumnName="PromotionDiscount" />
@@ -359,19 +350,15 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
-    <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BookStoreManagerModel.SP_Inital_Person_Result">
-          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
-          <ScalarProperty Name="PersonName" ColumnName="PersonName" />
-          <ScalarProperty Name="PersonAddress" ColumnName="PersonAddress" />
-          <ScalarProperty Name="PersonStatus" ColumnName="PersonStatus" />
-          <ScalarProperty Name="AccountID" ColumnName="AccountID" />
-          <ScalarProperty Name="TierID" ColumnName="TierID" />
-          <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
+    <EntitySetMapping Name="CUSTOMER_ORDER_STATUS">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.CUSTOMER_ORDER_STATUS">
+        <MappingFragment StoreEntitySet="CUSTOMER_ORDER_STATUS">
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
