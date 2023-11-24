@@ -182,6 +182,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BANK_ACCOUNTController.cs" />
     <Compile Include="Controllers\BookCartController.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Controllers\BookReviewController.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Controllers\BOOK_COLLECTIONController.cs" />
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
     <Compile Include="Controllers\CATEGORiesController.cs" />
@@ -191,12 +195,14 @@
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PROMOTIONsController.cs" />
     <Compile Include="Areas\Manager\Controllers\PUBLISHERsController.cs" />
+    <Compile Include="Controllers\SharedViewsController.cs" />
     <Compile Include="Controllers\STOCK_INVENTORYController.cs" />
     <Compile Include="Controllers\STOCK_RECEIVED_NOTEController.cs" />
     <Compile Include="Controllers\STOCK_RECEIVED_NOTE_DETAILController.cs" />
     <Compile Include="Controllers\TIERsController.cs" />
     <Compile Include="Controllers\TRANSACTION_DETAILSController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Custom\BooksFilter.cs" />
     <Compile Include="Custom\Custom_Function.cs" />
     <Compile Include="Custom\Custom_Class.cs" />
     <Compile Include="Global.asax.cs">
@@ -239,12 +245,17 @@
     <Compile Include="Models\BOOK_EDITION.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\BOOK_EDITIONViewModels.cs" />
     <Compile Include="Models\BOOK_EDITION_IMAGE.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_REVIEW.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+<<<<<<< Updated upstream
+=======
+    <Compile Include="Models\BOOK_REVIEWViewModel.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Models\CartModels.cs" />
     <Compile Include="Models\CATEGORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
@@ -5352,8 +5363,13 @@
     <Content Include="obj\Debug\WebApplication2.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\WebApplication2.dll" />
     <Content Include="obj\Debug\WebApplication2.pdb" />
+<<<<<<< Updated upstream
+=======
+    <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
+>>>>>>> Stashed changes
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\UIHandler.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -5403,6 +5419,12 @@
     <Content Include="Views\PROMOTIONs\Details.cshtml" />
     <Content Include="Views\PROMOTIONs\Edit.cshtml" />
     <Content Include="Views\PROMOTIONs\Index.cshtml" />
+    <Content Include="Views\Shared\_Book.cshtml" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
+    <Content Include="Views\BOOK_EDITION\BookDetailsClient.cshtml" />
+    <Content Include="Views\BOOK_EDITION\Filter.cshtml" />
+    <Content Include="Views\BOOK_EDITION\_FilteredBook.cshtml" />
+    <Content Include="Views\Home\BookGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

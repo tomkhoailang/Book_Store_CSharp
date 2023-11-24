@@ -3,28 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
 {
-    public class HomeController : Controller
-    {
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class HomeController : Controller
+	{
+		private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+		public ActionResult Index()
+		{
+			var categories = db.CATEGORies.ToList();
 
-            return View();
-        }
+			ViewBag.categoriesList = categories;
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+			return View();
+		}
 
-            return View();
-        }
-    }
+		public ActionResult LatestBooksSection()
+		{
+			var bookEditions = db.BOOK_EDITION.OrderByDescending(edition => edition.EditionYear).Take(8).ToList();
+			ViewBag.Title = "Sách mới nhất theo năm xuất bản";
+			return PartialView("BookGrid", bookEditions);
+		}
+
+		public ActionResult Shop()
+		{
+			return RedirectToAction("Filter", "BOOK_EDITION");
+		}
+	}
 }

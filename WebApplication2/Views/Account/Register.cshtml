@@ -1,8 +1,6 @@
 ﻿@model WebApplication2.Models.RegisterViewModel
-@{
-    ViewBag.Title = "Register";
-}
 
+<<<<<<< Updated upstream
 <h2>@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -47,7 +45,39 @@
         </div>
     </div>
 }
+=======
+<section class="container-fluid d-flex justify-content-between align-items-center flex-column">
+	@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "register-form bg-dark p-3 rounded", role = "form", style = "width: 400px;" }))
+	{
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<h3 class="text-light text-center">Tạo tài khoản mới ?</h3>
+		<hr class="bg-light" />
+		<div class="form-group">
+			@Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
+			@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger slide-left" })
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
+			@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger slide-left" })
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label text-light" })
+			@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger slide-left" })
+		</div>
+		<div class="bg-primary text-center mt-5">
+			<input style="font-size: 20px" type="submit" class="w-100 h-100 btn btn-default text-light" value="Register" />
+		</div>
+		<p class="text-light mt-3">
+			Đã tạo tài khoản ? @Html.ActionLink("đăng nhập", "Login")
+		</p>
+	}
+</section>
+>>>>>>> Stashed changes
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }

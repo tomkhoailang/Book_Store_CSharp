@@ -33,7 +33,7 @@ namespace WebApplication2.Models
         public string Code { get; set; }
         public string ReturnUrl { get; set; }
 
-        [Display(Name = "Remember this browser?")]
+        [Display(Name = "Ghi nhớ trình duyệt?")]
         public bool RememberBrowser { get; set; }
 
         public bool RememberMe { get; set; }
@@ -55,10 +55,10 @@ namespace WebApplication2.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Nhớ mật khẩu?")]
         public bool RememberMe { get; set; }
     }
 

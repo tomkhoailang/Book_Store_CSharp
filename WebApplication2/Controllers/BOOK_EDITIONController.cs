@@ -1,273 +1,154 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Data.SqlClient;
-//using System.IO;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using System.Web.Mvc;
-//using WebApplication2.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using System.Web.UI;
+using WebApplication2.Custom;
+using WebApplication2.Custom_Functions;
+using WebApplication2.Models;
 
-//namespace WebApplication2.Controllers
-//{
-//    public class BOOK_EDITIONController : Controller
-//    {
-//        private BookStoreManagerEntities db = new BookStoreManagerEntities();
+namespace WebApplication2.Controllers
+{
+    public class BOOK_EDITIONController : Controller
+    {
+        private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
-//        // GET: BOOK_EDITION
-//        public ActionResult Index()
-//        {
-//            var bOOK_EDITION = db.BOOK_EDITION.Include(b => b.BOOK_COLLECTION).Include(b => b.STOCK_INVENTORY);
-//            return View(bOOK_EDITION.ToList());
-//        }
+        public ActionResult BookDetailsClient(int? id)
+        {
+            BookDetailsClientViewModel m = new BookDetailsClientViewModel();
+            BOOK_EDITION book = db.BOOK_EDITION.Where(b => b.EditionID == id).SingleOrDefault();
 
-//        // GET: BOOK_EDITION/Details/5
-//        public ActionResult Details(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            BOOK_EDITION bOOK_EDITION = db.BOOK_EDITION.Find(id);
-//            if (bOOK_EDITION == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            //get the current applied promotion
-//            ViewBag.current_valid_promotion = db.Sp_check_valid_promotion(id);
-//            var a = ViewBag.current_valid_promotion;
+            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (book == null) return HttpNotFound();
+            m.currentBook = book;
+            m.bookReviews = db.BOOK_REVIEW.Where(e => e.EditionID == id).ToList();
+            m.relativeCollectionName = db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionID == book.BookCollectionID).BookCollectionName;
+            m.imageList = db.BOOK_EDITION_IMAGE.Where(i => i.EditionID == book.EditionID).ToList();
+            m.similarBooks = BooksFilter.getSimilarBooks(book.EditionID);
+            List<int> categoriesIds = book.CATEGORies.Select(c => c.CategoryID).ToList();
+            ViewBag.categories = db.CATEGORies.Where(c => categoriesIds.Contains(c.CategoryID)).ToList();
 
-//            // get list of review
-//            ViewBag.list_of_review = db.BOOK_REVIEW.Where(e => e.EditionID == id).ToList();
+            return View(m);
+        }
 
+        //[OutputCache(Duration = 3600, VaryByParam = "*", Location = OutputCacheLocation.Client)]
+        public ActionResult Filter()
+        {
+            List<BOOK_EDITION> books = (List<BOOK_EDITION>)TempData["bookList"] ?? db.BOOK_EDITION.ToList();
+            ViewBag.selectedCategory = TempData["selectedCategory"] ?? null;
+            List<(int, int)> priceRange = new List<(int, int)>();
 
-//            return View(bOOK_EDITION);
-//        }
+            decimal minPrice = db.BOOK_EDITION.ToList().Aggregate(decimal.MaxValue, (acc, curr) =>
+            {
+                if (curr.EditionPrice < acc)
+                {
+                    return curr.EditionPrice;
+                }
+                return acc;
+            });
 
-//        // GET: BOOK_EDITION/Create
-//        public ActionResult Create()
-//        {
-//            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName");
-//            var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
-//            ViewBag.BookCollectionID = selectList.Prepend(defaultItem);
+            decimal maxPrice = db.BOOK_EDITION.ToList().Aggregate(decimal.MinValue, (acc, curr) =>
+            {
+                if (curr.EditionPrice > acc)
+                {
+                    return curr.EditionPrice;
+                }
+                return acc;
+            });
 
-//            //add try catch to this
-//            ViewBag.CategoryList = db.CATEGORies.ToList();
-//            return View();
-//        }
+			
+            try
+            {
+                int gap = (int)Math.Ceiling((double)(maxPrice - minPrice) / 4);
 
-//        // POST: BOOK_EDITION/Create
-//        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Create([Bind(Include = "EditionID,EditionPrice,EditionDescription,EditionYear,EditionPageCount,EditionName,EditionAuthor,BookCollectionID")] BOOK_EDITION bOOK_EDITION, FormCollection form)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                if(bOOK_EDITION.BookCollectionID == 0)
-//                {
-//                    bOOK_EDITION.BookCollectionID = null;
-//                }
-//                //handle category
-//                for (int i = 8; i < form.AllKeys.Length; i++)
-//                {
-//                    int categoryID = int.Parse(form.AllKeys[i]);
-//                    CATEGORY category = db.CATEGORies.Find(categoryID);
-//                    bOOK_EDITION.CATEGORies.Add(category);
-//                }
-//                bOOK_EDITION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
-//                //handle file
-//                bool isAttached = false;
-//                foreach (string filename in Request.Files)
-//                {
-//                    HttpPostedFileBase file = Request.Files[filename];
-//                    if (file != null && file.ContentLength > 0)
-//                    {
-//                        isAttached = true;
-//                        break;
-//                    }
-//                }
-//                if(isAttached)
-//                {
-//                    for (int i = 0; i < Request.Files.Count; i++)
-//                    {
-//                        HttpPostedFileBase file = Request.Files[i];
-//                        string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
-//                        var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
-//                        file.SaveAs(path);
+                if (gap != 0)
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        priceRange.Add((gap * i, gap * i + gap));
+                    }
+                    if (priceRange[priceRange.Count - 1].Item2 < maxPrice)
+                    {
+                        priceRange.Add((priceRange[priceRange.Count - 1].Item2, -1));
+                    }
+                }
+                else
+                {
+                    priceRange.Add(((int)maxPrice, (int)maxPrice));
+                }
+            }
+            catch (Exception e) {
+                priceRange.Add((0, 0));
+            }
 
-//                        BOOK_EDITION_IMAGE insertedImage = new BOOK_EDITION_IMAGE()
-//                        {
-//                            EditionID = bOOK_EDITION.EditionID,
-//                            EditionImage = uniqueFileName
-//                        };
-//                        bOOK_EDITION.BOOK_EDITION_IMAGE.Add(insertedImage);
-//                    }
-//                }
-//                db.BOOK_EDITION.Add(bOOK_EDITION);
-//                db.SaveChanges();
+            ViewBag.priceRanges = priceRange;
+            ViewBag.categories = db.CATEGORies.ToList();
 
+            return View(books);
+        }
 
-//            }
+        public ActionResult FilteredBook()
+        {
+            var serializer = new JavaScriptSerializer();
+            var requestBody = Request.InputStream;
+            var jsonString = new StreamReader(requestBody).ReadToEnd();
+            var jsonData = serializer.Deserialize<dynamic>(jsonString);
 
-//            ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
-//            return RedirectToAction("Index");
-//        }
+            List<object> categoryIDs = ((object[])jsonData["categories"]).ToList();
+            List<int> categoryIDInts = categoryIDs.Select(c => Convert.ToInt32(c)).ToList();
+            var minPrice = jsonData["minVal"];
+            var maxPrice = jsonData["maxVal"];
 
-//        // GET: BOOK_EDITION/Edit/5
-//        public ActionResult Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            BOOK_EDITION bOOK_EDITION = db.BOOK_EDITION.Find(id);
-//            if (bOOK_EDITION == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            ViewBag.images = db.BOOK_EDITION_IMAGE.Where(a => a.EditionID == id).Select(a => a.EditionImage).ToList();
+            List<BOOK_EDITION> filteredBooks = new List<BOOK_EDITION>();
+            BooksFilter bfb = new BooksFilter();
 
+            if (minPrice != null && maxPrice != null)
+            {
+                filteredBooks = BooksFilter.filterByPrice((decimal)minPrice, (decimal)maxPrice);
+            }
+            else
+            {
+                filteredBooks = BooksFilter.filterByPrice();
+            }
 
-//            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName");
-//            var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
-//            var c = selectList.Prepend(defaultItem);
-//            ViewBag.BookCollectionID = c.ToList();
+            if (categoryIDInts != null && categoryIDInts.Count > 0)
+            {
+                filteredBooks = BooksFilter.filterByCategories(categoryIDInts, filteredBooks);
+            }
 
-//            ViewBag.CategoryList = db.CATEGORies.ToList();
+            return PartialView("_FilteredBook", filteredBooks);
+        }
 
-//            if (bOOK_EDITION.CATEGORies.Count() > 0)
-//            {
-//                string[] SelectedCategoryList = new string[bOOK_EDITION.CATEGORies.Count()];
-//                int i = 0;
-//                foreach (var category in bOOK_EDITION.CATEGORies)
-//                {
-//                    SelectedCategoryList[i] = category.CategoryID.ToString();
-//                    i++;
-//                }
-//                ViewBag.SelectedCategoryList = SelectedCategoryList.ToList();
-//            }
+        public ActionResult FilterByCategory(int id)
+        {
+            List<int> cate = new List<int>();
 
-//            return View(bOOK_EDITION);
-//        }
+            cate.Add(id);
 
-//        // POST: BOOK_EDITION/Edit/5
-//        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit([Bind(Include = "EditionID,EditionPrice,EditionDescription,EditionYear,EditionPageCount,EditionName,EditionAuthor,BookCollectionID")] BOOK_EDITION bOOK_EDITION, FormCollection form)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                if (bOOK_EDITION.BookCollectionID == 0)
-//                {
-//                    bOOK_EDITION.BookCollectionID = null;
-//                }
-//                //handle category
-//                var book = db.BOOK_EDITION.Find(bOOK_EDITION.EditionID);
-//                if(book != null)
-//                {
-//                    book.CATEGORies.Clear();
-//                    db.Entry(book).CurrentValues.SetValues(bOOK_EDITION);
-//                    for (int i = 9; i < form.AllKeys.Length; i++)
-//                    {
-//                        int categoryID = int.Parse(form.AllKeys[i]);
-//                        CATEGORY category = db.CATEGORies.Find(categoryID);
-//                        book.CATEGORies.Add(category);
-//                    }
-//                    book.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
-//                    //handle file
-//                    bool isAttached = false;
-//                    foreach (string filename in Request.Files)
-//                    {
-//                        HttpPostedFileBase file = Request.Files[filename];
-//                        if (file != null && file.ContentLength > 0)
-//                        {
-//                            isAttached = true;
-//                            break;
-//                        }
-//                    }
-//                    if (isAttached)
-//                    {
-//                        for (int i = 0; i < Request.Files.Count; i++)
-//                        {
-//                            HttpPostedFileBase file = Request.Files[i];
-//                            string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
-//                            var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
-//                            file.SaveAs(path);
+            if (BooksFilter.filterByCategories(cate).Count > 0)
+            {
+                TempData["bookList"] = BooksFilter.filterByCategories(cate);
+            }
+            else
+            {
+                TempData["bookList"] = new List<BOOK_EDITION>();
+            }
+            TempData["selectedCategory"] = id;
 
-//                            BOOK_EDITION_IMAGE insertedImage = new BOOK_EDITION_IMAGE()
-//                            {
-//                                EditionID = bOOK_EDITION.EditionID,
-//                                EditionImage = uniqueFileName
-//                            };
-//                            book.BOOK_EDITION_IMAGE.Add(insertedImage);
-//                        }
-//                    }
-//                    db.SaveChanges();
-//                }
-//                //handle file
+            return RedirectToAction("Filter");
+        }
 
-                
-//                return RedirectToAction("Index");
-//            }
-//            ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
-//            ViewBag.EditionID = new SelectList(db.STOCK_INVENTORY, "EditionID", "EditionID", bOOK_EDITION.EditionID);
-//            return View(bOOK_EDITION);
-//        }
+        public ActionResult FilterByText(string query)
+        {
+            TempData["bookList"] = BooksFilter.filterByText(query);
 
-//        // GET: BOOK_EDITION/Delete/5
-//        public ActionResult Delete(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            BOOK_EDITION bOOK_EDITION = db.BOOK_EDITION.Find(id);
-//            if (bOOK_EDITION == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            ViewBag.ShowPopup = false;
-//            return View(bOOK_EDITION);
-//        }
-
-//        // POST: BOOK_EDITION/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult DeleteConfirmed(int id)
-//        {
-//            BOOK_EDITION bOOK_EDITION = db.BOOK_EDITION.Find(id);
-//            if(db.CUSTOMER_ORDER_DETAIL.Any(b => b.EditionID == bOOK_EDITION.EditionID))
-//            {
-//                //case when the book is existed in customer order
-//                ViewBag.existedInCustomerOrder = true;
-//                return RedirectToAction("Index");
-
-//            }
-//            if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(n => n.EditionID == bOOK_EDITION.EditionID)){
-//                //case when the book is existed in stock receive notge
-//                ViewBag.existedInStockReceiveNote = true;
-//                return RedirectToAction("Index");
-
-//            }
-//            db.BOOK_EDITION.Remove(bOOK_EDITION);
-//            db.SaveChanges();
-//            return RedirectToAction("Index");
-
-//        }
-
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                db.Dispose();
-//            }
-//            base.Dispose(disposing);
-//        }
-//    }
-//}
+            return RedirectToAction("Filter");
+        }
+    }
+}
