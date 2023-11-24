@@ -16,8 +16,6 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-
-
     <div class="form-group">
         @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-10" })
         <div id="createDuplicate" class="col-md-10">
@@ -29,7 +27,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.CategoryDescription, htmlAttributes: new { @class = "control-label col-md-10 " })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.CategoryDescription, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.TextAreaFor(model => model.CategoryDescription, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
             @Html.ValidationMessageFor(model => model.CategoryDescription, "", new { @class = "text-danger" })
         </div>
     </div>

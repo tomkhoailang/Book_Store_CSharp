@@ -1,9 +1,131 @@
 ﻿@model WebApplication2.Models.STOCK_INVENTORY
 
 @{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
 }
+
+@using System.Globalization;
+
+@{
+    var stockTotalPrice = 1.0;
+    foreach (var item in ViewBag.stockInHistory)
+    {
+        stockTotalPrice += (float)@item.NoteDetailQuantity * (float)@item.NoteDetailPrice;
+    }
+    var formatedTotalPrice = string.Format(CultureInfo.GetCultureInfo("de-DE"), "{0:N}", stockTotalPrice);
+}
+<h2>Details</h2>
+
+<div>
+    <h4>Person</h4>
+    <hr />
+
+    <!--**********************************
+            Content body start
+        ***********************************-->
+    <div class="content-body">
+
+        <div class="row page-titles mx-0">
+            <div class="col p-md-0">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Manager/STOCK_INVENTORY">Màn hình chính</a></li>
+                    <li class="breadcrumb-item active"><a href="/Manager/STOCK_INVENTORY">Kho hàng</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-validation">
+                                <form class="form-valide" action="#" method="post">
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="val-username">
+                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
+                                        </label>
+                                        <div class="col-lg-6">
+                                            @Html.DisplayFor(model => model.BOOK_EDITION.EditionID)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="val-email">
+                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
+                                        </label>
+                                        <div class="col-lg-6">
+                                            @Html.DisplayFor(model => model.BOOK_EDITION.EditionName)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="val-password">
+                                            @Html.DisplayNameFor(model => model.InventoryStockInTotal)
+                                        </label>
+                                        <div class="col-lg-6">
+                                            @Html.DisplayFor(model => model.InventoryStockInTotal)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="val-confirm-password">
+                                            @Html.DisplayNameFor(model => model.InventoryStockOutTotal)
+                                        </label>
+                                        <div class="col-lg-6">
+                                            @Html.DisplayFor(model => model.InventoryStockOutTotal)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                            @Html.DisplayNameFor(model => model.InventoryAvailableStock)
+                                        </label>
+                                        <div class="col-lg-6">
+                                            @Html.DisplayFor(model => model.InventoryAvailableStock)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                            Tổng giá nhập
+                                        </label>
+                                        <div class="col-lg-6">
+                                            @if (stockTotalPrice == 1)
+                                            {
+                                                <p>Chưa nhập sách này</p>
+
+                                            }
+                                            else
+                                            {
+                                                <p>@formatedTotalPrice VNĐ</p>
+
+                                            }
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            Lịch sử nhập hàng:
+            <ul>
+                @foreach (var item in ViewBag.stockInHistory)
+                {
+                    var noteTotalPrice = @item.NoteDetailQuantity * @item.NoteDetailPrice;
+                    var formatedNoteTotalPrice = string.Format(CultureInfo.GetCultureInfo("de-DE"), "{0:N}", noteTotalPrice);
+                    <li>Nhập @item.NoteDetailQuantity sản phẩm từ mã phiếu: @item.STOCK_RECEIVED_NOTE.StockReceivedNoteID với giá @item.NoteDetailPrice VNĐ. Tổng cộng: @formatedNoteTotalPrice VNĐ  </li>
+                }
+            </ul>
+        </div>
+        <!-- #/ container -->
+    </div>
+    <!--**********************************
+        Content body end
+    ***********************************-->
+
+</div>
+
+
 
 <h2>Details</h2>
 

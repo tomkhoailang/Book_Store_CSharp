@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -316,6 +316,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
           </Key>
           <Property Name="CustomerID" Type="int" Nullable="false" />
           <Property Name="TotalSpending" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+          <Key>
+            <PropertyRef Name="EditionID" />
+          </Key>
+          <Property Name="EditionID" Type="int" Nullable="false" />
+          <Property Name="TongNhapCuaThang" Type="int" />
+          <Property Name="TongNhapThangTruoc" Type="int" />
+          <Property Name="TongTienNhapCuaThang" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="TongTienNhapThangTruoc" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -861,6 +873,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
         <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="editionID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
         </Function>
@@ -905,6 +921,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_CustomerSpending].[CustomerID] AS [CustomerID], 
     [V_CustomerSpending].[TotalSpending] AS [TotalSpending]
     FROM [dbo].[V_CustomerSpending] AS [V_CustomerSpending]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[EditionID] AS [EditionID], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongNhapCuaThang] AS [TongNhapCuaThang], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongNhapThangTruoc] AS [TongNhapThangTruoc], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapCuaThang] AS [TongTienNhapCuaThang], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapThangTruoc] AS [TongTienNhapThangTruoc]
+    FROM [dbo].[V_edition_total_stock_quantity_price_in_this_and_previous_month] AS [V_edition_total_stock_quantity_price_in_this_and_previous_month]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1087,8 +1112,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2087,15 +2111,20 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
-            <Parameter Name="editionID" Mode="In" Type="Int32" />
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
-            <Parameter Name="AccountID" Mode="In" Type="String" />
+          <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Person" ReturnType="Collection(BookStoreManagerModel.SP_Inital_Person_Result)">
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2115,6 +2144,16 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="Int32" Name="TierID" Nullable="true" />
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+          <Key>
+            <PropertyRef Name="EditionID" />
+          </Key>
+          <Property Name="EditionID" Type="Int32" Nullable="false" />
+          <Property Name="TongNhapCuaThang" Type="Int32" />
+          <Property Name="TongNhapThangTruoc" Type="Int32" />
+          <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2493,6 +2532,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
+          <EntitySetMapping Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month">
+              <MappingFragment StoreEntitySet="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+                <ScalarProperty Name="TongTienNhapThangTruoc" ColumnName="TongTienNhapThangTruoc" />
+                <ScalarProperty Name="TongTienNhapCuaThang" ColumnName="TongTienNhapCuaThang" />
+                <ScalarProperty Name="TongNhapThangTruoc" ColumnName="TongNhapThangTruoc" />
+                <ScalarProperty Name="TongNhapCuaThang" ColumnName="TongNhapCuaThang" />
+                <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

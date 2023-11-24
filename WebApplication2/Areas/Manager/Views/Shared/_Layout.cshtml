@@ -13,6 +13,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="~/Assets/Admin/css/style.css" rel="stylesheet">
     <script src="~/Assets/Admin/js/jquery.js"></script>
 
@@ -258,7 +259,7 @@
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Quản lý sách</span>
                         </a>
                         <ul aria-expanded="false">
-                          
+
                             <li>
                                 @Html.ActionLink("Sách", "Index", "BOOK_EDITION")
                             </li>
@@ -270,6 +271,9 @@
                             </li>
                             <li>
                                 @Html.ActionLink("Danh mục", "Index", "CATEGORIES")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Kho hàng", "Index", "STOCK_INVENTORY")
                             </li>
                         </ul>
                     </li>
@@ -289,7 +293,7 @@
                     </li>
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Nguồn nhập</span>
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Quản lý nguồn nhập</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>

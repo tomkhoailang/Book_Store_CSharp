@@ -187,4 +187,27 @@ end
 
 
 
+select * from V_edition_total_stock_quantity_price_in_this_and_previous_month
+
+go
+create view V_edition_total_stock_quantity_price_in_this_and_previous_month as
+SELECT
+    sd.EditionID,
+    SUM(CASE WHEN MONTH(s.StockReceivedNoteDate) = MONTH(GETDATE()) THEN sd.NoteDetailQuantity ELSE 0 END) AS TongNhapCuaThang,
+	SUM(CASE WHEN MONTH(s.StockReceivedNoteDate) = MONTH(DATEADD(MONTH, -1, GETDATE())) THEN sd.NoteDetailQuantity ELSE 0 END) AS TongNhapThangTruoc,
+    SUM(CASE WHEN MONTH(s.StockReceivedNoteDate) = MONTH(GETDATE()) THEN (sd.NoteDetailQuantity * sd.NoteDetailPrice) ELSE 0 END) AS TongTienNhapCuaThang,
+    SUM(CASE WHEN MONTH(s.StockReceivedNoteDate) = MONTH(DATEADD(MONTH, -1, GETDATE())) THEN (sd.NoteDetailQuantity * sd.NoteDetailPrice) ELSE 0 END) AS TongTienNhapThangTruoc
+FROM
+    STOCK_RECEIVED_NOTE s
+    JOIN STOCK_RECEIVED_NOTE_DETAIL sd ON s.StockReceivedNoteID = sd.StockReceivedNoteID
+WHERE
+    MONTH(s.StockReceivedNoteDate) IN (MONTH(GETDATE()), MONTH(DATEADD(MONTH, -1, GETDATE())))
+	AND YEAR(s.StockReceivedNoteDate) = Year(getdate())
+GROUP BY
+    sd.EditionID;
+
+
+
+
+
 
