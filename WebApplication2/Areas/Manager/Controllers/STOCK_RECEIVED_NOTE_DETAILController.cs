@@ -62,17 +62,20 @@ namespace WebApplication2.Areas.Manager.Controllers
                     {
                         ViewBag.ErrorMessage = "Không thể thêm mới. Phiếu nhập này đã có tất cả sách trong kho.";
                     }
-                    ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "selectDataTextField");
+                    //ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "selectDataTextField");
+                    ViewBag.EditionID = new SelectList(db.BOOK_EDITION.Where(e => usedEditionList.Contains(e.EditionID) == false), "EditionID", "EditionID");
                     ViewBag.HiddenStockID = true;
                 }
                 else
                 {
-                    ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
+                    //ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
+                    ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionID");
                 }
             }
             else
             {
-                ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
+                //ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "selectDataTextField");
+                ViewBag.EditionID = new SelectList(db.BOOK_EDITION, "EditionID", "EditionID");
             }
             return PartialView("_CreatePartialView");
         }

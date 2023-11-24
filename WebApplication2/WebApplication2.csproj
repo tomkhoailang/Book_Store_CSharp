@@ -5725,13 +5725,6 @@
     <Content Include="Areas\Manager\Views\BOOK_EDITION\Details.cshtml" />
     <Content Include="Areas\Manager\Views\BOOK_EDITION\_EditPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\BOOK_EDITION\Index.cshtml" />
-    <EntityDeploy Include="Models\BookStoreManager.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BookStoreManager.edmx.diagram">
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
-    </Content>
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\edmxResourcesToEmbed\Models\BookStoreManager.csdl" />
@@ -5757,6 +5750,13 @@
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="bin\WebApplication2.dll.config" />
+    <EntityDeploy Include="Models\BookStoreManager.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BookStoreManager.edmx.diagram">
+      <DependentUpon>BookStoreManager.edmx</DependentUpon>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Views\CATEGORies\Create.cshtml" />
     <Content Include="Views\CATEGORies\Delete.cshtml" />

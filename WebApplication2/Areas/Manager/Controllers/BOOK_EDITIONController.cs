@@ -49,7 +49,8 @@ namespace WebApplication2.Areas.Manager.Controllers
         // GET: BOOK_EDITION/Create
         public ActionResult Create()
         {
-            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");
+           /* var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");*/
+            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionID");
             var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
             ViewBag.BookCollectionID = selectList.Prepend(defaultItem);
 
@@ -132,7 +133,8 @@ namespace WebApplication2.Areas.Manager.Controllers
             ViewBag.images = db.BOOK_EDITION_IMAGE.Where(a => a.EditionID == id).Select(a => a.EditionImage).ToList();
 
 
-            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");
+            //var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");
+            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionID");
             var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
             var c = selectList.Prepend(defaultItem);
             ViewBag.BookCollectionID = c.ToList();
