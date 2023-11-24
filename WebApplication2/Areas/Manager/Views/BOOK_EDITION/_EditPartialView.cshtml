@@ -17,82 +17,89 @@
     }
 }
 
-<h2>Edit</h2>
+<h2>Chỉnh sửa</h2>
 
 
 @using (Html.BeginForm("Edit", "BOOK_EDITION", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>BOOK_EDITION</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.EditionID)
+<div class="form-horizontal">
+    <h4>Thông tin sách</h4>
+    <hr />
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => editionPrice, new { htmlAttributes = new { @class = "form-control", oninput = "this.value = this.value.slice(0, 18)" } })
-                @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.EditionID)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionDescription, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionYear, new { htmlAttributes = new { @class = "form-control", type = "number", oninput = "this.value = this.value.slice(0, 4)" } })
-                @Html.ValidationMessageFor(model => model.EditionYear, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionPageCount, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionPageCount, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionPageCount, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionName, htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionName, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionName, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionAuthor, htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionAuthor, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionAuthor, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionAuthor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionAuthor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionAuthor, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-10", @required = "required" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control", oninput = "this.value = this.value.slice(0, 18)" } })
+            @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.BookCollectionID, "BookCollectionID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <select name="BookCollectionID" class="form-control">
-                    @foreach (var item in selectList)
-                    {
-                        <option value="@item.Value" selected="@item.Selected">@item.Text</option>
-                    }
-                </select>
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionDescription, htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionDescription, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionDescription, "", new { @class = "text-danger" })
         </div>
-        @if (ViewBag.CategoryList.Count > 0)
-        {
-            <div class="form-group">
-                <div>Category</div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionYear, htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionYear, new { htmlAttributes = new { @class = "form-control", type = "number", oninput = "this.value = this.value.slice(0, 4)" } })
+            @Html.ValidationMessageFor(model => model.EditionYear, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionPageCount, htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionPageCount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionPageCount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BookCollectionID, "Bộ sưu tập", htmlAttributes: new { @class = "control-label col-md-10" })
+        <div class="col-md-10">
+            <select name="BookCollectionID" class="form-control">
+                @foreach (var item in selectList)
+                {
+                    <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @if (ViewBag.CategoryList != null)
+    {
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <div>Danh mục</div>
                 @foreach (var c in ViewBag.CategoryList)
                 {
                     if (ViewBag.SelectedCategoryList != null && ViewBag.SelectedCategoryList.Contains(c.CategoryID.ToString()))
@@ -105,74 +112,92 @@
                         <input type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" />
                         <label for="@c.CategoryID">@c.CategoryName.</label>
                     }
+                    <br />
                 }
 
             </div>
-        }
 
-
-        <div class="form-group">
-            <label for="imageUpload">Select multiple images:</label>
-            <input type="file" name="imageUpload" id="imageUpload" multiple accept="image/*">
         </div>
+    }
 
-        <div id="preview"></div>
+    <div class="form-group">
+        <label for="editImageUpload">Select multiple images:</label>
+        <input type="file" name="editImageUpload" id="editImageUpload" multiple accept="image/*">
+    </div>
 
+    <div id="editPreview">
+        @if (ViewBag.images.Count > 0)
+        {
+            foreach (var name in ViewBag.images)
+            {
+                <img src="~/Images/@name" style="width:49%; height:49% " />
+            }
+        }
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    <hr />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Lưu" class="btn btn-default" />
+            <button type="button" class="btn btn-primary" onclick="loadController(@Model.EditionID)">Xóa</button>
         </div>
     </div>
-}
+    <div class="form-group">
+        <div class="error-message">
+        </div>
+    </div>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+
+
+
 </div>
+}
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var imageUpload = document.getElementById('imageUpload');
-        var event = new Event('change', {
-            bubbles: true,
-            cancelable: true
-        });
-        imageUpload.dispatchEvent(event);
-    });
+    function loadController(id) {
+        var userResponse = confirm("Bạn có chắc muốn xóa sách này không này ?");
+        if (userResponse == true) {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                url: '/Manager/BOOK_EDITION/Delete',
+                data: { id: id, __RequestVerificationToken: token },
+                type: 'POST',
+                success: function (data) {
+                    if (data.redirectToAction) {
+                        window.location.href = data.actionUrl;
+                    } else {
+                        $(".error-message").html(data);
+                    }
+                }
+            });
+        }
+
+    }
+</script>
 
 
-    document.getElementById('imageUpload').addEventListener('change', function () {
-        console.log("hehe")
-        var preview = document.getElementById('preview');
-        preview.innerHTML = '';
+<script>
+    document.getElementById('editImageUpload').addEventListener('change', function () {
+        var editPreview = document.getElementById('editPreview');
+        console.log(editPreview)
+        editPreview.innerHTML = '';
         var files = this.files;
-        if (files.length === 0) {
-            image_name_list = @Html.Raw(Json.Encode(ViewBag.images));
-            for (var i = 0; i < image_name_list.length; i++) {
-                var name = image_name_list[i];
-                var img = document.createElement("img");
-                img.src = "/Images/" + name;
-                console.log(img.src);
-                img.style.width = '50%';
-                img.style.height = '50%';
-                preview.appendChild(img);
-            }
 
-        } else {
+        if (files.length !== 0) {
             for (var i = 0; i < files.length; i++) {
-
                 var file = files[i];
                 var reader = new FileReader();
                 reader.onload = function () {
                     var img = document.createElement('img');
                     img.src = this.result;
-                    img.style.width = '50%';
-                    img.style.height = '50%';
-                    preview.appendChild(img);
+                    img.style.width = '49%';
+                    img.style.height = '49%';
+                    editPreview.appendChild(img);
                 }
                 reader.readAsDataURL(file);
             }
         }
+
 
 
     });

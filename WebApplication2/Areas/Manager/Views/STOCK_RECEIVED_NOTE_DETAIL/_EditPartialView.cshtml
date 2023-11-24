@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Chỉnh sửa</h2>
 
 
 @using (Html.BeginForm())
@@ -12,43 +12,45 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>STOCK_RECEIVED_NOTE_DETAIL</h4>
+        <h4>Thông tin chi tiết phiếu nhập</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.EditionID)
+
+        @Html.HiddenFor(model => model.StockReceivedNoteID)
+        @Html.HiddenFor(model => model.NoteDetailID)
         <div class="form-group">
-            @Html.LabelFor(model => model.NoteDetailQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NoteDetailQuantity, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NoteDetailQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NoteDetailQuantity, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.NoteDetailQuantity, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NoteDetailPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NoteDetailPrice, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NoteDetailPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NoteDetailPrice, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.NoteDetailPrice, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        @Html.HiddenFor(model => model.EditionID)
-
-        @Html.HiddenFor(model => model.StockReceivedNoteID)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Lưu" class="btn btn-default" />
+                <button type="button" class="btn btn-primary" onclick="loadController(@Model.NoteDetailID)">Xóa</button>
             </div>
         </div>
     </div>
 }
 
-<button type="button" class="btn btn-primary" onclick="loadController(@Model.NoteDetailID)">Xoa</button>
 
 <script>
 
     function loadController(id) {
-        var userResponse = confirm("Ban sure chua?");
+        var userResponse = confirm("Bạn có chắc muốn xóa chi tiết phiếu nhập này?");
         if (userResponse == true) {
             var token = $('input[name="__RequestVerificationToken"]').val();
             $.ajax({

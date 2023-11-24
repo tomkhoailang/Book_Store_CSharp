@@ -68,8 +68,6 @@ namespace WebApplication2.Areas.Manager.Controllers
                 }
                 else
                 {
-                    // case when there is a promotion with the same name
-                    ViewBag.ShowPopup = true;
                     return View(bOOK_COLLECTION);
                 }
                 return RedirectToAction("Index");

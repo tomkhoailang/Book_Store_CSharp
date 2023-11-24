@@ -373,5 +373,17 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
+    <EntitySetMapping Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month">
+        <MappingFragment StoreEntitySet="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+          <ScalarProperty Name="TongTienNhapThangTruoc" ColumnName="TongTienNhapThangTruoc" />
+          <ScalarProperty Name="TongTienNhapCuaThang" ColumnName="TongTienNhapCuaThang" />
+          <ScalarProperty Name="TongNhapThangTruoc" ColumnName="TongNhapThangTruoc" />
+          <ScalarProperty Name="TongNhapCuaThang" ColumnName="TongNhapCuaThang" />
+          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -13,91 +13,96 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Thông tin khuyến mãi</h4>
+    <div class="form-horizontal">
+        <h4>Thông tin khuyến mãi</h4>
 
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.PromotionID)
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.PromotionID)
 
-    <div class="form-group">
-        <div class="error-message">
-            @Html.Partial("_ErrorMessagePartialView")
+        <div class="form-group">
+            <div class="error-message">
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label " })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-10 " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label " })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PromotionDiscount, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-            @Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label col-md-10  " })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PromotionDiscount, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                @Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label " })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.PromotionDetails, new { htmlAttributes = new { @class = "form-control", placeholder = "Tự động tạo khi để trống" } })
-            @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label col-md-10 " })
+            <div class="col-md-10">
+                <textarea class="form-control " rows="6" id="editPromotionDetails" name="PromotionDetails" >@Model.PromotionDetails</textarea>
+                @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label " })
-        <div class="col-md-10">
-            <input type="datetime-local" id="PromotionStartDateEdit" name="PromotionStartDate" class="form-control" value="@ViewBag.startDateFormat" />
-            @Html.ValidationMessageFor(model => model.PromotionStartDate, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <label for="auto-generate">Tự động tạo:</label>
+                <input type="checkbox" id="auto-generate" name="auto-generate" value="enable" />
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label " })
-        <div class="col-md-10">
-            <input type="datetime-local" id="PromotionEndDateEdit" name="PromotionEndDate" class="form-control" value="@ViewBag.endDateFormat" />
-            @Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label col-md-10  " })
+            <div class="col-md-10">
+                <input type="datetime-local" id="PromotionStartDateEdit" name="PromotionStartDate" class="form-control" value="@ViewBag.startDateFormat" />
+                @Html.ValidationMessageFor(model => model.PromotionStartDate, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
 
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <label>Danh sách được áp dụng khuyến mãi</label>
-            <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
+            <div class="col-md-10">
+                <input type="datetime-local" id="PromotionEndDateEdit" name="PromotionEndDate" class="form-control" value="@ViewBag.endDateFormat" />
+                @Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
 
-            @foreach (var book in ViewBag.list_of_book)
-            {
-                string labelName = "Tên sách: " + book.EditionName + " - Mã sách: " + book.EditionID.ToString();
-                if (ViewBag.list_of_selected_book != null && ViewBag.list_of_selected_book.Contains(@book.EditionID.ToString()))
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label>Danh sách được áp dụng khuyến mãi</label>
+                <hr />
+
+                @foreach (var book in ViewBag.list_of_book)
                 {
-                    <input checked="checked" type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID" />
-                }
-                else
-                {
-                    <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID" />
-                }
+                    string labelName = "Tên sách: " + book.EditionName + " - Mã sách: " + book.EditionID.ToString();
+                    if (ViewBag.list_of_selected_book != null && ViewBag.list_of_selected_book.Contains(@book.EditionID.ToString()))
+                    {
+                        <input checked="checked" type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID" />
+                    }
 
-                <label for="@book.EditionID">@labelName</label><br>
-            }
+                    <label for="@book.EditionID">@labelName</label><br>
+                }
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-default" />
+                <button type="button" class="btn btn-primary" onclick="loadController(@Model.PromotionID)">Xóa</button>
+            </div>
         </div>
     </div>
-
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Lưu" class="btn btn-default" />
-            <button type="button" class="btn btn-primary" onclick="loadController(@Model.PromotionID)">Xóa</button>
-        </div>
-    </div>
-</div>
 }
 
 
@@ -139,6 +144,17 @@
             var minDate = new Date($(this).val());
             minDate.setMinutes(minDate.getMinutes() + 10);
             $("#PromotionEndDateEdit").prop("min", minDate.toISOString().slice(0, 16));
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#auto-generate').change(function () {
+            if (this.checked) {
+                $('#editPromotionDetails').prop('readonly', true);
+            } else {
+                $('#editPromotionDetails').prop('readonly', false);
+            }
         });
     });
 </script>

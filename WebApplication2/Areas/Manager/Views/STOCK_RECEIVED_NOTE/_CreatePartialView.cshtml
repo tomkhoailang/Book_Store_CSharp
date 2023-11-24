@@ -6,45 +6,52 @@
 
 <h2>Thêm mới</h2>
 
-
-@using (Html.BeginForm()) 
+@if (ViewBag.havePublisher.Count == 0)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Thông tin phiếu nhập</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label col-md-10" })
-            <div id="createDate" class="col-md-10">
-                <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PublisherID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-10" })
-            <div class="col-md-10">
-                @Html.DropDownList("PublisherID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PublisherID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+    <p style="color:red">Vui lòng thêm nhà xuất bản trước khi viết phiếu nhập</p>
 }
-<script>
-    $(document).ready(function () {
-        var initial = new Date();
-        initial.setHours(initial.getHours() + 7)
-        $("#createDate").find("#StockReceivedNoteDate").val(initial.toISOString().slice(0, 16));
-        
-    });
-</script>
+else
+{
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Thông tin phiếu nhập</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label col-md-10" })
+                <div id="createDate" class="col-md-10">
+                    <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PublisherID, "Nhà xuất bản", htmlAttributes: new { @class = "control-label col-md-10" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PublisherID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PublisherID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Thêm" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    <script>
+        $(document).ready(function () {
+            var initial = new Date();
+            initial.setHours(initial.getHours() + 7)
+            $("#createDate").find("#StockReceivedNoteDate").val(initial.toISOString().slice(0, 16));
+
+        });
+    </script>
+}
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

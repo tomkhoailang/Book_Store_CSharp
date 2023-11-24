@@ -19,9 +19,13 @@
             </ol>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
-        Thêm nhà xuất bản mới
-    </button>
+    @if (ViewBag.id != null)
+    {
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+            Thêm chi tiết phiếu nhập mới
+        </button>
+    }
+
     <hr />
 
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -62,36 +66,21 @@
     </div>
 
     <!-- row -->
-    @using (Html.BeginForm("Index", "STOCK_RECEIVED_NOTE", FormMethod.Get, new { @class = "form-inline" }))
-    {
-        <div class="form-group">
-            <label>Tên nhà xuất bản: </label>
-            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
-            <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-        </div><hr />
-    }
-
-    @if (ViewBag.id != null)
-    {
-        <p>Current Stock Received Note: @ViewBag.id</p>
-    }
+    @*@if (ViewBag.id != null)
+        {
+            <p>Current Stock Received Note: @ViewBag.id</p>
+        }*@
 
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Data Table</h4>
+                        <h4 class="card-title">Chi tiết phiếu nhập của mã phiếu: @ViewBag.id</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.NoteDetailQuantity)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.NoteDetailPrice)
-                                        </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
                                         </th>
@@ -99,9 +88,13 @@
                                             @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.STOCK_RECEIVED_NOTE.StockReceivedNoteID)
+                                            @Html.DisplayNameFor(model => model.NoteDetailQuantity)
                                         </th>
-                                        <th></th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.NoteDetailPrice)
+                                        </th>
+
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,26 +102,22 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.NoteDetailQuantity)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.NoteDetailPrice)
-                                            </td>
-                                            <td>
                                                 @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionID)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.STOCK_RECEIVED_NOTE.StockReceivedNoteID)
+                                                @Html.DisplayFor(modelItem => item.NoteDetailQuantity)
                                             </td>
                                             <td>
+                                                @Html.DisplayFor(modelItem => item.NoteDetailPrice)
+                                            </td>
+
+                                            <td>
                                                 <button type="button" class="btn btn-primary" id="@item.NoteDetailID" data-toggle="modal" data-target="#editModal" value="@item.NoteDetailID" onclick="loadPartialView(this.value)">
-                                                    Đăng ký tài khoản mới
-                                                </button>|
-                                                @Html.ActionLink("Details", "Details", new { id = item.NoteDetailID }) |
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.NoteDetailID })
+                                                    Chỉnh sửa
+                                                </button>
                                             </td>
                                         </tr>
                                     }
@@ -150,6 +139,7 @@
     function loadCreatePartialView() {
         $.ajax({
             url: '/Manager/STOCK_RECEIVED_NOTE_DETAIL/Create',
+            data: { stockReceivedNoteID: @Html.Raw(Json.Encode(ViewBag.id)) },
             type: 'GET',
             success: function (data) {
                 $('#CreatePartialViewContainer').html(data);

@@ -61,6 +61,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
+                string promoDetail = "";
                 for (int i = 6; i < form.AllKeys.Length; i++)
                 {
                     if (form.AllKeys[i] != null)
@@ -68,12 +69,17 @@ namespace WebApplication2.Areas.Manager.Controllers
                         int bookID = int.Parse(form.AllKeys[i]);
                         BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == bookID);
                         pROMOTION.BOOK_EDITION.Add(book);
+                        promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName +" ";
                     }
+                }
+                promoDetail += " sẽ được áp dụng khuyến mãi " + pROMOTION.PromotionDiscount + "% từ ngày" + pROMOTION.PromotionStartDate.ToString() + " đến ngày " + pROMOTION.PromotionEndDate.ToString();
+
+                if (string.IsNullOrEmpty(pROMOTION.PromotionDetails))
+                {
+                    pROMOTION.PromotionDetails = promoDetail;
                 }
                 pROMOTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                 db.PROMOTIONs.Add(pROMOTION);
-
-
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -123,15 +129,32 @@ namespace WebApplication2.Areas.Manager.Controllers
                 var p = db.PROMOTIONs.Find(pROMOTION.PromotionID);
                 if (p != null)
                 {
+                    string promoDetail = "";
                     p.BOOK_EDITION.Clear();
                     db.Entry(p).CurrentValues.SetValues(pROMOTION);
                     p.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
-                    for (int i = 7; i < form.AllKeys.Length; i++)
+
+                    int init = 7;
+                    var autoGenerate = Request["auto-generate"];
+                    bool useGenerate = false;
+                    if (autoGenerate != null && autoGenerate == "enable")
+                    {
+                        init = 8;
+                        useGenerate = true;
+                    }
+
+                    for (; init < form.AllKeys.Length; init++)
                     {
                         // add the new book id
-                        int bookID = int.Parse(form.AllKeys[i]);
+                        int bookID = int.Parse(form.AllKeys[init]);
                         BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == bookID);
                         p.BOOK_EDITION.Add(book);
+                        promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName + " ";
+                    }
+                    if (useGenerate)
+                    {
+                        promoDetail += " sẽ được áp dụng khuyến mãi " + p.PromotionDiscount + "% từ ngày" + p.PromotionStartDate.ToString() + " đến ngày " + p.PromotionEndDate.ToString();
+                        p.PromotionDetails = promoDetail;
                     }
                     db.SaveChanges();
                 }

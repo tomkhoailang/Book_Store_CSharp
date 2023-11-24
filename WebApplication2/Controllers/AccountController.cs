@@ -155,7 +155,6 @@ namespace WebApplication2.Controllers
         }
 
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -185,29 +184,30 @@ namespace WebApplication2.Controllers
                             break;
                     }
                     await UserManager.AddToRoleAsync(user.Id, role);
-
                     //create shipper, staff, customer
                     db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
 
+                    if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+                    {
+                        return RedirectToAction("Index", "User", new { area = "Manager" });
+                    }
 
 
 
-                    ////uncomment this to create manager (only 1 manager is allowed)
-                    //db.SP_Inital_Manager(user.Id);
-                    //await UserManager.AddToRoleAsync(user.Id, "Manager");
 
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        ////uncomment this to create manager (only 1 manager is allowed)
+                        //db.SP_Inital_Manager(user.Id);
+                        //await UserManager.AddToRoleAsync(user.Id, "Manager");
+
+
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     //// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     //// Send an email with this link
                     //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    //if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
-                    //{
-                    //    return RedirectToAction("Index", "User", new { area = "Manager" });
-                    //}
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

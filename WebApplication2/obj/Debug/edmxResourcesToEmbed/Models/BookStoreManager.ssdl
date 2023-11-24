@@ -93,7 +93,7 @@
     </Key>
     <Property Name="EditionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EditionPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
-    <Property Name="EditionDescription" Type="nvarchar" MaxLength="500" />
+    <Property Name="EditionDescription" Type="text" />
     <Property Name="EditionYear" Type="nvarchar" MaxLength="4" Nullable="false" />
     <Property Name="EditionPageCount" Type="int" />
     <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -311,6 +311,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
     </Key>
     <Property Name="CustomerID" Type="int" Nullable="false" />
     <Property Name="TotalSpending" Type="decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="int" Nullable="false" />
+    <Property Name="TongNhapCuaThang" Type="int" />
+    <Property Name="TongNhapThangTruoc" Type="int" />
+    <Property Name="TongTienNhapCuaThang" Type="decimal" Precision="38" Scale="2" />
+    <Property Name="TongTienNhapThangTruoc" Type="decimal" Precision="38" Scale="2" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -856,6 +868,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
   <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="editionID" Type="int" Mode="In" />
   </Function>
+  <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderID" Type="int" Mode="In" />
+    <Parameter Name="StatusID" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
   </Function>
@@ -900,6 +916,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_CustomerSpending].[CustomerID] AS [CustomerID], 
     [V_CustomerSpending].[TotalSpending] AS [TotalSpending]
     FROM [dbo].[V_CustomerSpending] AS [V_CustomerSpending]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[EditionID] AS [EditionID], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongNhapCuaThang] AS [TongNhapCuaThang], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongNhapThangTruoc] AS [TongNhapThangTruoc], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapCuaThang] AS [TongTienNhapCuaThang], 
+    [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapThangTruoc] AS [TongTienNhapThangTruoc]
+    FROM [dbo].[V_edition_total_stock_quantity_price_in_this_and_previous_month] AS [V_edition_total_stock_quantity_price_in_this_and_previous_month]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

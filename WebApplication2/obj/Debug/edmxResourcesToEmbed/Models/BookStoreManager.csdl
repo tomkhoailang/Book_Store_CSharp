@@ -89,7 +89,7 @@
     </Key>
     <Property Name="EditionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="EditionPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
-    <Property Name="EditionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="EditionDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="EditionYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="EditionPageCount" Type="Int32" />
     <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
@@ -1004,6 +1004,11 @@
       <Parameter Name="AccountID" Mode="In" Type="String" />
       <Parameter Name="ManagerID" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
+      <Parameter Name="OrderID" Mode="In" Type="Int32" />
+      <Parameter Name="StatusID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1023,4 +1028,14 @@
     <Property Type="Int32" Name="TierID" Nullable="true" />
     <Property Type="Int32" Name="ManagerID" Nullable="false" />
   </ComplexType>
+  <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="TongNhapCuaThang" Type="Int32" />
+    <Property Name="TongNhapThangTruoc" Type="Int32" />
+    <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
+    <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
 </Schema>

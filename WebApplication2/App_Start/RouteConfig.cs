@@ -13,6 +13,14 @@ namespace WebApplication2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+
+            routes.MapRoute(
+               name: "StockReceivedNoteDetail",
+               url: "Manager/STOCK_RECEIVED_NOTE_DETAIL/Index/{stockReceivedNoteID}",
+              defaults: new { area = "Manager", controller = "STOCK_RECEIVED_NOTE_DETAIL", action = "Index" }
+           );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

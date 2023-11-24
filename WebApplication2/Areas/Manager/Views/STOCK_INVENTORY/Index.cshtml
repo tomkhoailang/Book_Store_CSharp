@@ -57,13 +57,13 @@
         </div>
     </div>
     @using (Html.BeginForm("Index", "STOCK_INVENTORY", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <div class="form-group">
-                <label>Tên nhà xuất bản: </label>
-                <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
-                <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-            </div><hr />
-        }
+    {
+        <div class="form-group">
+            <label>Tên nhà xuất bản: </label>
+            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
+            <input type="submit" class="btn btn-danger" value="Tìm kiếm">
+        </div><hr />
+    }
 
 
     <div class="container-fluid">
@@ -77,6 +77,12 @@
                                 <thead>
                                     <tr>
                                         <th>
+                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
+                                        </th>
+                                        <th>
                                             @Html.DisplayNameFor(model => model.InventoryStockInTotal)
                                         </th>
                                         <th>
@@ -85,19 +91,21 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.InventoryAvailableStock)
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
-                                        </th>
                                         <th>Thao tác</th>
+                                        <th>Ghi chú</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
+                                        string stockDetails = "stockDetailsOf" + item.EditionID;
                                     <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionName)
+                                        </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.InventoryStockInTotal)
                                         </td>
@@ -108,15 +116,11 @@
                                             @Html.DisplayFor(modelItem => item.InventoryAvailableStock)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionName)
-                                        </td>
-                                        <td>
                                             <button type="button" class="btn btn-primary" id="@item.EditionID" value="@item.EditionID" onclick="redirectToDetails(this.value)">
                                                 Thông tin chi tiết
                                             </button>
+                                        </td>
+                                        <td id=@stockDetails>
                                         </td>
                                     </tr>
                                     }
@@ -133,9 +137,38 @@
 <!--**********************************
     Content body end
 ***********************************-->
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Manager/STOCK_INVENTORY/StockDetails', // Replace with the actual URL
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                const stockDetails = JSON.parse(data);
+                for (var key in stockDetails) {
+                    var destination = "#stockDetailsOf" + key;
+                    var newQuantity = stockDetails[key].TongNhapCuaThang - stockDetails[key].TongNhapThangTruoc
+                    if (newQuantity > 0) {
+                        $(destination).css('color', 'green');
+                        $(destination).html("Số lượng nhập: " + '<i class="fas fa-arrow-up green-icon"></i> ' + newQuantity + " so với tháng trước");
+                    }
+                    else {
+                        $(destination).css('color', 'red');
+                        $(destination).html("Số lượng nhập: " +'<i class="fas fa-arrow-down green-icon"></i> '  + Math.abs(newQuantity) + " so với tháng trước");
+                    }
+                }
+            },
+            error: function (error) {
+                console.error('Error retrieving stock details:', error);
+            }
+        });
+    });
+</script>
+
 <script>
     function redirectToDetails(stockReceivedNoteID) {
-        var url = "/Manager/STOCK_RECEIVED_NOTE_DETAIL/Index/" + stockReceivedNoteID;
+        var url = "/Manager/STOCK_INVENTORY/Details/" + stockReceivedNoteID;
         window.location.href = url;
     }
 </script>

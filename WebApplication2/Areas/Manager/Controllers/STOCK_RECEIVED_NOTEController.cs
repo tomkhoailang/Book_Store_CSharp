@@ -40,7 +40,9 @@ namespace WebApplication2.Areas.Manager.Controllers
         // GET: STOCK_RECEIVED_NOTE/Create
         public ActionResult Create()
         {
-            ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "selectDataTextField");
+            //ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "selectDataTextField");
+            ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "PublisherID");
+            ViewBag.havePublisher = db.PUBLISHERs.ToList();
             return PartialView("_CreatePartialView");
         }
 
@@ -59,7 +61,6 @@ namespace WebApplication2.Areas.Manager.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ManagerID = new SelectList(db.MANAGERs, "ManagerID", "AccountID", sTOCK_RECEIVED_NOTE.ManagerID);
             return View(sTOCK_RECEIVED_NOTE);
         }
 
@@ -75,7 +76,8 @@ namespace WebApplication2.Areas.Manager.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "selectDataTextField", sTOCK_RECEIVED_NOTE.PublisherID);
+            //ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "selectDataTextField", sTOCK_RECEIVED_NOTE.PublisherID);
+            ViewBag.PublisherID = new SelectList(db.PUBLISHERs, "PublisherID", "PublisherID", sTOCK_RECEIVED_NOTE.PublisherID);
             ViewBag.StockDate = Custom.Custom_Function.ConvertDate(sTOCK_RECEIVED_NOTE.StockReceivedNoteDate);
             return PartialView("_EditPartialView", sTOCK_RECEIVED_NOTE);
         }
@@ -121,7 +123,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             STOCK_RECEIVED_NOTE sTOCK_RECEIVED_NOTE = db.STOCK_RECEIVED_NOTE.Find(id);
             if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(s => s.StockReceivedNoteID == id))
             {
-                ViewBag.ErrorMessage = "Unable to delete. The stock note is currently linked with stock details";
+                ViewBag.ErrorMessage = "Vui lòng xóa chi tiết của phiếu nhập này trước !";
                 return PartialView("_ErrorMessagePartialView");
             }
             else

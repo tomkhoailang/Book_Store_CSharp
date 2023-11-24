@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Thêm mới</h2>
 
 
 @using (Html.BeginForm("Create", "BOOK_EDITION", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -12,12 +12,14 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>BOOK_EDITION</h4>
+        <h4>Thông tin sách</h4>
         <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <div class="form-group">
             @Html.LabelFor(model => model.EditionName, htmlAttributes: new { @class = "control-label col-md-10 " })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionName, new { htmlAttributes = new { @class = "form-control" , @required="required" } })
+                @Html.EditorFor(model => model.EditionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.EditionName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -29,11 +31,10 @@
                 @Html.ValidationMessageFor(model => model.EditionAuthor, "", new { @class = "text-danger" })
             </div>
         </div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-10", @required = "required" })
+            @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-10", })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control", type = "number", oninput = "this.value = this.value.slice(0, 18)" } })
+                @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control", oninput = "this.value = this.value.slice(0, 18)", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,52 +58,57 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EditionPageCount, htmlAttributes: new { @class = "control-label col-md-10 " })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionPageCount, new { htmlAttributes = new { @class = "form-control", type = "number", oninput = "this.value = this.value.slice(0, 4)" , @required = "required" } })
+                @Html.EditorFor(model => model.EditionPageCount, new { htmlAttributes = new { @class = "form-control", type = "number", oninput = "this.value = this.value.slice(0, 4)", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.EditionPageCount, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.BookCollectionID, "Bộ sưu tập", htmlAttributes: new { @class = "control-label col-md-10" })
-
-            @Html.DropDownList("BookCollectionID", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.BookCollectionID, "", new { @class = "text-danger" })
+            <div class="col-md-10">
+                @Html.DropDownList("BookCollectionID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BookCollectionID, "", new { @class = "text-danger" })
+            </div>
         </div>
-        @if (ViewBag.CategoryList.Count > 0)
+        @if (ViewBag.CategoryList != null)
         {
             <div class="form-group">
-                <div>Category</div>
-                @foreach (var c in ViewBag.CategoryList)
-                {
-                    <input type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" />
-                    <label for="@c.CategoryID">@c.CategoryName.</label>
-                }
+
+                <div class="col-md-10">
+                    <div>Danh mục</div>
+                    <div class="form-check">
+                        @foreach (var c in ViewBag.CategoryList)
+                        {
+                            <input class="form-check-input" type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" style="border-color:black " />
+                            <label class="form-check-label" for="@c.CategoryID">@c.CategoryName</label> 
+                            <br />
+                        }
+                    </div>
+
+                </div>
+
             </div>
         }
 
         <div class="form-group">
-            <div>Did not find your book collection? Create now</div>
-        </div>
-
-        <div class="form-group">
-            <label for="imageUpload">Select multiple images:</label>
-            <input type="file" name="imageUpload" id="imageUpload" multiple accept="image/*">
-        </div>
-        <div id="preview"></div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-10">
+                <label for="imageUpload">Chọn ảnh cho sách:</label>
+                <input type="file" name="imageUpload" id="imageUpload" multiple accept="image/*">
             </div>
         </div>
+
+        <div id="preview"></div>
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo mới" class="btn btn-default" />
+            </div>
+        </div>
+
     </div>
 
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 <script>
     document.getElementById('imageUpload').addEventListener('change', function () {
         var preview = document.getElementById('preview');
@@ -114,8 +120,8 @@
             reader.onload = function () {
                 var img = document.createElement('img');
                 img.src = this.result;
-                img.style.width = '50%';
-                img.style.height = '50%';
+                img.style.width = '49%';
+                img.style.height = '49%';
                 preview.appendChild(img);
             }
             reader.readAsDataURL(file);

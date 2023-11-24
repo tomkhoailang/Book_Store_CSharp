@@ -49,7 +49,8 @@ namespace WebApplication2.Areas.Manager.Controllers
         // GET: BOOK_EDITION/Create
         public ActionResult Create()
         {
-            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");
+           /* var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");*/
+            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionID");
             var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
             ViewBag.BookCollectionID = selectList.Prepend(defaultItem);
 
@@ -132,7 +133,8 @@ namespace WebApplication2.Areas.Manager.Controllers
             ViewBag.images = db.BOOK_EDITION_IMAGE.Where(a => a.EditionID == id).Select(a => a.EditionImage).ToList();
 
 
-            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");
+            //var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");
+            var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionID");
             var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
             var c = selectList.Prepend(defaultItem);
             ViewBag.BookCollectionID = c.ToList();
@@ -191,8 +193,12 @@ namespace WebApplication2.Areas.Manager.Controllers
                             break;
                         }
                     }
+                    var b = Request.Files;
+                    var a = isAttached;
                     if (isAttached)
                     {
+                        var imgToDelete = db.BOOK_EDITION_IMAGE.Where(i => i.EditionID == book.EditionID);
+                        db.BOOK_EDITION_IMAGE.RemoveRange(imgToDelete);
                         for (int i = 0; i < Request.Files.Count; i++)
                         {
                             HttpPostedFileBase file = Request.Files[i];
@@ -245,22 +251,31 @@ namespace WebApplication2.Areas.Manager.Controllers
             if(db.CUSTOMER_ORDER_DETAIL.Any(b => b.EditionID == bOOK_EDITION.EditionID))
             {
                 //case when the book is existed in customer order
-                ViewBag.existedInCustomerOrder = true;
-                return RedirectToAction("Index");
+                ViewBag.ErrorMessage = "Không thể xóa. Sách này đã tồn tại trong đơn hàng của khách";
+                return PartialView("_ErrorMessagePartialView");
 
             }
             if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(n => n.EditionID == bOOK_EDITION.EditionID)){
                 //case when the book is existed in stock receive notge
-                ViewBag.existedInStockReceiveNote = true;
-                return RedirectToAction("Index");
+                ViewBag.ErrorMessage = "Không thể xóa. Sách này đã tồn tại trong phiếu nhập";
+                return PartialView("_ErrorMessagePartialView");
 
             }
+            var stockInventory = db.STOCK_INVENTORY.FirstOrDefault(s => s.EditionID == bOOK_EDITION.EditionID);
+            var imgToDelete = db.BOOK_EDITION_IMAGE.Where(i => i.EditionID == bOOK_EDITION.EditionID);
+            db.BOOK_EDITION_IMAGE.RemoveRange(imgToDelete);
+            db.STOCK_INVENTORY.Remove(stockInventory);
+            bOOK_EDITION.PROMOTIONs.Clear();
             db.BOOK_EDITION.Remove(bOOK_EDITION);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json(new { redirectToAction = true, actionUrl = Url.Action("Index") });
 
         }
 
+        public ActionResult AddToCart(int id)
+        {
+            return RedirectToAction("AddToCart", "BookCart", new { id = id });
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

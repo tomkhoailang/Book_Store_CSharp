@@ -221,10 +221,10 @@ create table ORDER_STATUS (
 --		'SUCCESS',
 --		'CANCEL BECAUSE OF MANY FAILED DELIVERING'))
 create table CUSTOMER_ORDER_STATUS (
-	OrderStatusID int identity(1,1) primary key,
 	OrderID int not null,
 	StatusID int not null,
 	UpdateTime datetime not null,
+	CONSTRAINT PK_CUSTOMER_ORDER_STATUS_PRIMARY_KEY PRIMARY KEY (OrderID,StatusID),
 	FOREIGN KEY (OrderID) REFERENCES CUSTOMER_ORDER(OrderID),
 	FOREIGN KEY (StatusID) REFERENCES ORDER_STATUS(StatusID)
 )
