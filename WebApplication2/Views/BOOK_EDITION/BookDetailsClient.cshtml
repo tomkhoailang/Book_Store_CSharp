@@ -1,0 +1,245 @@
+﻿@model WebApplication2.Models.BookDetailsClientViewModel
+@{
+	ViewBag.Title = "BookDetailsClient";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	double averageRating = Model.bookReviews.Any() ? Model.bookReviews.Average(br => br.ReviewRating) : 0;
+}
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+	<div class="row px-xl-5">
+		<div class="col-12">
+			<nav class="breadcrumb bg-light mb-30">
+				<a class="breadcrumb-item text-dark" href="#">Home</a>
+				<a class="breadcrumb-item text-dark" href="#">Shop</a>
+				<span class="breadcrumb-item active">Shop Detail</span>
+			</nav>
+		</div>
+	</div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Shop Detail Start -->
+<div class="container-fluid pb-5">
+	<div class="row px-xl-5">
+		<div class="col-lg-5 mb-30">
+			<div id="product-carousel" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner bg-light">
+					@for (int i = 0; i < Model.imageList.Count; i++)
+					{
+						string className = "carousel-item text-center";
+						if (i == 0)
+						{
+							className += " active";
+						}
+						<div class="@className" style="height: 400px">
+							<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/@Model.imageList[i].EditionImage" alt="Image">
+						</div>
+					}
+				</div>
+				<a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+					<i class="fa fa-2x fa-angle-left text-dark"></i>
+				</a>
+				<a class="carousel-control-next" href="#product-carousel" data-slide="next">
+					<i class="fa fa-2x fa-angle-right text-dark"></i>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-lg-7 h-auto mb-30">
+			<div class="h-100 bg-light p-30">
+				<h3>@Html.DisplayFor(model => model.currentBook.EditionName)</h3>
+				<div class="d-flex mb-3">
+
+					<div class="text-primary mr-2">
+						@for (int i = 0; i < Math.Floor(averageRating); i++)
+						{
+							<small class="fa fa-star"></small>
+						}
+						@for (int j = 0; j < 5 - Math.Floor(averageRating); j++)
+						{
+							<small class="far fa-star"></small>
+						}
+					</div>
+					
+					<small class="pt-1">(@Model.bookReviews.Count Đánh giá)</small> 
+				</div>
+				<h3 class="font-weight-semi-bold mb-4">$@Html.DisplayFor(model => model.currentBook.EditionPrice)</h3>
+				<p class="mb-4">
+					@Html.DisplayFor(model => model.currentBook.EditionDescription)
+				</p>
+				<div class="d-flex align-items-center mb-4 pt-2">
+					<div class="input-group quantity mr-3" style="width: 130px;">
+						<div class="input-group-btn">
+							<button class="btn btn-primary btn-minus">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+						<input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+						<div class="input-group-btn">
+							<button class="btn btn-primary btn-plus">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+					</div>
+					<button class="btn btn-primary px-3">
+						<i class="fa fa-shopping-cart mr-1"></i> Thêm vào giỏ hàng
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row px-xl-5">
+		<div class="col">
+			<div class="bg-light p-30">
+				<div class="nav nav-tabs mb-4">
+					<a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Thông tin</a>
+					<a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Đánh giá (@Model.bookReviews.Count)</a>
+				</div>
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="tab-pane-1">
+						<h4 class="mb-3">Thông tin thêm</h4>
+						<div class="row">
+							<div class="col-md-3">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item px-0">
+										@Html.DisplayNameFor(model => model.currentBook.EditionYear)
+									</li>
+									<li class="list-group-item px-0">
+										@Html.DisplayNameFor(model => model.currentBook.EditionPageCount)
+									</li>
+									<li class="list-group-item px-0">
+										@Html.DisplayNameFor(model => model.currentBook.EditionAuthor)
+									</li>
+									@if(ViewBag.categories.Count > 0) { 
+										<li class="list-group-item px-0">
+											@Html.DisplayNameFor(model => model.currentBook.CATEGORies)
+										</li>
+									}
+									<li class="list-group-item px-0">
+										Là một cuốn sách của bộ sưu tập
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-9">
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item px-0">
+										@Html.DisplayFor(model => model.currentBook.EditionYear)
+									</li>
+									<li class="list-group-item px-0">
+										@Html.DisplayFor(model => model.currentBook.EditionPageCount)
+									</li>
+									<li class="list-group-item px-0">
+										@Html.DisplayFor(model => model.currentBook.EditionAuthor)
+									</li>
+									@if (ViewBag.categories.Count > 0)
+									{
+										<li class="list-group-item px-0">
+											@{
+												string cateString = "";
+												foreach (var cate in ViewBag.categories)
+												{
+													cateString += cate.CategoryName + ", ";
+												}
+												cateString = cateString.Trim();
+												cateString = cateString.Substring(0, cateString.Length - 1);
+											}
+
+											@cateString
+										</li>
+									}
+										<li class="list-group-item px-0">
+											@Model.relativeCollectionName
+										</li>
+									</ul>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="tab-pane-2">
+						<div class="row">
+							<div class="col-md-6">
+								<h4 class="mb-4">@Model.bookReviews.Count đánh giá cho @Html.DisplayFor(model => model.currentBook.EditionName) </h4>
+								<div class="media mb-4 ">
+									<div class="media-body overflow-auto" style="max-height: 500px">
+										@for (int i = 0; i < Model.bookReviews.Count; i++)
+										{
+											string styles = "padding: 10px 0px;";
+
+											if (i != Model.bookReviews.Count - 1)
+											{
+												styles += " border-bottom: 1px solid rgba(0,0,0,0.2) !important;";
+											}
+											<div class="review-item" style="@styles">
+												<h6>@Model.bookReviews[i].Person.PersonName<small> - <i>@Model.bookReviews[i].ReviewDate.ToString("dd-MM-yyyy")</i></small></h6>
+												<div class="text-primary mb-2">
+													@for (int j = 0; j < Model.bookReviews[i].ReviewRating; j++)
+													{
+														<i class="fas fa-star"></i>
+													}
+													@for (int j = 0; j < 5 - Model.bookReviews[i].ReviewRating; j++)
+													{
+														<i class="fa-solid fa-star"></i>
+													}
+												</div>
+												<p>@Model.bookReviews[i].ReviewDescription</p>
+											</div>
+										}
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								@if (User.Identity.IsAuthenticated)
+								{
+									<h4 class="mb-4">Hãy cho chúng tôi biết cảm nhận của bạn</h4>
+									<div class="d-flex my-3">
+										<p class="mb-0 mr-2">Đánh giá * :</p>
+										<div class="text-primary">
+											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+										</div>
+									</div>
+									using (Html.BeginForm("AddReview", "BookReview", FormMethod.Post, new { id = "rating-form" }))
+									{
+										<div class="form-group">
+											<label for="ReviewDescription">Cảm nhận của bạn *</label>
+											<textarea name="ReviewDescription" id="ReviewDescription" cols="30" rows="5" class="form-control"></textarea>
+										</div>
+										<input type="hidden" name="ReviewRating" id="ReviewRating" value="1" />
+										<input type="hidden" name="EditionID" id="EditionID" value="@Model.currentBook.EditionID" />
+										<div class="form-group mb-0">
+											<input type="submit" value="Đánh giá" class="btn btn-primary px-3">
+										</div>
+									}
+								}
+								else
+								{
+									<div class="h-100 w-100 d-flex justify-content-center align-items-center">
+										@Html.ActionLink("Đăng nhập để bình luận", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "btn btn-primary" })
+									</div>
+								}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Shop Detail End -->
+<!-- Products Start -->
+<div class="container-fluid py-5">
+	<h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Có thể bạn sẽ thích</span></h2>
+	<div class="row px-xl-5">
+		<div class="col">
+			<div class="owl-carousel related-carousel">
+				@foreach (var b in Model.similarBooks)
+				{
+					@Html.Partial("_Book", b);
+				}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Products End -->
