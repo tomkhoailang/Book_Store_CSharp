@@ -37,7 +37,7 @@ namespace WebApplication2.Controllers
             CUSTOMER_ORDER new_Order = new CUSTOMER_ORDER
             {
                 OrderTotalPrice = 0,
-                OrderDate = DateTime.Today,
+                OrderDate = DateTime.Now,
                 OrderShippingMethod = Request["ShippingMethod"].ToString(),
                 OrderPaymentMethod = Request["PaymentMethod"].ToString(),
                 CustomerID = 3
@@ -57,14 +57,21 @@ namespace WebApplication2.Controllers
                 db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);   
                 
             }
-            db.SP_CREATE_CUSTOMER_ORDER_STATUS(id, 2);
+            //db.SP_CREATE_CUSTOMER_ORDER_STATUS(id, 2);
+            CUSTOMER_ORDER_STATUS cos = new CUSTOMER_ORDER_STATUS();
+            cos.OrderID = id;
+            cos.StatusID = 2;
+            cos.UpdateTime = DateTime.Now;
+            db.CUSTOMER_ORDER_STATUS.Add(cos);
+
             db.SaveChanges();
+
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
             foreach (CartModels cart in carts)
             {
                 BookCart.Remove(cart);
             }
-            return RedirectToAction("Index", "BOOK_EDITION");
+            return RedirectToAction("Index", "BookCart");
         }
 
         public List<CartModels> getSelectedCarts(string listID)

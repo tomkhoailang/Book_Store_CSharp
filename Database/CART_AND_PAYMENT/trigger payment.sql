@@ -1,8 +1,5 @@
 use BookStoreManager;
---TR_HANDLE_CUSTOMER_ORDER dung de tinh tien dang bi loi, dung co chay
---su dung exec SP_CREATE_CUSTOMER_ORDER_STATUS @OrderID, @StatusID de tao CUSTOMER_ORDER_STATUS
---May cai lien quan den OrderStatus vui long xem db5, thac mac thi hoi, minh seen chu ko rep =))
-
+-- trigger when create customer order with initial status
 go
 CREATE or alter TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER ON CUSTOMER_ORDER FOR INSERT, update AS
 BEGIN
@@ -23,10 +20,7 @@ BEGIN
 
 END
 
---trigger to check if book is in stock when adding
---note when the user taps on proceed to payment, a order will be created and each book from card will be added to this order
-
---
+-- trigger to update stock when insert CUSTOMER_ORDER_STATUS
 GO
 CREATE or alter TRIGGER TR_UPDATE_STOCK_WITH_INSERT ON CUSTOMER_ORDER_STATUS FOR INSERT AS
 BEGIN
@@ -80,6 +74,7 @@ BEGIN
 	end
 END
 
+--trigger to update InventoryAvailableStock when stock updated 
 GO
 CREATE or alter TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK ON STOCK_INVENTORY FOR UPDATE AS
 BEGIN
@@ -90,7 +85,6 @@ BEGIN
 	end
 END
 
--- ----------------------------
 -- trigger for wallet when order is waiting
 GO	
 create or alter trigger TR_HANDLE_CUSTOMER_ORDER ON CUSTOMER_ORDER_STATUS for INSERT AS
@@ -136,8 +130,6 @@ BEGIN
 
 END
 
--- CUSTOMER_ORDER TABLE
-
 -- trigger to calculate OrderTotalPrice from  DetailCurrentPrice and  DetailQuantity
 
 go
@@ -155,14 +147,14 @@ begin
 end
 
 
-select * from CUSTOMER_ORDER_DETAIL
-select * from CUSTOMER_ORDER_STATUS
-select * from CUSTOMER_ORDER
-select * from STOCK_INVENTORY
-exec SP_CREATE_CUSTOMER_ORDER_STATUS 22,4
+--select * from CUSTOMER_ORDER_DETAIL
+--select * from CUSTOMER_ORDER_STATUS
+--select * from CUSTOMER_ORDER
+--select * from STOCK_INVENTORY
+--exec SP_CREATE_CUSTOMER_ORDER_STATUS 22,4
 
-DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
-drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
-drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
-drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
-drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK
+--DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
+--drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
+--drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
+--drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
+--drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK
