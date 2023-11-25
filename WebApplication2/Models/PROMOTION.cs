@@ -25,6 +25,7 @@ namespace WebApplication2.Models
         public decimal PromotionDiscount { get; set; }
         public System.DateTime PromotionStartDate { get; set; }
         public System.DateTime PromotionEndDate { get; set; }
+        public bool PromotionIsValid { get; set; }
         public int ManagerID { get; set; }
         public string PromotionDetails { get; set; }
     

@@ -186,7 +186,7 @@ namespace WebApplication2.Controllers
 					}
 					await UserManager.AddToRoleAsync(user.Id, role);
 					//create shipper, staff, customer
-					db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
+					//db.SP_Inital_Customer(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
 
 					if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
 					{
