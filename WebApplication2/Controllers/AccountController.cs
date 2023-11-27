@@ -75,7 +75,6 @@ namespace WebApplication2.Controllers
             {
                 return View(model);
             }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -83,8 +82,8 @@ namespace WebApplication2.Controllers
             {
                 case SignInStatus.Success:
                     var manager = db.AspNetRoles.FirstOrDefault(a => a.Id == "1").AspNetUsers;
-                    if(manager != null && manager.ToList().Count > 0 && manager.ToList()[0].Email == model.Email)
-					{
+                    if (manager != null && manager.ToList().Count > 0 && manager.ToList()[0].Email == model.Email)
+                    {
                         return RedirectToAction("Index", "User", new { area = "Manager" });
                     }
                     return RedirectToLocal(returnUrl);
@@ -200,8 +199,8 @@ namespace WebApplication2.Controllers
 
                     // START: create manager account section
 
-                    //db.sp_Inital_Manager(user.Id);
-                    //await UserManager.AddToRoleAsync(user.Id, "Manager");
+                    db.SP_Inital_Manager(user.Id);
+                    await UserManager.AddToRoleAsync(user.Id, "Manager");
 
                     // END: create manager account section
 

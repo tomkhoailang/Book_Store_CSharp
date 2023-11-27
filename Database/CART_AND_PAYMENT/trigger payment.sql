@@ -15,9 +15,8 @@ BEGIN
 	
 	if (select count(*) from deleted) = 0
 	begin
-		exec SP_CREATE_CUSTOMER_ORDER_STATUS @OrderID, 1;
+		insert into CUSTOMER_ORDER_STATUS values (@OrderID, 1, GETDATE());
 	end
-
 END
 
 -- trigger to update stock when insert CUSTOMER_ORDER_STATUS
@@ -139,8 +138,13 @@ begin
 	select @tierID = Person.TierID from inserted i, Person , CUSTOMER_ORDER
 	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = Person.PersonID
 
-	declare @tierDiscount decimal(4,2);
-	select @tierDiscount = TierDiscount from TIER where TierID = @tierID
+	declare @tierDiscount decimal(4,2) = 0;
+
+	if (select TierDiscount from TIER where TierID = @tierID) != null
+	begin
+		select @tierDiscount = TierDiscount from TIER where TierID = @tierID
+	end
+	
 	update CUSTOMER_ORDER set OrderTotalPrice =
 	OrderTotalPrice + (i.DetailCurrentPrice * i.DetailQuantity) - (i.DetailCurrentPrice * i.DetailQuantity)*@tierDiscount/100
 	from inserted i where CUSTOMER_ORDER.OrderID = i.OrderID

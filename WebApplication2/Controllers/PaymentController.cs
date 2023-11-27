@@ -15,10 +15,15 @@ namespace WebApplication2.Controllers
         {
             List<CartModels> SelectedCarts = getSelectedCarts(listID);
             decimal total = 0;
-            foreach (CartModels i in SelectedCarts)
+            if (SelectedCarts != null)
             {
-                total += i.Total;
+                foreach (CartModels i in SelectedCarts)
+                {
+                    if (i != null)
+                        total += i.Total;
+                }
             }
+
             TempData["Total"] = total.ToString("#,##0").Replace(",", ".");
             TempData["ListID"] = listID;
             return View(SelectedCarts);
@@ -40,7 +45,7 @@ namespace WebApplication2.Controllers
                 OrderDate = DateTime.Now,
                 OrderShippingMethod = Request["ShippingMethod"].ToString(),
                 OrderPaymentMethod = Request["PaymentMethod"].ToString(),
-                CustomerID = 3
+                CustomerID = 2 // cho nay doi thanh customerID hien tai
             };
             db.CUSTOMER_ORDER.Add(new_Order);
             db.SaveChanges();
@@ -49,13 +54,13 @@ namespace WebApplication2.Controllers
             {
                 CUSTOMER_ORDER_DETAIL oRDER_DETAIL = new CUSTOMER_ORDER_DETAIL
                 {
-                    DetailCurrentPrice = cart.Book_Information.EditionPrice * (cart.Discount + 100) / 100,
+                    DetailCurrentPrice = cart.Book_Information.EditionPrice * (100 - cart.Discount) / 100,
                     DetailQuantity = cart.Amount,
                     OrderID = id,
                     EditionID = cart.Book_Information.EditionID
                 };
-                db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);   
-                
+                db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);
+
             }
             //db.SP_CREATE_CUSTOMER_ORDER_STATUS(id, 2);
             CUSTOMER_ORDER_STATUS cos = new CUSTOMER_ORDER_STATUS();
@@ -76,13 +81,20 @@ namespace WebApplication2.Controllers
 
         public List<CartModels> getSelectedCarts(string listID)
         {
-            List<int> idList = listID.Split(',').Select(int.Parse).ToList();
+            List<int> idList = new List<int>();
+            if (listID != null)
+            {
+                if (listID.Length != 0)
+                    idList = listID.Split(',').Select(int.Parse).ToList();
+            }
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
             List<CartModels> SelectedCarts = new List<CartModels>();
             foreach (int i in idList)
             {
-                CartModels cart = BookCart.FirstOrDefault(m => m.Book_Information.EditionID == i);
-                SelectedCarts.Add(cart);
+                CartModels cart = new CartModels();
+                cart = BookCart.FirstOrDefault(m => m.Book_Information.EditionID == i);
+                if (cart != null)
+                    SelectedCarts.Add(cart);
             }
             return SelectedCarts;
         }

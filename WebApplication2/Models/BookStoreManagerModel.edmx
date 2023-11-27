@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -833,30 +833,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MANAGER_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MANAGER">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Person_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Person" Type="Self.Person" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Person">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="FN_GetTierID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="personID" Type="int" Mode="In" />
         </Function>
@@ -1088,81 +1064,11 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="MANAGER" EntitySet="MANAGER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Person" EntitySet="Person" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="C__MigrationHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-            <PropertyRef Name="ContextKey" />
-          </Key>
-          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetRole">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogin">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUser">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="MANAGERs" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="AspNetUsers" ToRole="MANAGER" />
-          <NavigationProperty Name="People" Relationship="Self.FK_Person_AspNetUsers" FromRole="AspNetUsers" ToRole="Person" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-        </EntityType>
         <EntityType Name="BANK_ACCOUNT">
           <Key>
             <PropertyRef Name="BankAccountID" />
@@ -1291,7 +1197,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </Key>
           <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="MANAGER" ToRole="AspNetUsers" />
           <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__5FB337D6" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__656C112C" FromRole="MANAGER" ToRole="BOOK_EDITION" />
           <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__5812160E" FromRole="MANAGER" ToRole="CATEGORY" />
@@ -1320,7 +1225,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="TierID" Type="Int32" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Person_AspNetUsers" FromRole="Person" ToRole="AspNetUsers" />
           <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__5070F446" FromRole="Person" ToRole="BANK_ACCOUNT" />
           <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Custo__0B91BA14" FromRole="Person" ToRole="BOOK_REVIEW" />
           <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Custo__18EBB532" FromRole="Person" ToRole="CUSTOMER_ORDER" />
@@ -1448,80 +1352,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="TotalSpending" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
-        <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
-          <Key>
-            <PropertyRef Name="EditionID" />
-          </Key>
-          <Property Name="EditionID" Type="Int32" Nullable="false" />
-          <Property Name="TongNhapCuaThang" Type="Int32" />
-          <Property Name="TongNhapThangTruoc" Type="Int32" />
-          <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
-          <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <EntityType Name="V_UserRole">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="PersonID" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="PersonID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MANAGER_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
-          <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MANAGER">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Person_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-          <End Role="Person" Type="Self.Person" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Person">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__BANK_ACCO__Custo__5070F446">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="*" />
@@ -1894,10 +1724,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
-        </Association>
         <Association Name="BOOK_CATEGORY">
           <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="*" />
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
@@ -1911,11 +1737,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
         </Association>
         <EntityContainer Name="BookStoreManagerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="BANK_ACCOUNT" EntityType="Self.BANK_ACCOUNT" />
           <EntitySet Name="BOOK_COLLECTION" EntityType="Self.BOOK_COLLECTION" />
           <EntitySet Name="BOOK_EDITION" EntityType="Self.BOOK_EDITION" />
@@ -1938,24 +1759,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" />
           <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
           <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
-          <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
-          <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="MANAGER" EntitySet="MANAGERs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Person" EntitySet="People" />
-          </AssociationSet>
           <AssociationSet Name="FK__BANK_ACCO__Custo__5070F446" Association="Self.FK__BANK_ACCO__Custo__5070F446">
             <End Role="Person" EntitySet="People" />
             <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
@@ -2080,10 +1883,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="WALLET" EntitySet="WALLETs" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
           <AssociationSet Name="BOOK_CATEGORY" Association="Self.BOOK_CATEGORY">
             <End Role="CATEGORY" EntitySet="CATEGORies" />
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
@@ -2097,15 +1896,34 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
-            <Parameter Name="editionID" Mode="In" Type="Int32" />
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
           <FunctionImport Name="SP_Inital_Manager">
-            <Parameter Name="AccountID" Mode="In" Type="String" />
+          <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Person">
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="C__MigrationHistory" EntityType="BookStoreManagerModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="BookStoreManagerModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="BookStoreManagerModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="BookStoreManagerModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="BookStoreManagerModel.AspNetUser" />
+          <EntitySet Name="V_UserRole" EntityType="BookStoreManagerModel.V_UserRole" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="BookStoreManagerModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="BookStoreManagerModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="BookStoreManagerModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2116,67 +1934,125 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
           <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
         </ComplexType>
+        <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+          <Key>
+            <PropertyRef Name="EditionID" />
+          </Key>
+          <Property Name="EditionID" Type="Int32" Nullable="false" />
+          <Property Name="TongNhapCuaThang" Type="Int32" />
+          <Property Name="TongNhapThangTruoc" Type="Int32" />
+          <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="BookStoreManagerModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="BookStoreManagerModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="BookStoreManagerModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="BookStoreManagerModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="BookStoreManagerModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="BookStoreManagerModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
+        <EntityType Name="V_UserRole">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="BookStoreManagerModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BookStoreManagerModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="BookStoreManagerModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="BookStoreManagerModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="BookStoreManagerModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="BookStoreManagerModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="BookStoreManagerModelStoreContainer" CdmEntityContainer="BookStoreManagerEntities">
-          <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.C__MigrationHistory">
-              <MappingFragment StoreEntitySet="__MigrationHistory">
-                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetRole">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetUserClaim">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetUserLogin">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetUser">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BANK_ACCOUNT">
             <EntityTypeMapping TypeName="BookStoreManagerModel.BANK_ACCOUNT">
               <MappingFragment StoreEntitySet="BANK_ACCOUNT">
@@ -2413,35 +2289,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month">
-              <MappingFragment StoreEntitySet="V_edition_total_stock_quantity_price_in_this_and_previous_month">
-                <ScalarProperty Name="EditionID" ColumnName="EditionID" />
-                <ScalarProperty Name="TongNhapCuaThang" ColumnName="TongNhapCuaThang" />
-                <ScalarProperty Name="TongNhapThangTruoc" ColumnName="TongNhapThangTruoc" />
-                <ScalarProperty Name="TongTienNhapCuaThang" ColumnName="TongTienNhapCuaThang" />
-                <ScalarProperty Name="TongTienNhapThangTruoc" ColumnName="TongTienNhapThangTruoc" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_UserRole">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_UserRole">
-              <MappingFragment StoreEntitySet="V_UserRole">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="BookStoreManagerModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="BOOK_CATEGORY" TypeName="BookStoreManagerModel.BOOK_CATEGORY" StoreEntitySet="BOOK_CATEGORY">
             <EndProperty Name="CATEGORY">
               <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
@@ -2479,8 +2326,92 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month">
+              <MappingFragment StoreEntitySet="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+                <ScalarProperty Name="TongTienNhapThangTruoc" ColumnName="TongTienNhapThangTruoc" />
+                <ScalarProperty Name="TongTienNhapCuaThang" ColumnName="TongTienNhapCuaThang" />
+                <ScalarProperty Name="TongNhapThangTruoc" ColumnName="TongNhapThangTruoc" />
+                <ScalarProperty Name="TongNhapCuaThang" ColumnName="TongNhapCuaThang" />
+                <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_UserRole">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_UserRole">
+              <MappingFragment StoreEntitySet="V_UserRole">
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="BookStoreManagerModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

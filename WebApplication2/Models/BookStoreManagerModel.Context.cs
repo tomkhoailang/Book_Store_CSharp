@@ -27,11 +27,6 @@ namespace WebApplication2.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<BANK_ACCOUNT> BANK_ACCOUNT { get; set; }
         public virtual DbSet<BOOK_COLLECTION> BOOK_COLLECTION { get; set; }
         public virtual DbSet<BOOK_EDITION> BOOK_EDITION { get; set; }
@@ -55,6 +50,11 @@ namespace WebApplication2.Models
         public virtual DbSet<WALLET> WALLETs { get; set; }
         public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
         public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
