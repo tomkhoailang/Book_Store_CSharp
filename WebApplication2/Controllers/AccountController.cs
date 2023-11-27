@@ -168,9 +168,7 @@ namespace WebApplication2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-
                     // START: create customer account section
-
                     string role = "";
                     switch (model.AccountType)
                     {

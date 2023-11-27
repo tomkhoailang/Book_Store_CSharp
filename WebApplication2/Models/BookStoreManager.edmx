@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -318,6 +318,29 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantit
           <Property Name="TongNhapThangTruoc" Type="int" />
           <Property Name="TongTienNhapCuaThang" Type="decimal" Precision="38" Scale="2" />
           <Property Name="TongTienNhapThangTruoc" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_day' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_revenue_of_each_day">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
+          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_revenue_of_each_month">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -916,6 +939,23 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapThangTruoc] AS [TongTienNhapThangTruoc]
     FROM [dbo].[V_edition_total_stock_quantity_price_in_this_and_previous_month] AS [V_edition_total_stock_quantity_price_in_this_and_previous_month]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_revenue_of_each_day].[ID] AS [ID], 
+    [V_revenue_of_each_day].[Year] AS [Year], 
+    [V_revenue_of_each_day].[Month] AS [Month], 
+    [V_revenue_of_each_day].[Day] AS [Day], 
+    [V_revenue_of_each_day].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_day] AS [V_revenue_of_each_day]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_revenue_of_each_month].[ID] AS [ID], 
+    [V_revenue_of_each_month].[Year] AS [Year], 
+    [V_revenue_of_each_month].[Month] AS [Month], 
+    [V_revenue_of_each_month].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_month] AS [V_revenue_of_each_month]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_UserRole].[Id] AS [Id], 
@@ -1097,8 +1137,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -2097,15 +2136,17 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
-            <Parameter Name="editionID" Mode="In" Type="Int32" />
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
-            <Parameter Name="AccountID" Mode="In" Type="String" />
+          <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Person">
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="V_revenue_of_each_day" EntityType="BookStoreManagerModel.V_revenue_of_each_day" />
+          <EntitySet Name="V_revenue_of_each_month" EntityType="BookStoreManagerModel.V_revenue_of_each_month" />
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2116,6 +2157,25 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
           <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
         </ComplexType>
+        <EntityType Name="V_revenue_of_each_day">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="V_revenue_of_each_month">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2481,6 +2541,27 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
+          <EntitySetMapping Name="V_revenue_of_each_day">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_day">
+              <MappingFragment StoreEntitySet="V_revenue_of_each_day">
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_revenue_of_each_month">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_month">
+              <MappingFragment StoreEntitySet="V_revenue_of_each_month">
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

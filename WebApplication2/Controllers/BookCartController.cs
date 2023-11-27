@@ -42,10 +42,11 @@ namespace WebApplication2.Controllers
                 var bOOK_IMAGE = db.BOOK_EDITION_IMAGE.Where(e => e.EditionID == bOOK.EditionID).FirstOrDefault();
 
                 var pROMOTION = db.Sp_check_valid_promotion(bOOK.EditionID).FirstOrDefault();
+
                 CartModels cart = new CartModels
                 {
                     Book_Information = bOOK,
-                    BookImage = bOOK_IMAGE.EditionImage,
+                    BookImage = (bOOK_IMAGE == null) ? null : bOOK_IMAGE.EditionImage,
                     Discount = (pROMOTION == null) ? 0 : pROMOTION.PromotionDiscount,
                     Amount = 1,
                     Total = 0

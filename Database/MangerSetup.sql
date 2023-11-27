@@ -186,7 +186,7 @@ end
 
 
 
-
+-- view thong tin nhap xuat cua tung edition
 
 go
 create view V_edition_total_stock_quantity_price_in_this_and_previous_month as
@@ -204,6 +204,33 @@ WHERE
 	AND YEAR(s.StockReceivedNoteDate) = Year(getdate())
 GROUP BY
     sd.EditionID;
+
+
+
+
+
+-- view doanh thu tung ngay
+go
+create or alter view V_revenue_of_each_day as
+select 
+ISNULL(ROW_NUMBER() over(order by  YEAR(c.OrderDate), MONTH(c.OrderDate),  day(c.OrderDate)), 0)  as ID,
+YEAR(c.OrderDate) AS Year, MONTH(c.OrderDate) AS Month, Day(c.OrderDate) AS Day, SUM(c.OrderTotalPrice) AS Revenue
+from CUSTOMER_ORDER_STATUS cs, CUSTOMER_ORDER c
+where cs.StatusID = 7 and cs.OrderID = c.OrderID
+group by year(c.OrderDate) , month(c.OrderDate), day(c.OrderDate)
+
+select * from V_revenue_of_each_day 
+select * from CUSTOMER_ORDER
+-- view doanh thu tung thang cua thang
+
+go
+create or alter view V_revenue_of_each_month as
+select ISNULL(ROW_NUMBER() over(order by  Year, Month), 0)  as ID , Year , Month, SUM(Revenue) AS Revenue
+from V_revenue_of_each_day
+group by Year, Month
+
+
+
 
 
 

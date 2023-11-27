@@ -140,11 +140,20 @@ begin
 	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = Person.PersonID
 
 	declare @tierDiscount decimal(4,2);
+
 	select @tierDiscount = TierDiscount from TIER where TierID = @tierID
+
+
+	if @tierDiscount is null
+	begin
+		set @tierDiscount = 0;
+	end
 	update CUSTOMER_ORDER set OrderTotalPrice =
 	OrderTotalPrice + (i.DetailCurrentPrice * i.DetailQuantity) - (i.DetailCurrentPrice * i.DetailQuantity)*@tierDiscount/100
 	from inserted i where CUSTOMER_ORDER.OrderID = i.OrderID
 end
+
+
 
 
 --select * from CUSTOMER_ORDER_DETAIL

@@ -56,6 +56,8 @@ namespace WebApplication2.Models
         public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
         public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
+        public virtual DbSet<V_revenue_of_each_day> V_revenue_of_each_day { get; set; }
+        public virtual DbSet<V_revenue_of_each_month> V_revenue_of_each_month { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {
