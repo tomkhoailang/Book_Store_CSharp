@@ -32,7 +32,7 @@ namespace WebApplication2.Models
         public string PersonAddress { get; set; }
         public string PersonStatus { get; set; }
         public string AccountID { get; set; }
-        public int TierID { get; set; }
+        public Nullable<int> TierID { get; set; }
         public int ManagerID { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }

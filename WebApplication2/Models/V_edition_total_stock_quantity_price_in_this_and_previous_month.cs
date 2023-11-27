@@ -12,12 +12,12 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class V_edition_total_stock_quantity_price_in_this_and_previous_month
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int EditionID { get; set; }
+        public Nullable<int> TongNhapCuaThang { get; set; }
+        public Nullable<int> TongNhapThangTruoc { get; set; }
+        public Nullable<decimal> TongTienNhapCuaThang { get; set; }
+        public Nullable<decimal> TongTienNhapThangTruoc { get; set; }
     }
 }

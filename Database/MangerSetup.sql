@@ -4,7 +4,7 @@ ALTER TABLE Person ADD CONSTRAINT FK_Person_AspNetUsers FOREIGN KEY (AccountID) 
 ALTER TABLE MANAGER ADD CONSTRAINT FK_MANAGER_AspNetUsers FOREIGN KEY (AccountID) REFERENCES AspNetUsers(Id)
 
 
---set up order status
+
 insert into ORDER_STATUS values ('INITIAL'),
 ('WAITING'),
 ('CANCEL BY CUSTOMER'),
@@ -105,6 +105,7 @@ begin
 	INSERT INTO Person(PersonName, PersonAddress, AccountID, ManagerID) VALUES
     ('', '', @AccountID, @ManagerID)
 end
+
 --initial manager
 go
 create proc SP_Inital_Manager(@AccountID nvarchar(128)) as
@@ -136,11 +137,10 @@ where anr.Id = anur.RoleId and anur.UserId = p.AccountID
 -- view customer spending
 go
 create or alter view V_CustomerSpending as
-select CustomerID, sum(CUSTOMER_ORDER.OrderTotalPrice) as TotalSpending 
-from CUSTOMER_ORDER , CUSTOMER_ORDER_STATUS 
-where CUSTOMER_ORDER.OrderID = CUSTOMER_ORDER_STATUS.OrderID
-and CUSTOMER_ORDER_STATUS.OrderStatusID = 7
-group by CustomerID
+select CustomerID, sum(c.OrderTotalPrice) as TotalSpending 
+from CUSTOMER_ORDER_STATUS cs, CUSTOMER_ORDER c
+where cs.OrderID = 7 and cs.OrderID = c.OrderID
+group by c.CustomerID
 
 
 
@@ -187,7 +187,6 @@ end
 
 
 
-select * from V_edition_total_stock_quantity_price_in_this_and_previous_month
 
 go
 create view V_edition_total_stock_quantity_price_in_this_and_previous_month as

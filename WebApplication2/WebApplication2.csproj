@@ -290,9 +290,6 @@
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SP_Inital_Customer_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -302,9 +299,6 @@
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\TIER.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -312,6 +306,9 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_CustomerSpending.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_edition_total_stock_quantity_price_in_this_and_previous_month.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_UserRole.cs">
