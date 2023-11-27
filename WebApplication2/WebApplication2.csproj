@@ -290,9 +290,6 @@
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SP_Inital_Person_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -300,9 +297,6 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIER.cs">
@@ -5358,6 +5352,13 @@
     <Content Include="obj\Debug\WebApplication2.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\WebApplication2.dll" />
     <Content Include="obj\Debug\WebApplication2.pdb" />
+    <EntityDeploy Include="Models\BookStoreManager.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BookStoreManager.edmx.diagram">
+      <DependentUpon>BookStoreManager.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -5767,13 +5768,6 @@
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="bin\WebApplication2.dll.config" />
-    <EntityDeploy Include="Models\BookStoreManager.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\BookStoreManager.edmx.diagram">
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
-    </Content>
     <None Include="packages.config" />
     <Content Include="Views\CATEGORies\Create.cshtml" />
     <Content Include="Views\CATEGORies\Delete.cshtml" />

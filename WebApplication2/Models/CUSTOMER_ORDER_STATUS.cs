@@ -14,7 +14,6 @@ namespace WebApplication2.Models
     
     public partial class CUSTOMER_ORDER_STATUS
     {
-        public int OrderStatusID { get; set; }
         public int OrderID { get; set; }
         public int StatusID { get; set; }
         public System.DateTime UpdateTime { get; set; }
