@@ -110,14 +110,18 @@
 									<li class="list-group-item px-0">
 										@Html.DisplayNameFor(model => model.currentBook.EditionAuthor)
 									</li>
-									@if(ViewBag.categories.Count > 0) { 
+									@if (ViewBag.categories.Count > 0)
+									{
 										<li class="list-group-item px-0">
 											@Html.DisplayNameFor(model => model.currentBook.CATEGORies)
 										</li>
 									}
-									<li class="list-group-item px-0">
-										Là một cuốn sách của bộ sưu tập
-									</li>
+									@if (ViewBag.relativeCollectionName != "")
+									{
+										<li class="list-group-item px-0">
+											Là một cuốn sách của bộ sưu tập
+										</li>
+									}
 								</ul>
 							</div>
 							<div class="col-md-9">
@@ -147,10 +151,13 @@
 											@cateString
 										</li>
 									}
+									@if (ViewBag.relativeCollectionName != "")
+									{
 										<li class="list-group-item px-0">
 											@Model.relativeCollectionName
 										</li>
-									</ul>
+									}
+								</ul>
 							</div>
 						</div>
 					</div>

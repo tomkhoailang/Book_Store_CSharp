@@ -26,9 +26,10 @@ namespace WebApplication2.Controllers
 
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             if (book == null) return HttpNotFound();
+
             m.currentBook = book;
             m.bookReviews = db.BOOK_REVIEW.Where(e => e.EditionID == id).ToList();
-            m.relativeCollectionName = db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionID == book.BookCollectionID).BookCollectionName;
+            m.relativeCollectionName = db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionID == book.BookCollectionID)?.BookCollectionName ?? "";
             m.imageList = db.BOOK_EDITION_IMAGE.Where(i => i.EditionID == book.EditionID).ToList();
             m.similarBooks = BooksFilter.getSimilarBooks(book.EditionID);
             List<int> categoriesIds = book.CATEGORies.Select(c => c.CategoryID).ToList();

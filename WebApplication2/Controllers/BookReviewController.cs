@@ -12,7 +12,6 @@ namespace WebApplication2.Controllers
     public class BookReviewController : Controller
     {
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         [Authorize]
         public ActionResult AddReview([Bind(Include = "ReviewID,ReviewDescription,ReviewDate,CustomerID,EditionID,ReviewRating")] BOOK_REVIEW newReview)
         {

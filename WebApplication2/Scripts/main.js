@@ -102,6 +102,7 @@ const app = {
 
 		categories.forEach((c) => {
 			c.onchange = (e) => {
+				console.log("check")
 				const categoryId = c.getAttribute("cate-id");
 				if (c.checked) {
 					_this.filterData.categories.push(categoryId);
@@ -139,7 +140,7 @@ const app = {
 
 		const ratingForm = $("#rating-form");
 
-		ratingForm?.onsubmit = (e) => {
+		ratingForm.onsubmit = (e) => {
 			e.preventDefault();
 			const ratingTextarea = $("#ReviewDescription");
 
@@ -160,6 +161,7 @@ const app = {
 	},
 
 	run: function (e) {
+		console.log("check")
 		this.handleEvents();
 	}
 }

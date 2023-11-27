@@ -1,22 +1,17 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-	using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-	{
-		@Html.AntiForgeryToken()
-
-		<ul class="nav navbar-nav navbar-right">
-			<li>
-				@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-			</li>
-			<li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-		</ul>
-	}
+	<div class="nav navbar-nav navbar-right p-1">
+		@Html.ActionLink(User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "text-dark" })
+	</div>
 }
 else
 {
-	<ul class="nav navbar-nav navbar-right">
-		<li>@Html.ActionLink("Đăng kí", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "dropdown-item" })</li>
-		<li>@Html.ActionLink("Đăng nhập", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "dropdown-item" })</li>
-	</ul>
+	<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+	<div class="dropdown-menu dropdown-menu-right">
+		<ul class="nav navbar-nav navbar-right">
+			<li>@Html.ActionLink("Đăng kí", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "dropdown-item" })</li>
+			<li>@Html.ActionLink("Đăng nhập", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "dropdown-item" })</li>
+		</ul>
+	</div>
 }
