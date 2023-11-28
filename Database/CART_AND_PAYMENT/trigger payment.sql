@@ -15,7 +15,7 @@ BEGIN
 	
 	if (select count(*) from deleted) = 0
 	begin
-		exec SP_CREATE_CUSTOMER_ORDER_STATUS @OrderID, 1;
+		insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 1, GETDATE());
 	end
 
 END
@@ -140,7 +140,14 @@ begin
 	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = Person.PersonID
 
 	declare @tierDiscount decimal(4,2);
-	select @tierDiscount = TierDiscount from TIER where TierID = @tierID
+	if(@tierID = null)
+	begin
+		set @tierDiscount = 0
+	end
+	else
+	begin
+		select @tierDiscount = TierDiscount from TIER where TierID = @tierID
+	end	
 	update CUSTOMER_ORDER set OrderTotalPrice =
 	OrderTotalPrice + (i.DetailCurrentPrice * i.DetailQuantity) - (i.DetailCurrentPrice * i.DetailQuantity)*@tierDiscount/100
 	from inserted i where CUSTOMER_ORDER.OrderID = i.OrderID

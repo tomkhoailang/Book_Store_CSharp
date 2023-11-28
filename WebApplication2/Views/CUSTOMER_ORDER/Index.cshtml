@@ -4,7 +4,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Index</h2>
 
 <p>
@@ -19,9 +18,6 @@
             @Html.DisplayNameFor(model => model.OrderTotalPrice)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.OrderShippingMethod)
         </th>
         <th>
@@ -31,46 +27,48 @@
             @Html.DisplayNameFor(model => model.Person.PersonName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Person1.PersonName)
+            Order status
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Person2.PersonName)
+            Action
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderTotalPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderShippingMethod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderPaymentMethod)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Person.PersonName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Person1.PersonName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Person2.PersonName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderID })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderTotalPrice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderShippingMethod)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderPaymentMethod)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Person.PersonName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus)
+    </td>
+    <td>
+        @*@{
+            if(Convert.ToInt32(ViewBag.currentRole) == 4)
+            {
+                //Cus
+                @Html.ActionLink("Cancel", "Delete", new { id = item.OrderID });
+            }
+            else if(Convert.ToInt32(TempData["role"]) == 2)
+            {*@
+                @*//Staff*@
+                @Html.ActionLink("Change status", "ChangeStatus", new { id = item.OrderID })
+            @*}
+        }*@
+    </td>
+</tr>
 }
 
 </table>

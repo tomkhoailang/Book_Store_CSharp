@@ -194,9 +194,9 @@ namespace WebApplication2.Controllers
 
 
                     if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
-					{
-						return RedirectToAction("Index", "User", new { area = "Manager" });
-					}
+                    {
+                        return RedirectToAction("Index", "User", new { area = "Manager" });
+                    }
 
                     // START: create manager account section
 

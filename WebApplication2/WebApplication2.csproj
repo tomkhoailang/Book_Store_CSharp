@@ -207,115 +207,124 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BANK_ACCOUNT.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStoreManager.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreManager.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStoreManager.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\BookStoreManager.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_COLLECTION.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_EDITION.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_EDITIONViewModels.cs" />
     <Compile Include="Models\BOOK_EDITION_IMAGE.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_REVIEW.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BOOK_REVIEWViewModel.cs" />
     <Compile Include="Models\CartModels.cs" />
     <Compile Include="Models\CATEGORY.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CUSTOMER_ORDER.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CUSTOMER_ORDER_DETAIL.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CUSTOMER_ORDER_STATUS.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MANAGER.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManageUserViewModel.cs" />
+    <Compile Include="Models\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ORDER_STATUS.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Person.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROMOTION.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PUBLISHER.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SHIP_CONFIRMATION.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_INVENTORY.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIER.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TRANSACTION_DETAILS.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_CustomerSpending.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_edition_total_stock_quantity_price_in_this_and_previous_month.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_UserRole.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\WALLET.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -5329,15 +5338,15 @@
     <Content Include="libs\animate\animate.min.css" />
     <Content Include="libs\easing\easing.js" />
     <Content Include="libs\easing\easing.min.js" />
-    <Content Include="Models\BookStoreManager.Context.tt">
+    <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
-      <LastGenOutput>BookStoreManager.Context.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\BookStoreManager.tt">
+    <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
-      <LastGenOutput>BookStoreManager.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
     <Content Include="obj\Debug\TempPE\Models.BookStoreManager.Context.cs.dll" />
     <Content Include="obj\Debug\TempPE\Models.BookStoreManager.cs.dll" />
@@ -5351,12 +5360,12 @@
     <Content Include="obj\Debug\WebApplication2.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\WebApplication2.dll" />
     <Content Include="obj\Debug\WebApplication2.pdb" />
-    <EntityDeploy Include="Models\BookStoreManager.edmx">
+    <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\BookStoreManager.edmx.diagram">
-      <DependentUpon>BookStoreManager.edmx</DependentUpon>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />

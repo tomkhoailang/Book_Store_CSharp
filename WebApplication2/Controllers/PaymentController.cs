@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
                 OrderDate = DateTime.Now,
                 OrderShippingMethod = Request["ShippingMethod"].ToString(),
                 OrderPaymentMethod = Request["PaymentMethod"].ToString(),
-                CustomerID = 3
+                CustomerID = 1
             };
             db.CUSTOMER_ORDER.Add(new_Order);
             db.SaveChanges();
@@ -49,7 +49,7 @@ namespace WebApplication2.Controllers
             {
                 CUSTOMER_ORDER_DETAIL oRDER_DETAIL = new CUSTOMER_ORDER_DETAIL
                 {
-                    DetailCurrentPrice = cart.Book_Information.EditionPrice * (cart.Discount + 100) / 100,
+                    DetailCurrentPrice = cart.Book_Information.EditionPrice * (100 - cart.Discount) / 100,
                     DetailQuantity = cart.Amount,
                     OrderID = id,
                     EditionID = cart.Book_Information.EditionID
