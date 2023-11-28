@@ -327,6 +327,9 @@
     <Compile Include="Models\V_revenue_of_each_month.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\V_revenue_of_each_year.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\V_UserRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -5374,8 +5377,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Manager\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Home\Details.cshtml" />
     <Content Include="Areas\Manager\Views\Home\_RevenueInOneMonthPartialView.cshtml" />
+    <Content Include="Areas\Manager\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />

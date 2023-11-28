@@ -94,6 +94,40 @@ begin
 
 end
 
+
+
+go
+CREATE or alter TRIGGER TR_CHECK_PROMOTION_DATE ON Promotion for insert,update AS
+BEGIN
+
+	if(SELECT PromotionStartDate FROM inserted) >= (SELECT PromotionEndDate FROM inserted)
+	begin
+		raiserror('Prmotion start date must bed less than promotion end date',16,1)
+		rollback tran
+	end
+	else
+	begin
+		if not exists(select * from deleted) 
+		begin
+			if (SELECT PromotionStartDate FROM inserted) < GETDATE()
+			begin
+				raiserror('When creating, prmotion start date must be not in the past and less than promotion end date',16,1)
+			end
+		end
+		else
+		begin
+			if(update(PromotionStartDate))
+			begin
+				raiserror('When editing, promotion start date could not be changed',16,1)
+			end
+		end
+	end
+END
+
+select * from PROMOTION
+insert into PROMOTION(PromotionName,PromotionDiscount, PromotionStartDate, PromotionEndDate, ManagerID) values('dark',10, '2023-11-28 16:51:10.130', getdate() + 1, 1)
+select * from PROMOTION
+
 ----------------------------------------------------------------------------------------
 
 
@@ -118,6 +152,18 @@ end
 --check promotion
 go
 create  proc Sp_check_valid_promotion(@editionID int) as
+begin
+	select top 1 p.* from PROMOTION p, BOOK_PROMOTION bp
+	where getdate() between p.PromotionStartDate and p.PromotionEndDate and
+	p.PromotionID = bp.PromotionID and bp.EditionID = @editionID 
+	order by p.PromotionDiscount desc
+end
+
+
+
+
+go
+create  proc SP_get_promo_of_edition(@editionID int, @date datetime) as
 begin
 	select top 1 p.* from PROMOTION p, BOOK_PROMOTION bp
 	where getdate() between p.PromotionStartDate and p.PromotionEndDate and
@@ -219,8 +265,7 @@ from CUSTOMER_ORDER_STATUS cs, CUSTOMER_ORDER c
 where cs.StatusID = 7 and cs.OrderID = c.OrderID
 group by year(c.OrderDate) , month(c.OrderDate), day(c.OrderDate)
 
-select * from V_revenue_of_each_day 
-select * from CUSTOMER_ORDER
+
 -- view doanh thu tung thang cua thang
 
 go
@@ -228,6 +273,17 @@ create or alter view V_revenue_of_each_month as
 select ISNULL(ROW_NUMBER() over(order by  Year, Month), 0)  as ID , Year , Month, SUM(Revenue) AS Revenue
 from V_revenue_of_each_day
 group by Year, Month
+
+-- view doanh thu tung nam
+go
+create or alter view V_revenue_of_each_year as
+select ISNULL(ROW_NUMBER() over(order by  Year), 0)  as ID , Year , SUM(Revenue) AS Revenue
+from V_revenue_of_each_month
+group by Year
+
+
+
+
 
 
 

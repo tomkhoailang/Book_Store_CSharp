@@ -87,7 +87,10 @@
 <script>
     $(document).ready(function () {
         var initial = new Date();
+        initial.setHours(initial.getHours() + 7);
+        initial.setMinutes(initial.getMinutes() + 1);
         $("#PromotionStartDate").val(initial.toISOString().slice(0, 16));
+        $("#PromotionStartDate").prop("min", initial.toISOString().slice(0, 16));
         initial.setMinutes(initial.getMinutes() + 10)
         $("#PromotionEndDate").prop("min", initial.toISOString().slice(0, 16));
 
@@ -97,4 +100,12 @@
             $("#PromotionEndDate").prop("min", minDate.toISOString().slice(0, 16));
         });
     });
+    function updateMinAttribute() {
+        var currentDate = new Date();
+        currentDate.setHours(currentDate.getHours() + 7);
+        currentDate.setMinutes(currentDate.getMinutes() + 1);
+        var currentDateString = currentDate.toISOString().slice(0, 16);
+        $("#PromotionStartDate").prop("min", currentDateString);
+    }
+    setInterval(updateMinAttribute, 60000);
 </script>

@@ -74,6 +74,12 @@
         <AssociationConnector Association="BookStoreManagerModel.BOOK_CATEGORY" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.BOOK_PROMOTION" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.MARKED_BOOK" ManuallyRouted="false" />
+<<<<<<< Updated upstream:WebApplication2/Models/Model1.edmx.diagram
+=======
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_day" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_month" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_year" Width="1.5" PointX="0.75" PointY="6.75" />
+>>>>>>> Stashed changes:WebApplication2/Models/BookStoreManager.edmx.diagram
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

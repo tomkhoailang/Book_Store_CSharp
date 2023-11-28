@@ -56,6 +56,7 @@ namespace WebApplication2.Models
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
         public virtual DbSet<V_revenue_of_each_day> V_revenue_of_each_day { get; set; }
         public virtual DbSet<V_revenue_of_each_month> V_revenue_of_each_month { get; set; }
+        public virtual DbSet<V_revenue_of_each_year> V_revenue_of_each_year { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {

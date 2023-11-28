@@ -134,6 +134,7 @@
 <script>
     $(document).ready(function () {
         var initial = new Date($("#PromotionStartDateEdit").val())
+        $("#PromotionStartDateEdit").prop("disabled", true);
 
         initial.setMinutes(initial.getMinutes() + 10)
         initial.setHours(initial.getHours() + 7)

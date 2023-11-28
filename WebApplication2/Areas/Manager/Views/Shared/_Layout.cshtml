@@ -246,13 +246,13 @@
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
                     <li>
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="./index.html">Home 1</a></li>
-                            <!-- <li><a href="./index-2.html">Home 2</a></li> -->
-                        </ul>
+                        <!--<a class="has-arrow" href="javascript:void()" aria-expanded="false">
+            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+        </a>
+        <ul aria-expanded="false">
+            <li><a href="./index.html">Home 1</a></li>-->
+                        <!-- <li><a href="./index-2.html">Home 2</a></li> -->
+                        <!--</ul>-->
                     </li>
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -272,9 +272,7 @@
                             <li>
                                 @Html.ActionLink("Danh mục", "Index", "CATEGORIES")
                             </li>
-                            <li>
-                                @Html.ActionLink("Kho hàng", "Index", "STOCK_INVENTORY")
-                            </li>
+
                         </ul>
                     </li>
 
@@ -301,6 +299,19 @@
                             </li>
                             <li>
                                 @Html.ActionLink("Phiếu nhập", "Index", "Stock_received_note")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Kho hàng", "Index", "STOCK_INVENTORY")
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Thống kê</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                @Html.ActionLink("Thông kê doanh thu", "Index", "Home")
                             </li>
                         </ul>
                     </li>
