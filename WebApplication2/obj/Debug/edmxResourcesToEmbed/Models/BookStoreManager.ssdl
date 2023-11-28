@@ -338,6 +338,16 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_month' does
     <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_year' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_revenue_of_each_year">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="V_UserRole">
     <Key>
@@ -881,6 +891,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
   <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="editionID" Type="int" Mode="In" />
   </Function>
+  <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderID" Type="int" Mode="In" />
+    <Parameter Name="StatusID" Type="int" Mode="In" />
+  </Function>
   <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
   </Function>
@@ -950,6 +964,13 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_revenue_of_each_month].[Month] AS [Month], 
     [V_revenue_of_each_month].[Revenue] AS [Revenue]
     FROM [dbo].[V_revenue_of_each_month] AS [V_revenue_of_each_month]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_revenue_of_each_year" EntityType="Self.V_revenue_of_each_year" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_revenue_of_each_year].[ID] AS [ID], 
+    [V_revenue_of_each_year].[Year] AS [Year], 
+    [V_revenue_of_each_year].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_year] AS [V_revenue_of_each_year]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

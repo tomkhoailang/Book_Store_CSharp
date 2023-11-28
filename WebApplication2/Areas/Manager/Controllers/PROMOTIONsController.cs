@@ -131,19 +131,22 @@ namespace WebApplication2.Areas.Manager.Controllers
                 {
                     string promoDetail = "";
                     p.BOOK_EDITION.Clear();
-                    db.Entry(p).CurrentValues.SetValues(pROMOTION);
+                    p.PromotionName = pROMOTION.PromotionName;
+                    p.PromotionDiscount = pROMOTION.PromotionDiscount;
+                    p.PromotionDetails = pROMOTION.PromotionDetails;
+                    p.PromotionEndDate = pROMOTION.PromotionEndDate;
                     p.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
 
-                    int init = 7;
+                    int init = 6;
                     var autoGenerate = Request["auto-generate"];
                     bool useGenerate = false;
                     if (autoGenerate != null && autoGenerate == "enable")
                     {
-                        init = 8;
+                        init = 7;
                         useGenerate = true;
                     }
 
-                    for (; init < form.AllKeys.Length; init++)
+                    for (; init < form.AllKeys.Count(); init++)
                     {
                         // add the new book id
                         int bookID = int.Parse(form.AllKeys[init]);
