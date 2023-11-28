@@ -84,7 +84,9 @@
 		</div>
 	</div>
 	<!-- Topbar End -->
-	@*@Html.Action("Navbar", "SharedViews", new { area = "" })*@
+
+	@Html.Action("Navbar", "SharedViews", new { area = "" })
+
 	@RenderBody()
 	<!-- Footer Start -->
 	<div class="container-fluid bg-dark text-secondary mt-5 pt-5">
