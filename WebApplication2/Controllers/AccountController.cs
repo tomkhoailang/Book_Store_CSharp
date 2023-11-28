@@ -193,6 +193,7 @@ namespace WebApplication2.Controllers
 						return RedirectToAction("Index", "User", new { area = "Manager" });
 					}
 
+
 					//uncomment this to create manager (only 1 manager is allowed)
 					//db.SP_Inital_Manager(user.Id);
 					//await UserManager.AddToRoleAsync(user.Id, "Manager");

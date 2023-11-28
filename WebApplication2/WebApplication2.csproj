@@ -172,6 +172,7 @@
     <Compile Include="Areas\Manager\Controllers\BOOK_COLLECTIONController.cs" />
     <Compile Include="Areas\Manager\Controllers\BOOK_EDITIONController.cs" />
     <Compile Include="Areas\Manager\Controllers\CATEGORiesController.cs" />
+    <Compile Include="Areas\Manager\Controllers\HomeController.cs" />
     <Compile Include="Areas\Manager\Controllers\PROMOTIONsController.cs" />
     <Compile Include="Areas\Manager\Controllers\STOCK_INVENTORYController.cs" />
     <Compile Include="Areas\Manager\Controllers\STOCK_RECEIVED_NOTEController.cs" />
@@ -319,6 +320,12 @@
     </Compile>
     <Compile Include="Models\V_edition_total_stock_quantity_price_in_this_and_previous_month.cs">
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_revenue_of_each_day.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_revenue_of_each_month.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_UserRole.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -5367,6 +5374,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Manager\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Manager\Views\Home\_RevenueInOneMonthPartialView.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />

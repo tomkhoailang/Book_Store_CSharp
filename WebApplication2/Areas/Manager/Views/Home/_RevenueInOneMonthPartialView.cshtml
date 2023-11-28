@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div>
+    <p id="RevenueOfThisMonthLabel"></p>
+    <canvas id="RevenueOfThisMonth"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+    $.ajax({
+        url: '/Manager/Home/GetRevenueOfEachDayInMonthOfYear',
+        type: 'GET',
+        success: function (data) {
+            const revenue = JSON.parse(data);
+            const revenueArray = Object.values(revenue);
+
+            function getArrayOfDate(date) {
+                date.setDate(1);
+                let month = date.getMonth();
+                let daysInMonth = [];
+
+                while (date.getMonth() === month) {
+                    daysInMonth.push(date.getDate());
+                    date.setDate(date.getDate() + 1);
+                }
+                return daysInMonth;
+            }
+
+            let usedDate = new Date();
+            usedDate.setFullYear(@Html.Raw(ViewBag.Year),@Html.Raw(ViewBag.Month) - 1, 1)
+            console.log(usedDate)
+
+            let daysInThisMonth = getArrayOfDate(usedDate);
+            let daysInThisMonthFormat = daysInThisMonth.map(d => "N "+ d)
+
+            const chartData = new Array(daysInThisMonth.length).fill(0);
+
+
+            let usedMonth = new Date().getMonth();
+            console.log(usedMonth)
+
+            revenueArray.forEach(item => {
+                const { Year, Month, Day, Revenue } = item;
+                console.log(Day)
+                if (Year === usedDate.getFullYear(), Month === usedDate.getMonth())
+                    chartData[Day - 1] = Revenue
+            });
+
+            $('#RevenueOfThisMonthLabel').html("Biểu đồ doanh thu tháng " + (usedDate.getMonth()));
+            const ctx = document.getElementById('RevenueOfThisMonth');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: daysInThisMonthFormat,
+                    datasets: [
+                        {
+                            label: 'VNĐ',
+                            data: chartData,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    })
+</script>

@@ -55,7 +55,6 @@ namespace WebApplication2.Controllers
                     EditionID = cart.Book_Information.EditionID
                 };
                 db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);   
-                
             }
             //db.SP_CREATE_CUSTOMER_ORDER_STATUS(id, 2);
             CUSTOMER_ORDER_STATUS cos = new CUSTOMER_ORDER_STATUS();

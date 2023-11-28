@@ -50,5 +50,42 @@ namespace WebApplication2.Models
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
+
+        public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
+        public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
+        public virtual DbSet<V_UserRole> V_UserRole { get; set; }
+        public virtual DbSet<V_revenue_of_each_day> V_revenue_of_each_day { get; set; }
+        public virtual DbSet<V_revenue_of_each_month> V_revenue_of_each_month { get; set; }
+    
+        public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
+        {
+            var editionIDParameter = editionID.HasValue ?
+                new ObjectParameter("editionID", editionID) :
+                new ObjectParameter("editionID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
+        }
+    
+        public virtual int SP_Inital_Manager(string accountID)
+        {
+            var accountIDParameter = accountID != null ?
+                new ObjectParameter("AccountID", accountID) :
+                new ObjectParameter("AccountID", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Manager", accountIDParameter);
+        }
+    
+        public virtual int SP_Inital_Person(string accountID, Nullable<int> managerID)
+        {
+            var accountIDParameter = accountID != null ?
+                new ObjectParameter("AccountID", accountID) :
+                new ObjectParameter("AccountID", typeof(string));
+    
+            var managerIDParameter = managerID.HasValue ?
+                new ObjectParameter("ManagerID", managerID) :
+                new ObjectParameter("ManagerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Person", accountIDParameter, managerIDParameter);
+        }
     }
 }
