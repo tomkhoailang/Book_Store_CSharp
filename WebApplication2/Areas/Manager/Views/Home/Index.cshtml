@@ -5,6 +5,7 @@
 
 
 
+
 <!--**********************************
             Content body start
         ***********************************-->
@@ -19,69 +20,103 @@
         </div>
     </div>
 
-    <hr />
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Danh sách các năm</h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered zero-configuration">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Năm
-                                        </th>
-                                        <th>
-                                            Doanh thu
-                                        </th>
-                                        <th>Chi tiết</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in ViewBag.revenue)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @item.Year
-                                            </td>
-                                            <td>
-                                                @item.Revenue
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-primary" onclick="location.href='@Url.Action("Details", new { year = item.Year })'" type="button">Chi tiết</button>
-                                            </td>
-                                        </tr>
-                                    }
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nhà xuất bản</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" >
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div>
+        <p>Doanh thu năm nay</p>
+        <canvas id="RevenueOfThisYear"></canvas>
+        <canvas id="RevenueOfMonth"></canvas>
+
+    </div>
+
+
+    <hr />
+
+
     <!-- #/ container -->
 </div>
-
+<!--**********************************
+    Content body end
+***********************************-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
-    function redirectToDetails(year) {
-        $.ajax({
-            url: '/Manager/Home/Details',
-            data: { year: year },
-            type: 'GET',
-            success: function (data) {
-                if (data.redirectToAction) {
-                    window.location.href = data.actionUrl;
-                } else {
-                    $(".error-message").html(data);
-                }
-            }
-        });
-    }
 
+    $.ajax({
+        url: '/Manager/Home/GetRevenueOfEachMonthInYear',
+        type: 'GET',
+        success: function (data) {
+            const revenue = JSON.parse(data);
+            const revenueArray = Object.values(revenue)
+
+            const chartData = new Array(12).fill(0);
+
+            revenueArray.forEach(item => {
+                const { Year, Month, Revenue } = item;
+                if (Year === new Date().getFullYear())
+                    chartData[Month - 1] = Revenue
+            });
+            const ctx = document.getElementById('RevenueOfThisYear');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 9', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                    datasets: [
+                        {
+                            label: 'VNĐ',
+                            data: chartData,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    onClick: (event, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const clickedIndex = activeElements[0].index;
+                            let monthIndex = clickedIndex + 1
+
+                            let date = (monthIndex < 10 ? '0' + monthIndex : monthIndex) + "-" + new Date().getFullYear();
+
+                            $.ajax({
+                                url: '/Manager/Home/RevenueInOneMonth/',
+                                data: { date: date },
+                                type: 'GET',
+                                success: function (data) {
+                                    $('.modal-body').html(data);
+                                    $('#createModal').modal('show');
+
+                                }
+                            });
+
+                        }
+                    }
+                }
+            });
+        }
+    })
 </script>

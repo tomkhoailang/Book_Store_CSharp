@@ -381,14 +381,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="V_revenue_of_each_year">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_year">
-        <MappingFragment StoreEntitySet="V_revenue_of_each_year">
-          <ScalarProperty Name="Revenue" ColumnName="Revenue" />
-          <ScalarProperty Name="Year" ColumnName="Year" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

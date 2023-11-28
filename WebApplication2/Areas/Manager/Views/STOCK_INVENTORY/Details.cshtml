@@ -7,7 +7,7 @@
 @using System.Globalization;
 
 @{
-    var stockTotalPrice = 0.0;
+    var stockTotalPrice = 1.0;
     foreach (var item in ViewBag.stockInHistory)
     {
         stockTotalPrice += (float)@item.NoteDetailQuantity * (float)@item.NoteDetailPrice;

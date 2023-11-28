@@ -1006,7 +1006,6 @@
     </FunctionImport>
     <EntitySet Name="V_revenue_of_each_day" EntityType="BookStoreManagerModel.V_revenue_of_each_day" />
     <EntitySet Name="V_revenue_of_each_month" EntityType="BookStoreManagerModel.V_revenue_of_each_month" />
-    <EntitySet Name="V_revenue_of_each_year" EntityType="BookStoreManagerModel.V_revenue_of_each_year" />
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1034,14 +1033,6 @@
     <Property Name="ID" Type="Int64" Nullable="false" />
     <Property Name="Year" Type="Int32" />
     <Property Name="Month" Type="Int32" />
-    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-  </EntityType>
-  <EntityType Name="V_revenue_of_each_year">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Year" Type="Int32" />
     <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
   </EntityType>
 </Schema>

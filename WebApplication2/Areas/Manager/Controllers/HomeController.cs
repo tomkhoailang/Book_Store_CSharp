@@ -15,19 +15,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         // GET: Manager/Home
         public ActionResult Index()
         {
-            ViewBag.revenue = db.V_revenue_of_each_year.ToList();
-
             return View();
-        }
-        public ActionResult GetRevenueOfEachYear()
-        {
-            var revenue = db.V_revenue_of_each_year.ToDictionary(i => i.ID, i => new
-            {
-                Year = i.Year,
-                Revenue = i.Revenue
-            });
-            var revenueJSON = JsonConvert.SerializeObject(revenue);
-            return Json(revenueJSON, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetRevenueOfEachMonthInYear()
         {
@@ -40,7 +28,6 @@ namespace WebApplication2.Areas.Manager.Controllers
             var revenueJSON = JsonConvert.SerializeObject(revenue);
             return Json(revenueJSON, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult GetRevenueOfEachDayInMonthOfYear()
         {
             var revenue = db.V_revenue_of_each_day.ToDictionary(i => i.ID, i => new
@@ -95,22 +82,9 @@ namespace WebApplication2.Areas.Manager.Controllers
         }
 
         // GET: Manager/Home/Details/5
-        public ActionResult Details(string year)
+        public ActionResult Details(int id)
         {
-            if (!string.IsNullOrEmpty(year) && year.Length == 4)
-            {
-                int checkYear;
-                bool isYear = int.TryParse(year, out checkYear);
-                if (isYear)
-                {
-                    ViewBag.Year = checkYear;
-                    return View();
-                }
-                else
-                    return new HttpNotFoundResult("404");
-            }
-            else
-                return new HttpNotFoundResult("404");
+            return View();
         }
 
         // GET: Manager/Home/Create

@@ -330,42 +330,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantit
           <Property Name="TongTienNhapThangTruoc" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
-<<<<<<< Updated upstream:WebApplication2/Models/Model1.edmx
-=======
-warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_day' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="V_revenue_of_each_day">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="bigint" Nullable="false" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Month" Type="int" />
-          <Property Name="Day" Type="int" />
-          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="V_revenue_of_each_month">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="bigint" Nullable="false" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Month" Type="int" />
-          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_year' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="V_revenue_of_each_year">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="bigint" Nullable="false" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <!--Errors Found During Generation:
->>>>>>> Stashed changes:WebApplication2/Models/BookStoreManager.edmx
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_UserRole">
           <Key>
@@ -1003,33 +967,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapThangTruoc] AS [TongTienNhapThangTruoc]
     FROM [dbo].[V_edition_total_stock_quantity_price_in_this_and_previous_month] AS [V_edition_total_stock_quantity_price_in_this_and_previous_month]</DefiningQuery>
           </EntitySet>
-<<<<<<< Updated upstream:WebApplication2/Models/Model1.edmx
-=======
-          <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [V_revenue_of_each_day].[ID] AS [ID], 
-    [V_revenue_of_each_day].[Year] AS [Year], 
-    [V_revenue_of_each_day].[Month] AS [Month], 
-    [V_revenue_of_each_day].[Day] AS [Day], 
-    [V_revenue_of_each_day].[Revenue] AS [Revenue]
-    FROM [dbo].[V_revenue_of_each_day] AS [V_revenue_of_each_day]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [V_revenue_of_each_month].[ID] AS [ID], 
-    [V_revenue_of_each_month].[Year] AS [Year], 
-    [V_revenue_of_each_month].[Month] AS [Month], 
-    [V_revenue_of_each_month].[Revenue] AS [Revenue]
-    FROM [dbo].[V_revenue_of_each_month] AS [V_revenue_of_each_month]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="V_revenue_of_each_year" EntityType="Self.V_revenue_of_each_year" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [V_revenue_of_each_year].[ID] AS [ID], 
-    [V_revenue_of_each_year].[Year] AS [Year], 
-    [V_revenue_of_each_year].[Revenue] AS [Revenue]
-    FROM [dbo].[V_revenue_of_each_year] AS [V_revenue_of_each_year]</DefiningQuery>
-          </EntitySet>
->>>>>>> Stashed changes:WebApplication2/Models/BookStoreManager.edmx
           <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_UserRole].[Id] AS [Id], 
@@ -2254,7 +2191,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
-<<<<<<< Updated upstream:WebApplication2/Models/Model1.edmx
           <FunctionImport Name="sp_renamediagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -2270,11 +2206,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <FunctionImport Name="sp_switch_status">
             <Parameter Name="orderID" Mode="In" Type="Int32" />
           </FunctionImport>
-=======
-          <EntitySet Name="V_revenue_of_each_day" EntityType="BookStoreManagerModel.V_revenue_of_each_day" />
-          <EntitySet Name="V_revenue_of_each_month" EntityType="BookStoreManagerModel.V_revenue_of_each_month" />
-          <EntitySet Name="V_revenue_of_each_year" EntityType="BookStoreManagerModel.V_revenue_of_each_year" />
->>>>>>> Stashed changes:WebApplication2/Models/BookStoreManager.edmx
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2285,7 +2216,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
           <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
         </ComplexType>
-<<<<<<< Updated upstream:WebApplication2/Models/Model1.edmx
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -2297,35 +2227,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-=======
-        <EntityType Name="V_revenue_of_each_day">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="Day" Type="Int32" />
-          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <EntityType Name="V_revenue_of_each_month">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <EntityType Name="V_revenue_of_each_year">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-        </EntityType>
->>>>>>> Stashed changes:WebApplication2/Models/BookStoreManager.edmx
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2724,44 +2625,11 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
-<<<<<<< Updated upstream:WebApplication2/Models/Model1.edmx
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BookStoreManagerModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_switch_status_after_cus_given" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_cus_given" />
           <FunctionImportMapping FunctionImportName="sp_switch_status_after_processing" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_processing" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BookStoreManagerModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="sp_switch_status" FunctionName="BookStoreManagerModel.Store.sp_switch_status" />
-=======
-          <EntitySetMapping Name="V_revenue_of_each_day">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_day">
-              <MappingFragment StoreEntitySet="V_revenue_of_each_day">
-                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_revenue_of_each_month">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_month">
-              <MappingFragment StoreEntitySet="V_revenue_of_each_month">
-                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_revenue_of_each_year">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_year">
-              <MappingFragment StoreEntitySet="V_revenue_of_each_year">
-                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
->>>>>>> Stashed changes:WebApplication2/Models/BookStoreManager.edmx
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

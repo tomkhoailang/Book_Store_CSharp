@@ -157,6 +157,29 @@ D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\r
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\roslyn\vbc.rsp
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\roslyn\VBCSCompiler.exe
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\roslyn\VBCSCompiler.exe.config
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\EntityFramework.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\EntityFramework.SqlServer.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.Helpers.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.Mvc.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.Optimization.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.Razor.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.WebPages.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.WebPages.Deployment.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\System.Web.WebPages.Razor.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Newtonsoft.Json.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Antlr3.Runtime.pdb
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.AspNet.Identity.Core.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.Cookies.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.Google.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.Twitter.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.Owin.Security.OAuth.xml
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
@@ -484,6 +507,7 @@ C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\W
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (6)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.pdb
+D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.AssemblyReference.cache
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (8)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.AssemblyReference.cache
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (8)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CoreCompileInputs.cache
 C:\Users\ADMIN\OneDrive\Máy tính\folder\btl\New folder (8)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
@@ -721,7 +745,6 @@ C:\Users\ADMIN\OneDrive\Máy tính\New folder (4)\Book_Store_CSharp\WebApplicati
 C:\Users\ADMIN\OneDrive\Máy tính\New folder (4)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\ADMIN\OneDrive\Máy tính\New folder (4)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\ADMIN\OneDrive\Máy tính\New folder (4)\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.pdb
-<<<<<<< Updated upstream
 C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\bin\WebApplication2.dll.config
 C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\bin\WebApplication2.dll
 C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\bin\WebApplication2.pdb
@@ -801,6 +824,3 @@ C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplic
 C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\BANGCHILL\Desktop\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.pdb
-=======
-D:\UTC2\Hoc_ky_5\BTLProject\Main Project\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.AssemblyReference.cache
->>>>>>> Stashed changes
