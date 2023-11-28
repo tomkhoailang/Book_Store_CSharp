@@ -46,6 +46,7 @@ namespace WebApplication2.Controllers
                 CartModels cart = new CartModels
                 {
                     Book_Information = bOOK,
+
                     BookImage = (bOOK_IMAGE == null) ? null : bOOK_IMAGE.EditionImage,
                     Discount = (pROMOTION == null) ? 0 : pROMOTION.PromotionDiscount,
                     Amount = 1,

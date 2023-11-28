@@ -1,0 +1,1078 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="MANAGERs" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="AspNetUsers" ToRole="MANAGER" />
+    <NavigationProperty Name="People" Relationship="Self.FK_Person_AspNetUsers" FromRole="AspNetUsers" ToRole="Person" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+  </EntityType>
+  <EntityType Name="BANK_ACCOUNT">
+    <Key>
+      <PropertyRef Name="BankAccountID" />
+    </Key>
+    <Property Name="BankAccountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BankAccountNumber" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+    <Property Name="BankAccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BankCVC" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="Self.FK__BANK_ACCO__Custo__71D1E811" FromRole="BANK_ACCOUNT" ToRole="Person" />
+    <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__BankA__4C6B5938" FromRole="BANK_ACCOUNT" ToRole="TRANSACTION_DETAILS" />
+  </EntityType>
+  <EntityType Name="BOOK_COLLECTION">
+    <Key>
+      <PropertyRef Name="BookCollectionID" />
+    </Key>
+    <Property Name="BookCollectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookCollectionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__BOOK_COLL__Manag__01142BA1" FromRole="BOOK_COLLECTION" ToRole="MANAGER" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__BookC__0F624AF8" FromRole="BOOK_COLLECTION" ToRole="BOOK_EDITION" />
+  </EntityType>
+  <EntityType Name="BOOK_EDITION">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EditionPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+    <Property Name="EditionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="EditionYear" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EditionPageCount" Type="Int32" />
+    <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EditionAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <Property Name="BookCollectionID" Type="Int32" />
+    <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_EDIT__BookC__0F624AF8" FromRole="BOOK_EDITION" ToRole="BOOK_COLLECTION" />
+    <NavigationProperty Name="BOOK_EDITION_IMAGE" Relationship="Self.FK__BOOK_EDIT__Editi__30C33EC3" FromRole="BOOK_EDITION" ToRole="BOOK_EDITION_IMAGE" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__BOOK_EDIT__Manag__06CD04F7" FromRole="BOOK_EDITION" ToRole="MANAGER" />
+    <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Editi__2BFE89A6" FromRole="BOOK_EDITION" ToRole="BOOK_REVIEW" />
+    <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Editi__45BE5BA9" FromRole="BOOK_EDITION" ToRole="CUSTOMER_ORDER_DETAIL" />
+    <NavigationProperty Name="STOCK_INVENTORY" Relationship="Self.FK__STOCK_INV__Editi__2739D489" FromRole="BOOK_EDITION" ToRole="STOCK_INVENTORY" />
+    <NavigationProperty Name="STOCK_RECEIVED_NOTE_DETAIL" Relationship="Self.FK__STOCK_REC__Editi__1EA48E88" FromRole="BOOK_EDITION" ToRole="STOCK_RECEIVED_NOTE_DETAIL" />
+    <NavigationProperty Name="CATEGORies" Relationship="Self.BOOK_CATEGORY" FromRole="BOOK_EDITION" ToRole="CATEGORY" />
+    <NavigationProperty Name="PROMOTIONs" Relationship="Self.BOOK_PROMOTION" FromRole="BOOK_EDITION" ToRole="PROMOTION" />
+    <NavigationProperty Name="People" Relationship="Self.MARKED_BOOK" FromRole="BOOK_EDITION" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="BOOK_EDITION_IMAGE">
+    <Key>
+      <PropertyRef Name="EditionImageID" />
+    </Key>
+    <Property Name="EditionImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EditionImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Editi__30C33EC3" FromRole="BOOK_EDITION_IMAGE" ToRole="BOOK_EDITION" />
+  </EntityType>
+  <EntityType Name="BOOK_REVIEW">
+    <Key>
+      <PropertyRef Name="ReviewID" />
+    </Key>
+    <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReviewDescription" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ReviewDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="ReviewRating" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_REVI__Editi__2BFE89A6" FromRole="BOOK_REVIEW" ToRole="BOOK_EDITION" />
+    <NavigationProperty Name="Person" Relationship="Self.FK__BOOK_REVI__Custo__2CF2ADDF" FromRole="BOOK_REVIEW" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="CATEGORY">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CategoryDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__CATEGORY__Manage__797309D9" FromRole="CATEGORY" ToRole="MANAGER" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_CATEGORY" FromRole="CATEGORY" ToRole="BOOK_EDITION" />
+  </EntityType>
+  <EntityType Name="CUSTOMER_ORDER">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="OrderTotalPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+    <Property Name="OrderShippingMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OrderPaymentMethod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StaffID" Type="Int32" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="ShipperID" Type="Int32" />
+    <NavigationProperty Name="Person" Relationship="Self.FK__CUSTOMER___Custo__3A4CA8FD" FromRole="CUSTOMER_ORDER" ToRole="Person" />
+    <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Order__40058253" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_STATUS" />
+    <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Order__46B27FE2" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_DETAIL" />
+    <NavigationProperty Name="Person1" Relationship="Self.FK__CUSTOMER___Shipp__3B40CD36" FromRole="CUSTOMER_ORDER" ToRole="Person" />
+    <NavigationProperty Name="Person2" Relationship="Self.FK__CUSTOMER___Staff__395884C4" FromRole="CUSTOMER_ORDER" ToRole="Person" />
+    <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Order__531856C7" FromRole="CUSTOMER_ORDER" ToRole="SHIP_CONFIRMATION" />
+    <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Order__4D5F7D71" FromRole="CUSTOMER_ORDER" ToRole="TRANSACTION_DETAILS" />
+  </EntityType>
+  <EntityType Name="CUSTOMER_ORDER_DETAIL">
+    <Key>
+      <PropertyRef Name="OrderDetailID" />
+    </Key>
+    <Property Name="OrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DetailCurrentPrice" Type="Decimal" Precision="12" Scale="2" />
+    <Property Name="DetailQuantity" Type="Int32" Nullable="false" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__CUSTOMER___Editi__45BE5BA9" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="BOOK_EDITION" />
+    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__46B27FE2" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="CUSTOMER_ORDER" />
+  </EntityType>
+  <EntityType Name="CUSTOMER_ORDER_STATUS">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__40058253" FromRole="CUSTOMER_ORDER_STATUS" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__40F9A68C" FromRole="CUSTOMER_ORDER_STATUS" ToRole="ORDER_STATUS" />
+  </EntityType>
+  <EntityType Name="MANAGER">
+    <Key>
+      <PropertyRef Name="ManagerID" />
+    </Key>
+    <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="MANAGER" ToRole="AspNetUsers" />
+    <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__01142BA1" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__06CD04F7" FromRole="MANAGER" ToRole="BOOK_EDITION" />
+    <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__797309D9" FromRole="MANAGER" ToRole="CATEGORY" />
+    <NavigationProperty Name="People" Relationship="Self.FK__Person__ManagerI__6754599E" FromRole="MANAGER" ToRole="Person" />
+    <NavigationProperty Name="PROMOTIONs" Relationship="Self.FK__PROMOTION__Manag__7E37BEF6" FromRole="MANAGER" ToRole="PROMOTION" />
+    <NavigationProperty Name="PUBLISHERs" Relationship="Self.FK__PUBLISHER__Manag__75A278F5" FromRole="MANAGER" ToRole="PUBLISHER" />
+    <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Manag__17F790F9" FromRole="MANAGER" ToRole="STOCK_RECEIVED_NOTE" />
+    <NavigationProperty Name="TIERs" Relationship="Self.FK__TIER__ManagerID__60A75C0F" FromRole="MANAGER" ToRole="TIER" />
+  </EntityType>
+  <EntityType Name="ORDER_STATUS">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__40F9A68C" FromRole="ORDER_STATUS" ToRole="CUSTOMER_ORDER_STATUS" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PersonAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PersonStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="TierID" Type="Int32" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Person_AspNetUsers" FromRole="Person" ToRole="AspNetUsers" />
+    <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__71D1E811" FromRole="Person" ToRole="BANK_ACCOUNT" />
+    <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Custo__2CF2ADDF" FromRole="Person" ToRole="BOOK_REVIEW" />
+    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Custo__3A4CA8FD" FromRole="Person" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="CUSTOMER_ORDER1" Relationship="Self.FK__CUSTOMER___Shipp__3B40CD36" FromRole="Person" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="CUSTOMER_ORDER2" Relationship="Self.FK__CUSTOMER___Staff__395884C4" FromRole="Person" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__Person__ManagerI__6754599E" FromRole="Person" ToRole="MANAGER" />
+    <NavigationProperty Name="TIER" Relationship="Self.FK__Person__TierID__66603565" FromRole="Person" ToRole="TIER" />
+    <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Shipp__540C7B00" FromRole="Person" ToRole="SHIP_CONFIRMATION" />
+    <NavigationProperty Name="WALLETs" Relationship="Self.FK__WALLET__Customer__6C190EBB" FromRole="Person" ToRole="WALLET" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.MARKED_BOOK" FromRole="Person" ToRole="BOOK_EDITION" />
+  </EntityType>
+  <EntityType Name="PROMOTION">
+    <Key>
+      <PropertyRef Name="PromotionID" />
+    </Key>
+    <Property Name="PromotionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PromotionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PromotionDiscount" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+    <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__7E37BEF6" FromRole="PROMOTION" ToRole="MANAGER" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
+  </EntityType>
+  <EntityType Name="PUBLISHER">
+    <Key>
+      <PropertyRef Name="PublisherID" />
+    </Key>
+    <Property Name="PublisherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PublisherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PublisherDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PublisherImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__PUBLISHER__Manag__75A278F5" FromRole="PUBLISHER" ToRole="MANAGER" />
+    <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Publi__17036CC0" FromRole="PUBLISHER" ToRole="STOCK_RECEIVED_NOTE" />
+  </EntityType>
+  <EntityType Name="SHIP_CONFIRMATION">
+    <Key>
+      <PropertyRef Name="ConfirmationID" />
+    </Key>
+    <Property Name="ConfirmationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ConfirmationDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ConfirmationImage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="ShipperID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__SHIP_CONF__Order__531856C7" FromRole="SHIP_CONFIRMATION" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="Person" Relationship="Self.FK__SHIP_CONF__Shipp__540C7B00" FromRole="SHIP_CONFIRMATION" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="STOCK_INVENTORY">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="InventoryStockInTotal" Type="Int32" Nullable="false" />
+    <Property Name="InventoryStockOutTotal" Type="Int32" Nullable="false" />
+    <Property Name="InventoryAvailableStock" Type="Int32" Nullable="false" />
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_INV__Editi__2739D489" FromRole="STOCK_INVENTORY" ToRole="BOOK_EDITION" />
+  </EntityType>
+  <EntityType Name="STOCK_RECEIVED_NOTE">
+    <Key>
+      <PropertyRef Name="StockReceivedNoteID" />
+    </Key>
+    <Property Name="StockReceivedNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StockReceivedNoteDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PublisherID" Type="Int32" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__STOCK_REC__Manag__17F790F9" FromRole="STOCK_RECEIVED_NOTE" ToRole="MANAGER" />
+    <NavigationProperty Name="PUBLISHER" Relationship="Self.FK__STOCK_REC__Publi__17036CC0" FromRole="STOCK_RECEIVED_NOTE" ToRole="PUBLISHER" />
+    <NavigationProperty Name="STOCK_RECEIVED_NOTE_DETAIL" Relationship="Self.FK__STOCK_REC__Stock__1F98B2C1" FromRole="STOCK_RECEIVED_NOTE" ToRole="STOCK_RECEIVED_NOTE_DETAIL" />
+  </EntityType>
+  <EntityType Name="STOCK_RECEIVED_NOTE_DETAIL">
+    <Key>
+      <PropertyRef Name="NoteDetailID" />
+    </Key>
+    <Property Name="NoteDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NoteDetailQuantity" Type="Int32" Nullable="false" />
+    <Property Name="NoteDetailPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="StockReceivedNoteID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_REC__Editi__1EA48E88" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="BOOK_EDITION" />
+    <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Stock__1F98B2C1" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="STOCK_RECEIVED_NOTE" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TIER">
+    <Key>
+      <PropertyRef Name="TierID" />
+    </Key>
+    <Property Name="TierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TierName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TierDiscount" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+    <Property Name="TierLevel" Type="Int32" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MANAGER" Relationship="Self.FK__TIER__ManagerID__60A75C0F" FromRole="TIER" ToRole="MANAGER" />
+    <NavigationProperty Name="People" Relationship="Self.FK__Person__TierID__66603565" FromRole="TIER" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="TRANSACTION_DETAILS">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="TransactionType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TransactionAmount" Type="Decimal" Precision="14" Scale="2" />
+    <Property Name="WalletID" Type="Int32" />
+    <Property Name="BankAccountID" Type="Int32" />
+    <Property Name="OrderID" Type="Int32" />
+    <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__TRANSACTI__BankA__4C6B5938" FromRole="TRANSACTION_DETAILS" ToRole="BANK_ACCOUNT" />
+    <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__TRANSACTI__Order__4D5F7D71" FromRole="TRANSACTION_DETAILS" ToRole="CUSTOMER_ORDER" />
+    <NavigationProperty Name="WALLET" Relationship="Self.FK__TRANSACTI__Walle__4B7734FF" FromRole="TRANSACTION_DETAILS" ToRole="WALLET" />
+  </EntityType>
+  <EntityType Name="WALLET">
+    <Key>
+      <PropertyRef Name="WalletID" />
+    </Key>
+    <Property Name="WalletID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="Balance" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Person" Relationship="Self.FK__WALLET__Customer__6C190EBB" FromRole="WALLET" ToRole="Person" />
+    <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Walle__4B7734FF" FromRole="WALLET" ToRole="TRANSACTION_DETAILS" />
+  </EntityType>
+  <EntityType Name="V_CustomerSpending">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="Int32" Nullable="false" />
+    <Property Name="TotalSpending" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="TongNhapCuaThang" Type="Int32" />
+    <Property Name="TongNhapThangTruoc" Type="Int32" />
+    <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
+    <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PersonID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MANAGER_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MANAGER">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Person_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BANK_ACCO__Custo__71D1E811">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="BANK_ACCOUNT">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TRANSACTI__BankA__4C6B5938">
+    <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="0..1" />
+    <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BANK_ACCOUNT">
+        <PropertyRef Name="BankAccountID" />
+      </Principal>
+      <Dependent Role="TRANSACTION_DETAILS">
+        <PropertyRef Name="BankAccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BOOK_COLL__Manag__01142BA1">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="BOOK_COLLECTION">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BOOK_EDIT__BookC__0F624AF8">
+    <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="0..1" />
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_COLLECTION">
+        <PropertyRef Name="BookCollectionID" />
+      </Principal>
+      <Dependent Role="BOOK_EDITION">
+        <PropertyRef Name="BookCollectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BOOK_EDIT__Editi__30C33EC3">
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
+    <End Role="BOOK_EDITION_IMAGE" Type="Self.BOOK_EDITION_IMAGE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_EDITION">
+        <PropertyRef Name="EditionID" />
+      </Principal>
+      <Dependent Role="BOOK_EDITION_IMAGE">
+        <PropertyRef Name="EditionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BOOK_EDIT__Manag__06CD04F7">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="BOOK_EDITION">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BOOK_REVI__Editi__2BFE89A6">
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
+    <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_EDITION">
+        <PropertyRef Name="EditionID" />
+      </Principal>
+      <Dependent Role="BOOK_REVIEW">
+        <PropertyRef Name="EditionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Editi__45BE5BA9">
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
+    <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_EDITION">
+        <PropertyRef Name="EditionID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER_DETAIL">
+        <PropertyRef Name="EditionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__STOCK_INV__Editi__2739D489">
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
+    <End Role="STOCK_INVENTORY" Type="Self.STOCK_INVENTORY" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_EDITION">
+        <PropertyRef Name="EditionID" />
+      </Principal>
+      <Dependent Role="STOCK_INVENTORY">
+        <PropertyRef Name="EditionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__STOCK_REC__Editi__1EA48E88">
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
+    <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOK_EDITION">
+        <PropertyRef Name="EditionID" />
+      </Principal>
+      <Dependent Role="STOCK_RECEIVED_NOTE_DETAIL">
+        <PropertyRef Name="EditionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BOOK_REVI__Custo__2CF2ADDF">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="BOOK_REVIEW">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CATEGORY__Manage__797309D9">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="CATEGORY">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Custo__3A4CA8FD">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Order__40058253">
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
+    <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_ORDER">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER_STATUS">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Order__46B27FE2">
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
+    <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_ORDER">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER_DETAIL">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Shipp__3B40CD36">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER">
+        <PropertyRef Name="ShipperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Staff__395884C4">
+    <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER">
+        <PropertyRef Name="StaffID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SHIP_CONF__Order__531856C7">
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
+    <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_ORDER">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="SHIP_CONFIRMATION">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TRANSACTI__Order__4D5F7D71">
+    <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="0..1" />
+    <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CUSTOMER_ORDER">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="TRANSACTION_DETAILS">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CUSTOMER___Statu__40F9A68C">
+    <End Role="ORDER_STATUS" Type="Self.ORDER_STATUS" Multiplicity="1" />
+    <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ORDER_STATUS">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="CUSTOMER_ORDER_STATUS">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Person__ManagerI__6754599E">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PROMOTION__Manag__7E37BEF6">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="PROMOTION" Type="Self.PROMOTION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="PROMOTION">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__PUBLISHER__Manag__75A278F5">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="PUBLISHER">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__STOCK_REC__Manag__17F790F9">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="STOCK_RECEIVED_NOTE">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TIER__ManagerID__60A75C0F">
+    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
+    <End Role="TIER" Type="Self.TIER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MANAGER">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="TIER">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Person__TierID__66603565">
+    <End Role="TIER" Type="Self.TIER" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TIER">
+        <PropertyRef Name="TierID" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="TierID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SHIP_CONF__Shipp__540C7B00">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="SHIP_CONFIRMATION">
+        <PropertyRef Name="ShipperID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__WALLET__Customer__6C190EBB">
+    <End Role="Person" Type="Self.Person" Multiplicity="1" />
+    <End Role="WALLET" Type="Self.WALLET" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="WALLET">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__STOCK_REC__Publi__17036CC0">
+    <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="1" />
+    <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PUBLISHER">
+        <PropertyRef Name="PublisherID" />
+      </Principal>
+      <Dependent Role="STOCK_RECEIVED_NOTE">
+        <PropertyRef Name="PublisherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__STOCK_REC__Stock__1F98B2C1">
+    <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="1" />
+    <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STOCK_RECEIVED_NOTE">
+        <PropertyRef Name="StockReceivedNoteID" />
+      </Principal>
+      <Dependent Role="STOCK_RECEIVED_NOTE_DETAIL">
+        <PropertyRef Name="StockReceivedNoteID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TRANSACTI__Walle__4B7734FF">
+    <End Role="WALLET" Type="Self.WALLET" Multiplicity="0..1" />
+    <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WALLET">
+        <PropertyRef Name="WalletID" />
+      </Principal>
+      <Dependent Role="TRANSACTION_DETAILS">
+        <PropertyRef Name="WalletID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+  </Association>
+  <Association Name="BOOK_CATEGORY">
+    <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="*" />
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
+  </Association>
+  <Association Name="BOOK_PROMOTION">
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
+    <End Role="PROMOTION" Type="Self.PROMOTION" Multiplicity="*" />
+  </Association>
+  <Association Name="MARKED_BOOK">
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="BookStoreManagerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <EntitySet Name="BANK_ACCOUNT" EntityType="Self.BANK_ACCOUNT" />
+    <EntitySet Name="BOOK_COLLECTION" EntityType="Self.BOOK_COLLECTION" />
+    <EntitySet Name="BOOK_EDITION" EntityType="Self.BOOK_EDITION" />
+    <EntitySet Name="BOOK_EDITION_IMAGE" EntityType="Self.BOOK_EDITION_IMAGE" />
+    <EntitySet Name="BOOK_REVIEW" EntityType="Self.BOOK_REVIEW" />
+    <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
+    <EntitySet Name="CUSTOMER_ORDER" EntityType="Self.CUSTOMER_ORDER" />
+    <EntitySet Name="CUSTOMER_ORDER_DETAIL" EntityType="Self.CUSTOMER_ORDER_DETAIL" />
+    <EntitySet Name="CUSTOMER_ORDER_STATUS" EntityType="Self.CUSTOMER_ORDER_STATUS" />
+    <EntitySet Name="MANAGERs" EntityType="Self.MANAGER" />
+    <EntitySet Name="ORDER_STATUS" EntityType="Self.ORDER_STATUS" />
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <EntitySet Name="PROMOTIONs" EntityType="Self.PROMOTION" />
+    <EntitySet Name="PUBLISHERs" EntityType="Self.PUBLISHER" />
+    <EntitySet Name="SHIP_CONFIRMATION" EntityType="Self.SHIP_CONFIRMATION" />
+    <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" />
+    <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" />
+    <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="TIERs" EntityType="Self.TIER" />
+    <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" />
+    <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
+    <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
+    <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
+    <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Person" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BANK_ACCO__Custo__71D1E811" Association="Self.FK__BANK_ACCO__Custo__71D1E811">
+      <End Role="Person" EntitySet="People" />
+      <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TRANSACTI__BankA__4C6B5938" Association="Self.FK__TRANSACTI__BankA__4C6B5938">
+      <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
+      <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BOOK_COLL__Manag__01142BA1" Association="Self.FK__BOOK_COLL__Manag__01142BA1">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BOOK_EDIT__BookC__0F624AF8" Association="Self.FK__BOOK_EDIT__BookC__0F624AF8">
+      <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BOOK_EDIT__Editi__30C33EC3" Association="Self.FK__BOOK_EDIT__Editi__30C33EC3">
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+      <End Role="BOOK_EDITION_IMAGE" EntitySet="BOOK_EDITION_IMAGE" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BOOK_EDIT__Manag__06CD04F7" Association="Self.FK__BOOK_EDIT__Manag__06CD04F7">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BOOK_REVI__Editi__2BFE89A6" Association="Self.FK__BOOK_REVI__Editi__2BFE89A6">
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+      <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Editi__45BE5BA9" Association="Self.FK__CUSTOMER___Editi__45BE5BA9">
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+      <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK__STOCK_INV__Editi__2739D489" Association="Self.FK__STOCK_INV__Editi__2739D489">
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+      <End Role="STOCK_INVENTORY" EntitySet="STOCK_INVENTORY" />
+    </AssociationSet>
+    <AssociationSet Name="FK__STOCK_REC__Editi__1EA48E88" Association="Self.FK__STOCK_REC__Editi__1EA48E88">
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+      <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BOOK_REVI__Custo__2CF2ADDF" Association="Self.FK__BOOK_REVI__Custo__2CF2ADDF">
+      <End Role="Person" EntitySet="People" />
+      <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CATEGORY__Manage__797309D9" Association="Self.FK__CATEGORY__Manage__797309D9">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="CATEGORY" EntitySet="CATEGORies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Custo__3A4CA8FD" Association="Self.FK__CUSTOMER___Custo__3A4CA8FD">
+      <End Role="Person" EntitySet="People" />
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Order__40058253" Association="Self.FK__CUSTOMER___Order__40058253">
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+      <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Order__46B27FE2" Association="Self.FK__CUSTOMER___Order__46B27FE2">
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+      <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Shipp__3B40CD36" Association="Self.FK__CUSTOMER___Shipp__3B40CD36">
+      <End Role="Person" EntitySet="People" />
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Staff__395884C4" Association="Self.FK__CUSTOMER___Staff__395884C4">
+      <End Role="Person" EntitySet="People" />
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SHIP_CONF__Order__531856C7" Association="Self.FK__SHIP_CONF__Order__531856C7">
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+      <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TRANSACTI__Order__4D5F7D71" Association="Self.FK__TRANSACTI__Order__4D5F7D71">
+      <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
+      <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CUSTOMER___Statu__40F9A68C" Association="Self.FK__CUSTOMER___Statu__40F9A68C">
+      <End Role="ORDER_STATUS" EntitySet="ORDER_STATUS" />
+      <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Person__ManagerI__6754599E" Association="Self.FK__Person__ManagerI__6754599E">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="Person" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PROMOTION__Manag__7E37BEF6" Association="Self.FK__PROMOTION__Manag__7E37BEF6">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="PROMOTION" EntitySet="PROMOTIONs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__PUBLISHER__Manag__75A278F5" Association="Self.FK__PUBLISHER__Manag__75A278F5">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="PUBLISHER" EntitySet="PUBLISHERs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__STOCK_REC__Manag__17F790F9" Association="Self.FK__STOCK_REC__Manag__17F790F9">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TIER__ManagerID__60A75C0F" Association="Self.FK__TIER__ManagerID__60A75C0F">
+      <End Role="MANAGER" EntitySet="MANAGERs" />
+      <End Role="TIER" EntitySet="TIERs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Person__TierID__66603565" Association="Self.FK__Person__TierID__66603565">
+      <End Role="TIER" EntitySet="TIERs" />
+      <End Role="Person" EntitySet="People" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SHIP_CONF__Shipp__540C7B00" Association="Self.FK__SHIP_CONF__Shipp__540C7B00">
+      <End Role="Person" EntitySet="People" />
+      <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK__WALLET__Customer__6C190EBB" Association="Self.FK__WALLET__Customer__6C190EBB">
+      <End Role="Person" EntitySet="People" />
+      <End Role="WALLET" EntitySet="WALLETs" />
+    </AssociationSet>
+    <AssociationSet Name="FK__STOCK_REC__Publi__17036CC0" Association="Self.FK__STOCK_REC__Publi__17036CC0">
+      <End Role="PUBLISHER" EntitySet="PUBLISHERs" />
+      <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK__STOCK_REC__Stock__1F98B2C1" Association="Self.FK__STOCK_REC__Stock__1F98B2C1">
+      <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
+      <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TRANSACTI__Walle__4B7734FF" Association="Self.FK__TRANSACTI__Walle__4B7734FF">
+      <End Role="WALLET" EntitySet="WALLETs" />
+      <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <AssociationSet Name="BOOK_CATEGORY" Association="Self.BOOK_CATEGORY">
+      <End Role="CATEGORY" EntitySet="CATEGORies" />
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+    </AssociationSet>
+    <AssociationSet Name="BOOK_PROMOTION" Association="Self.BOOK_PROMOTION">
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+      <End Role="PROMOTION" EntitySet="PROMOTIONs" />
+    </AssociationSet>
+    <AssociationSet Name="MARKED_BOOK" Association="Self.MARKED_BOOK">
+      <End Role="Person" EntitySet="People" />
+      <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
+      <Parameter Name="editionID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(BookStoreManagerModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(BookStoreManagerModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Inital_Manager">
+      <Parameter Name="AccountID" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Inital_Person">
+      <Parameter Name="AccountID" Mode="In" Type="String" />
+      <Parameter Name="ManagerID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_switch_status_after_cus_given">
+      <Parameter Name="orderID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_switch_status_after_processing">
+      <Parameter Name="orderID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="sp_switch_status">
+      <Parameter Name="orderID" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="Sp_check_valid_promotion_Result">
+    <Property Type="Int32" Name="PromotionID" Nullable="false" />
+    <Property Type="String" Name="PromotionName" Nullable="false" MaxLength="200" />
+    <Property Type="Decimal" Name="PromotionDiscount" Nullable="false" Precision="4" Scale="2" />
+    <Property Type="DateTime" Name="PromotionStartDate" Nullable="false" Precision="23" />
+    <Property Type="DateTime" Name="PromotionEndDate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="ManagerID" Nullable="false" />
+    <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

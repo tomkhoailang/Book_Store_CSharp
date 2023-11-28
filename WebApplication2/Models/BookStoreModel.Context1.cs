@@ -12,13 +12,11 @@ namespace WebApplication2.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
-    public partial class BookStoreManagerEntities : DbContext
+    public partial class BookStoreManagerEntities1 : DbContext
     {
-        public BookStoreManagerEntities()
-            : base("name=BookStoreManagerEntities")
+        public BookStoreManagerEntities1()
+            : base("name=BookStoreManagerEntities1")
         {
         }
     
@@ -40,9 +38,7 @@ namespace WebApplication2.Models
         public virtual DbSet<CATEGORY> CATEGORies { get; set; }
         public virtual DbSet<CUSTOMER_ORDER> CUSTOMER_ORDER { get; set; }
         public virtual DbSet<CUSTOMER_ORDER_DETAIL> CUSTOMER_ORDER_DETAIL { get; set; }
-        public virtual DbSet<CUSTOMER_ORDER_STATUS> CUSTOMER_ORDER_STATUS { get; set; }
         public virtual DbSet<MANAGER> MANAGERs { get; set; }
-        public virtual DbSet<ORDER_STATUS> ORDER_STATUS { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PROMOTION> PROMOTIONs { get; set; }
         public virtual DbSet<PUBLISHER> PUBLISHERs { get; set; }
@@ -50,9 +46,11 @@ namespace WebApplication2.Models
         public virtual DbSet<STOCK_INVENTORY> STOCK_INVENTORY { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE_DETAIL> STOCK_RECEIVED_NOTE_DETAIL { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
+
         public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
         public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
