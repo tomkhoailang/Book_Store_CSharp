@@ -36,18 +36,18 @@ namespace WebApplication2.Areas.Manager.Controllers
 
             return View(stockInventory.ToList());
         }
-        //public ActionResult StockDetails()
-        //{
-        //    var stockDetails = db.V_edition_total_stock_quantity_price_in_this_and_previous_month.ToDictionary(i => i.EditionID, i => new
-        //    {
-        //        TongNhapCuaThang = i.TongNhapCuaThang,
-        //        TongTienNhapCuaThang = i.TongTienNhapCuaThang,
-        //        TongNhapThangTruoc = i.TongNhapThangTruoc,
-        //        TongTienNhapThangTruoc = i.TongTienNhapThangTruoc,
-        //    });
-        //    string jsonRs = JsonConvert.SerializeObject(stockDetails);
-        //    return Json(jsonRs, JsonRequestBehavior.AllowGet);
-        //}
+        public ActionResult StockDetails()
+        {
+            var stockDetails = db.V_edition_total_stock_quantity_price_in_this_and_previous_month.ToDictionary(i => i.EditionID, i => new
+            {
+                TongNhapCuaThang = i.TongNhapCuaThang,
+                TongTienNhapCuaThang = i.TongTienNhapCuaThang,
+                TongNhapThangTruoc = i.TongNhapThangTruoc,
+                TongTienNhapThangTruoc = i.TongTienNhapThangTruoc,
+            });
+            string jsonRs = JsonConvert.SerializeObject(stockDetails);
+            return Json(jsonRs, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: STOCK_INVENTORY/Details/5
         public ActionResult Details(int? id)

@@ -16,10 +16,27 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: STOCK_RECEIVED_NOTE
-        public ActionResult Index()
+        public ActionResult Index(string searchString, int? sortOptions)
         {
-            var sTOCK_RECEIVED_NOTE = db.STOCK_RECEIVED_NOTE.Include(s => s.MANAGER).Include(s => s.PUBLISHER);
-            return View(sTOCK_RECEIVED_NOTE.ToList());
+
+
+            IQueryable<STOCK_RECEIVED_NOTE> stockResult = db.STOCK_RECEIVED_NOTE.Include(s => s.MANAGER).Include(s => s.PUBLISHER);
+            //search
+            if(!string.IsNullOrEmpty(searchString))
+            {
+                stockResult = stockResult.Where(s => s.PUBLISHER.PublisherName.Contains(searchString));
+                ViewBag.keyword = searchString;
+            }
+            if (sortOptions != null && sortOptions == 2)
+                stockResult = stockResult.OrderBy(s => s.StockReceivedNoteDate);
+            else
+                stockResult = stockResult.OrderByDescending(s => s.StockReceivedNoteDate);
+
+
+            ViewBag.sortOptions = new SelectList(
+                new[] { new SelectListItem { Value = "1", Text = "Mới nhất" },
+                        new SelectListItem { Value = "2", Text = "Cũ nhất" } }, "Value", "Text");
+            return View(stockResult.ToList());
         }
 
         // GET: STOCK_RECEIVED_NOTE/Details/5

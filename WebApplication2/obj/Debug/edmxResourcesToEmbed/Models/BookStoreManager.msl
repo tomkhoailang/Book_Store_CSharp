@@ -303,6 +303,36 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="V_revenue_of_each_day">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_day">
+        <MappingFragment StoreEntitySet="V_revenue_of_each_day">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_revenue_of_each_month">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_month">
+        <MappingFragment StoreEntitySet="V_revenue_of_each_month">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Month" ColumnName="Month" />
+          <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_revenue_of_each_year">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_year">
+        <MappingFragment StoreEntitySet="V_revenue_of_each_year">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="V_UserRole">
       <EntityTypeMapping TypeName="BookStoreManagerModel.V_UserRole">
         <MappingFragment StoreEntitySet="V_UserRole">
@@ -358,7 +388,16 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
     <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
     <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
+    <EntitySetMapping Name="V_edition_buy_count">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
+        <MappingFragment StoreEntitySet="V_edition_buy_count">
+          <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

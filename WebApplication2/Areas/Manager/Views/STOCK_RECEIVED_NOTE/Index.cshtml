@@ -5,6 +5,7 @@
     Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
 }
 
+
 <!--**********************************
             Content body start
         ***********************************-->
@@ -13,14 +14,17 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index","Stock_received_note")">Phiếu nhập</a></li>
             </ol>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
-        Thêm phiếu nhập mới
-    </button>
+
+    <div class="d-flex justify-content-end mr-4">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+            Thêm phiếu nhập mới
+        </button>
+    </div>
     <hr />
 
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -36,7 +40,7 @@
                     <!-- The partial view will be loaded here -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -54,21 +58,25 @@
                 <div class="edit-modal-body modal-body ">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- row -->
-    @*@using (Html.BeginForm("Index", "STOCK_RECEIVED_NOTE", FormMethod.Get, new { @class = "form-inline" }))
-        {
-            <div class="form-group">
-                <label>Tên nhà xuất bản: </label>
-                <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
-                <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-            </div><hr />
-        }*@
+    @using (Html.BeginForm("Index", "STOCK_RECEIVED_NOTE", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="form-group">
+            <label class="ml-4">Tên nhà xuất bản: </label>
+            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
+            <label class="ml-2">Sắp xếp theo ngày nhập: </label>
+
+            @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3" })
+            <input type="submit" class="btn btn-danger ml-4" value="Tìm kiếm">
+
+        </div><hr />
+    }
 
 
     <div class="container-fluid">
@@ -82,6 +90,9 @@
                                 <thead>
                                     <tr>
                                         <th>
+                                            @Html.DisplayNameFor(model => model.StockReceivedNoteID)
+                                        </th>
+                                        <th>
                                             @Html.DisplayNameFor(model => model.StockReceivedNoteDate)
                                         </th>
                                         <th>
@@ -94,6 +105,9 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.StockReceivedNoteID)
+                                            </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.StockReceivedNoteDate)
                                             </td>

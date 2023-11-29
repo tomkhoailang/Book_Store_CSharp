@@ -308,6 +308,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
           <Property Name="TotalSpending" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_edition_buy_count' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_edition_buy_count">
+          <Key>
+            <PropertyRef Name="EditionID" />
+          </Key>
+          <Property Name="EditionID" Type="int" Nullable="false" />
+          <Property Name="BuyCount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
           <Key>
@@ -318,6 +327,39 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantit
           <Property Name="TongNhapThangTruoc" Type="int" />
           <Property Name="TongTienNhapCuaThang" Type="decimal" Precision="38" Scale="2" />
           <Property Name="TongTienNhapThangTruoc" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_day' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_revenue_of_each_day">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Day" Type="int" />
+          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_revenue_of_each_month">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_year' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="V_revenue_of_each_year">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -863,6 +905,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
         <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="editionID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
         </Function>
@@ -907,6 +953,12 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_CustomerSpending].[TotalSpending] AS [TotalSpending]
     FROM [dbo].[V_CustomerSpending] AS [V_CustomerSpending]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_edition_buy_count].[EditionID] AS [EditionID], 
+    [V_edition_buy_count].[BuyCount] AS [BuyCount]
+    FROM [dbo].[V_edition_buy_count] AS [V_edition_buy_count]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[EditionID] AS [EditionID], 
@@ -915,6 +967,30 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapCuaThang] AS [TongTienNhapCuaThang], 
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapThangTruoc] AS [TongTienNhapThangTruoc]
     FROM [dbo].[V_edition_total_stock_quantity_price_in_this_and_previous_month] AS [V_edition_total_stock_quantity_price_in_this_and_previous_month]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_revenue_of_each_day].[ID] AS [ID], 
+    [V_revenue_of_each_day].[Year] AS [Year], 
+    [V_revenue_of_each_day].[Month] AS [Month], 
+    [V_revenue_of_each_day].[Day] AS [Day], 
+    [V_revenue_of_each_day].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_day] AS [V_revenue_of_each_day]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_revenue_of_each_month].[ID] AS [ID], 
+    [V_revenue_of_each_month].[Year] AS [Year], 
+    [V_revenue_of_each_month].[Month] AS [Month], 
+    [V_revenue_of_each_month].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_month] AS [V_revenue_of_each_month]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="V_revenue_of_each_year" EntityType="Self.V_revenue_of_each_year" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [V_revenue_of_each_year].[ID] AS [ID], 
+    [V_revenue_of_each_year].[Year] AS [Year], 
+    [V_revenue_of_each_year].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_year] AS [V_revenue_of_each_year]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1457,6 +1533,33 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
           <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
+        <EntityType Name="V_revenue_of_each_day">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="V_revenue_of_each_month">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="V_revenue_of_each_year">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
         <EntityType Name="V_UserRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -1938,6 +2041,9 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
           <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
           <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
+          <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" />
+          <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" />
+          <EntitySet Name="V_revenue_of_each_year" EntityType="Self.V_revenue_of_each_year" />
           <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -2098,6 +2204,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
           <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
           <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
@@ -2105,6 +2215,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="V_edition_buy_count" EntityType="BookStoreManagerModel.V_edition_buy_count" />
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2115,6 +2226,13 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
           <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
         </ComplexType>
+        <EntityType Name="V_edition_buy_count">
+          <Key>
+            <PropertyRef Name="EditionID" />
+          </Key>
+          <Property Name="EditionID" Type="Int32" Nullable="false" />
+          <Property Name="BuyCount" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2423,6 +2541,36 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="V_revenue_of_each_day">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_day">
+              <MappingFragment StoreEntitySet="V_revenue_of_each_day">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_revenue_of_each_month">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_month">
+              <MappingFragment StoreEntitySet="V_revenue_of_each_month">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_revenue_of_each_year">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_revenue_of_each_year">
+              <MappingFragment StoreEntitySet="V_revenue_of_each_year">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="V_UserRole">
             <EntityTypeMapping TypeName="BookStoreManagerModel.V_UserRole">
               <MappingFragment StoreEntitySet="V_UserRole">
@@ -2478,8 +2626,17 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
+          <EntitySetMapping Name="V_edition_buy_count">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
+              <MappingFragment StoreEntitySet="V_edition_buy_count">
+                <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+                <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -18,6 +20,8 @@ namespace WebApplication2.Controllers
         public ActionResult Index()
         {
             var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
+            var id = User.Identity.GetUserId();
+            ViewBag.currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
             return View(cUSTOMER_ORDER.ToList());
         }
 
@@ -132,6 +136,19 @@ namespace WebApplication2.Controllers
         public ActionResult CancelByCustomer(int id)
         {
 
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ChangeStatus(int id)
+        {
+            using (var context = new BookStoreManagerEntities())
+            {
+                var parameter1 = new SqlParameter("@orderID", id);
+
+                context.Database.ExecuteSqlCommand("sp_switch_status @orderID", parameter1);
+
+                context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

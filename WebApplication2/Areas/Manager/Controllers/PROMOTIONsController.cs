@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
@@ -15,10 +17,18 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: PROMOTIONs
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString,DateTime? startDate, DateTime? endDate, int? page, int? size, string sortOptions)
         {
 
             IQueryable<PROMOTION> promotions = db.PROMOTIONs;
+            //filter
+            if (startDate != null)
+                promotions = promotions.Where(p => p.PromotionStartDate >= startDate);
+            if (endDate != null)
+                promotions = promotions.Where(p => p.PromotionEndDate <= endDate);
+            ViewBag.startDate = String.Format("{0:yyyy-MM-dd}", startDate);
+            ViewBag.endDate = String.Format("{0:yyyy-MM-dd}", endDate);
+            //search
             if (!string.IsNullOrEmpty(searchString))
             {
                 string[] searchTerms = searchString.Split(' ');
@@ -26,7 +36,48 @@ namespace WebApplication2.Areas.Manager.Controllers
                 promotions = promotions.Where(p => searchTerms.All(term => p.PromotionName.Contains(term)));
                 ViewBag.Keyword = searchString;
             }
-            return View(promotions.ToList());
+
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                }
+                , "Value", "Text");
+
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    promotions = promotions.OrderByDescending(b => b.PromotionID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    promotions = promotions.OrderBy(b => b.PromotionID);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                default:
+                    promotions = promotions.OrderByDescending(b => b.PromotionID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(promotions.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: PROMOTIONs/Details/5
@@ -131,19 +182,22 @@ namespace WebApplication2.Areas.Manager.Controllers
                 {
                     string promoDetail = "";
                     p.BOOK_EDITION.Clear();
-                    db.Entry(p).CurrentValues.SetValues(pROMOTION);
+                    p.PromotionName = pROMOTION.PromotionName;
+                    p.PromotionDiscount = pROMOTION.PromotionDiscount;
+                    p.PromotionDetails = pROMOTION.PromotionDetails;
+                    p.PromotionEndDate = pROMOTION.PromotionEndDate;
                     p.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
 
-                    int init = 7;
+                    int init = 6;
                     var autoGenerate = Request["auto-generate"];
                     bool useGenerate = false;
                     if (autoGenerate != null && autoGenerate == "enable")
                     {
-                        init = 8;
+                        init = 7;
                         useGenerate = true;
                     }
 
-                    for (; init < form.AllKeys.Length; init++)
+                    for (; init < form.AllKeys.Count(); init++)
                     {
                         // add the new book id
                         int bookID = int.Parse(form.AllKeys[init]);

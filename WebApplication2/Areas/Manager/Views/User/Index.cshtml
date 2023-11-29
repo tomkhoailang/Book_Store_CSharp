@@ -16,31 +16,33 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","User")">Tài khoản</a></li>
             </ol>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Đăng ký tài khoản mới
-    </button>
+
+    <div class="d-flex justify-content-end mr-4">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            Đăng ký tài khoản mới
+        </button>
+    </div>
     <hr />
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Đăng ký</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    @Html.Partial("_RegisterPartialView", registerModel, new ViewDataDictionary {
-    { "AccountType", @ViewBag.AccountType }})
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -49,16 +51,16 @@
     <!-- row -->
     @using (Html.BeginForm("Index", "User", FormMethod.Get, new { @class = "form-inline" }))
     {
-        <div class="form-group">
-            <label>Loại người dùng: </label>
+        <div class="form-group ml-4">
+            <label for="RoleID" class="mr-1">Loại người dùng: </label>
             @Html.DropDownList("RoleID", null, htmlAttributes: new { @class = "form-control" })
-            <label>Tên người dùng hoặc số điện thoại: </label>
+            <label class="ml-4">Tên người dùng, email hoặc số điện thoại: </label>
             <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
             <input type="submit" class="btn btn-danger" value="Tìm kiếm">
         </div><hr />
     }
 
-
+    <div id="test"></div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -89,6 +91,7 @@
                                             Vai trò
                                         </th>
                                         <th>Thao tác</th>
+                                        <th>Đổi trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -115,7 +118,8 @@
                                                 @Html.DisplayFor(modelItem => item.AccountType)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" id="@item.Person.PersonID" value="@item.Person.PersonID" onclick="redirectToDetails(this.value)">Chi tiết
+                                                <button type="button" class="btn btn-primary" id="@item.Person.PersonID" value="@item.Person.PersonID" onclick="redirectToDetails(this.value)">
+                                                    Chi tiết
                                                 </button>
 
 
@@ -149,9 +153,21 @@
 <!--**********************************
     Content body end
 ***********************************-->
+<script src="~/Assets/Admin/js/jquery.js"></script>
 <script>
     function redirectToDetails(personID) {
         var url = "/Manager/User/Details/" + personID;
         window.location.href = url;
     }
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Account/Register',
+            type: 'GET',
+            success: function (data) {
+                $('.modal-body').html(data)
+            }
+        });
+    });
 </script>

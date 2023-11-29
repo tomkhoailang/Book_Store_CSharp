@@ -23,7 +23,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.StockReceivedNoteDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
-        <div class="col-md-10">
+        <div id="editDate" class="col-md-10">
             <input type="datetime-local" id="StockReceivedNoteDate" name="StockReceivedNoteDate" class="form-control" value="@ViewBag.StockDate" required />
         </div>
     </div>
@@ -76,3 +76,13 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    function updateMaxAttribute() {
+        var currentDate = new Date();
+        currentDate.setHours(currentDate.getHours() + 7);
+        currentDate.setMinutes(currentDate.getMinutes());
+        var currentDateString = currentDate.toISOString().slice(0, 16);
+        $("#editDate").find("#StockReceivedNoteDate").prop("max", currentDateString);
+    }
+    setInterval(updateMaxAttribute, 1000);
+</script>

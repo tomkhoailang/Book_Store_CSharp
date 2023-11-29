@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -83,8 +84,8 @@ namespace WebApplication2.Controllers
             {
                 case SignInStatus.Success:
                     var manager = db.AspNetRoles.FirstOrDefault(a => a.Id == "1").AspNetUsers;
-                    if(manager != null && manager.ToList().Count > 0 && manager.ToList()[0].Email == model.Email)
-					{
+                    if (manager != null && manager.ToList().Count > 0 && manager.ToList()[0].Email == model.Email)
+                    {
                         return RedirectToAction("Index", "User", new { area = "Manager" });
                     }
                     return RedirectToLocal(returnUrl);
@@ -147,11 +148,19 @@ namespace WebApplication2.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            // note: User.Identity.IsAuthenticated && User.IsInRole("Manager") later
-            //if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
-            //{
-            //    ViewBag.AccountType = new SelectList(db.AspNetRoles, "Id", "Name");
-            //}
+            if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+            {
+                var translationDictionary = new Dictionary<string, string>
+                {
+                    { "Customer", "Khách hàng" },
+                    { "Shipper", "Người giao hàng" },
+                    { "Staff", "Nhân viên" },
+                };
+                var roleForSelectList = db.AspNetRoles.Where(r => r.Id != "1").ToList().Select(r => new { r.Id, Name = translationDictionary[r.Name] });
+                var selectList = new SelectList(roleForSelectList, "Id", "Name");
+                ViewBag.AccountType = selectList;
+                return PartialView("_RegisterPartialView");
+            }
             return View();
         }
 
@@ -168,35 +177,37 @@ namespace WebApplication2.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    string role = "";
+                    switch (model.AccountType)
+                    {
+                        case 2:
+                            role = "Staff";
+                            break;
+                        case 3:
+                            role = "Shipper";
+                            break;
+                        case 4:
+                            role = "Customer";
+                            break;
+                        default:
+                            role = "Customer";
+                            break;
+                    }
+                    await UserManager.AddToRoleAsync(user.Id, role);
+                    //create shipper, staff, customer
+                    db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
 
-					// START: create customer account section
-
-					string role = "";
-					switch (model.AccountType)
-					{
-						case 2:
-							role = "Staff";
-							break;
-						case 3:
-							role = "Shipper";
-							break;
-						case 4:
-							role = "Customer";
-							break;
-						default:
-							role = "Customer";
-							break;
-					}
-					await UserManager.AddToRoleAsync(user.Id, role);
-					db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
-
-					// END: create customer account section
+                    if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+                    {
+                        return RedirectToAction("Index", "User", new { area = "Manager" });
+                    }
 
 
-					if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
-					{
-						return RedirectToAction("Index", "User", new { area = "Manager" });
-					}
+                    //uncomment this to create manager (only 1 manager is allowed)
+                    //db.SP_Inital_Manager(user.Id);
+                    //await UserManager.AddToRoleAsync(user.Id, "Manager");
+                    // END: create customer account section
+
 
 					// START: create manager account section
 
@@ -204,6 +215,8 @@ namespace WebApplication2.Controllers
 					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
 					// END: create manager account section
+
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
 
 
