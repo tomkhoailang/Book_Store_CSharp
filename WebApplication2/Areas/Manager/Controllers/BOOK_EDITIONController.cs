@@ -8,6 +8,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
@@ -17,17 +19,82 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: BOOK_EDITION
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page, int? size, string sortOptions)
         {
-
             IQueryable<BOOK_EDITION> bookEditions = db.BOOK_EDITION;
+            //search
             if (!string.IsNullOrEmpty(searchString))
             {
                 string[] searchTerms = searchString.Split(' ');
                 bookEditions = bookEditions.Where(p => searchTerms.All(term => p.EditionName.Contains(term)));
                 ViewBag.Keyword = searchString;
             }
-            return View(bookEditions.ToList());
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "popular", Text = "Phổ biến" },
+                        new SelectListItem { Value = "new", Text = "Mới nhất" },
+                        new SelectListItem { Value = "price_desc", Text = "Giá giảm dần" },
+                        new SelectListItem { Value = "price_asc", Text = "Giá tăng dần" },
+                        new SelectListItem { Value = "name_asc", Text = "A - Z" },
+                        new SelectListItem { Value = "name_desc", Text = "Z - A" },
+
+                }
+                , "Value", "Text");
+
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "popular";
+            switch (sortOptions)
+            {
+                case "name_desc":
+                    bookEditions = bookEditions.OrderByDescending(b => b.EditionName);
+                    ViewBag.selectedSort = "name_desc";
+                    break;
+                case "name_asc":
+                    bookEditions = bookEditions.OrderBy(b => b.EditionName);
+                    ViewBag.selectedSort = "name_asc";
+                    break;
+                case "price_desc":
+                    bookEditions = bookEditions.OrderByDescending(b => b.EditionPrice);
+                    ViewBag.selectedSort = "price_desc";
+                    break;
+                case "price_asc":
+                    bookEditions = bookEditions.OrderBy(b => b.EditionPrice);
+                    ViewBag.selectedSort = "price_asc";
+                    break;
+                case "new":
+                    bookEditions = bookEditions.OrderByDescending(b => b.EditionID);
+                    ViewBag.selectedSort = "new";
+                    break;
+                case "popular":
+                    bookEditions = (from b in db.BOOK_EDITION
+                                    join v in db.V_edition_buy_count on b.EditionID equals v.EditionID into joinedData
+                                    from v in joinedData.DefaultIfEmpty()
+                                    orderby v != null ? v.BuyCount : 0 descending
+                                    select b);
+                    ViewBag.selectedSort = "popular";
+                    break;
+                default:
+                    bookEditions = bookEditions.OrderByDescending(b => b.EditionID);
+                    ViewBag.selectedSort = "new";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(bookEditions.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: BOOK_EDITION/Details/5
@@ -56,7 +123,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         // GET: BOOK_EDITION/Create
         public ActionResult Create()
         {
-           /* var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");*/
+            /* var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "selectDataTextField");*/
             var selectList = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionID");
             var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
             ViewBag.BookCollectionID = selectList.Prepend(defaultItem);
@@ -75,7 +142,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(bOOK_EDITION.BookCollectionID == 0)
+                if (bOOK_EDITION.BookCollectionID == 0)
                 {
                     bOOK_EDITION.BookCollectionID = null;
                 }
@@ -98,7 +165,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                         break;
                     }
                 }
-                if(isAttached)
+                if (isAttached)
                 {
                     for (int i = 0; i < Request.Files.Count; i++)
                     {
@@ -178,7 +245,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 }
                 //handle category
                 var book = db.BOOK_EDITION.Find(bOOK_EDITION.EditionID);
-                if(book != null)
+                if (book != null)
                 {
                     book.CATEGORies.Clear();
                     db.Entry(book).CurrentValues.SetValues(bOOK_EDITION);
@@ -225,7 +292,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 }
                 //handle file
 
-                
+
                 return RedirectToAction("Index");
             }
             ViewBag.BookCollectionID = new SelectList(db.BOOK_COLLECTION, "BookCollectionID", "BookCollectionName", bOOK_EDITION.BookCollectionID);
@@ -255,14 +322,15 @@ namespace WebApplication2.Areas.Manager.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             BOOK_EDITION bOOK_EDITION = db.BOOK_EDITION.Find(id);
-            if(db.CUSTOMER_ORDER_DETAIL.Any(b => b.EditionID == bOOK_EDITION.EditionID))
+            if (db.CUSTOMER_ORDER_DETAIL.Any(b => b.EditionID == bOOK_EDITION.EditionID))
             {
                 //case when the book is existed in customer order
                 ViewBag.ErrorMessage = "Không thể xóa. Sách này đã tồn tại trong đơn hàng của khách";
                 return PartialView("_ErrorMessagePartialView");
 
             }
-            if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(n => n.EditionID == bOOK_EDITION.EditionID)){
+            if (db.STOCK_RECEIVED_NOTE_DETAIL.Any(n => n.EditionID == bOOK_EDITION.EditionID))
+            {
                 //case when the book is existed in stock receive notge
                 ViewBag.ErrorMessage = "Không thể xóa. Sách này đã tồn tại trong phiếu nhập";
                 return PartialView("_ErrorMessagePartialView");

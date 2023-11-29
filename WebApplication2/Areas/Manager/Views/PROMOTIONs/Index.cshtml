@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebApplication2.Models.PROMOTION>
+﻿@model PagedList.IPagedList<WebApplication2.Models.PROMOTION>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -66,16 +67,37 @@
         </div>
     </div>
 
-    <!-- row -->
-    @using (Html.BeginForm("Index", "PROMOTIONs", FormMethod.Get, new { @class = "form-inline" }))
-    {
-        <div class="form-group ml-4">
 
+
+
+    <!-- row -->
+    @using (Html.BeginForm("Index", "PROMOTIONs", FormMethod.Get, new { @class = "form-inline justify-content-between" }))
+    {
+
+        <div class="form-group " style="width:100%">
+            <label class="ml-4">Ngày bắt đầu: </label>
+            <input type="date" class="form-control mx-sm-3" name="startDate" onchange="this.form.submit()" value="@ViewBag.startDate" />
+            <label class="ml-2">Ngày kết thúc: </label>
+            <input type="date" class="form-control mx-sm-3" name="endDate" value="@ViewBag.endDate" min="@ViewBag.startDate" onchange="this.form.submit()" />
+            <a style="color:red" href="@Url.Action("Index","Promotions")">Xóa bộ lọc</a>
+
+
+
+        </div>
+
+        <div class="form-group ml-4 mt-3">
             <label>Tên khuyến mãi: </label>
             <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
             <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-        </div><hr />
+        </div>
+
+        <div class="form-group ml-auto mr-4 mt-3">
+            <label class="ml-2">Sắp xếp theo: </label>
+            @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3", @onchange = "this.form.submit();" })
+        </div>
+        <hr />
     }
+
 
 
     <div class="container-fluid">
@@ -89,19 +111,19 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.PromotionID)
+                                            @Html.DisplayNameFor(model => model.First().PromotionID)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.PromotionName)
+                                            @Html.DisplayNameFor(model => model.First().PromotionName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.PromotionDiscount) (%)
+                                            @Html.DisplayNameFor(model => model.First().PromotionDiscount) (%)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.PromotionStartDate)
+                                            @Html.DisplayNameFor(model => model.First().PromotionStartDate)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.PromotionEndDate)
+                                            @Html.DisplayNameFor(model => model.First().PromotionEndDate)
                                         </th>
                                         <th>
                                             Trạng thái
@@ -112,40 +134,55 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PromotionID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PromotionName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PromotionDiscount)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PromotionStartDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PromotionEndDate)
-                                        </td>
-                                        @if (DateTime.Now >= item.PromotionStartDate && DateTime.Now <= item.PromotionEndDate)
-                                        {
-                                            <td style="color:green">Đang diễn ra</td>
-                                        }
-                                        else
-                                        {
-                                            <td>Đã kết thúc</td>
-                                        }
-                                        <td>
-                                            <button type="button" class="btn btn-primary" id="@item.PromotionID" data-toggle="modal" data-target="#editModal" value="@item.PromotionID" onclick="loadPartialView(this.value)">
-                                                Chỉnh sửa
-                                            </button>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionDiscount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionStartDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionEndDate)
+                                            </td>
+                                            @if (DateTime.Now >= item.PromotionStartDate && DateTime.Now <= item.PromotionEndDate)
+                                            {
+                                                <td style="color:green">Đang diễn ra</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Đã kết thúc</td>
+                                            }
+                                            <td>
+                                                <button type="button" class="btn btn-primary" id="@item.PromotionID" data-toggle="modal" data-target="#editModal" value="@item.PromotionID" onclick="loadPartialView(this.value)">
+                                                    Chỉnh sửa
+                                                </button>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                @using (Html.BeginForm("Index", "Book_collection", FormMethod.Get))
+                                {
+                                    <p>
+                                        Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                    </p>
+                                }
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                            </div>
+                        </div>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "Book_collection", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort, startDate = ViewBag.startDate, endDate = ViewBag.endDate }))
                     </div>
                 </div>
             </div>
@@ -156,6 +193,14 @@
 <!--**********************************
     Content body end
 ***********************************-->
+<script>
+    $(document).ready(function () {
+        $("#clear-btn").click(function () {
+            window.location.href = "/Manager/PROMOTIONs/";
+        });
+    });
+
+</script>
 <script>
     function loadCreatePartialView() {
         $.ajax({

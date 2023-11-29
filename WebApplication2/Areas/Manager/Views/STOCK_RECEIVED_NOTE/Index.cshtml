@@ -5,6 +5,7 @@
     Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
 }
 
+
 <!--**********************************
             Content body start
         ***********************************-->
@@ -66,15 +67,15 @@
     <!-- row -->
     @using (Html.BeginForm("Index", "STOCK_RECEIVED_NOTE", FormMethod.Get, new { @class = "form-inline" }))
     {
-<div class="form-group">
-    <label class="ml-4">Tên nhà xuất bản: </label>
-    <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
-    <label class="ml-2">Sắp xếp theo ngày nhập: </label>
+        <div class="form-group">
+            <label class="ml-4">Tên nhà xuất bản: </label>
+            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
+            <label class="ml-2">Sắp xếp theo ngày nhập: </label>
 
-    @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3" })
-    <input type="submit" class="btn btn-danger ml-4" value="Tìm kiếm">
+            @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3" })
+            <input type="submit" class="btn btn-danger ml-4" value="Tìm kiếm">
 
-</div><hr />
+        </div><hr />
     }
 
 

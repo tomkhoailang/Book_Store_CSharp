@@ -76,6 +76,7 @@
         <AssociationConnector Association="BookStoreManagerModel.BOOK_CATEGORY" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.BOOK_PROMOTION" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.MARKED_BOOK" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_edition_buy_count" Width="1.5" PointX="0.75" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

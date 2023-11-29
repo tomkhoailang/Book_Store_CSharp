@@ -303,6 +303,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
     <Property Name="TotalSpending" Type="decimal" Precision="38" Scale="2" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_edition_buy_count' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_edition_buy_count">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="int" Nullable="false" />
+    <Property Name="BuyCount" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
     <Key>
@@ -938,6 +947,12 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_CustomerSpending].[CustomerID] AS [CustomerID], 
     [V_CustomerSpending].[TotalSpending] AS [TotalSpending]
     FROM [dbo].[V_CustomerSpending] AS [V_CustomerSpending]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_edition_buy_count].[EditionID] AS [EditionID], 
+    [V_edition_buy_count].[BuyCount] AS [BuyCount]
+    FROM [dbo].[V_edition_buy_count] AS [V_edition_buy_count]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

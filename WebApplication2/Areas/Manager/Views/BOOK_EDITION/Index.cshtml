@@ -1,11 +1,12 @@
-﻿@model IEnumerable<WebApplication2.Models.BOOK_EDITION>
-
+﻿@model PagedList.IPagedList<WebApplication2.Models.BOOK_EDITION>
+@using PagedList.Mvc;
 
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
 }
+
 
 <!--**********************************
             Content body start
@@ -66,14 +67,20 @@
         </div>
     </div>
 
-    @using (Html.BeginForm("Index", "BOOK_EDITION", FormMethod.Get, new { @class = "form-inline" }))
+    @using (Html.BeginForm("Index", "BOOK_EDITION", FormMethod.Get, new { @class = "form-inline justify-content-between" }))
     {
-        <div class="form-group ml-4">
+        <div class="form-group ml-5">
             <label>Tên sách: </label>
             <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
             <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-        </div><hr />
+        </div>
+        <div class="form-group ml-auto mr-4">
+            <label>Sắp xếp theo: </label>
+            @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3", @onchange = "this.form.submit();" })
+        </div>
+        <hr />
     }
+
 
 
     <div class="container-fluid">
@@ -87,22 +94,22 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.EditionID)
+                                            @Html.DisplayNameFor(model => model.First().EditionID)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.EditionName)
+                                            @Html.DisplayNameFor(model => model.First().EditionName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.EditionPrice)
+                                            @Html.DisplayNameFor(model => model.First().EditionPrice)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.EditionPageCount)
+                                            @Html.DisplayNameFor(model => model.First().EditionPageCount)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.EditionAuthor)
+                                            @Html.DisplayNameFor(model => model.First().EditionAuthor)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_COLLECTION.BookCollectionName)
+                                            @Html.DisplayNameFor(model => model.First().BOOK_COLLECTION.BookCollectionName)
                                         </th>
 
                                         <th>Thao tác</th>
@@ -142,20 +149,36 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                @Html.ActionLink("Add to cart", "AddToCart", "BookCart", new { id = item.EditionID , area =""}, null)
-
-
+                                                @Html.ActionLink("Add to cart", "AddToCart", "BookCart", new { id = item.EditionID, area = "" }, null)
                                             </td>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                @using (Html.BeginForm("Index", "Book_edition", FormMethod.Get))
+                                {
+                                    <p>
+                                        Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                    </p>
+                                }
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                            </div>
+                        </div>
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "Book_edition", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort }))
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
     <!-- #/ container -->
 </div>
 <script>
@@ -184,12 +207,6 @@
             }
         });
     }
-</script>
-<script>
-    //function redirectToDetails(stockReceivedNoteID) {
-    //    var url = "/Manager/STOCK_RECEIVED_NOTE_DETAIL/Index/" + stockReceivedNoteID;
-    //    window.location.href = url;
-    //}
 </script>
 
 

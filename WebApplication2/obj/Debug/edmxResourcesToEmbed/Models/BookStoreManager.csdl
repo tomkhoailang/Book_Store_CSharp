@@ -1038,6 +1038,7 @@
       <Parameter Name="AccountID" Mode="In" Type="String" />
       <Parameter Name="ManagerID" Mode="In" Type="Int32" />
     </FunctionImport>
+    <EntitySet Name="V_edition_buy_count" EntityType="BookStoreManagerModel.V_edition_buy_count" />
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1048,4 +1049,11 @@
     <Property Type="Int32" Name="ManagerID" Nullable="false" />
     <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
   </ComplexType>
+  <EntityType Name="V_edition_buy_count">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="BuyCount" Type="Int32" />
+  </EntityType>
 </Schema>
