@@ -169,53 +169,53 @@ namespace WebApplication2.Controllers
                 if (result.Succeeded)
                 {
 
-                    // START: create customer account section
+					// START: create customer account section
 
-                    string role = "";
-                    switch (model.AccountType)
-                    {
-                        case 2:
-                            role = "Staff";
-                            break;
-                        case 3:
-                            role = "Shipper";
-                            break;
-                        case 4:
-                            role = "Customer";
-                            break;
-                        default:
-                            role = "Customer";
-                            break;
-                    }
-                    await UserManager.AddToRoleAsync(user.Id, role);
-                    db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
+					string role = "";
+					switch (model.AccountType)
+					{
+						case 2:
+							role = "Staff";
+							break;
+						case 3:
+							role = "Shipper";
+							break;
+						case 4:
+							role = "Customer";
+							break;
+						default:
+							role = "Customer";
+							break;
+					}
+					await UserManager.AddToRoleAsync(user.Id, role);
+					db.SP_Inital_Person(user.Id, (db.MANAGERs.ToList())[0].ManagerID);
 
-                    // END: create customer account section
+					// END: create customer account section
 
 
-                    if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+					if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
 					{
 						return RedirectToAction("Index", "User", new { area = "Manager" });
 					}
 
-                    // START: create manager account section
+					// START: create manager account section
 
-                    //db.sp_Inital_Manager(user.Id);
-                    //await UserManager.AddToRoleAsync(user.Id, "Manager");
+					//db.SP_Inital_Manager(user.Id);
+					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
-                    // END: create manager account section
+					// END: create manager account section
 
 
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    //// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    //// Send an email with this link
-                    //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    return RedirectToAction("Index", "Home");
-                }
+					//// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+					//// Send an email with this link
+					//// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+					//// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+					//// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+					return RedirectToAction("Index", "Home");
+				}
                 AddErrors(result);
             }
 

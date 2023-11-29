@@ -193,7 +193,6 @@
           <ScalarProperty Name="PromotionDiscount" ColumnName="PromotionDiscount" />
           <ScalarProperty Name="PromotionStartDate" ColumnName="PromotionStartDate" />
           <ScalarProperty Name="PromotionEndDate" ColumnName="PromotionEndDate" />
-          <ScalarProperty Name="PromotionIsValid" ColumnName="PromotionIsValid" />
           <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
           <ScalarProperty Name="PromotionDetails" ColumnName="PromotionDetails" />
         </MappingFragment>
@@ -252,17 +251,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="sysdiagrams">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.sysdiagram">
-        <MappingFragment StoreEntitySet="sysdiagrams">
-          <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TIERs">
       <EntityTypeMapping TypeName="BookStoreManagerModel.TIER">
         <MappingFragment StoreEntitySet="TIER">
@@ -301,6 +289,17 @@
         <MappingFragment StoreEntitySet="V_CustomerSpending">
           <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
           <ScalarProperty Name="TotalSpending" ColumnName="TotalSpending" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month">
+        <MappingFragment StoreEntitySet="V_edition_total_stock_quantity_price_in_this_and_previous_month">
+          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+          <ScalarProperty Name="TongNhapCuaThang" ColumnName="TongNhapCuaThang" />
+          <ScalarProperty Name="TongNhapThangTruoc" ColumnName="TongNhapThangTruoc" />
+          <ScalarProperty Name="TongTienNhapCuaThang" ColumnName="TongTienNhapCuaThang" />
+          <ScalarProperty Name="TongTienNhapThangTruoc" ColumnName="TongTienNhapThangTruoc" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -346,7 +345,6 @@
         <ScalarProperty Name="EditionID" ColumnName="EditionID" />
       </EndProperty>
     </AssociationSetMapping>
-    <FunctionImportMapping FunctionImportName="PROC_CHECK_IN_STORAGE_WHEN_REFRESHING" FunctionName="BookStoreManagerModel.Store.PROC_CHECK_IN_STORAGE_WHEN_REFRESHING" />
     <FunctionImportMapping FunctionImportName="Sp_check_valid_promotion" FunctionName="BookStoreManagerModel.Store.Sp_check_valid_promotion">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BookStoreManagerModel.Sp_check_valid_promotion_Result">
@@ -355,31 +353,12 @@
           <ScalarProperty Name="PromotionDiscount" ColumnName="PromotionDiscount" />
           <ScalarProperty Name="PromotionStartDate" ColumnName="PromotionStartDate" />
           <ScalarProperty Name="PromotionEndDate" ColumnName="PromotionEndDate" />
-          <ScalarProperty Name="PromotionIsValid" ColumnName="PromotionIsValid" />
           <ScalarProperty Name="ManagerID" ColumnName="ManagerID" />
           <ScalarProperty Name="PromotionDetails" ColumnName="PromotionDetails" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
-    <FunctionImportMapping FunctionImportName="SP_Inital_Customer" FunctionName="BookStoreManagerModel.Store.SP_Inital_Customer">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="BookStoreManagerModel.SP_Inital_Customer_Result">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Inital_Manager" FunctionName="BookStoreManagerModel.Store.sp_Inital_Manager" />
+    <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
+    <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
   </EntityContainerMapping>
 </Mapping>

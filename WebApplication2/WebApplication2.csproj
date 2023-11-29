@@ -272,6 +272,8 @@
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ManageUserViewModel.cs" />
+    <Compile Include="Models\OrderHistoryItemModel.cs" />
+    <Compile Include="Models\OrderHistoryModel.cs" />
     <Compile Include="Models\ORDER_STATUS.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -323,7 +325,6 @@
     <Compile Include="TestController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".gitignore" />
     <Content Include="Assets\Admin\css\style.css" />
     <Content Include="Assets\Admin\icons\cryptocoins\css\cryptocoins-colors.css" />
     <Content Include="Assets\Admin\icons\cryptocoins\css\cryptocoins.css" />
@@ -5362,7 +5363,9 @@
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\toasts.js" />
     <Content Include="Scripts\UIHandler.js" />
+    <Content Include="Scripts\validator.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -5418,12 +5421,15 @@
     <Content Include="Views\BOOK_EDITION\_FilteredBook.cshtml" />
     <Content Include="Views\Home\BookGrid.cshtml" />
     <Content Include="Views\User\UserDetail.cshtml" />
+    <Content Include="Views\User\UserOrdersHistory.cshtml" />
+    <Content Include="Views\User\OrderHistoryItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Manager\Data\" />
     <Folder Include="Images\" />
     <Folder Include="Views\Staff\" />
+    <Folder Include="Views\Toast\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

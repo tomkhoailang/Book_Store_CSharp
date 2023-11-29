@@ -20,6 +20,7 @@ namespace WebApplication2.Controllers
                 Session["ShoppingCart"] = new List<CartModels>();
             }
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
+            
             return View(BookCart);
         }
 
@@ -52,7 +53,6 @@ namespace WebApplication2.Controllers
                 };
                 cart.Total = UpdateTotal(cart);
                 BookCart.Add(cart);
-
             }
             else
             {

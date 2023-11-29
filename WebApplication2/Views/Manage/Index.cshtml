@@ -1,10 +1,9 @@
 ﻿@model WebApplication2.Models.IndexViewModel
-@using Microsoft.AspNet.Identity
 
 <div class="container-fluid">
-	<div class="container">
-		<div class="row p-3 bg-dark" style="min-height: 500px">
-			<div class="col-3 p-0 bg-dark">
+	<div class="w-100 px-5">
+		<div class="row p-3 bg-dark" style="height: 700px">
+			<div class="col-2 p-0 bg-dark">
 				<div class="d-flex flex-column justify-content-between h-100">
 					<div>
 						<div class="text-center text-light mb-3 text-truncate" style="font-size: 20px">@User.Identity.Name</div>
@@ -27,23 +26,20 @@
 					}
 				</div>
 			</div>
-			<div class="col-9 pr-0">
+			<div class="col-10 pr-0">
 				<div class="tab-content w-100 h-100 bg-primary" id="myTabContent">
 					<div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab">
-						@Html.Partial("~/Views/User/UserDetail.cshtml")
+						@Html.Action("UserDetail", "User", new { area = "" })
 					</div>
 					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-						Thông tin ví
+						
 					</div>
 					<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-						Lịch sử đặt hàng
+						@Html.Action("UserOrdersHistory", "User", new { area = "" })
 					</div>
 				</div>
 			</div>
 		</div>
-
-
-
 	</div>
 	@*<h4>Change your account settings</h4>
 		<hr />

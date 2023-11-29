@@ -9747,3 +9747,128 @@ a.text-dark:hover, a.text-dark:focus {
         transform: translateX(0px);
     }
 }
+
+#toasts {
+    position: fixed;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.custom-toast {
+    min-width: 300px;
+    margin-top: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    color: white;
+    font-size: 16px;
+    position: relative;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.custom-toast span {
+    width: 100%;
+    padding-right: 10px;
+    text-align: center;
+}
+
+.custom-toast i {
+    font-size: 28px;
+    margin-right: 20px;
+}
+
+    .custom-toast.success {
+        background-color: rgba(0, 128, 0, 0.4);
+        border-left: 5px solid;
+        border-color: rgb(0, 128, 0);
+    }
+
+    .custom-toast.error {
+        background-color: rgba(255, 0, 0, 0.4) !important;
+        border-left: 5px solid;
+        border-color: rgb(255, 0, 0);
+    }
+
+    .custom-toast.warning {
+        background-color: rgba(255, 165, 0, 0.5);
+        border-left: 5px solid;
+        border-color: rgb(255, 165, 0);
+    }
+
+    .custom-toast .countdown {
+        height: 4px;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: -2px;
+    }
+
+    .custom-toast.success .countdown {
+        background-color: rgb(0, 128, 0);
+    }
+
+    .custom-toast.error .countdown {
+        background-color: rgb(255, 0, 0);
+    }
+
+    .custom-toast.warning .countdown {
+        background-color: rgb(255, 165, 0) !important;
+    }
+
+
+
+@keyframes countdown {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
+
+@keyframes slide-in {
+    0% {
+        transform: translateX(110%);
+    }
+
+    25% {
+        transform: translateX(-10%);
+    }
+
+    50% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-10px);
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        transform: translateX(10px);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    50% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(110%);
+    }
+}
+
+.form-grouping.invalid .form-message {
+    color: #f33a58;
+    font-size: 15px;
+}

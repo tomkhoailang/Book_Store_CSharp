@@ -13,8 +13,9 @@ namespace WebApplication2.Controllers
         public ActionResult Navbar()
         {
             var data = db.CATEGORies.ToList();
-
+            ViewBag.cartItemsCount = ((List<CartModels>)Session["ShoppingCart"])?.Count ?? 0; ;
             ViewBag.categoriesList = data;
+
 			return PartialView("_Navbar");
         }
     }

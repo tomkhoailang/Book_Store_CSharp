@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WebApplication2.Models.OrderHistoryModel>
+
+<div class="container-fluid" style="height: calc(700px - 30px); overflow-y: scroll; overflow-x: hidden">
+	<div class="orders w-100 py-3">
+		@if (Model.ToList().Count > 0)
+		{
+			foreach(var o in Model)
+			{
+				<div class="order d-flex flex-column border-bottom border-light py-3">
+					<div class="heading-light d-flex justify-content-between">
+						<div class="payment-method">Ngày mua: @o.order.OrderDate</div>
+						<div class="shipping-method">Phương thức giao hàng: @o.order.OrderShippingMethod</div>
+						<div class="payment-method">Phương thức thanh toán: @o.order.OrderPaymentMethod</div>
+					</div>
+					<div>
+						@foreach (var oi in o.orderItems)
+						{
+							Html.RenderPartial("OrderHistoryItem", oi);
+						}
+					</div>
+					<div class="total-price text-right h5 text-danger">
+						@o.order.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND
+					</div>
+				</div>
+			}
+		}else { 
+			<h3>Bạn chưa đặt đơn hàng nào</h3>
+			<p>Nhanh tay đặt hàng ngay, đặt càng nhiều ưu đãi càng lớn!!</p>
+		}
+	</div>
+</div>

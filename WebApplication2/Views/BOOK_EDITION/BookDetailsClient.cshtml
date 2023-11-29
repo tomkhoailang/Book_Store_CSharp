@@ -60,8 +60,8 @@
 							<small class="far fa-star"></small>
 						}
 					</div>
-					
-					<small class="pt-1">(@Model.bookReviews.Count Đánh giá)</small> 
+
+					<small class="pt-1">(@Model.bookReviews.Count Đánh giá)</small>
 				</div>
 				<h3 class="font-weight-semi-bold mb-4">$@Html.DisplayFor(model => model.currentBook.EditionPrice)</h3>
 				<p class="mb-4">
@@ -81,9 +81,7 @@
 							</button>
 						</div>
 					</div>
-					<button class="btn btn-primary px-3">
-						<i class="fa fa-shopping-cart mr-1"></i> Thêm vào giỏ hàng
-					</button>
+					@Html.ActionLink("Thêm vào giỏ hàng", "AddToCart", "BookCart", new { id = Model.currentBook.EditionID }, new { @class = "btn btn-primary px-3", id = "add-to-cart-btn" })
 				</div>
 			</div>
 		</div>
@@ -116,7 +114,7 @@
 											@Html.DisplayNameFor(model => model.currentBook.CATEGORies)
 										</li>
 									}
-									@if (ViewBag.relativeCollectionName != "")
+									@if (ViewBag.relativeCollectionName?.trim() != "")
 									{
 										<li class="list-group-item px-0">
 											Là một cuốn sách của bộ sưu tập
@@ -151,7 +149,7 @@
 											@cateString
 										</li>
 									}
-									@if (ViewBag.relativeCollectionName != "")
+									@if (ViewBag.relativeCollectionName?.trim() != "")
 									{
 										<li class="list-group-item px-0">
 											@Model.relativeCollectionName
@@ -197,23 +195,27 @@
 								@if (User.Identity.IsAuthenticated)
 								{
 									<h4 class="mb-4">Hãy cho chúng tôi biết cảm nhận của bạn</h4>
-									<div class="d-flex my-3">
-										<p class="mb-0 mr-2">Đánh giá * :</p>
-										<div class="text-primary">
-											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
-											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
-											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
-											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
-											<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
-										</div>
-									</div>
 									using (Html.BeginForm("AddReview", "BookReview", FormMethod.Post, new { id = "rating-form" }))
 									{
-										<div class="form-group">
+										<div class="d-flex mt-3">
+											<p class="mb-0 mr-2">Đánh giá * :</p>
+											<div class="text-primary">
+												<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+												<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+												<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+												<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+												<i class="far fa-star fa-star-rating" style="cursor: pointer"></i>
+											</div>
+										</div>
+										<div class="form-grouping">
+											<input type="hidden" name="ReviewRating" id="ReviewRating" value="0" />
+											<small class="form-message" style="transform: translateY(-30px);"></small>
+										</div>
+										<div class="form-grouping form-group mt-3">
 											<label for="ReviewDescription">Cảm nhận của bạn *</label>
 											<textarea name="ReviewDescription" id="ReviewDescription" cols="30" rows="5" class="form-control"></textarea>
+											<small class="form-message"></small>
 										</div>
-										<input type="hidden" name="ReviewRating" id="ReviewRating" value="1" />
 										<input type="hidden" name="EditionID" id="EditionID" value="@Model.currentBook.EditionID" />
 										<div class="form-group mb-0">
 											<input type="submit" value="Đánh giá" class="btn btn-primary px-3">
@@ -250,3 +252,17 @@
 	</div>
 </div>
 <!-- Products End -->
+
+<script src="~/Scripts/validator.js"></script>
+<script>
+	validator({
+		form: '#rating-form',
+		errorSelector: '.form-message',
+		formGroupSelector: '.form-grouping',
+		rules: [
+			validator.isRequired('textarea[name="ReviewDescription"]', 'Hãy cho chúng tôi biết cảm nhận của bạn'),
+			validator.customValidator('input[name="ReviewRating"]', "Hãy cho chúng tôi biết độ hài lòng của bạn", (val) => val !== '0')
+		]
+	});
+
+</script>

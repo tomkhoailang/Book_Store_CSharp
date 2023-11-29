@@ -19,12 +19,11 @@ namespace WebApplication2.Controllers
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
-        public ActionResult BookDetailsClient(int? id)
+        public ActionResult BookDetailsClient(int id)
         {
             BookDetailsClientViewModel m = new BookDetailsClientViewModel();
             BOOK_EDITION book = db.BOOK_EDITION.Where(b => b.EditionID == id).SingleOrDefault();
 
-            if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             if (book == null) return HttpNotFound();
 
             m.currentBook = book;
@@ -32,13 +31,34 @@ namespace WebApplication2.Controllers
             m.relativeCollectionName = db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionID == book.BookCollectionID)?.BookCollectionName ?? "";
             m.imageList = db.BOOK_EDITION_IMAGE.Where(i => i.EditionID == book.EditionID).ToList();
             m.similarBooks = BooksFilter.getSimilarBooks(book.EditionID);
+
             List<int> categoriesIds = book.CATEGORies.Select(c => c.CategoryID).ToList();
             ViewBag.categories = db.CATEGORies.Where(c => categoriesIds.Contains(c.CategoryID)).ToList();
+
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.SuccessMessage = warningMessage;
+            }
 
             return View(m);
         }
 
-        //[OutputCache(Duration = 3600, VaryByParam = "*", Location = OutputCacheLocation.Client)]
         public ActionResult Filter()
         {
             List<BOOK_EDITION> books = (List<BOOK_EDITION>)TempData["bookList"] ?? db.BOOK_EDITION.ToList();
@@ -103,8 +123,10 @@ namespace WebApplication2.Controllers
 
             List<object> categoryIDs = ((object[])jsonData["categories"]).ToList();
             List<int> categoryIDInts = categoryIDs.Select(c => Convert.ToInt32(c)).ToList();
+
             var minPrice = jsonData["minVal"];
             var maxPrice = jsonData["maxVal"];
+            int page = jsonData["page"];
 
             List<BOOK_EDITION> filteredBooks = new List<BOOK_EDITION>();
             BooksFilter bfb = new BooksFilter();

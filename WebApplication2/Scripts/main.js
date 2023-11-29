@@ -1,30 +1,7 @@
-﻿'use-strict'
+﻿
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
-
-class EventEmitter {
-	constructor() {
-		this.eventsMap = new Map();
-	}
-
-	on(eventName, registerCallback) {
-		if (!this.eventsMap.has(eventName)) {
-			this.eventsMap.set(eventName, [registerCallback]);
-		} else {
-			this.eventsMap.get(eventName).push(registerCallback);
-		}
-	}
-
-	emit(eventName, ...params) {
-		if (!this.eventsMap.has(eventName)) {
-			return;
-		}
-		this.eventsMap.get(eventName).forEach((cb) => {
-			cb(...params);
-		})
-	}
-}
 
 const app = {
 	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [] },
@@ -135,33 +112,13 @@ const app = {
 					}
 				}
 				rating = [...$$(".fa-solid.fa-star")].length;
+				$("#ReviewRating").value = rating;
 			}
 		});
-
-		const ratingForm = $("#rating-form");
-
-		ratingForm.onsubmit = (e) => {
-			e.preventDefault();
-			const ratingTextarea = $("#ReviewDescription");
-
-			if (ratingTextarea.value.trim() === "") {
-				alert("Vui lòng viết đánh giá");
-				return;
-			};
-			if (rating === 0) {
-				alert("Vui lòng cho đánh giá");
-				return;
-			};
-
-			$("#ReviewRating").value = rating;
-
-			ratingForm.submit();
-		}
 
 	},
 
 	run: function (e) {
-		console.log("check")
 		this.handleEvents();
 	}
 }

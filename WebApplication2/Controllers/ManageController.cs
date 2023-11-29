@@ -72,6 +72,28 @@ namespace WebApplication2.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.SuccessMessage = warningMessage;
+            }
+
             return View(model);
         }
 
