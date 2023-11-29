@@ -14,16 +14,19 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index","Stock_received_note")">Phiếu nhập</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index","Stock_received_note_detail", new { id= ViewBag.id})">Chi tiết phiếu nhập</a></li>
             </ol>
         </div>
     </div>
     @if (ViewBag.id != null)
     {
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
-            Thêm chi tiết phiếu nhập mới
-        </button>
+        <div class="d-flex justify-content-end mr-4">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+                Thêm chi tiết phiếu nhập mới
+            </button>
+        </div>
     }
 
     <hr />

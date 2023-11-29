@@ -17,10 +17,17 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: BOOK_EDITION
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var bOOK_EDITION = db.BOOK_EDITION.Include(b => b.BOOK_COLLECTION).Include(b => b.STOCK_INVENTORY);
-            return View(bOOK_EDITION.ToList());
+
+            IQueryable<BOOK_EDITION> bookEditions = db.BOOK_EDITION;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                string[] searchTerms = searchString.Split(' ');
+                bookEditions = bookEditions.Where(p => searchTerms.All(term => p.EditionName.Contains(term)));
+                ViewBag.Keyword = searchString;
+            }
+            return View(bookEditions.ToList());
         }
 
         // GET: BOOK_EDITION/Details/5

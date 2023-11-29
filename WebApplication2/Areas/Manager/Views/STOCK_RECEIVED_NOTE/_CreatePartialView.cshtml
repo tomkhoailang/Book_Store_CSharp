@@ -47,8 +47,16 @@ else
             var initial = new Date();
             initial.setHours(initial.getHours() + 7)
             $("#createDate").find("#StockReceivedNoteDate").val(initial.toISOString().slice(0, 16));
-
         });
+        function updateMaxAttribute() {
+            var currentDate = new Date();
+            currentDate.setHours(currentDate.getHours() + 7);
+            currentDate.setMinutes(currentDate.getMinutes());
+            var currentDateString = currentDate.toISOString().slice(0, 16);
+            $("#createDate").find("#StockReceivedNoteDate").prop("max", currentDateString);
+        }
+        setInterval(updateMaxAttribute, 1000);
+
     </script>
 }
 

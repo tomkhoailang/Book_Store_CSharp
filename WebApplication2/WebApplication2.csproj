@@ -673,6 +673,7 @@
     <Content Include="Assets\Admin\images\big\img8.jpg" />
     <Content Include="Assets\Admin\images\big\map.png" />
     <Content Include="Assets\Admin\images\custom-select.png" />
+    <Content Include="Assets\Admin\images\new-logo.jpg" />
     <Content Include="Assets\Admin\images\favicon.png" />
     <Content Include="Assets\Admin\images\hand.jpg" />
     <Content Include="Assets\Admin\images\imgs\1.jpg" />
@@ -5371,6 +5372,7 @@
     <Content Include="Models\BookStoreManager.edmx.diagram">
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -5711,7 +5713,7 @@
     <Content Include="Assets\Admin\plugins\typeahedjs\dist\nfl.json" />
     <Content Include="Assets\Admin\plugins\typeahedjs\dist\nhl.json" />
     <Content Include="Areas\Manager\Views\User\Details.cshtml" />
-    <Content Include="Areas\Manager\Views\Shared\_RegisterPartialView.cshtml" />
+    <Content Include="Views\Account\_RegisterPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\PUBLISHERs\_CreatePartialView.cshtml" />
     <Content Include="Areas\Manager\Views\PUBLISHERs\_EditPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\TIERs\_CreatePartialView.cshtml" />

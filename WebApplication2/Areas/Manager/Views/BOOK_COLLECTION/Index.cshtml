@@ -12,14 +12,18 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Book_collection")">Bộ sưu tập</a></li>
+
             </ol>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
-        Thêm bộ sưu tập mới
-    </button>
+ 
+    <div class="d-flex justify-content-end mr-4">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+            Thêm bộ sưu tập mới
+        </button>
+    </div>
     <hr />
 
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -35,7 +39,7 @@
                     <!-- The partial view will be loaded here -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -53,7 +57,7 @@
                 <div class="edit-modal-body modal-body">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -62,7 +66,7 @@
     <!-- row -->
     @using (Html.BeginForm("Index", "BOOK_COLLECTION", FormMethod.Get, new { @class = "form-inline" }))
     {
-        <div class="form-group">
+        <div class="form-group  ml-4">
             <label>Tìm theo tên bộ sưu tập: </label>
             <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
             <input type="submit" class="btn btn-danger" value="Tìm kiếm">
