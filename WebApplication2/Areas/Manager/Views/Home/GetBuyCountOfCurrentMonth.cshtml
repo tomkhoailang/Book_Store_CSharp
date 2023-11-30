@@ -1,0 +1,98 @@
+﻿@model IEnumerable<WebApplication2.Models.V_edition_buy_count>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!--**********************************
+            Content body start
+        ***********************************-->
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Danh sách các năm</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label>Mã sách</label>
+                                        </th>
+                                        <th>
+                                            <label>Tên sách</label>
+                                        </th>
+                                        <th>
+                                            <label>Tổng số lượng bán ra</label>
+                                        </th>
+                                        <th>
+                                            <label>Tổng số tiền thu được</label>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EditionID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EditionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BuyCount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TotalPrice)
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+
+<script>
+
+    function redirectToDetails(year) {
+        $.ajax({
+            url: '/Manager/Home/Details',
+            data: { year: year },
+            type: 'GET',
+            success: function (data) {
+                if (data.redirectToAction) {
+                    window.location.href = data.actionUrl;
+                } else {
+                    $(".error-message").html(data);
+                }
+            }
+        });
+    }
+
+</script>

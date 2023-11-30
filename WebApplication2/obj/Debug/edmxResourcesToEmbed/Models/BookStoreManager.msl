@@ -306,8 +306,10 @@
     <EntitySetMapping Name="V_edition_buy_count">
       <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
         <MappingFragment StoreEntitySet="V_edition_buy_count">
+          <ScalarProperty Name="EditionName" ColumnName="EditionName" />
           <ScalarProperty Name="EditionID" ColumnName="EditionID" />
           <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

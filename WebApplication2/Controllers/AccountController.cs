@@ -213,14 +213,11 @@ namespace WebApplication2.Controllers
 					//db.SP_Inital_Manager(user.Id);
 					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
-<<<<<<< HEAD
 					// END: create manager account section
-=======
                     db.SP_Inital_Manager(user.Id);
                     await UserManager.AddToRoleAsync(user.Id, "Manager");
 
                     // END: create manager account section
->>>>>>> 47dff6bd8f7d7bf4b2cabae73b6980f5f05529cb
 
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
