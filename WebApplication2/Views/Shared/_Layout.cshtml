@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+	string errorMessage = ViewBag.ErrorMessage;
+	string successMessage = ViewBag.SuccessMessage;
+	string warningMessage = ViewBag.WarningMessage;
+}
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -19,6 +24,7 @@
 
 </head>
 <body>
+	<div id="toasts"></div>
 	<div class="container-fluid">
 		<div class="row bg-secondary py-1 px-xl-5">
 			<div class="col-lg-6 d-none d-lg-block">
@@ -32,18 +38,7 @@
 			<div class="col-lg-6 text-center text-lg-right">
 				<div class="d-inline-flex align-items-center">
 					<div class="btn-group">
-						<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
-						<div class="dropdown-menu dropdown-menu-right">
-							@Html.Partial("_LoginPartial")
-						</div>
-					</div>
-					<div class="btn-group mx-2">
-						<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-						<div class="dropdown-menu dropdown-menu-right">
-							<button class="dropdown-item" type="button">EUR</button>
-							<button class="dropdown-item" type="button">GBP</button>
-							<button class="dropdown-item" type="button">CAD</button>
-						</div>
+						@Html.Partial("_LoginPartial")
 					</div>
 				</div>
 				<div class="d-inline-flex align-items-center d-block d-lg-none">
@@ -165,9 +160,34 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 	<script src="~/libs/easing/easing.min.js"></script>
 	<script src="~/libs/owlcarousel/owl.carousel.min.js"></script>
+	<script src="~/Scripts/toasts.js"></script>
+	<script src="~/Scripts/validator.js"></script>
+	@*<script src="~/Scripts/toasts.js"></script>*@
 	<!-- Template Javascript -->
 	<script src="~/Scripts/UIHandler.js"></script>
-	<script src="~/Scripts/Main.js"></script>
+	<script src="~/Scripts/main.js"></script>
 	@RenderSection("scripts", required: false)
+
+
+	@if (!string.IsNullOrEmpty(errorMessage))
+	{
+		<script>
+			createToast("error", "@errorMessage");
+		</script>
+	}
+
+	@if (!string.IsNullOrEmpty(successMessage))
+	{
+		<script>
+			createToast("success", "@successMessage");
+		</script>
+	}
+
+	@if (!string.IsNullOrEmpty(warningMessage))
+	{
+		<script>
+			createToast("warning", "@warningMessage");
+		</script>
+	}
 </body>
 </html>

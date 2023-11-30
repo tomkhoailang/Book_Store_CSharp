@@ -1,0 +1,70 @@
+﻿@*email sdt ten dia chi hang nguwoiuf dung*@
+<div class="container-fluid py-3">
+	<div class="account-profile-header">
+		<h3>Hồ sơ của tôi</h3>
+		<h5>Quản lí thông tin hồ sơ</h5>
+	</div>
+	<hr class="divider" />
+	<form id="update-info-form" action="User/UpdateInfomation" method="post">
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-primary">
+					<tbody>
+						<tr>
+							<th scope="row">Tên người dùng</th>
+							<td>
+								<div class="form-grouping">
+									<input id="update-user-info-username" class="w-100" type="text" name="userName" value="@ViewBag.userName" />
+									<span class="form-message"></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Email</th>
+							<td>
+								<div class="form-grouping">
+									<input id="update-user-info-email" class="w-100" type="text" name="userEmail" value="@ViewBag.email" />
+									<span class="form-message"></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Số điện thoại</th>
+							<td>
+								<div class="form-grouping">
+									<input id="update-user-info-phone" class="w-100" type="text" name="userPhoneNumber" value="@ViewBag.phoneNumber" />
+									<span class="form-message"></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Địa chỉ</th>
+							<td><input class="w-100" type="text" name="userAddress" value="@ViewBag.address" /></td>
+						</tr>
+						<tr>
+							<th scope="row">Hạng người dùng</th>
+							<td>@ViewBag.level</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-light" style="width: 100px">Lưu</button>
+	</form>
+</div>
+<script src="~/Scripts/validator.js"></script>
+<script>
+	validator({
+		form: '#update-info-form',
+		errorSelector: '.form-message',
+		formGroupSelector: '.form-grouping',
+		rules: [
+			validator.isRequired('#update-user-info-email', 'Email không được để trống'),
+			validator.isEmail('#update-user-info-email', 'Email không hợp lệ'),
+			validator.isPatternMatchingButNotRequired("#update-user-info-phone", "Số điện thoại không hợp lệ", /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im),
+			validator.minLengthButNotRequired("#update-user-info-username", 7, "Tên người dùng phải ít nhất 7 kí tự"),
+			validator.maxLengthButNotRequired("#update-user-info-username", 40, "Tên người dùng không được dài hơn 40 kí tự"),
+		]
+	});
+	
+</script>

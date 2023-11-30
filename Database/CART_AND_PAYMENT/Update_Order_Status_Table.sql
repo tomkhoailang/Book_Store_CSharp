@@ -7,8 +7,9 @@ drop table ORDER_STATUS
 drop table CUSTOMER_ORDER_DETAIL
 drop table TRANSACTION_DETAILS
 drop table SHIP_CONFIRMATION
-
+select * from CUSTOMER_ORDER_STATUS
 drop table CUSTOMER_ORDER
+select * from WALLET
 ----------------------------------------------------
 CREATE TABLE CUSTOMER_ORDER(
 	OrderID INT PRIMARY KEY IDENTITY(1,1),

@@ -1,83 +1,153 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using System.Web.Mvc;
-//using WebApplication2.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using WebApplication2.Models;
+using Microsoft.AspNet.Identity;
 
+// Email sdt, ten, dia chi, hang nguoi dung
 
-//namespace WebApplication2.Controllers
-//{
-//    public class UserController : Controller
-//    {
-//        private BookStoreManagerEntities db = new BookStoreManagerEntities();
+namespace WebApplication2.Controllers
+{
+	public class UserController : Controller
+	{
+		private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
-//        GET: User
-//        public ActionResult Index()
-//        {
-//            ICollection<ManageUserViewModelItem> model = new List<ManageUserViewModelItem>();
+		[Authorize]
+		public ActionResult UserDetail()
+		{
+			string userID = User.Identity.GetUserId();
+			var user = db.AspNetUsers.FirstOrDefault(u => u.Id == userID);
+			var personInformation = db.People.FirstOrDefault(p => p.AccountID == userID);
 
-//            var people = db.People.Include(p => p.AspNetUser).Include(p => p.MANAGER).Include(p => p.TIER).ToList();
-//            var roles = db.V_UserRole.ToList();
-//            foreach (var p in people)
-//            {
-//                ManageUserViewModelItem item = new ManageUserViewModelItem();
-//                item.Person = p;
-//                item.AccountType = roles.Find(r => r.PersonID == p.PersonID).Name;
-//                model.Add(item);
-//            }
-//            return View(model.ToList());
-//        }
+			ViewBag.email = user.Email;
+			ViewBag.phoneNumber = user.PhoneNumber ?? "";
+			ViewBag.userName = user?.UserName ?? "";
+			ViewBag.address = personInformation?.PersonAddress ?? "";
+			ViewBag.name = personInformation?.PersonName ?? "";
+			ViewBag.level = personInformation?.TIER?.TierName ?? "Chưa có hạng";
 
-//        GET: User/Details/5
-//        public ActionResult Details(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            Person person = db.People.Find(id);
-//            if (person == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(person);
-//        }
-//        Post: User/ChangeUserStatus/5
-//        [HttpPost]
-//        public ActionResult ChangeUserStatus(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            Person person = db.People.Find(id);
-//            if (person == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            if (person.PersonStatus == "ACTIVE")
-//            {
-//                person.PersonStatus = "LOCKED";
-//            }
-//            else
-//                person.PersonStatus = "ACTIVE";
-//            db.SaveChanges();
-//            return RedirectToAction("Index");
-//        }
+			return PartialView();
+		}
+		[Authorize]
+		[HttpPost]
+		public ActionResult UpdateInfomation()
+		{
+			string userID = User.Identity.GetUserId();
 
+			string email = Request["userEmail"].ToString() ?? "";
+			string phoneNumber = Request["userPhoneNumber"].ToString() ?? "";
+			string address = Request["userAddress"].ToString() ?? "";
+			string username = Request["userName"].ToString() ?? "";
 
+			if(phoneNumber == "" && address == "" && username == "") return RedirectToAction("Index", "Manage");
 
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                db.Dispose();
-//            }
-//            base.Dispose(disposing);
-//        }
-//    }
-//}
+			var user = db.AspNetUsers.FirstOrDefault(u => u.Id == userID);
+			var personInformation = db.People.FirstOrDefault(p => p.AccountID == userID);
+			bool isCurrentPhoneNum = phoneNumber.Equals(user.PhoneNumber);
+			bool isCurrentEmail = email.Equals(user.Email);
+
+			if (!string.IsNullOrEmpty(email) && !isCurrentEmail && db.AspNetUsers.Any(u => u.Email == email))
+			{
+				TempData["ErrorMessage"] = "Email đã tồn tại";
+				return RedirectToAction("Index", "Manage");
+			}
+
+			if (!string.IsNullOrEmpty(phoneNumber) && !isCurrentPhoneNum && db.AspNetUsers.Any(u => u.PhoneNumber == phoneNumber))
+			{
+				TempData["ErrorMessage"] = "Số điện thoại đã tồn tại";
+				return RedirectToAction("Index", "Manage");
+			}
+
+			user.Email = email;
+			user.PhoneNumber = phoneNumber;
+			user.UserName = username;
+
+			if (personInformation != null)
+			{
+				personInformation.PersonAddress = address;
+				personInformation.PersonName = username;
+			}
+			else
+			{
+				string accountId = db.AspNetUsers.FirstOrDefault(u => u.Id == userID).Id;
+				int managerId = db.MANAGERs.FirstOrDefault().ManagerID;
+
+				Person person = new Person()
+				{
+					AccountID = accountId,
+					PersonName = username,
+					PersonAddress = address,
+					ManagerID = managerId,
+					PersonStatus = "ACTIVE"
+				};
+
+				db.People.Add(person);
+			}
+
+			db.SaveChanges();
+
+			TempData["SuccessMessage"] = "Cập nhật thông tin thành công";
+
+			return RedirectToAction("Index", "Manage");
+		}
+
+		[Authorize]
+		public ActionResult UserOrdersHistory()
+		{
+			List<OrderHistoryModel> orderHistory = new List<OrderHistoryModel>();
+			string currentUserId = User.Identity.GetUserId();
+			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
+
+			if (relatedPerson == null) return PartialView(orderHistory);
+
+			int currentPersonId = relatedPerson.PersonID;
+			List<CUSTOMER_ORDER> currentUserOrders = db.CUSTOMER_ORDER.Where(o => o.CustomerID == currentPersonId).ToList();
+			
+			foreach(CUSTOMER_ORDER order in currentUserOrders)
+			{
+				List<OrderHistoryItemModel> historyItems = new List<OrderHistoryItemModel>();
+
+				foreach(CUSTOMER_ORDER_DETAIL orderDetail in order.CUSTOMER_ORDER_DETAIL)
+				{
+					historyItems.Add(new OrderHistoryItemModel()
+					{
+						bookImage = getBookImage(orderDetail.EditionID),
+						bookName = getBookName(orderDetail.EditionID),
+						quantity = orderDetail.DetailQuantity,
+						price = orderDetail.DetailQuantity * (orderDetail.DetailCurrentPrice ?? 1)
+					});
+				}
+
+				orderHistory.Add(new OrderHistoryModel() {
+					order = order,
+					orderItems = historyItems
+				});
+			}
+
+			return PartialView(orderHistory);
+		}
+
+		private string getBookImage(int editionId)
+		{ 
+			return db.BOOK_EDITION_IMAGE.FirstOrDefault(b => b.EditionID == editionId).EditionImage;
+		}
+		private string getBookName(int editionId)
+		{
+			return db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == editionId).EditionName;
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				db.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+	}
+}

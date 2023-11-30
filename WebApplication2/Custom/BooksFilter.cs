@@ -15,16 +15,21 @@ namespace WebApplication2.Custom_Functions
 			BOOK_EDITION rootBook = db.BOOK_EDITION.Find(id);
 			if (rootBook == null) return null;
 
-			foreach (BOOK_EDITION b in db.BOOK_EDITION)
-			{
-				if (b.CATEGORies.Intersect(rootBook.CATEGORies).Any() ||
-				   b.BookCollectionID == rootBook.BookCollectionID ||
-				   b.EditionAuthor == rootBook.EditionAuthor)
-				{
-					booksList.Add(b);
-				}
-			}
-			return booksList;
+			string author = rootBook.EditionAuthor;
+			int? bookCollectionId = rootBook.BookCollectionID;
+			ICollection<CATEGORY> categories = rootBook.CATEGORies;
+			var categoryIds = categories.Select(c => c.CategoryID).ToList();
+
+			var similarBooks = db.BOOK_EDITION
+			.Where(b =>
+				b.EditionAuthor == author ||
+				b.BookCollectionID == bookCollectionId ||
+				b.CATEGORies.Any(c => categoryIds.Contains(c.CategoryID)) &&
+				b.EditionID != rootBook.EditionID
+			)
+			.ToList();
+
+			return similarBooks;
 		}
 
 		public static List<BOOK_EDITION> filterByPrice(decimal from = 0, decimal to = decimal.MaxValue, List<BOOK_EDITION> booksList = null)
@@ -98,6 +103,13 @@ namespace WebApplication2.Custom_Functions
 				}
 			}
 			return booksList;
+		}
+
+		public static List<BOOK_EDITION> pagePagination(int pageNumber, List<BOOK_EDITION> booksList = null)
+		{
+			booksList = booksList ?? db.BOOK_EDITION.ToList();
+
+			return booksList.Skip(pageNumber - 1).Take(9).ToList(); ;
 		}
 	}
 }

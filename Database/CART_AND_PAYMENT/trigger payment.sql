@@ -90,6 +90,8 @@ GO
 create or alter trigger TR_HANDLE_CUSTOMER_ORDER ON CUSTOMER_ORDER_STATUS for INSERT AS
 BEGIN
 	Declare @orderID int;
+	declare @walletID int;
+	declare @bankID int;
 	declare @statusID int;
 	Declare @customerID int;
 	select @orderID = i.OrderID, @statusID = i.StatusID from inserted i;
@@ -108,22 +110,25 @@ BEGIN
 			IF(SELECT COUNT(*) FROM WALLET WHERE CustomerID = @customerID AND Balance >= @orderCurrentTotalPrice ) > 0
 			begin
 			UPDATE WALLET SET Balance = Balance - @orderCurrentTotalPrice WHERE CustomerID = @customerID
+			select @walletID = walletID from WALLET WHERE CustomerID = @customerID
+			select @bankID = BankAccountID from BANK_ACCOUNT WHERE CustomerID = @customerID
+			insert into TRANSACTION_DETAILS values (GETDATE(), 'Place order', null, @walletID, null, @orderID)
 			print 'OK'
 			end
 				
 			ELSE
 			begin
 				print('Current balance of CustomerID:  ' + CAST(@customerID as varchar(10)) + ' for OrderID: ' + cast(@orderID as varchar(10)) +' is not enough')
-				--rollback tran
-				delete CUSTOMER_ORDER_DETAIL where OrderID = @orderID
-				delete CUSTOMER_ORDER_STATUS where OrderID = @orderID
-				delete CUSTOMER_ORDER where OrderID = @orderID
+				rollback tran
 			end
 		END
 		-- Cong tien khi order o trang thai cancel by customer hoac cancel by failed delivering
 		else IF @statusID = 3 or @statusID = 8
 		begin
 			UPDATE WALLET SET Balance = Balance + @orderCurrentTotalPrice WHERE CustomerID = @customerID
+			select @walletID = walletID from WALLET WHERE CustomerID = @customerID
+			select @bankID = BankAccountID from BANK_ACCOUNT WHERE CustomerID = @customerID
+			insert into TRANSACTION_DETAILS values (GETDATE(), 'Refund', null, @walletID, null, @orderID)
 			print'not ok'
 		end
 	end
@@ -139,12 +144,8 @@ begin
 	select @tierID = Person.TierID from inserted i, Person , CUSTOMER_ORDER
 	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = Person.PersonID
 
-	declare @tierDiscount decimal(4,2);
-	if(@tierID = null)
-	begin
-		set @tierDiscount = 0
-	end
-	else
+	declare @tierDiscount decimal(4,2) = 0;
+	if(@tierID != null)
 	begin
 		select @tierDiscount = TierDiscount from TIER where TierID = @tierID
 	end	
@@ -155,7 +156,7 @@ end
 
 
 
-
+select * from WALLET
 --select * from CUSTOMER_ORDER_DETAIL
 --select * from CUSTOMER_ORDER_STATUS
 --select * from CUSTOMER_ORDER
