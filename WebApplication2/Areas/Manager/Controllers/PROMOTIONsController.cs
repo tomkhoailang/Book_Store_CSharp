@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -123,14 +124,18 @@ namespace WebApplication2.Areas.Manager.Controllers
                         promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName +" ";
                     }
                 }
-                promoDetail += " sẽ được áp dụng khuyến mãi " + pROMOTION.PromotionDiscount + "% từ ngày" + pROMOTION.PromotionStartDate.ToString() + " đến ngày " + pROMOTION.PromotionEndDate.ToString();
+                promoDetail += " sẽ được áp dụng khuyến mãi " + pROMOTION.PromotionDiscount + "% từ ngày " + pROMOTION.PromotionStartDate.ToString() + " đến ngày " + pROMOTION.PromotionEndDate.ToString();
 
                 if (string.IsNullOrEmpty(pROMOTION.PromotionDetails))
                 {
                     pROMOTION.PromotionDetails = promoDetail;
                 }
                 pROMOTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
-                db.PROMOTIONs.Add(pROMOTION);
+                //db.PROMOTIONs.Add(pROMOTION);
+                string uniPromoDetail = "N'" + promoDetail + "'";
+
+                db.Database.ExecuteSqlCommand("insert into PROMOTION values (@name , @discount , @start , @end , @managerID , @detail )", new SqlParameter("@name", pROMOTION.PromotionName), new SqlParameter("@discount", pROMOTION.PromotionDiscount), new SqlParameter("@start", pROMOTION.PromotionStartDate), new SqlParameter("@end", pROMOTION.PromotionEndDate), new SqlParameter("@managerID", pROMOTION.ManagerID), new SqlParameter("@detail", uniPromoDetail));
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -208,8 +213,10 @@ namespace WebApplication2.Areas.Manager.Controllers
                     if (useGenerate)
                     {
                         promoDetail += " sẽ được áp dụng khuyến mãi " + p.PromotionDiscount + "% từ ngày" + p.PromotionStartDate.ToString() + " đến ngày " + p.PromotionEndDate.ToString();
-                        p.PromotionDetails = promoDetail;
+                        string uPromoDetail = "N'" + promoDetail + "'";
+                        p.PromotionDetails = uPromoDetail;
                     }
+
                     db.SaveChanges();
                 }
 

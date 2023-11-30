@@ -240,7 +240,7 @@
     <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />
-    <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="PROMOTION" ToRole="MANAGER" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
   </EntityType>

@@ -218,7 +218,7 @@
           <Property Name="PromotionStartDate" Type="datetime" Nullable="false" />
           <Property Name="PromotionEndDate" Type="datetime" Nullable="false" />
           <Property Name="ManagerID" Type="int" Nullable="false" />
-          <Property Name="PromotionDetails" Type="text" />
+          <Property Name="PromotionDetails" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PUBLISHER">
           <Key>
@@ -875,39 +875,11 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_MANAGER_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="MANAGER">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Person_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
-          <End Role="Person" Type="Self.Person" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Person">
-              <PropertyRef Name="AccountID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Function Name="FN_GetTierID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="personID" Type="int" Mode="In" />
         </Function>
         <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="editionID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="OrderID" Type="int" Mode="In" />
-          <Parameter Name="StatusID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
@@ -1164,14 +1136,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="MANAGER" EntitySet="MANAGER" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Person" EntitySet="Person" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1417,7 +1381,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="PROMOTION" ToRole="MANAGER" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
         </EntityType>
@@ -2626,7 +2590,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
           <EntitySetMapping Name="V_edition_buy_count">

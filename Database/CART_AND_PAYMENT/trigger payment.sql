@@ -90,6 +90,7 @@ GO
 create or alter trigger TR_HANDLE_CUSTOMER_ORDER ON CUSTOMER_ORDER_STATUS for INSERT AS
 BEGIN
 	Declare @orderID int;
+	declare @walletID int;
 	declare @statusID int;
 	Declare @customerID int;
 	select @orderID = i.OrderID, @statusID = i.StatusID from inserted i;
@@ -108,22 +109,22 @@ BEGIN
 			IF(SELECT COUNT(*) FROM WALLET WHERE CustomerID = @customerID AND Balance >= @orderCurrentTotalPrice ) > 0
 			begin
 			UPDATE WALLET SET Balance = Balance - @orderCurrentTotalPrice WHERE CustomerID = @customerID
+			select @walletID = walletID from WALLET WHERE CustomerID = @customerID
+			insert into TRANSACTION_DETAILS values (GETDATE(), 'Place order', @orderCurrentTotalPrice, @walletID, null, @orderID)
 			print 'OK'
 			end
 				
 			ELSE
 			begin
 				print('Current balance of CustomerID:  ' + CAST(@customerID as varchar(10)) + ' for OrderID: ' + cast(@orderID as varchar(10)) +' is not enough')
-				--rollback tran
-				delete CUSTOMER_ORDER_DETAIL where OrderID = @orderID
-				delete CUSTOMER_ORDER_STATUS where OrderID = @orderID
-				delete CUSTOMER_ORDER where OrderID = @orderID
+				rollback tran
 			end
 		END
 		-- Cong tien khi order o trang thai cancel by customer hoac cancel by failed delivering
 		else IF @statusID = 3 or @statusID = 8
 		begin
 			UPDATE WALLET SET Balance = Balance + @orderCurrentTotalPrice WHERE CustomerID = @customerID
+			insert into TRANSACTION_DETAILS values (GETDATE(), 'Refund', @orderCurrentTotalPrice, @walletID, null, @orderID)
 			print'not ok'
 		end
 	end
