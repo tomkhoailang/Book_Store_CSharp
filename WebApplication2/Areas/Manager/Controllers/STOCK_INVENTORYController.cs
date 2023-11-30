@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +17,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: STOCK_INVENTORY
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page, int? size, string sortOptions)
         {
             IQueryable<STOCK_INVENTORY> stockInventory = db.STOCK_INVENTORY;
             if (!string.IsNullOrEmpty(searchString))
@@ -32,9 +33,58 @@ namespace WebApplication2.Areas.Manager.Controllers
                 }
                 ViewBag.Keyword = searchString;
             }
-            
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                        new SelectListItem { Value = "stock_desc", Text = "Số tồn kho giảm dần" },
+                        new SelectListItem { Value = "stock_asc", Text = "Số tồn kho tăng dần" },
+                }
+                , "Value", "Text");
 
-            return View(stockInventory.ToList());
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    stockInventory = stockInventory.OrderByDescending(b => b.EditionID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    stockInventory = stockInventory.OrderBy(b => b.EditionID);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                case "stock_desc":
+                    stockInventory = stockInventory.OrderByDescending(b => b.InventoryAvailableStock);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                case "stock_asc":
+                    stockInventory = stockInventory.OrderBy(b => b.InventoryAvailableStock);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                default:
+                    stockInventory = stockInventory.OrderByDescending(b => b.EditionID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(stockInventory.ToPagedList(pageNumber, pageSize));
+
         }
         public ActionResult StockDetails()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -16,7 +17,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: PUBLISHERs
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page, int? size, string sortOptions)
         {
             IQueryable<PUBLISHER> publishers = db.PUBLISHERs;
             if (!string.IsNullOrEmpty(searchString))
@@ -27,7 +28,49 @@ namespace WebApplication2.Areas.Manager.Controllers
             }
             var pUBLISHERs = publishers.Include(p => p.MANAGER);
             ViewBag.Publishers = pUBLISHERs;
-            return View(pUBLISHERs.ToList());
+
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                }
+                , "Value", "Text");
+
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    publishers = publishers.OrderByDescending(b => b.PublisherID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    publishers = publishers.OrderBy(b => b.PublisherID);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                default:
+                    publishers = publishers.OrderByDescending(b => b.PublisherID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(publishers.ToPagedList(pageNumber, pageSize));
+
         }
 
         // GET: PUBLISHERs/Details/5
@@ -62,6 +105,10 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (db.PUBLISHERs.FirstOrDefault(b => b.PublisherName == pUBLISHER.PublisherName) != null)
+                {
+                    return RedirectToAction("Index");
+                }
                 pUBLISHER.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
 
                 bool isAttached = false;

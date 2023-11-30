@@ -15,11 +15,32 @@ namespace WebApplication2.Controllers
         // GET: BookCart
         public ActionResult Index()
         {
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.WarningMessage = warningMessage;
+            }
             if (Session["ShoppingCart"] == null)
             {
                 Session["ShoppingCart"] = new List<CartModels>();
             }
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
+            
             return View(BookCart);
         }
 
@@ -54,7 +75,6 @@ namespace WebApplication2.Controllers
                 };
                 cart.Total = UpdateTotal(cart);
                 BookCart.Add(cart);
-
             }
             else
             {

@@ -1,87 +1,61 @@
 ﻿@model WebApplication2.Models.IndexViewModel
-@{
-    ViewBag.Title = "Manage";
-}
 
-<h2>@ViewBag.Title.</h2>
-
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
-            ]
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
-                    }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
-    </dl>
+<div class="container-fluid">
+	<div class="w-100 px-5">
+		<div class="row p-3 bg-dark" style="height: 700px">
+			<div class="col-2 p-0 bg-dark">
+				<div class="d-flex flex-column justify-content-between h-100">
+					<div>
+						<div class="text-center text-light mb-3 text-truncate" style="font-size: 20px">@User.Identity.Name</div>
+						<ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<a class="nav-link active border-top-0 border-left-0 border-right-0 border-bottom border-light " id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Thông tin tài khoản</a>
+							</li>
+							<li class="nav-item" role="presentation">
+								<a class="nav-link border-top-0 border-left-0 border-right-0 border-bottom border-light " id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Thông tin ví</a>
+							</li>
+							<li class="nav-item" role="presentation">
+								<a class="nav-link border-top-0 border-left-0 border-right-0 border-bottom border-light " id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Lịch sử đặt hàng</a>
+							</li>
+						</ul>
+					</div>
+					@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "mt-auto" }))
+					{
+						@Html.AntiForgeryToken()
+						<a class="btn btn-primary w-100" href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
+					}
+				</div>
+			</div>
+			<div class="col-10 pr-0">
+				<div class="tab-content w-100 h-100 bg-primary" id="myTabContent">
+					<div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab">
+						@Html.Action("UserDetail", "User", new { area = "" })
+					</div>
+					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+						
+					</div>
+					<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+						@Html.Action("UserOrdersHistory", "User", new { area = "" })
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@*<h4>Change your account settings</h4>
+		<hr />
+		<dl class="dl-horizontal">
+			<dt>Password:</dt>
+			<dd>
+				[
+				@if (Model.HasPassword)
+				{
+					@Html.ActionLink("Change your password", "ChangePassword")
+				}
+				else
+				{
+					@Html.ActionLink("Create", "SetPassword")
+				}
+				]
+			</dd>
+		</dl>*@
 </div>

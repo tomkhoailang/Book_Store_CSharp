@@ -1,33 +1,10 @@
-﻿'use-strict'
+﻿
 
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-class EventEmitter {
-	constructor() {
-		this.eventsMap = new Map();
-	}
-
-	on(eventName, registerCallback) {
-		if (!this.eventsMap.has(eventName)) {
-			this.eventsMap.set(eventName, [registerCallback]);
-		} else {
-			this.eventsMap.get(eventName).push(registerCallback);
-		}
-	}
-
-	emit(eventName, ...params) {
-		if (!this.eventsMap.has(eventName)) {
-			return;
-		}
-		this.eventsMap.get(eventName).forEach((cb) => {
-			cb(...params);
-		})
-	}
-}
-
 const app = {
-	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [] },
+	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [], page: 1 },
 
 	navigate: function (controller, action, params) {
 		const keys = Object.keys(params);
@@ -102,6 +79,7 @@ const app = {
 
 		categories.forEach((c) => {
 			c.onchange = (e) => {
+				console.log("check")
 				const categoryId = c.getAttribute("cate-id");
 				if (c.checked) {
 					_this.filterData.categories.push(categoryId);
@@ -134,28 +112,9 @@ const app = {
 					}
 				}
 				rating = [...$$(".fa-solid.fa-star")].length;
+				$("#ReviewRating").value = rating;
 			}
 		});
-
-		const ratingForm = $("#rating-form");
-
-		ratingForm?.onsubmit = (e) => {
-			e.preventDefault();
-			const ratingTextarea = $("#ReviewDescription");
-
-			if (ratingTextarea.value.trim() === "") {
-				alert("Vui lòng viết đánh giá");
-				return;
-			};
-			if (rating === 0) {
-				alert("Vui lòng cho đánh giá");
-				return;
-			};
-
-			$("#ReviewRating").value = rating;
-
-			ratingForm.submit();
-		}
 
 	},
 

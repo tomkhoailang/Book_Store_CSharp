@@ -128,7 +128,6 @@ namespace WebApplication2.Areas.Manager.Controllers
             var defaultItem = new SelectListItem() { Text = "Null", Value = "0" };
             ViewBag.BookCollectionID = selectList.Prepend(defaultItem);
 
-            //add try catch to this
             ViewBag.CategoryList = db.CATEGORies.ToList();
             return PartialView("_CreatePartialView");
         }

@@ -209,31 +209,26 @@ namespace WebApplication2.Controllers
                     // END: create customer account section
 
 
-                    if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
-                    {
-                        return RedirectToAction("Index", "User", new { area = "Manager" });
-                    }
+					// START: create manager account section
 
-                    // START: create manager account section
+					//db.SP_Inital_Manager(user.Id);
+					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
-                    //db.sp_Inital_Manager(user.Id);
-                    //await UserManager.AddToRoleAsync(user.Id, "Manager");
-
-                    // END: create manager account section
+					// END: create manager account section
 
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
 
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    //// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    //// Send an email with this link
-                    //// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    //// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    return RedirectToAction("Index", "Home");
-                }
+					//// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+					//// Send an email with this link
+					//// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+					//// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+					//// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+					return RedirectToAction("Index", "Home");
+				}
                 AddErrors(result);
             }
 
@@ -461,6 +456,8 @@ namespace WebApplication2.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session.Clear();
+
             return RedirectToAction("Index", "Home");
         }
 

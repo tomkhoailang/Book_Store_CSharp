@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,7 +16,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: TIERs
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page, int? size, string sortOptions)
         {
             IQueryable<TIER> tiers = db.TIERs;
             if (!string.IsNullOrEmpty(searchString))
@@ -25,14 +26,57 @@ namespace WebApplication2.Areas.Manager.Controllers
                 tiers = tiers.Where(p => searchTerms.All(term => p.TierName.Contains(term)));
                 ViewBag.Keyword = searchString;
             }
-            //List<string> tierNameList = new List<string>();
-            //foreach (TIER tier in tiers.ToList())
-            //{
-            //    tierNameList.Add(tier.TierName);
-            //}
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                        new SelectListItem { Value = "range_asc", Text = "Cấp độ tăng dần" },
+                        new SelectListItem { Value = "range_desc", Text = "Cấp độ giảm dần" }
+                }
+                , "Value", "Text");
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    tiers = tiers.OrderByDescending(b => b.TierID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    tiers = tiers.OrderBy(b => b.TierID);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                case "range_asc":
+                    tiers = tiers.OrderBy(b => b.TierLevel);
+                    ViewBag.selectedSort = "range_asc";
+                    break;
+                case "range_desc":
+                    tiers = tiers.OrderByDescending(b => b.TierLevel);
+                    ViewBag.selectedSort = "range_desc";
+                    break;
+                default:
+                    tiers = tiers.OrderByDescending(b => b.TierID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
 
-            //ViewBag.TierNameList = tierNameList;
-            return View(tiers.ToList());
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(tiers.ToPagedList(pageNumber, pageSize));
+
         }
 
         // GET: TIERs/Details/5
@@ -66,6 +110,10 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (db.TIERs.FirstOrDefault(b => b.TierName == tIER.TierName) != null)
+                {
+                    return RedirectToAction("Index");
+                }
                 tIER.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
                 db.TIERs.Add(tIER);
                 db.SaveChanges();

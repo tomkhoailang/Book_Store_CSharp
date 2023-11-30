@@ -1,0 +1,18 @@
+﻿@model WebApplication2.Models.OrderHistoryItemModel
+
+<div class="row p-2" style="height: 100px;">
+	<div class="book-image col-2">
+		<img class="img-fluid" src="~/Images/@Model.bookImage" style="max-height: 100px; object-fit: cover; object-position: center;"/>
+	</div>
+	<div class="col-8">
+		<div class="d-flex flex-column">
+			<p style="font-size: 20px;">@Model.bookName</p>
+			<span>x @Model.quantity</span>
+		</div>
+	</div>
+	<div class="col-2 text-center text-danger">
+		<div class="d-flex h-100 w-100 align-items-center justify-content-center" style="font-size: 18px;">
+			@Model.price.ToString("#,##0").Replace(",", ".") VND
+		</div>
+	</div>
+</div>
