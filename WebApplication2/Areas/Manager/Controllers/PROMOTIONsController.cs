@@ -243,11 +243,11 @@ namespace WebApplication2.Areas.Manager.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PROMOTION pROMOTION = db.PROMOTIONs.Find(id);
-            //if(pROMOTION.BOOK_EDITION == null)
-            //{
-            //    ViewBag.ErrorMessage = "Unable to delete. The promotion is currently linked with other edition";
-            //    return PartialView("_ErrorMessagePartialView");
-            //}
+            if (pROMOTION.BOOK_EDITION == null)
+            {
+                ViewBag.ErrorMessage = "Unable to delete. The promotion is currently linked with other edition";
+                return PartialView("_ErrorMessagePartialView");
+            }
             db.PROMOTIONs.Remove(pROMOTION);
             db.SaveChanges();
             return Json(new { redirectToAction = true, actionUrl = Url.Action("Index") });
