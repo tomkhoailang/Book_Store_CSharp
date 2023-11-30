@@ -135,7 +135,16 @@ namespace WebApplication2.Controllers
         //Cancel
         public ActionResult CancelByCustomer(int id)
         {
-
+            CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
+            if (cUSTOMER_ORDER.CUSTOMER_ORDER_STATUS.LastOrDefault(m => m.OrderID == cUSTOMER_ORDER.OrderID).StatusID == 2)
+            {
+                CUSTOMER_ORDER_STATUS sTATUS = new CUSTOMER_ORDER_STATUS();
+                sTATUS.OrderID = cUSTOMER_ORDER.OrderID;
+                sTATUS.StatusID = 3;
+                sTATUS.UpdateTime = DateTime.Now;
+                db.CUSTOMER_ORDER_STATUS.Add(sTATUS);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 

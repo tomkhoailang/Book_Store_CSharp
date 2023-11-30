@@ -57,8 +57,6 @@
     <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-    <NavigationProperty Name="MANAGERs" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="AspNetUsers" ToRole="MANAGER" />
-    <NavigationProperty Name="People" Relationship="Self.FK_Person_AspNetUsers" FromRole="AspNetUsers" ToRole="Person" />
     <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
   </EntityType>
   <EntityType Name="BANK_ACCOUNT">
@@ -189,7 +187,6 @@
     </Key>
     <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="MANAGER" ToRole="AspNetUsers" />
     <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__5FB337D6" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__656C112C" FromRole="MANAGER" ToRole="BOOK_EDITION" />
     <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__5812160E" FromRole="MANAGER" ToRole="CATEGORY" />
@@ -218,7 +215,6 @@
     <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="TierID" Type="Int32" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Person_AspNetUsers" FromRole="Person" ToRole="AspNetUsers" />
     <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__5070F446" FromRole="Person" ToRole="BANK_ACCOUNT" />
     <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Custo__0B91BA14" FromRole="Person" ToRole="BOOK_REVIEW" />
     <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Custo__18EBB532" FromRole="Person" ToRole="CUSTOMER_ORDER" />
@@ -240,7 +236,7 @@
     <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ManagerID" Type="Int32" Nullable="false" />
-    <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="PROMOTION" ToRole="MANAGER" />
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
   </EntityType>
@@ -302,6 +298,16 @@
     <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_REC__Editi__7D439ABD" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="BOOK_EDITION" />
     <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Stock__7E37BEF6" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="STOCK_RECEIVED_NOTE" />
   </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
   <EntityType Name="TIER">
     <Key>
       <PropertyRef Name="TierID" />
@@ -345,6 +351,13 @@
     </Key>
     <Property Name="CustomerID" Type="Int32" Nullable="false" />
     <Property Name="TotalSpending" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_edition_buy_count">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="BuyCount" Type="Int32" />
   </EntityType>
   <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
     <Key>
@@ -420,30 +433,6 @@
       </Principal>
       <Dependent Role="AspNetUserLogins">
         <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_MANAGER_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
-    <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="MANAGER">
-        <PropertyRef Name="AccountID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Person_AspNetUsers">
-    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-    <End Role="Person" Type="Self.Person" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Person">
-        <PropertyRef Name="AccountID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -859,10 +848,12 @@
     <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" />
     <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" />
     <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="TIERs" EntityType="Self.TIER" />
     <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" />
     <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
     <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
+    <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" />
     <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
     <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" />
     <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" />
@@ -875,14 +866,6 @@
     <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-    </AssociationSet>
-    <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="MANAGER" EntitySet="MANAGERs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="Person" EntitySet="People" />
     </AssociationSet>
     <AssociationSet Name="FK__BANK_ACCO__Custo__5070F446" Association="Self.FK__BANK_ACCO__Custo__5070F446">
       <End Role="Person" EntitySet="People" />
@@ -1027,10 +1010,6 @@
     <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
       <Parameter Name="editionID" Mode="In" Type="Int32" />
     </FunctionImport>
-    <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
-      <Parameter Name="OrderID" Mode="In" Type="Int32" />
-      <Parameter Name="StatusID" Mode="In" Type="Int32" />
-    </FunctionImport>
     <FunctionImport Name="SP_Inital_Manager">
       <Parameter Name="AccountID" Mode="In" Type="String" />
     </FunctionImport>
@@ -1038,7 +1017,9 @@
       <Parameter Name="AccountID" Mode="In" Type="String" />
       <Parameter Name="ManagerID" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="V_edition_buy_count" EntityType="BookStoreManagerModel.V_edition_buy_count" />
+    <FunctionImport Name="SP_switch_status">
+      <Parameter Name="orderID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1047,13 +1028,6 @@
     <Property Type="DateTime" Name="PromotionStartDate" Nullable="false" Precision="23" />
     <Property Type="DateTime" Name="PromotionEndDate" Nullable="false" Precision="23" />
     <Property Type="Int32" Name="ManagerID" Nullable="false" />
-    <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="PromotionDetails" Nullable="true" />
   </ComplexType>
-  <EntityType Name="V_edition_buy_count">
-    <Key>
-      <PropertyRef Name="EditionID" />
-    </Key>
-    <Property Name="EditionID" Type="Int32" Nullable="false" />
-    <Property Name="BuyCount" Type="Int32" />
-  </EntityType>
 </Schema>
