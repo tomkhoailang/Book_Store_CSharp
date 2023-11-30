@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -16,7 +17,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: STOCK_RECEIVED_NOTE
-        public ActionResult Index(string searchString, int? sortOptions)
+        public ActionResult Index(string searchString, int? page, int? size, string sortOptions)
         {
 
 
@@ -27,16 +28,49 @@ namespace WebApplication2.Areas.Manager.Controllers
                 stockResult = stockResult.Where(s => s.PUBLISHER.PublisherName.Contains(searchString));
                 ViewBag.keyword = searchString;
             }
-            if (sortOptions != null && sortOptions == 2)
-                stockResult = stockResult.OrderBy(s => s.StockReceivedNoteDate);
-            else
-                stockResult = stockResult.OrderByDescending(s => s.StockReceivedNoteDate);
 
 
+            //sort order
             ViewBag.sortOptions = new SelectList(
-                new[] { new SelectListItem { Value = "1", Text = "Mới nhất" },
-                        new SelectListItem { Value = "2", Text = "Cũ nhất" } }, "Value", "Text");
-            return View(stockResult.ToList());
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                }
+                , "Value", "Text");
+
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    stockResult = stockResult.OrderByDescending(b => b.StockReceivedNoteDate);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    stockResult = stockResult.OrderBy(b => b.StockReceivedNoteDate);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                default:
+                    stockResult = stockResult.OrderByDescending(b => b.StockReceivedNoteDate);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(stockResult.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: STOCK_RECEIVED_NOTE/Details/5

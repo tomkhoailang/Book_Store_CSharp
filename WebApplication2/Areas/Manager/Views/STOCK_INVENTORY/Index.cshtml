@@ -1,4 +1,5 @@
-﻿@model IEnumerable<WebApplication2.Models.STOCK_INVENTORY>
+﻿@model PagedList.IPagedList<WebApplication2.Models.STOCK_INVENTORY>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -56,13 +57,20 @@
             </div>
         </div>
     </div>
-    @using (Html.BeginForm("Index", "STOCK_INVENTORY", FormMethod.Get, new { @class = "form-inline" }))
+    @using (Html.BeginForm("Index", "Stock_inventory", FormMethod.Get, new { @class = "form-inline justify-content-between" }))
     {
-        <div class="form-group">
-            <label class="ml-4">Mã sách hoặc tên sách: </label>
+        <div class="form-group ml-5">
+            <label>Tìm theo mã hoặc tên sách: </label>
+
+
             <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
             <input type="submit" class="btn btn-danger" value="Tìm kiếm">
-        </div><hr />
+        </div>
+        <div class="form-group ml-auto mr-4">
+            <label class="ml-2">Sắp xếp theo: </label>
+            @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3", @onchange = "this.form.submit();" })
+        </div>
+        <hr />
     }
 
 
@@ -71,25 +79,25 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Data Table</h4>
+                        <h4 class="card-title">Danh sách kho</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
+                                            @Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionID)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
+                                            @Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.InventoryStockInTotal)
+                                            @Html.DisplayNameFor(model => model.First().InventoryStockInTotal)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.InventoryStockOutTotal)
+                                            @Html.DisplayNameFor(model => model.First().InventoryStockOutTotal)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.InventoryAvailableStock)
+                                            @Html.DisplayNameFor(model => model.First().InventoryAvailableStock)
                                         </th>
                                         <th>Thao tác</th>
                                         <th>Ghi chú</th>
@@ -99,33 +107,48 @@
                                     @foreach (var item in Model)
                                     {
                                         string stockDetails = "stockDetailsOf" + item.EditionID;
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.InventoryStockInTotal)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.InventoryStockOutTotal)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.InventoryAvailableStock)
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" id="@item.EditionID" value="@item.EditionID" onclick="redirectToDetails(this.value)">
-                                                Thông tin chi tiết
-                                            </button>
-                                        </td>
-                                        <td id=@stockDetails>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BOOK_EDITION.EditionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.InventoryStockInTotal)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.InventoryStockOutTotal)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.InventoryAvailableStock)
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" id="@item.EditionID" value="@item.EditionID" onclick="redirectToDetails(this.value)">
+                                                    Thông tin chi tiết
+                                                </button>
+                                            </td>
+                                            <td id=@stockDetails>
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-6">
+                                    @using (Html.BeginForm("Index", "Stock_inventory", FormMethod.Get))
+                                    {
+                                        <p>
+                                            Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                        </p>
+                                    }
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                                </div>
+                            </div>
+                            @Html.PagedListPager(Model, page => Url.Action("Index", "Stock_inventory", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort }))
                         </div>
                     </div>
                 </div>
@@ -141,7 +164,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: '/Manager/STOCK_INVENTORY/StockDetails', 
+            url: '/Manager/STOCK_INVENTORY/StockDetails',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -155,7 +178,7 @@
                     }
                     else {
                         $(destination).css('color', 'red');
-                        $(destination).html("Số lượng nhập: " +'<i class="fas fa-arrow-down green-icon"></i> '  + Math.abs(newQuantity) + " so với tháng trước");
+                        $(destination).html("Số lượng nhập: " + '<i class="fas fa-arrow-down green-icon"></i> ' + Math.abs(newQuantity) + " so với tháng trước");
                     }
                 }
             },

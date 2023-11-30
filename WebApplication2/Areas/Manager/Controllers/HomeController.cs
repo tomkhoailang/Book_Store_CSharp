@@ -16,6 +16,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         public ActionResult Index()
         {
             ViewBag.revenue = db.V_revenue_of_each_year.ToList();
+
             return View();
         }
         public ActionResult Dashboard()

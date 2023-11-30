@@ -171,7 +171,7 @@
                         <hr />
                         <div class="row">
                             <div class="col-md-6 col-lg-6 col-sm-6">
-                                @using (Html.BeginForm("Index", "Book_collection", FormMethod.Get))
+                                @using (Html.BeginForm("Index", "Promotions", FormMethod.Get))
                                 {
                                     <p>
                                         Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
@@ -182,7 +182,7 @@
                                 Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
                             </div>
                         </div>
-                        @Html.PagedListPager(Model, page => Url.Action("Index", "Book_collection", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort, startDate = ViewBag.startDate, endDate = ViewBag.endDate }))
+                        @Html.PagedListPager(Model, page => Url.Action("Index", "Promotions", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort, startDate = ViewBag.startDate, endDate = ViewBag.endDate }))
                     </div>
                 </div>
             </div>

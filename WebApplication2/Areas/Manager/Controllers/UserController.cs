@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
 using System.Net;
+using PagedList;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
@@ -13,7 +14,7 @@ namespace WebApplication2.Areas.Manager.Controllers
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
         // GET: Manager/User/Index
-        public ActionResult Index(string searchString, int? RoleID)
+        public ActionResult Index(string searchString, int? RoleID, int? page, int? size, string sortOptions)
         {
             ViewBag.Keyword = searchString;
             ViewBag.AccountType = new SelectList(db.AspNetRoles, "Id", "Name");
@@ -35,13 +36,14 @@ namespace WebApplication2.Areas.Manager.Controllers
                 }
 
             }
+            //filter
             var translationDictionary = new Dictionary<string, string>
             {
                 { "Customer", "Khách hàng" },
                 { "Shipper", "Người giao hàng" },
                 { "Staff", "Nhân viên" },
             };
-            //filter
+
             var roleForSelectList = db.AspNetRoles.Where(r => r.Id != "1").ToList().Select(r => new { r.Id, Name = translationDictionary[r.Name] });
             var selectList = new SelectList(roleForSelectList, "Id", "Name");
             var defaultSelectItem = new SelectListItem { Value = "1", Text = "Tất cả" };
@@ -51,9 +53,8 @@ namespace WebApplication2.Areas.Manager.Controllers
             var queryPeople = people.ToList();
             var roles = db.V_UserRole.ToList();
 
-            if (RoleID == null)
+            if (RoleID == null || RoleID == 1)
             {
-                RoleID = 1;
                 model = queryPeople.Select(p => new ManageUserViewModelItem()
                 { Person = p, AccountType = roles.Find(r => r.PersonID == p.PersonID).Name })
                     .ToList();
@@ -68,7 +69,47 @@ namespace WebApplication2.Areas.Manager.Controllers
                     model.Add(item);
                 }
             }
-            return View(model.ToList());
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                }
+                , "Value", "Text");
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    people = people.OrderByDescending(b => b.PersonID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    people = people.OrderBy(b => b.PersonID);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                default:
+                    people = people.OrderByDescending(b => b.PersonID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(model.ToPagedList(pageNumber, pageSize));
+            
         }
 
         // GET: Manager/User/Details/5

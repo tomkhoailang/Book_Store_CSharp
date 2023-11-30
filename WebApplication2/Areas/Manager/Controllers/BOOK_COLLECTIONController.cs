@@ -103,6 +103,10 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(db.BOOK_COLLECTION.FirstOrDefault(b => b.BookCollectionName == bOOK_COLLECTION.BookCollectionName) != null)
+                {
+                    return RedirectToAction("Index");
+                }
                 if ((db.BOOK_COLLECTION.FirstOrDefault(c => c.BookCollectionName == bOOK_COLLECTION.BookCollectionName)) == null)
                 {
                     bOOK_COLLECTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;

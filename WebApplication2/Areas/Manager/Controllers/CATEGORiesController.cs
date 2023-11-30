@@ -30,6 +30,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 new[] {
                         new SelectListItem { Value = "newest", Text = "Mới nhất" },
                         new SelectListItem { Value = "oldest", Text = "Cũ nhất" }
+                 
                 }
                 , "Value", "Text");
 
@@ -100,6 +101,10 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (db.CATEGORies.FirstOrDefault(b => b.CategoryName == cATEGORY.CategoryName) != null)
+                {
+                    return RedirectToAction("Index");
+                }
                 if ((db.CATEGORies.FirstOrDefault(c => c.CategoryName == cATEGORY.CategoryName)) == null)
                 {
                     cATEGORY.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
