@@ -50,16 +50,17 @@ namespace WebApplication2.Models
         public virtual DbSet<STOCK_INVENTORY> STOCK_INVENTORY { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE_DETAIL> STOCK_RECEIVED_NOTE_DETAIL { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
         public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
+        public virtual DbSet<V_edition_buy_count> V_edition_buy_count { get; set; }
         public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
         public virtual DbSet<V_revenue_of_each_day> V_revenue_of_each_day { get; set; }
         public virtual DbSet<V_revenue_of_each_month> V_revenue_of_each_month { get; set; }
         public virtual DbSet<V_revenue_of_each_year> V_revenue_of_each_year { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
-        public virtual DbSet<V_edition_buy_count> V_edition_buy_count { get; set; }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {
@@ -68,19 +69,6 @@ namespace WebApplication2.Models
                 new ObjectParameter("editionID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
-        }
-    
-        public virtual int SP_CREATE_CUSTOMER_ORDER_STATUS(Nullable<int> orderID, Nullable<int> statusID)
-        {
-            var orderIDParameter = orderID.HasValue ?
-                new ObjectParameter("OrderID", orderID) :
-                new ObjectParameter("OrderID", typeof(int));
-    
-            var statusIDParameter = statusID.HasValue ?
-                new ObjectParameter("StatusID", statusID) :
-                new ObjectParameter("StatusID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREATE_CUSTOMER_ORDER_STATUS", orderIDParameter, statusIDParameter);
         }
     
         public virtual int SP_Inital_Manager(string accountID)
@@ -103,6 +91,15 @@ namespace WebApplication2.Models
                 new ObjectParameter("ManagerID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Person", accountIDParameter, managerIDParameter);
+        }
+    
+        public virtual int SP_switch_status(Nullable<int> orderID)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("orderID", orderID) :
+                new ObjectParameter("orderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_switch_status", orderIDParameter);
         }
     }
 }

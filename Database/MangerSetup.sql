@@ -272,7 +272,23 @@ group by editionID
 
 select * from BOOK_EDITION b, V_edition_buy_count v
 where b.EditionID = v.EditionID
+---
 
+go
+create or alter trigger SetPromotionDetial on PROMOTION for insert, update
+as
+begin
+	declare @promoDetail nvarchar(MAX);
+	declare @promoID int;
+	select @promoDetail = i.PromotionDetails, @promoID = i.PromotionID from inserted i;
+	declare @firstKey nvarchar(2) = left(@promoDetail,2);
+	declare @lastKey nvarchar(1) = right(@promoDetail,1);
+	if @firstKey = 'N''' and @lastKey = ''''
+	begin
+		declare @detail nvarchar(MAX) = left(@promoDetail,len(@promoDetail)-1);
+		update PROMOTION set PromotionDetails = right(@detail,len(@detail) -2) where PromotionID = @promoID
+	end
+end
 
 
 go

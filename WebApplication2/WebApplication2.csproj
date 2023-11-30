@@ -308,6 +308,9 @@
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TIER.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -5377,6 +5380,7 @@
     <Content Include="Areas\Manager\Views\Home\Index.cshtml" />
     <Content Include="Areas\Manager\Views\Home\_RevenueInOneMonthPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\Home\Details.cshtml" />
+    <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
     <EntityDeploy Include="Models\BookStoreManager.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
@@ -5384,7 +5388,6 @@
     <Content Include="Models\BookStoreManager.edmx.diagram">
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
