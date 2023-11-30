@@ -55,18 +55,18 @@
         @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus)
     </td>
     <td>
-        @*@{
+        @{
             if(Convert.ToInt32(ViewBag.currentRole) == 4)
             {
-                //Cus
+                //Cus - này a Duy sửa típ
                 @Html.ActionLink("Cancel", "Delete", new { id = item.OrderID });
             }
             else if(Convert.ToInt32(TempData["role"]) == 2)
-            {*@
-                @*//Staff*@
+            {
+                //Staff
                 @Html.ActionLink("Change status", "ChangeStatus", new { id = item.OrderID })
-            @*}
-        }*@
+            }
+        }
     </td>
 </tr>
 }
