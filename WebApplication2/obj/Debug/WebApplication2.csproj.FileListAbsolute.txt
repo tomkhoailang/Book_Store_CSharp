@@ -935,3 +935,7 @@ C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\obj\Debug\WebAp
 C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.csproj.CopyComplete
 C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.dll
 C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\obj\Debug\WebApplication2.pdb
+C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\bin\PagedList.dll
+C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\bin\PagedList.Mvc.dll
+C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\bin\PagedList.xml
+C:\Users\BANGCHILL\Desktop\btl\Book_Store_CSharp\WebApplication2\bin\PagedList.Mvc.xml
