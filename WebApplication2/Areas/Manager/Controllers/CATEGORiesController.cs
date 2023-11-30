@@ -12,6 +12,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class CATEGORiesController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();

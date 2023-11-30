@@ -10,6 +10,7 @@ using PagedList;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class UserController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
