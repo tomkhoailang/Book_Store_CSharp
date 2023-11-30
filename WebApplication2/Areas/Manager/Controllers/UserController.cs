@@ -21,22 +21,22 @@ namespace WebApplication2.Areas.Manager.Controllers
             ViewBag.AccountType = new SelectList(db.AspNetRoles, "Id", "Name");
             ICollection<ManageUserViewModelItem> model = new List<ManageUserViewModelItem>();
             IQueryable<Person> people = db.People;
-            //people = people.Include(p => p.AspNetUser).Include(p => p.MANAGER).Include(p => p.TIER);
+            people = people.Include(p => p.AspNetUser).Include(p => p.MANAGER).Include(p => p.TIER);
 
-            ////search
-            //if (!string.IsNullOrEmpty(searchString))
-            //{
+            //search
+            if (!string.IsNullOrEmpty(searchString))
+            {
 
-            //    string[] searchTerms = searchString.Split(' ');
+                string[] searchTerms = searchString.Split(' ');
 
-            //    people = people.Where(p => searchTerms.All(term => p.PersonName.Contains(term)) || searchTerms.All(term => p.AspNetUser.PhoneNumber.Contains(term)));
-            //    if (people.ToList().Count() == 0)
-            //    {
-            //        string strimString = searchString.Trim();
-            //        people = db.People.Where(p => p.AspNetUser.Email.Contains(strimString));
-            //    }
+                people = people.Where(p => searchTerms.All(term => p.PersonName.Contains(term)) || searchTerms.All(term => p.AspNetUser.PhoneNumber.Contains(term)));
+                if (people.ToList().Count() == 0)
+                {
+                    string strimString = searchString.Trim();
+                    people = db.People.Where(p => p.AspNetUser.Email.Contains(strimString));
+                }
 
-            //}
+            }
             //filter
             var translationDictionary = new Dictionary<string, string>
             {
@@ -110,7 +110,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             int pageNumber = (page ?? 1);
 
             return View(model.ToPagedList(pageNumber, pageSize));
-            
+
         }
 
         // GET: Manager/User/Details/5
@@ -121,6 +121,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Person person = db.People.Find(id);
+            ViewBag.totalAmount = db.CUSTOMER_ORDER.Where(m => m.CustomerID == person.PersonID).ToList();
             if (person == null)
             {
                 return HttpNotFound();

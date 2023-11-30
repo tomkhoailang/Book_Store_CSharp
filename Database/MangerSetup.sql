@@ -266,29 +266,20 @@ group by Year
 
 go
 create or alter view V_edition_buy_count as
-select EditionID, count(EditionID) as BuyCount
-from CUSTOMER_ORDER_DETAIL
-group by editionID
+select e.EditionName, a.* from BOOK_EDITION e,
+(select EditionID, count(EditionID) as BuyCount, sum(DetailCurrentPrice * DetailQuantity) as TotalPrice
+from CUSTOMER_ORDER_DETAIL cod, CUSTOMER_ORDER co
+where co.OrderID = cod.OrderID
+and MONTH(GETDATE()) = MONTH(co.OrderDate)
+group by editionID) as a
+where e.EditionID = a.EditionID
 
-select * from BOOK_EDITION b, V_edition_buy_count v
-where b.EditionID = v.EditionID
----
 
-go
-create or alter trigger SetPromotionDetial on PROMOTION for insert, update
-as
-begin
-	declare @promoDetail nvarchar(MAX);
-	declare @promoID int;
-	select @promoDetail = i.PromotionDetails, @promoID = i.PromotionID from inserted i;
-	declare @firstKey nvarchar(2) = left(@promoDetail,2);
-	declare @lastKey nvarchar(1) = right(@promoDetail,1);
-	if @firstKey = 'N''' and @lastKey = ''''
-	begin
-		declare @detail nvarchar(MAX) = left(@promoDetail,len(@promoDetail)-1);
-		update PROMOTION set PromotionDetails = right(@detail,len(@detail) -2) where PromotionID = @promoID
-	end
-end
+
+
+--select *, sum(b.DetailCurrentPrice) from CUSTOMER_ORDER_DETAIL b, V_edition_buy_count v
+--where b.EditionID = v.EditionID
+--select * from V_edition_buy_count order by BuyCount asc
 
 
 go
@@ -306,6 +297,5 @@ begin
 		update PROMOTION set PromotionDetails = right(@detail,len(@detail) -2) where PromotionID = @promoID
 	end
 end
-
 
 

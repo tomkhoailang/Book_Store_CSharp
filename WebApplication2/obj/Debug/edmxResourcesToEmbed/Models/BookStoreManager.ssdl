@@ -316,10 +316,13 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_buy_count' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="V_edition_buy_count">
     <Key>
+      <PropertyRef Name="EditionName" />
       <PropertyRef Name="EditionID" />
     </Key>
+    <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="EditionID" Type="int" Nullable="false" />
     <Property Name="BuyCount" Type="int" />
+    <Property Name="TotalPrice" Type="decimal" Precision="38" Scale="2" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -880,6 +883,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Person_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="AccountID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Function Name="FN_GetTierID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
     <Parameter Name="personID" Type="int" Mode="In" />
   </Function>
@@ -936,8 +951,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     </EntitySet>
     <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
+    [V_edition_buy_count].[EditionName] AS [EditionName], 
     [V_edition_buy_count].[EditionID] AS [EditionID], 
-    [V_edition_buy_count].[BuyCount] AS [BuyCount]
+    [V_edition_buy_count].[BuyCount] AS [BuyCount], 
+    [V_edition_buy_count].[TotalPrice] AS [TotalPrice]
     FROM [dbo].[V_edition_buy_count] AS [V_edition_buy_count]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
@@ -1144,6 +1161,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Person" EntitySet="Person" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

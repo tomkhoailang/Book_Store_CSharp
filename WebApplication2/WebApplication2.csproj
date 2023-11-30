@@ -5388,6 +5388,7 @@
     <Content Include="Models\BookStoreManager.edmx.diagram">
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Manager\Views\Home\GetBuyCountOfCurrentMonth.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />

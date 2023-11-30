@@ -110,7 +110,7 @@ BEGIN
 			IF(SELECT COUNT(*) FROM WALLET WHERE CustomerID = @customerID AND Balance >= @orderCurrentTotalPrice ) > 0
 			begin
 			UPDATE WALLET SET Balance = Balance - @orderCurrentTotalPrice WHERE CustomerID = @customerID
-			select @walletID = walletID from WALLET WHERE CustomerID = @customerID
+			select @walletID = WalletID from WALLET WHERE CustomerID = @customerID
 			select @bankID = BankAccountID from BANK_ACCOUNT WHERE CustomerID = @customerID
 			insert into TRANSACTION_DETAILS values (GETDATE(), 'Place order', null, @walletID, null, @orderID)
 			print 'OK'
@@ -126,7 +126,7 @@ BEGIN
 		else IF @statusID = 3 or @statusID = 8
 		begin
 			UPDATE WALLET SET Balance = Balance + @orderCurrentTotalPrice WHERE CustomerID = @customerID
-			select @walletID = walletID from WALLET WHERE CustomerID = @customerID
+			select @walletID = WalletID from WALLET WHERE CustomerID = @customerID
 			select @bankID = BankAccountID from BANK_ACCOUNT WHERE CustomerID = @customerID
 			insert into TRANSACTION_DETAILS values (GETDATE(), 'Refund', null, @walletID, null, @orderID)
 			print'not ok'
@@ -135,22 +135,39 @@ BEGIN
 
 END
 
+
+drop trigger TR_HANDLE_CUSTOMER_ORDER
 -- trigger to calculate OrderTotalPrice from  DetailCurrentPrice and  DetailQuantity
 
 go
 create or alter trigger TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL on CUSTOMER_ORDER_DETAIL for insert as
 begin
 	declare @tierID int ;
+	declare @editionID int;
+	declare @detailID int
 	select @tierID = Person.TierID from inserted i, Person , CUSTOMER_ORDER
 	where i.OrderID = CUSTOMER_ORDER.OrderID and CUSTOMER_ORDER.CustomerID = Person.PersonID
+
+	select @editionID = i.EditionID, @detailID = i.OrderDetailID from inserted i;
+
+	declare @currentPromo decimal(4,2) = (select top 1 p.PromotionDiscount from PROMOTION p, BOOK_PROMOTION bp
+	where getdate() between p.PromotionStartDate and p.PromotionEndDate and
+	p.PromotionID = bp.PromotionID and bp.EditionID = @editionID 
+	order by p.PromotionDiscount desc) 
+
+	if @currentPromo = null
+	begin
+		set @currentPromo = 0;
+	end
 
 	declare @tierDiscount decimal(4,2) = 0;
 	if(@tierID != null)
 	begin
 		select @tierDiscount = TierDiscount from TIER where TierID = @tierID
 	end	
+	update CUSTOMER_ORDER_DETAIL set DetailCurrentPrice = DetailCurrentPrice * (100-@tierDiscount)/100 * (100-@currentPromo) /100 where OrderDetailID = @detailID
 	update CUSTOMER_ORDER set OrderTotalPrice =
-	OrderTotalPrice + (i.DetailCurrentPrice * i.DetailQuantity) - (i.DetailCurrentPrice * i.DetailQuantity)*@tierDiscount/100
+	OrderTotalPrice + (i.DetailCurrentPrice * i.DetailQuantity)
 	from inserted i where CUSTOMER_ORDER.OrderID = i.OrderID
 end
 
@@ -163,8 +180,8 @@ select * from WALLET
 --select * from STOCK_INVENTORY
 --exec SP_CREATE_CUSTOMER_ORDER_STATUS 22,4
 
---DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
---drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
---drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
---drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
---drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK
+DROP TRIGGER TR_CREATE_CUSTOMER_ORDER_STATUS_FROM_ORDER
+drop TRIGGER TR_UPDATE_STOCK_WITH_INSERT
+drop TRIGGER TR_HANDLE_CUSTOMER_ORDER
+drop TRIGGER TR_CALCULATE_TOTAL_PRICE_FROM_ORDER_DETAIL
+drop TRIGGER TR_UPDATE_INVENTORY_AVAILABLE_STOCK

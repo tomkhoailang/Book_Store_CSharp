@@ -33,10 +33,8 @@ namespace WebApplication2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
-            if (cUSTOMER_ORDER == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.OrderDetailList = db.CUSTOMER_ORDER_DETAIL.Where(m => m.OrderID == id).ToList();
+
             return View(cUSTOMER_ORDER);
         }
 
@@ -175,6 +173,13 @@ namespace WebApplication2.Controllers
             db.SaveChanges();
             //}
             return RedirectToAction("Index");
+        }
+
+        public ActionResult DetailOrder(int id)
+        {
+            CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
+            ViewBag.OrderDetailList = db.CUSTOMER_ORDER_DETAIL.Where(m => m.OrderID == id).ToList();
+            return View(cUSTOMER_ORDER);
         }
         protected override void Dispose(bool disposing)
         {
