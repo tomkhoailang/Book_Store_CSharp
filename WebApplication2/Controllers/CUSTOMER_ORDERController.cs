@@ -141,14 +141,30 @@ namespace WebApplication2.Controllers
 
         public ActionResult ChangeStatus(int id)
         {
-            using (var context = new BookStoreManagerEntities())
+            //using (var context = new BookStoreManagerEntities())
+            //{
+            var parameter1 = new SqlParameter("@orderID", id);
+            db.Database.ExecuteSqlCommand("sp_switch_status @orderID", parameter1);
+            db.SaveChanges();
+
+            string accID = User.Identity.GetUserId();
+            var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
+
+            var cusOrderStatus = db.CUSTOMER_ORDER_STATUS.FirstOrDefault(o => o.OrderID == id).StatusID;
+            if (Convert.ToInt32(cusOrderStatus) == 3)
             {
-                var parameter1 = new SqlParameter("@orderID", id);
-
-                context.Database.ExecuteSqlCommand("sp_switch_status @orderID", parameter1);
-
-                context.SaveChanges();
+                CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);
+                cusOrder.StaffID = Convert.ToInt32(CustomerID);
             }
+            else if (Convert.ToInt32(cusOrderStatus) == 6)
+            {
+                var deliverAccID = db.AspNetRoles.FirstOrDefault(a => a.Id == "3").AspNetUsers.FirstOrDefault().Id;
+                var deliverID = db.People.FirstOrDefault(d => d.AccountID == deliverAccID).PersonID;
+                CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);
+                cusOrder.ShipperID = Convert.ToInt32(deliverID);
+            }
+            db.SaveChanges();
+            //}
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

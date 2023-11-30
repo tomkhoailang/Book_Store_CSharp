@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -39,17 +40,23 @@ namespace WebApplication2.Controllers
         // GET: TRANSACTION_DETAILS/Create
         public ActionResult CreateDeposit()
         {
-            ViewBag.BankAccountID = new SelectList(db.BANK_ACCOUNT, "BankAccountID", "BankAccountNumber");
-            ViewBag.OrderID = new SelectList(db.CUSTOMER_ORDER, "OrderID", "OrderStatus");
-            ViewBag.WalletID = new SelectList(db.WALLETs, "WalletID", "WalletID");
+            var accID = User.Identity.GetUserId();
+            int cusID = db.People.FirstOrDefault(c => c.AccountID == accID).PersonID;
+            IEnumerable<BANK_ACCOUNT> bAcc = db.BANK_ACCOUNT.Where(b => b.CustomerID == cusID);
+            ViewBag.BankAccountID = new SelectList(bAcc, "BankAccountID", "BankAccountNumber");
+            //ViewBag.OrderID = new SelectList(db.CUSTOMER_ORDER, "OrderID", "OrderStatus");
+            //ViewBag.WalletID = new SelectList(db.WALLETs, "WalletID", "WalletID");
             return PartialView("_CreateDepositPartialView");
         }
 
         public ActionResult CreateWithdrawal()
         {
-            ViewBag.BankAccountID = new SelectList(db.BANK_ACCOUNT, "BankAccountID", "BankAccountNumber");
-            ViewBag.OrderID = new SelectList(db.CUSTOMER_ORDER, "OrderID", "OrderStatus");
-            ViewBag.WalletID = new SelectList(db.WALLETs, "WalletID", "WalletID");
+            var accID = User.Identity.GetUserId();
+            int cusID = db.People.FirstOrDefault(c => c.AccountID == accID).PersonID;
+            IEnumerable<BANK_ACCOUNT> bAcc = db.BANK_ACCOUNT.Where(b => b.CustomerID == cusID);
+            ViewBag.BankAccountID = new SelectList(bAcc, "BankAccountID", "BankAccountNumber");
+            //ViewBag.OrderID = new SelectList(db.CUSTOMER_ORDER, "OrderID", "OrderStatus");
+            //ViewBag.WalletID = new SelectList(db.WALLETs, "WalletID", "WalletID");
             return PartialView("_CreateWithdrawalPartialView");
         }
 
@@ -58,11 +65,15 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateDeposit([Bind(Include = "TransactionID,TransactionAmount,WalletID,BankAccountID")] TRANSACTION_DETAILS tRANSACTION_DETAILS)
+        public ActionResult CreateDeposit([Bind(Include = "TransactionID,TransactionAmount,BankAccountID")] TRANSACTION_DETAILS tRANSACTION_DETAILS)
         {
             tRANSACTION_DETAILS.TransactionDate = DateTime.Now;
             tRANSACTION_DETAILS.OrderID = null;
             tRANSACTION_DETAILS.TransactionType = "Deposit";
+            var accID = User.Identity.GetUserId();
+            int cusID = db.People.FirstOrDefault(c => c.AccountID == accID).PersonID;
+            int walletID = db.WALLETs.FirstOrDefault(w => w.CustomerID == cusID).WalletID;
+            tRANSACTION_DETAILS.WalletID = walletID;
             if (ModelState.IsValid)
             {
                 db.TRANSACTION_DETAILS.Add(tRANSACTION_DETAILS);
@@ -79,11 +90,22 @@ namespace WebApplication2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateWithdrawal([Bind(Include = "TransactionID,TransactionAmount,WalletID,BankAccountID")] TRANSACTION_DETAILS tRANSACTION_DETAILS)
-        {
+        { 
             tRANSACTION_DETAILS.TransactionDate = DateTime.Now;
             tRANSACTION_DETAILS.OrderID = null;
             tRANSACTION_DETAILS.TransactionType = "Withdrawal";
+            var accID = User.Identity.GetUserId();
+            int cusID = db.People.FirstOrDefault(c => c.AccountID == accID).PersonID;
+            int walletID = db.WALLETs.FirstOrDefault(w => w.CustomerID == cusID).WalletID;
+            tRANSACTION_DETAILS.WalletID = walletID;
 
+            var currentBalace = db.WALLETs.FirstOrDefault(c => c.CustomerID == cusID).Balance;
+            ViewBag.currentBalance = currentBalace;
+            if(currentBalace < tRANSACTION_DETAILS.TransactionAmount)
+            {
+                ViewBag.ErrorMessage = "Số dư không đủ";
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 db.TRANSACTION_DETAILS.Add(tRANSACTION_DETAILS);
