@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
@@ -15,7 +17,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: BOOK_COLLECTION
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page, int? size, string sortOptions)
         {
             IQueryable<BOOK_COLLECTION> bc = db.BOOK_COLLECTION;
             if (!string.IsNullOrEmpty(searchString))
@@ -25,7 +27,48 @@ namespace WebApplication2.Areas.Manager.Controllers
                 bc = bc.Where(p => searchTerms.All(term => p.BookCollectionName.Contains(term)));
                 ViewBag.Keyword = searchString;
             }
-            return View(bc.ToList());
+
+            //sort order
+            ViewBag.sortOptions = new SelectList(
+                new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                }
+                , "Value", "Text");
+
+            if (string.IsNullOrEmpty(sortOptions))
+                sortOptions = "newest";
+            switch (sortOptions)
+            {
+                case "newest":
+                    bc = bc.OrderByDescending(b => b.BookCollectionID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+                case "oldest":
+                    bc = bc.OrderBy(b => b.BookCollectionID);
+                    ViewBag.selectedSort = "oldest";
+                    break;
+                default:
+                    bc = bc.OrderBy(b => b.BookCollectionID);
+                    ViewBag.selectedSort = "newest";
+                    break;
+            }
+
+            // pagination
+            List<SelectListItem> items = new List<SelectListItem>();
+            items.Add(new SelectListItem { Text = "10", Value = "10" });
+            items.Add(new SelectListItem { Text = "20", Value = "20" });
+            items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+            foreach (var item in items)
+                if (item.Value == size.ToString()) item.Selected = true;
+            ViewBag.size = items;
+            ViewBag.currentSize = size;
+
+            int pageSize = size ?? 10;
+            int pageNumber = (page ?? 1);
+
+            return View(bc.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: BOOK_COLLECTION/Details/5

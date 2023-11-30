@@ -18,6 +18,10 @@ namespace WebApplication2.Areas.Manager.Controllers
             ViewBag.revenue = db.V_revenue_of_each_year.ToList();
             return View();
         }
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
         public ActionResult GetRevenueOfEachYear()
         {
             var revenue = db.V_revenue_of_each_year.ToDictionary(i => i.ID, i => new

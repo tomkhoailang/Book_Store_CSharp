@@ -265,7 +265,14 @@ select ISNULL(ROW_NUMBER() over(order by  Year), 0)  as ID , Year , SUM(Revenue)
 from V_revenue_of_each_month
 group by Year
 
+go
+create or alter view V_edition_buy_count as
+select EditionID, count(EditionID) as BuyCount
+from CUSTOMER_ORDER_DETAIL
+group by editionID
 
+select * from BOOK_EDITION b, V_edition_buy_count v
+where b.EditionID = v.EditionID
 
 
 
