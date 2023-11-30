@@ -105,13 +105,11 @@ namespace WebApplication2.Custom_Functions
 			return booksList;
 		}
 
-		public static List<BOOK_EDITION> pagePagination(int pageNumber, int itemsAmount, List<BOOK_EDITION> booksList = null)
+		public static List<BOOK_EDITION> pagePagination(int pageNumber, List<BOOK_EDITION> booksList = null)
 		{
 			booksList = booksList ?? db.BOOK_EDITION.ToList();
 
-			booksList.Skip(pageNumber - 1).Take(itemsAmount);
-
-			return booksList;
+			return booksList.Skip(pageNumber - 1).Take(9).ToList(); ;
 		}
 	}
 }

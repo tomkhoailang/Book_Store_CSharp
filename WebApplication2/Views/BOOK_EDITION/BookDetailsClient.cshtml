@@ -164,7 +164,7 @@
 							<div class="col-md-6">
 								<h4 class="mb-4">@Model.bookReviews.Count đánh giá cho @Html.DisplayFor(model => model.currentBook.EditionName) </h4>
 								<div class="media mb-4 ">
-									<div class="media-body overflow-auto" style="max-height: 500px">
+									<div class="media-body overflow-auto border-0" style="max-height: 500px">
 										@for (int i = 0; i < Model.bookReviews.Count; i++)
 										{
 											string styles = "padding: 10px 0px;";
@@ -173,7 +173,7 @@
 											{
 												styles += " border-bottom: 1px solid rgba(0,0,0,0.2) !important;";
 											}
-											<div class="review-item" style="@styles">
+											<div class="review-item border-bottom-1 border-light" style="@styles">
 												<h6>@Model.bookReviews[i].Person.PersonName<small> - <i>@Model.bookReviews[i].ReviewDate.ToString("dd-MM-yyyy")</i></small></h6>
 												<div class="text-primary mb-2">
 													@for (int j = 0; j < Model.bookReviews[i].ReviewRating; j++)
@@ -182,7 +182,7 @@
 													}
 													@for (int j = 0; j < 5 - Model.bookReviews[i].ReviewRating; j++)
 													{
-														<i class="fa-solid fa-star"></i>
+														<i class="fa-regular fa-star"></i>
 													}
 												</div>
 												<p>@Model.bookReviews[i].ReviewDescription</p>

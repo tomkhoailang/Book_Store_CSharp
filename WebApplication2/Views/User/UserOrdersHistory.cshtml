@@ -4,7 +4,7 @@
 	<div class="orders w-100 py-3">
 		@if (Model.ToList().Count > 0)
 		{
-			foreach(var o in Model)
+			foreach (var o in Model)
 			{
 				<div class="order d-flex flex-column border-bottom border-light py-3">
 					<div class="heading-light d-flex justify-content-between">
@@ -19,11 +19,13 @@
 						}
 					</div>
 					<div class="total-price text-right h5 text-danger">
-						@o.order.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND
+						Tổng tiền: @o.order.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND
 					</div>
 				</div>
 			}
-		}else { 
+		}
+		else
+		{
 			<h3>Bạn chưa đặt đơn hàng nào</h3>
 			<p>Nhanh tay đặt hàng ngay, đặt càng nhiều ưu đãi càng lớn!!</p>
 		}

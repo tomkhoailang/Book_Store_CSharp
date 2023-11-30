@@ -4,7 +4,7 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const app = {
-	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [] },
+	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [], page: 1 },
 
 	navigate: function (controller, action, params) {
 		const keys = Object.keys(params);

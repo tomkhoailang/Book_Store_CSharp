@@ -5,7 +5,6 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
 	<div class="row px-xl-5">
@@ -20,7 +19,7 @@
 </div>
 <!-- Breadcrumb End -->
 <!-- Shop Start -->
-<div class="container-fluid">
+<div class="container-fluid p-0">
 	<div class="row px-xl-5">
 		<!-- Shop Sidebar Start -->
 		<div class="col-lg-3 col-md-4">
@@ -111,7 +110,7 @@
 					</div>
 				</div>
 				<div id="_filtered-book-wrapper" class="row w-100 pr-4">
-					@Html.Partial("_FilteredBook", Model)
+					@Html.Partial("_FilteredBook", Model.Take(9))
 				</div>
 			</div>
 		<!-- Shop Product End -->

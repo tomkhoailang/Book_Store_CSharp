@@ -33,6 +33,7 @@ namespace WebApplication2.Controllers
 
 			return PartialView();
 		}
+		[Authorize]
 		[HttpPost]
 		public ActionResult UpdateInfomation()
 		{

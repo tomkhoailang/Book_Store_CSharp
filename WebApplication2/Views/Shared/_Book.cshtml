@@ -7,7 +7,9 @@
 	<div class="product-img position-relative overflow-hidden" style="height: 350px;">
 		<img object-fit: cover; object-position: top center;" class="img-fluid w-100 h-100" src="~/Images/@Html.DisplayFor(model => model.BOOK_EDITION_IMAGE.FirstOrDefault().EditionImage)" alt="@Html.DisplayFor(model => model.EditionName)" />
 		<div class="product-action">
-			<a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+			<a class="btn btn-outline-dark btn-square" href="@Url.Action("AddToCart", "BookCart", new { id = Model.EditionID })">
+				<i class="fa fa-shopping-cart"></i>
+			</a>
 			<a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
 			<a class="btn btn-outline-dark btn-square" href="@Url.Action("BookDetailsClient", "BOOK_EDITION", new { id = Model.EditionID })"><i class="fa fa-search"></i></a>
 		</div>

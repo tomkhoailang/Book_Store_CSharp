@@ -53,7 +53,7 @@ namespace WebApplication2.Controllers
             {
                 string warningMessage = TempData["WarningMessage"].ToString();
                 TempData.Remove("WarningMessage");
-                ViewBag.SuccessMessage = warningMessage;
+                ViewBag.WarningMessage = warningMessage;
             }
 
             return View(m);
@@ -62,7 +62,7 @@ namespace WebApplication2.Controllers
         public ActionResult Filter()
         {
             List<BOOK_EDITION> books = (List<BOOK_EDITION>)TempData["bookList"] ?? db.BOOK_EDITION.ToList();
-            ViewBag.selectedCategory = TempData["selectedCategory"] ?? null;
+            ViewBag.selectedCategory = TempData["selectedCategory"];
             List<(int, int)> priceRange = new List<(int, int)>();
 
             decimal minPrice = db.BOOK_EDITION.ToList().Aggregate(decimal.MaxValue, (acc, curr) =>
@@ -126,10 +126,9 @@ namespace WebApplication2.Controllers
 
             var minPrice = jsonData["minVal"];
             var maxPrice = jsonData["maxVal"];
-            int page = jsonData["page"];
+            var page = jsonData["page"];
 
             List<BOOK_EDITION> filteredBooks = new List<BOOK_EDITION>();
-            BooksFilter bfb = new BooksFilter();
 
             if (minPrice != null && maxPrice != null)
             {
@@ -144,6 +143,13 @@ namespace WebApplication2.Controllers
             {
                 filteredBooks = BooksFilter.filterByCategories(categoryIDInts, filteredBooks);
             }
+
+   //         if(page == null)
+			//{
+   //             page = 1;
+			//}
+
+   //         filteredBooks = BooksFilter.pagePagination(page, filteredBooks);
 
             return PartialView("_FilteredBook", filteredBooks);
         }

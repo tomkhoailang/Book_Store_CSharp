@@ -9732,7 +9732,6 @@ a.text-dark:hover, a.text-dark:focus {
 
 
 .review-item {
-    border: 1px solid var(--secondary) !important;
     padding: 10px;
 }
 

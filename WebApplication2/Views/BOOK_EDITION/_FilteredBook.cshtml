@@ -8,16 +8,14 @@
 			@Html.Partial("_Book", i)
 		</div>
 	}
-
 	<div class="col-12">
 		<nav>
 			<ul class="pagination justify-content-center">
 				@{
-					int pageNumber = (Model.Count() / 9) == 0 ? 1 : (Model.Count() / 9);
+					int pageAmount = (int)Math.Ceiling((Model.Count() * 1.0 / 9));
 				}
-
 				<li class="page-item disabled"><a class="page-link" href="#"><span>Previous</span></a></li>
-				@for (int i = 1; i <= pageNumber; i++)
+				@for (int i = 1; i <= pageAmount; i++)
 				{
 					<li class="page-item active"><a class="page-link" href="#">@i</a></li>
 				}
@@ -25,7 +23,8 @@
 			</ul>
 		</nav>
 	</div>
-}else
+}
+else
 {
 	<div class="col-12 d-flex justify-content-center align-items-center text-center" style="height: 500px">
 		<p class="h1 font-weight-light">Không có kết quả</p>

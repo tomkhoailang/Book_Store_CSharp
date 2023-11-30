@@ -63,6 +63,7 @@ else
 			<div style="position:absolute; right:0; width:40%">
 				<p style="display: inline; padding-inline: 10px">Total: </p>
 				<p id="txtTotal" style="display: inline; padding-inline: 10px; width: 80%; text-align: right">0 VND</p>
+				@*@Html.ActionLink("Xác nhận")*@
 				<button id="confirm" class="btn btn-primary" style="right:0" >CONFIRM</button>
 			</div>
 		</div>
@@ -71,20 +72,21 @@ else
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function () {
-			$("#confirm").click(function () {
-				var chbox = $("[name='checkSelect']");
-				var listID = new Array();
 
+			document.querySelector("#confirm").addEventListener('click', function () {
+				var chbox = document.querySelectorAll("[name='checkSelect']");
+				var listID = new Array();
+				console.log(chbox);
 				for (var i = 0; i < chbox.length; ++i) {
 					if (chbox[i].checked == true) {
 						listID.push(Number(chbox[i].id))
 					}
 				}
+				console.log(listID)
 				if (listID.length == 0)
-					alert("empty cart")
+					createToast("warning", "Giỏ hàng trống!")
 				else {
 					var url = '/BookCart/SubmitCart?listID=' + listID.join(',');
-					console.log(listID);
 					// Redirect to the constructed URL
 					window.location.href = url;
 				}
