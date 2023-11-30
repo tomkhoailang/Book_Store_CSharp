@@ -87,6 +87,7 @@ namespace WebApplication2.Controllers
                 };
                 db.CUSTOMER_ORDER_DETAIL.Add(oRDER_DETAIL);   
             }
+            db.SaveChanges();
             //db.SP_CREATE_CUSTOMER_ORDER_STATUS(id, 2);
             CUSTOMER_ORDER_STATUS cos = new CUSTOMER_ORDER_STATUS();
             cos.OrderID = id;
