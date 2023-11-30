@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -48,8 +49,12 @@ namespace WebApplication2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BankAccountID,BankAccountNumber,BankAccountName,BankCVC,CustomerID")] BANK_ACCOUNT bANK_ACCOUNT)
+        public ActionResult Create([Bind(Include = "BankAccountID,BankAccountNumber,BankAccountName,BankCVC")] BANK_ACCOUNT bANK_ACCOUNT)
         {
+            string accID = User.Identity.GetUserId();
+            var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
+            bANK_ACCOUNT.CustomerID = CustomerID;
+
             if (ModelState.IsValid)
             {
                 db.BANK_ACCOUNT.Add(bANK_ACCOUNT);

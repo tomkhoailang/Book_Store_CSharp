@@ -19,7 +19,7 @@ BEGIN
 		update WALLET set Balance = @currentBalance + @insertedTransaction 
 		where WalletID = @walletID
 	end
-	else
+	else if exists (select 1 from inserted i where i.TransactionType like ('Withdrawal'))
 	begin
 		update WALLET set Balance = @currentBalance - @insertedTransaction 
 		where WalletID = @walletID
