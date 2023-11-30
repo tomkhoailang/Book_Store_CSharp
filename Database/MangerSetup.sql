@@ -277,6 +277,9 @@ where e.EditionID = a.EditionID
 
 
 
+--select *, sum(b.DetailCurrentPrice) from CUSTOMER_ORDER_DETAIL b, V_edition_buy_count v
+--where b.EditionID = v.EditionID
+--select * from V_edition_buy_count order by BuyCount asc
 
 
 go
