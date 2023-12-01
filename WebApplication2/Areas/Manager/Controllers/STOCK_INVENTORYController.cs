@@ -12,6 +12,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class STOCK_INVENTORYController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -112,7 +113,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 return HttpNotFound();
             }
             ViewBag.stockInHistory = db.STOCK_RECEIVED_NOTE_DETAIL.Where(s => s.EditionID == sTOCK_INVENTORY.EditionID).ToList();
-
+            ViewBag.totalPriceHistory = db.CUSTOMER_ORDER_DETAIL.Where(s => s.EditionID == sTOCK_INVENTORY.EditionID).ToList();
             return View(sTOCK_INVENTORY);
         }
 

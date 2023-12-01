@@ -10,6 +10,7 @@ using PagedList;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class UserController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -109,7 +110,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             int pageNumber = (page ?? 1);
 
             return View(model.ToPagedList(pageNumber, pageSize));
-            
+
         }
 
         // GET: Manager/User/Details/5
@@ -120,6 +121,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Person person = db.People.Find(id);
+            ViewBag.totalAmount = db.CUSTOMER_ORDER.Where(m => m.CustomerID == person.PersonID).ToList();
             if (person == null)
             {
                 return HttpNotFound();

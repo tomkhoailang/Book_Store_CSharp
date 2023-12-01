@@ -2,7 +2,7 @@ use BookStoreManager
 go
 --check promotion
 go
-create  proc Sp_check_valid_promotion(@editionID int) as
+create or alter proc Sp_check_valid_promotion(@editionID int) as
 begin
 	select top 1 p.* from PROMOTION p, BOOK_PROMOTION bp
 	where getdate() between p.PromotionStartDate and p.PromotionEndDate and

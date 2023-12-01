@@ -48,11 +48,11 @@
         <div class="nav-header">
             <div class="brand-logo">
 
-                <a  onclick="location.href='@Url.Action("Dashboard","Home")'">
+                <a onclick="location.href='@Url.Action("Dashboard","Home")'">
                     <b class="logo-abbr"><img src="~/Assets/Admin/images/new-logo.jpg" alt=""> </b>
                     <span class="logo-compact"><img src="" alt=""></span>
                     <span class="brand-title">
-                        <img src="~/Assets/Admin/images/logo-text.png" style="width:87px; height:20px"alt="">
+                        <img src="~/Assets/Admin/images/logo-text.png" style="width:87px; height:20px" alt="">
                     </span>
                 </a>
             </div>
@@ -71,19 +71,7 @@
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
                     </div>
                 </div>
-                <div class="header-left">
-                    <div class="input-group icons">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
-                        </div>
-                        <input type="search" class="form-control" placeholder="Search Dashboard" aria-label="Search Dashboard">
-                        <div class="drop-down   d-md-none">
-                            <form action="#">
-                                <input type="text" class="form-control" placeholder="Search">
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="header-right">
                     <ul class="clearfix">
                         <li class="icons dropdown">
@@ -228,7 +216,13 @@
                                         <li>
                                             <a href="page-lock.html"><i class="icon-lock"></i> <span>Lock Screen</span></a>
                                         </li>
-                                        <li><a href="page-login.html"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li>
+                                            @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post ))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <input type="submit" value="Đăng xuất" class="btn btn-default" id="logoutButton" />
+                                            }
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -314,6 +308,9 @@
                         <ul aria-expanded="false">
                             <li>
                                 @Html.ActionLink("Thông kê doanh thu", "Index", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Thống kê số lượng bán ra trong tháng", "GetBuyCountOfCurrentMonth", "Home")
                             </li>
                         </ul>
                     </li>

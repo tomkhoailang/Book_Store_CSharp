@@ -1,89 +1,74 @@
 ﻿@model IEnumerable<WebApplication2.Models.CUSTOMER_ORDER>
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
-@{ 
-    string CurrentStatus;
-}
-<h2>Index</h2>
+    @{
+        string CurrentStatus;
+    }
+    <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderTotalPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderShippingMethod)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderPaymentMethod)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Person.PersonName)
-        </th>
-        <th>
-            Order status
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
+    <table class="table">
+        <tr>
+            <th>
+                Mã đơn hàng
+            </th>
+            <th>
+                Ngày đặt hàng
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+            <th>
+                Trạng thái đơn hàng
+            </th>
+            <th></th>
+            <th></th>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderTotalPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderShippingMethod)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderPaymentMethod)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Person.PersonName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus)
-    </td>
-    <td>
-        @{
-            CurrentStatus = item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus;
-            if (Convert.ToInt32(ViewBag.currentRole) == 4)
+            @foreach (var item in Model)
             {
-                //Cus - này a Duy sửa típ
-                @Html.ActionLink("Hủy", "Delete", new { id = item.OrderID });
-            }
-            else if (Convert.ToInt32(ViewBag.currentRole) == 2 && CurrentStatus != "SUCCESS")
-            {
-                //Staff
-                @Html.ActionLink("Chuyển trạng thái", "ChangeStatus", new { id = item.OrderID })
-            }
-            else if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
-            {
-                //Deliver
-                @Html.ActionLink("Hủy đơn", "Deliver", new { id = item.OrderID })
-            }
-            else if (Convert.ToInt32(ViewBag.currentRole) == 3 && item.ShipperID == null && CurrentStatus == "DELIVERING")
-            {
-                //Deliver
-                @Html.ActionLink("Nhận đơn", "Deliver", new { id = item.OrderID })
-            }
-        }
-    </td>
-</tr>
-}
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @item.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus)
+                </td>
+                <td>
+                    @Html.ActionLink("Chi tiết đơn hàng", "Details", new { id = item.OrderID }, new { @class = "btn btn-dark" })
+                </td>
+                <td>
+                    @{
+                        CurrentStatus = item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus;
+                        if (Convert.ToInt32(ViewBag.currentRole) == 4)
+                        {
+                            //Cus - này a Duy sửa típ
+                            @Html.ActionLink("Hủy đơn", "CancelByCustomer", new { id = item.OrderID }, new { @class = "btn btn-danger" });
+                        }
+                        else if (Convert.ToInt32(ViewBag.currentRole) == 2 && CurrentStatus != "SUCCESS")
+                        {
+                            //Staff
+                            @Html.ActionLink("Chuyển trạng thái", "ChangeStatus", new { id = item.OrderID })
+                        }
+                        else if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
+                        {
+                            //Deliver
+                            @Html.ActionLink("Hủy đơn", "Deliver", new { id = item.OrderID })
+                        }
+                        else if (Convert.ToInt32(ViewBag.currentRole) == 3 && item.ShipperID == null && CurrentStatus == "DELIVERING")
+                        {
+                            //Deliver
+                            @Html.ActionLink("Nhận đơn", "Deliver", new { id = item.OrderID })
+                        }
+                    }
+            </tr>
 
-</table>
+        </table>

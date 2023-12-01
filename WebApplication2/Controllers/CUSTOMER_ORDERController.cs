@@ -67,10 +67,8 @@ namespace WebApplication2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
-            if (cUSTOMER_ORDER == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.OrderDetailList = db.CUSTOMER_ORDER_DETAIL.Where(m => m.OrderID == id).ToList();
+
             return View(cUSTOMER_ORDER);
         }
 
@@ -169,7 +167,16 @@ namespace WebApplication2.Controllers
         //Cancel
         public ActionResult CancelByCustomer(int id)
         {
-
+            CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
+            if (cUSTOMER_ORDER.CUSTOMER_ORDER_STATUS.LastOrDefault(m => m.OrderID == cUSTOMER_ORDER.OrderID).StatusID == 2)
+            {
+                CUSTOMER_ORDER_STATUS sTATUS = new CUSTOMER_ORDER_STATUS();
+                sTATUS.OrderID = cUSTOMER_ORDER.OrderID;
+                sTATUS.StatusID = 3;
+                sTATUS.UpdateTime = DateTime.Now;
+                db.CUSTOMER_ORDER_STATUS.Add(sTATUS);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -216,6 +223,13 @@ namespace WebApplication2.Controllers
             }
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult DetailOrder(int id)
+        {
+            CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
+            ViewBag.OrderDetailList = db.CUSTOMER_ORDER_DETAIL.Where(m => m.OrderID == id).ToList();
+            return View(cUSTOMER_ORDER);
         }
         protected override void Dispose(bool disposing)
         {

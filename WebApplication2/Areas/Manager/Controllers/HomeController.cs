@@ -9,6 +9,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class HomeController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -23,6 +24,14 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             return View();
         }
+        public ActionResult GetBuyCountOfCurrentMonth()
+        {
+
+            var totalBuyCount = db.V_edition_buy_count.OrderByDescending(m => m.BuyCount).OrderByDescending(m => m.TotalPrice).ToList();
+
+            return View(totalBuyCount);
+        }
+
         public ActionResult GetRevenueOfEachYear()
         {
             var revenue = db.V_revenue_of_each_year.ToDictionary(i => i.ID, i => new
