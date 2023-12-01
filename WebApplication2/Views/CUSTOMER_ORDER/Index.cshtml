@@ -4,6 +4,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@{ 
+    string CurrentStatus;
+}
 <h2>Index</h2>
 
 <p>
@@ -56,15 +60,26 @@
     </td>
     <td>
         @{
-            if(Convert.ToInt32(ViewBag.currentRole) == 4)
+            CurrentStatus = item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus;
+            if (Convert.ToInt32(ViewBag.currentRole) == 4)
             {
                 //Cus - này a Duy sửa típ
-                @Html.ActionLink("Cancel", "Delete", new { id = item.OrderID });
+                @Html.ActionLink("Hủy", "Delete", new { id = item.OrderID });
             }
-            else if(Convert.ToInt32(TempData["role"]) == 2)
+            else if (Convert.ToInt32(ViewBag.currentRole) == 2 && CurrentStatus != "SUCCESS")
             {
                 //Staff
-                @Html.ActionLink("Change status", "ChangeStatus", new { id = item.OrderID })
+                @Html.ActionLink("Chuyển trạng thái", "ChangeStatus", new { id = item.OrderID })
+            }
+            else if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
+            {
+                //Deliver
+                @Html.ActionLink("Hủy đơn", "Deliver", new { id = item.OrderID })
+            }
+            else if (Convert.ToInt32(ViewBag.currentRole) == 3 && item.ShipperID == null && CurrentStatus == "DELIVERING")
+            {
+                //Deliver
+                @Html.ActionLink("Nhận đơn", "Deliver", new { id = item.OrderID })
             }
         }
     </td>

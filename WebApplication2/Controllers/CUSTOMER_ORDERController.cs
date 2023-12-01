@@ -17,11 +17,45 @@ namespace WebApplication2.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: CUSTOMER_ORDER
+        //public ActionResult Index()
+        //{
+
+        //    //var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
+        //    var id = User.Identity.GetUserId();
+        //    var currentCus = db.People.FirstOrDefault(c => c.AccountID == id).PersonID;
+        //    var currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
+        //    var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
+            
+
+        //    if (Convert.ToInt32(currentRole) == 3 /*|| Convert.ToInt32(currentRole) == 2*/)
+        //    {
+        //        var currentStatus = from CUSTOMER_ORDER_STATUS in db.CUSTOMER_ORDER_STATUS where CUSTOMER_ORDER_STATUS.StatusID == 6 select CUSTOMER_ORDER_STATUS.OrderID;
+        //        int[] status = currentStatus.ToArray();
+        //        cUSTOMER_ORDER = from CUSTOMER_ORDER in db.CUSTOMER_ORDER where status.Contains(CUSTOMER_ORDER.OrderID) select CUSTOMER_ORDER;
+        //    }
+        //    ViewBag.currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
+        //    ViewBag.cusGiven = currentCus;
+        //    return View(cUSTOMER_ORDER.ToList());
+        //}
+
         public ActionResult Index()
         {
-            var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
             var id = User.Identity.GetUserId();
-            ViewBag.currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
+            var currentCus = db.People.FirstOrDefault(c => c.AccountID.Equals(id)).PersonID;
+            var currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
+            var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
+            if(Convert.ToInt32(currentRole) == 3)
+            {
+                int[] cusID = db.V_cus_order_status.Select(v => v.OrderID).ToArray();
+                cUSTOMER_ORDER = from CUSTOMER_ORDER in db.CUSTOMER_ORDER where cusID.Contains(CUSTOMER_ORDER.OrderID) select CUSTOMER_ORDER;
+            }
+            else if (Convert.ToInt32(currentRole) == 2)
+            {
+                int[] cusID = db.V_cus_order_status_not_success.Select(v => v.OrderID).ToArray();
+                cUSTOMER_ORDER = from CUSTOMER_ORDER in db.CUSTOMER_ORDER where cusID.Contains(CUSTOMER_ORDER.OrderID) select CUSTOMER_ORDER;
+            }
+            ViewBag.currentRole = currentRole;
+            ViewBag.cusGiven = currentCus;
             return View(cUSTOMER_ORDER.ToList());
         }
 
@@ -141,8 +175,6 @@ namespace WebApplication2.Controllers
 
         public ActionResult ChangeStatus(int id)
         {
-            //using (var context = new BookStoreManagerEntities())
-            //{
             var parameter1 = new SqlParameter("@orderID", id);
             db.Database.ExecuteSqlCommand("sp_switch_status @orderID", parameter1);
             db.SaveChanges();
@@ -150,21 +182,39 @@ namespace WebApplication2.Controllers
             string accID = User.Identity.GetUserId();
             var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
 
-            var cusOrderStatus = db.CUSTOMER_ORDER_STATUS.FirstOrDefault(o => o.OrderID == id).StatusID;
-            if (Convert.ToInt32(cusOrderStatus) == 3)
+            var cusOrderStatus = db.CUSTOMER_ORDER_STATUS.LastOrDefault(o => o.OrderID == id).StatusID;
+            if (Convert.ToInt32(cusOrderStatus) == 4)
             {
                 CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);
                 cusOrder.StaffID = Convert.ToInt32(CustomerID);
             }
-            else if (Convert.ToInt32(cusOrderStatus) == 6)
+            //else if (Convert.ToInt32(cusOrderStatus) == 6)
+            //{
+            //    var deliverAccID = db.AspNetRoles.FirstOrDefault(a => a.Id == "3").AspNetUsers.FirstOrDefault().Id;
+            //    var deliverID = db.People.FirstOrDefault(d => d.AccountID == deliverAccID).PersonID;
+            //    CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);
+            //    cusOrder.ShipperID = Convert.ToInt32(deliverID);
+            //}
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Deliver(int id)
+        {
+            string accID = User.Identity.GetUserId();
+            var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
+            var cusOrderStatus = db.CUSTOMER_ORDER_STATUS.OrderByDescending(o => o.StatusID).FirstOrDefault(c => c.OrderID == id).StatusID;
+            CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);
+
+            if (Convert.ToInt32(cusOrderStatus) == 6 && cusOrder.ShipperID == null)
             {
-                var deliverAccID = db.AspNetRoles.FirstOrDefault(a => a.Id == "3").AspNetUsers.FirstOrDefault().Id;
-                var deliverID = db.People.FirstOrDefault(d => d.AccountID == deliverAccID).PersonID;
-                CUSTOMER_ORDER cusOrder = db.CUSTOMER_ORDER.FirstOrDefault(o => o.OrderID == id);
-                cusOrder.ShipperID = Convert.ToInt32(deliverID);
+                cusOrder.ShipperID = CustomerID;
+            }
+            else if(Convert.ToInt32(cusOrderStatus) == 6 && cusOrder.ShipperID != null)
+            {
+                cusOrder.ShipperID = null;
             }
             db.SaveChanges();
-            //}
             return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)

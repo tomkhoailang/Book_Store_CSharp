@@ -1039,6 +1039,10 @@
       <Parameter Name="ManagerID" Mode="In" Type="Int32" />
     </FunctionImport>
     <EntitySet Name="V_edition_buy_count" EntityType="BookStoreManagerModel.V_edition_buy_count" />
+    <EntitySet Name="V_cus_order_status" EntityType="BookStoreManagerModel.V_cus_order_status" />
+    <EntitySet Name="V_cus_order_status_is_cancel" EntityType="BookStoreManagerModel.V_cus_order_status_is_cancel" />
+    <EntitySet Name="V_cus_order_status_is_success" EntityType="BookStoreManagerModel.V_cus_order_status_is_success" />
+    <EntitySet Name="V_cus_order_status_not_success" EntityType="BookStoreManagerModel.V_cus_order_status_not_success" />
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1055,5 +1059,37 @@
     </Key>
     <Property Name="EditionID" Type="Int32" Nullable="false" />
     <Property Name="BuyCount" Type="Int32" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status_is_cancel">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status_is_success">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status_not_success">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

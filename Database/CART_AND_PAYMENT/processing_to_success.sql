@@ -1,4 +1,4 @@
-use BookStoreManager
+﻿use BookStoreManager
 
 go;
 create or alter proc sp_switch_status(@orderID int) as
@@ -50,3 +50,50 @@ begin
 	insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 7, GETDATE())
 	update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal + @totalAmount
 end
+
+
+-- Get all customer order have current status is 'Delivering'
+drop view V_cus_order_status
+go;
+CREATE VIEW V_cus_order_status AS
+SELECT OrderID, StatusID
+FROM (
+    SELECT OrderID, StatusID,
+        ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY StatusID DESC) AS rn
+    FROM CUSTOMER_ORDER_STATUS
+) AS subquery
+WHERE rn = 1 AND StatusID = 6;
+
+-- Get all customer order have status not equal 'Success' without cancel
+go;
+CREATE VIEW V_cus_order_status_not_success AS
+SELECT OrderID, StatusID
+FROM (
+    SELECT OrderID, StatusID,
+        ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY StatusID DESC) AS rn
+    FROM CUSTOMER_ORDER_STATUS
+) AS subquery
+WHERE rn = 1 AND StatusID not in(3, 7, 8);
+-- loại trừ trường hợp khách hàng đã lấy hàng là statusID = 7, và 2 trường hợp bị hủy cso id là 3 và 8
+
+-- Get all customer order have status 'Success'
+go;
+CREATE VIEW V_cus_order_status_is_success AS
+SELECT OrderID, StatusID
+FROM (
+    SELECT OrderID, StatusID,
+        ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY StatusID DESC) AS rn
+    FROM CUSTOMER_ORDER_STATUS
+) AS subquery
+WHERE rn = 1 AND StatusID = 7;
+
+-- Get all customer order cancel
+go;
+CREATE VIEW V_cus_order_status_is_cancel AS
+SELECT OrderID, StatusID
+FROM (
+    SELECT OrderID, StatusID,
+        ROW_NUMBER() OVER (PARTITION BY OrderID ORDER BY StatusID DESC) AS rn
+    FROM CUSTOMER_ORDER_STATUS
+) AS subquery
+WHERE rn = 1 and StatusID in (3,8);
