@@ -266,13 +266,21 @@ group by Year
 
 go
 create or alter view V_edition_buy_count as
-select e.EditionName, a.* from BOOK_EDITION e,
-(select EditionID, count(EditionID) as BuyCount, sum(DetailCurrentPrice * DetailQuantity) as TotalPrice
-from CUSTOMER_ORDER_DETAIL cod, CUSTOMER_ORDER co
-where co.OrderID = cod.OrderID
-and MONTH(GETDATE()) = MONTH(co.OrderDate)
-group by editionID) as a
-where e.EditionID = a.EditionID
+select b.EditionName, d.* from
+	(select
+		cd.EditionID, c.year, c.month, count(cd.EditionID) as BuyCount , sum(DetailCurrentPrice * DetailQuantity) as TotalPrice
+	from 
+		(select a.OrderID, year(OrderDate) as year, MONTH(OrderDate) as month
+		from (select c.OrderID, c.OrderDate
+		from CUSTOMER_ORDER c, CUSTOMER_ORDER_STATUS cs
+		where c.OrderID = cs.OrderID and cs.StatusID = 7) as a) as c,
+		CUSTOMER_ORDER_DETAIL cd
+	where c.OrderID = cd.OrderID
+	group by cd.EditionID, c.year, c.month) as d,
+	BOOK_EDITION b
+where b.EditionID = d.EditionID
+
+
 
 
 
@@ -297,5 +305,4 @@ begin
 		update PROMOTION set PromotionDetails = right(@detail,len(@detail) -2) where PromotionID = @promoID
 	end
 end
-
 

@@ -21,42 +21,7 @@
     </div>
     <hr />
 
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Phiếu nhập</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="CreatePartialViewContainer">
-                    <!-- The partial view will be loaded here -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Phiếu nhập</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="edit-modal-body modal-body ">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     @using (Html.BeginForm("Index", "Stock_inventory", FormMethod.Get, new { @class = "form-inline justify-content-between" }))
     {
         <div class="form-group ml-5">
@@ -124,7 +89,7 @@
                                                 @Html.DisplayFor(modelItem => item.InventoryAvailableStock)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" id="@item.EditionID" value="@item.EditionID" onclick="redirectToDetails(this.value)">
+                                                <button type="button" class="btn btn-dark" id="@item.EditionID" value="@item.EditionID" onclick="redirectToDetails(this.value)">
                                                     Thông tin chi tiết
                                                 </button>
                                             </td>

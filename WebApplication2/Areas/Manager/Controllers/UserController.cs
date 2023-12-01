@@ -26,7 +26,6 @@ namespace WebApplication2.Areas.Manager.Controllers
             //search
             if (!string.IsNullOrEmpty(searchString))
             {
-
                 string[] searchTerms = searchString.Split(' ');
 
                 people = people.Where(p => searchTerms.All(term => p.PersonName.Contains(term)) || searchTerms.All(term => p.AspNetUser.PhoneNumber.Contains(term)));
@@ -35,7 +34,6 @@ namespace WebApplication2.Areas.Manager.Controllers
                     string strimString = searchString.Trim();
                     people = db.People.Where(p => p.AspNetUser.Email.Contains(strimString));
                 }
-
             }
             //filter
             var translationDictionary = new Dictionary<string, string>

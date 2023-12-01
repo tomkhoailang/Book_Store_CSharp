@@ -30,7 +30,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.TierDiscount, htmlAttributes: new { @class = "control-label col-md-10" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.TierDiscount, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            <input class="form-control" id="TierDiscount" , name="TierDiscount" value="@((int)Model.TierDiscount)" required type="number" />
             @Html.ValidationMessageFor(model => model.TierDiscount, "", new { @class = "text-danger" })
         </div>
     </div>

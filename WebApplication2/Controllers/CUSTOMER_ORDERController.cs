@@ -21,7 +21,13 @@ namespace WebApplication2.Controllers
         {
             var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
             var id = User.Identity.GetUserId();
-            ViewBag.currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
+            if(User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+            {
+                return View("IndexForManager", cUSTOMER_ORDER.ToList());
+            }else if(id!= null)
+            {
+                ViewBag.currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
+            }
             return View(cUSTOMER_ORDER.ToList());
         }
 

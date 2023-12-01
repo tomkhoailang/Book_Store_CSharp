@@ -1,0 +1,183 @@
+﻿@model WebApplication2.Models.CUSTOMER_ORDER
+@{
+    Layout = "~/Areas/Manager/Views/Shared/_Layout.cshtml";
+}
+<!--**********************************
+            Content body start
+        ***********************************-->
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","CustomerOrderForManager")">Danh sách đơn hàng</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Details","CustomerOrderForManager", new { id = Model.OrderID})">Chi tiết đơn hàng</a></li>
+
+            </ol>
+        </div>
+    </div>
+
+
+
+
+    <div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            @*Thông tin đơn hàng*@
+                            <h4 class="card-title">Thông tin đơn hàng</h4>
+                            <hr />
+                            <div class="basic-form">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold"> Mã đơn hàng</label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @Html.DisplayFor(model => model.OrderID)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold"> Tên người đặt hàng </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @Html.DisplayFor(model => model.Person.PersonName)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold"> Tên nhân viên </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @Html.DisplayFor(model => model.Person1.PersonName)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold"> Ngày đặt hàng</label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @Html.DisplayFor(model => model.OrderDate)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
+                                            Phương thức thanh toán
+                                        </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @if (Model.OrderPaymentMethod == "CASH")
+                                            {
+                                                <div>Tiền mặt</div>
+                                            }
+                                            else
+                                            {
+                                                <div>Thanh toán qua ví</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
+                                            Phương thức vận chuyển
+                                        </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @if (Model.OrderShippingMethod == "SHIPPING")
+                                            {
+                                                <div>Giao hàng</div>
+                                            }
+                                            else
+                                            {
+                                                <div>Nhận tại cửa hàng</div>
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (Model.OrderShippingMethod == "SHIPPING")
+                                    {
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label font-weight-bold"> Tên người vận chuyển </label>
+                                            <div class="col-sm-6 col-form-label">
+                                                @Html.DisplayFor(model => model.Person2.PersonName)
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
+                                            Trạng thái đơn hàng
+                                        </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @Html.DisplayFor(model => model.CUSTOMER_ORDER_STATUS.LastOrDefault(m => m.OrderID == model.OrderID).ORDER_STATUS.OrderStatus)
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
+                                            Tổng tiền
+                                        </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            <p>@Model.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND</p>
+                                        </div>
+                                    </div>
+
+                                    @*chi tiết đơn hàng*@
+
+                                    <h4> Chi tiết đơn hàng</h4>
+
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                                Mã sản phẩm
+                                            </th>
+                                            <th>
+                                                Tên sản phẩm
+                                            </th>
+                                            <th>
+                                                Đơn giá
+                                            </th>
+                                            <th>
+                                                Số lượng
+                                            </th>
+                                            <th>
+                                                Thành tiền
+                                            </th>
+                                        </tr>
+
+                                        @foreach (var item in ViewBag.OrderDetailList)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.BOOK_EDITION.EditionID
+                                                </td>
+                                                <td>
+                                                    @item.BOOK_EDITION.EditionName
+                                                </td>
+                                                <td>
+                                                    @item.DetailCurrentPrice.ToString("#,##0").Replace(",", ".") VND
+                                                </td>
+                                                <td>
+                                                    @item.DetailQuantity
+                                                </td>
+                                                <td>
+                                                    @{
+                                                        var total = item.DetailCurrentPrice * item.DetailQuantity;
+
+                                                    }
+                                                    <p>@total.ToString("#,##0").Replace(",", ".") VND</p>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p>
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+    <!-- #/ container -->
+</div>
+</div>
+<!--**********************************
+    Content body end
+***********************************-->

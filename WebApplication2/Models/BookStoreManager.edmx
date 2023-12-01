@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -268,16 +268,6 @@
           <Property Name="EditionID" Type="int" Nullable="false" />
           <Property Name="StockReceivedNoteID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TIER">
           <Key>
             <PropertyRef Name="TierID" />
@@ -326,6 +316,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_edition_buy_count' does not
           </Key>
           <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EditionID" Type="int" Nullable="false" />
+          <Property Name="year" Type="int" />
+          <Property Name="month" Type="int" />
           <Property Name="BuyCount" Type="int" />
           <Property Name="TotalPrice" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
@@ -888,6 +880,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MANAGER_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MANAGER">
+              <PropertyRef Name="AccountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Person_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
@@ -906,15 +910,16 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
         <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="editionID" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+        </Function>
         <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="SP_Inital_Person" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
           <Parameter Name="ManagerID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="SP_switch_status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="orderID" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="BookStoreManagerModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
@@ -944,7 +949,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />
@@ -958,6 +962,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <DefiningQuery>SELECT 
     [V_edition_buy_count].[EditionName] AS [EditionName], 
     [V_edition_buy_count].[EditionID] AS [EditionID], 
+    [V_edition_buy_count].[year] AS [year], 
+    [V_edition_buy_count].[month] AS [month], 
     [V_edition_buy_count].[BuyCount] AS [BuyCount], 
     [V_edition_buy_count].[TotalPrice] AS [TotalPrice]
     FROM [dbo].[V_edition_buy_count] AS [V_edition_buy_count]</DefiningQuery>
@@ -1167,13 +1173,16 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+          <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="MANAGER" EntitySet="MANAGER" />
+          </AssociationSet>
           <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1234,6 +1243,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="MANAGERs" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="AspNetUsers" ToRole="MANAGER" />
           <NavigationProperty Name="People" Relationship="Self.FK_Person_AspNetUsers" FromRole="AspNetUsers" ToRole="Person" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
@@ -1365,6 +1375,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </Key>
           <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="MANAGER" ToRole="AspNetUsers" />
           <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__5FB337D6" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__656C112C" FromRole="MANAGER" ToRole="BOOK_EDITION" />
           <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__5812160E" FromRole="MANAGER" ToRole="CATEGORY" />
@@ -1477,16 +1488,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_REC__Editi__7D439ABD" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="BOOK_EDITION" />
           <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Stock__7E37BEF6" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="STOCK_RECEIVED_NOTE" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="TIER">
           <Key>
             <PropertyRef Name="TierID" />
@@ -1530,16 +1531,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </Key>
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="TotalSpending" Type="Decimal" Precision="38" Scale="2" />
-        </EntityType>
-        <EntityType Name="V_edition_buy_count">
-          <Key>
-            <PropertyRef Name="EditionName" />
-            <PropertyRef Name="EditionID" />
-          </Key>
-          <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EditionID" Type="Int32" Nullable="false" />
-          <Property Name="BuyCount" Type="Int32" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
         <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
           <Key>
@@ -1615,6 +1606,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Principal>
             <Dependent Role="AspNetUserLogins">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MANAGER_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MANAGER">
+              <PropertyRef Name="AccountID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2042,12 +2045,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" />
           <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" />
           <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TIERs" EntityType="Self.TIER" />
           <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" />
           <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
           <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
-          <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" />
           <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
           <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" />
           <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" />
@@ -2060,6 +2061,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MANAGER_AspNetUsers" Association="Self.FK_MANAGER_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="MANAGER" EntitySet="MANAGERs" />
           </AssociationSet>
           <AssociationSet Name="FK_Person_AspNetUsers" Association="Self.FK_Person_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -2206,18 +2211,20 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
-            <Parameter Name="editionID" Mode="In" Type="Int32" />
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
-            <Parameter Name="AccountID" Mode="In" Type="String" />
+          <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Person">
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="SP_switch_status">
-            <Parameter Name="orderID" Mode="In" Type="Int32" />
-          </FunctionImport>
+          <EntitySet Name="V_edition_buy_count" EntityType="BookStoreManagerModel.V_edition_buy_count" />
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2228,6 +2235,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
           <Property Type="String" Name="PromotionDetails" Nullable="true" />
         </ComplexType>
+        <EntityType Name="V_edition_buy_count">
+          <Key>
+            <PropertyRef Name="EditionName" />
+            <PropertyRef Name="EditionID" />
+          </Key>
+          <Property Name="EditionName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EditionID" Type="Int32" Nullable="false" />
+          <Property Name="year" Type="Int32" />
+          <Property Name="month" Type="Int32" />
+          <Property Name="BuyCount" Type="Int32" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2484,17 +2503,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TIERs">
             <EntityTypeMapping TypeName="BookStoreManagerModel.TIER">
               <MappingFragment StoreEntitySet="TIER">
@@ -2533,16 +2541,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               <MappingFragment StoreEntitySet="V_CustomerSpending">
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="TotalSpending" ColumnName="TotalSpending" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_edition_buy_count">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
-              <MappingFragment StoreEntitySet="V_edition_buy_count">
-                <ScalarProperty Name="EditionName" ColumnName="EditionName" />
-                <ScalarProperty Name="EditionID" ColumnName="EditionID" />
-                <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2642,9 +2640,21 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
-          <FunctionImportMapping FunctionImportName="SP_switch_status" FunctionName="BookStoreManagerModel.Store.SP_switch_status" />
+          <EntitySetMapping Name="V_edition_buy_count">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
+              <MappingFragment StoreEntitySet="V_edition_buy_count">
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+                <ScalarProperty Name="EditionName" ColumnName="EditionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

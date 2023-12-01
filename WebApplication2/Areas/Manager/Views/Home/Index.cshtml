@@ -13,8 +13,8 @@
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">Thống kê doanh thu</a></li>
             </ol>
         </div>
     </div>
@@ -48,7 +48,7 @@
                                                 @item.Year
                                             </td>
                                             <td>
-                                                @item.Revenue
+                                                @item.Revenue.ToString("#,##0").Replace(",", ".") VNĐ
                                             </td>
                                             <td>
                                                 <button class="btn btn-primary" onclick="location.href='@Url.Action("Details", new { year = item.Year })'" type="button">Chi tiết</button>

@@ -81,8 +81,6 @@
             <input type="date" class="form-control mx-sm-3" name="endDate" value="@ViewBag.endDate" min="@ViewBag.startDate" onchange="this.form.submit()" />
             <a style="color:red" href="@Url.Action("Index","Promotions")">Xóa bộ lọc</a>
 
-
-
         </div>
 
         <div class="form-group ml-4 mt-3">
@@ -117,7 +115,7 @@
                                             @Html.DisplayNameFor(model => model.First().PromotionName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.First().PromotionDiscount) (%)
+                                            @Html.DisplayNameFor(model => model.First().PromotionDiscount)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.First().PromotionStartDate)
@@ -142,7 +140,7 @@
                                                 @Html.DisplayFor(modelItem => item.PromotionName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.PromotionDiscount)
+                                                @((int)item.PromotionDiscount) %
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.PromotionStartDate)
@@ -168,21 +166,24 @@
                                 </tbody>
                             </table>
                         </div>
-                        <hr />
-                        <div class="row">
-                            <div class="col-md-6 col-lg-6 col-sm-6">
-                                @using (Html.BeginForm("Index", "Promotions", FormMethod.Get))
-                                {
-                                    <p>
-                                        Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
-                                    </p>
-                                }
+                        @if (Model.PageCount > 1)
+                        {
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-6">
+                                    @using (Html.BeginForm("Index", "Promotions", FormMethod.Get))
+                                    {
+                                        <p>
+                                            Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                        </p>
+                                    }
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                                </div>
                             </div>
-                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
-                                Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
-                            </div>
-                        </div>
-                        @Html.PagedListPager(Model, page => Url.Action("Index", "Promotions", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort, startDate = ViewBag.startDate, endDate = ViewBag.endDate }))
+                            @Html.PagedListPager(Model, page => Url.Action("Index", "Promotions", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort, startDate = ViewBag.startDate, endDate = ViewBag.endDate }))
+                        }
                     </div>
                 </div>
             </div>
