@@ -24,13 +24,13 @@ namespace WebApplication2.Areas.Manager.Controllers
         {
             return View();
         }
-        public ActionResult GetBuyCountOfCurrentMonth()
-        {
+        //public ActionResult GetBuyCountOfCurrentMonth()
+        //{
 
-            var totalBuyCount = db.V_edition_buy_count.OrderByDescending(m => m.BuyCount).OrderByDescending(m => m.TotalPrice).ToList();
+        //    var totalBuyCount = db.V_edition_buy_count.OrderByDescending(m => m.BuyCount).OrderByDescending(m => m.TotalPrice).ToList();
 
-            return View(totalBuyCount);
-        }
+        //    return View(totalBuyCount);
+        //}
 
         public ActionResult GetRevenueOfEachYear()
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -48,6 +49,9 @@ namespace WebApplication2.Controllers
             {
                 int[] cusID = db.V_cus_order_status.Select(v => v.OrderID).ToArray();
                 cUSTOMER_ORDER = from CUSTOMER_ORDER in db.CUSTOMER_ORDER where cusID.Contains(CUSTOMER_ORDER.OrderID) select CUSTOMER_ORDER;
+                var shipConfirm = from SHIP_CONFIRMATION in db.SHIP_CONFIRMATION select SHIP_CONFIRMATION.OrderID;
+                int[] confirm = shipConfirm.ToArray();
+                ViewBag.confirm = confirm;
             }
             else if (Convert.ToInt32(currentRole) == 2)
             {
@@ -230,6 +234,49 @@ namespace WebApplication2.Controllers
             CUSTOMER_ORDER cUSTOMER_ORDER = db.CUSTOMER_ORDER.Find(id);
             ViewBag.OrderDetailList = db.CUSTOMER_ORDER_DETAIL.Where(m => m.OrderID == id).ToList();
             return View(cUSTOMER_ORDER);
+        }
+
+        public ActionResult RenderPartialView(int orderid)
+        {
+            ViewBag.orderID = orderid;
+            return PartialView("_CreatePartialViewShipConfirm");
+        }
+
+        public ActionResult CreateShipConfirm([Bind(Include = "ConfirmationID,ConfirmationImage,OrderID")] SHIP_CONFIRMATION shipConfirm)
+        {
+            shipConfirm.ConfirmationDate = DateTime.Now;
+            var id = User.Identity.GetUserId();
+            var currentCus = db.People.FirstOrDefault(c => c.AccountID.Equals(id)).PersonID;
+            shipConfirm.ShipperID = Convert.ToInt32(currentCus);
+
+            if (ModelState.IsValid)
+            {
+                bool isAttached = false;
+                foreach (string filename in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[filename];
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        isAttached = true;
+                        break;
+                    }
+                }
+                if (isAttached)
+                {
+                    for (int i = 0; i < Request.Files.Count; i++)
+                    {
+                        HttpPostedFileBase file = Request.Files[i];
+                        string uniqueFileName = Guid.NewGuid().ToString() + ".jpg";
+                        var path = Path.Combine(Server.MapPath("~/Images"), uniqueFileName);
+                        file.SaveAs(path);
+                        shipConfirm.ConfirmationImage = uniqueFileName;
+                        db.SHIP_CONFIRMATION.Add(shipConfirm);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            return RedirectToAction("Index");
         }
         protected override void Dispose(bool disposing)
         {

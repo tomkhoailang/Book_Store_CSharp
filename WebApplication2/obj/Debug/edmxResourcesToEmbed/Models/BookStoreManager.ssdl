@@ -263,6 +263,16 @@
     <Property Name="EditionID" Type="int" Nullable="false" />
     <Property Name="StockReceivedNoteID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
   <EntityType Name="TIER">
     <Key>
       <PropertyRef Name="TierID" />
@@ -343,6 +353,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
     <Property Name="TotalSpending" Type="decimal" Precision="38" Scale="2" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_edition_buy_count' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_edition_buy_count">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="int" Nullable="false" />
+    <Property Name="BuyCount" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
     <Key>
@@ -353,6 +372,39 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantit
     <Property Name="TongNhapThangTruoc" Type="int" />
     <Property Name="TongTienNhapCuaThang" Type="decimal" Precision="38" Scale="2" />
     <Property Name="TongTienNhapThangTruoc" Type="decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_day' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_revenue_of_each_day">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Month" Type="int" />
+    <Property Name="Day" Type="int" />
+    <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_revenue_of_each_month">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Month" Type="int" />
+    <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'BookStoreManager.dbo.V_revenue_of_each_year' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="V_revenue_of_each_year">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" Nullable="false" />
+    <Property Name="Year" Type="int" />
+    <Property Name="Revenue" Type="decimal" Precision="38" Scale="2" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -892,11 +944,36 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
   <Function Name="FN_GetTierID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
     <Parameter Name="personID" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
   <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="editionID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
   </Function>
   <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
@@ -905,6 +982,21 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
     <Parameter Name="ManagerID" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_switch_status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_switch_status_after_cus_given" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_switch_status_after_processing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orderID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="BookStoreManagerModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -933,6 +1025,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />
@@ -966,6 +1059,12 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_CustomerSpending].[TotalSpending] AS [TotalSpending]
     FROM [dbo].[V_CustomerSpending] AS [V_CustomerSpending]</DefiningQuery>
     </EntitySet>
+    <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_edition_buy_count].[EditionID] AS [EditionID], 
+    [V_edition_buy_count].[BuyCount] AS [BuyCount]
+    FROM [dbo].[V_edition_buy_count] AS [V_edition_buy_count]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[EditionID] AS [EditionID], 
@@ -974,6 +1073,30 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapCuaThang] AS [TongTienNhapCuaThang], 
     [V_edition_total_stock_quantity_price_in_this_and_previous_month].[TongTienNhapThangTruoc] AS [TongTienNhapThangTruoc]
     FROM [dbo].[V_edition_total_stock_quantity_price_in_this_and_previous_month] AS [V_edition_total_stock_quantity_price_in_this_and_previous_month]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_revenue_of_each_day].[ID] AS [ID], 
+    [V_revenue_of_each_day].[Year] AS [Year], 
+    [V_revenue_of_each_day].[Month] AS [Month], 
+    [V_revenue_of_each_day].[Day] AS [Day], 
+    [V_revenue_of_each_day].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_day] AS [V_revenue_of_each_day]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_revenue_of_each_month].[ID] AS [ID], 
+    [V_revenue_of_each_month].[Year] AS [Year], 
+    [V_revenue_of_each_month].[Month] AS [Month], 
+    [V_revenue_of_each_month].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_month] AS [V_revenue_of_each_month]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="V_revenue_of_each_year" EntityType="Self.V_revenue_of_each_year" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [V_revenue_of_each_year].[ID] AS [ID], 
+    [V_revenue_of_each_year].[Year] AS [Year], 
+    [V_revenue_of_each_year].[Revenue] AS [Revenue]
+    FROM [dbo].[V_revenue_of_each_year] AS [V_revenue_of_each_year]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 

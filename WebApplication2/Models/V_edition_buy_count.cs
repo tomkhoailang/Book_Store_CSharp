@@ -14,9 +14,7 @@ namespace WebApplication2.Models
     
     public partial class V_edition_buy_count
     {
-        public string EditionName { get; set; }
         public int EditionID { get; set; }
         public Nullable<int> BuyCount { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
     }
 }

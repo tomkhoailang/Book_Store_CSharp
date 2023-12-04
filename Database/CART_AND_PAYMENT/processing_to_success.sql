@@ -48,7 +48,6 @@ begin
 	select @orderID = OrderID from inserted
 	select @totalAmount = CUSTOMER_ORDER_DETAIL.DetailQuantity from CUSTOMER_ORDER_DETAIL, inserted where inserted.OrderID = CUSTOMER_ORDER_DETAIL.OrderID
 	insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 7, GETDATE())
-	update STOCK_INVENTORY set InventoryStockOutTotal = InventoryStockOutTotal + @totalAmount
 end
 
 

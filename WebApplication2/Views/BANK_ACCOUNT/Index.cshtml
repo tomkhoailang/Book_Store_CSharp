@@ -5,15 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ 
-    var currentModel = new WebApplication2.Models.BANK_ACCOUNT();
-}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
 @*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
 
 <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModal">Add new bank account</button>
 
@@ -48,9 +42,6 @@
             @Html.DisplayNameFor(model => model.BankCVC)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Person.PersonName)
-        </th>
-        <th>
             Action
         </th>
     </tr>
@@ -68,12 +59,9 @@
                 @Html.DisplayFor(modelItem => item.BankCVC)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Person.PersonName)
-            </td>
-            <td>
-                <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#edit" onclick="assignDataToPartialView(@item.BankAccountID)">Edit</button> 
+                <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#edit" onclick="assignDataToPartialView(@item.BankAccountID)">Edit</button>
                 @*@Html.ActionLink("Details", "Details", new { id = item.BankAccountID }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.BankAccountID }, new {onclick="return confirm('Bạn có muốn xóa tài khoản này không?')", @class= "btn btn-success" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.BankAccountID }, new { onclick = "return confirm('Bạn có muốn xóa tài khoản này không?')", @class = "btn btn-success" })
             </td>
         </tr>
     }
@@ -100,24 +88,28 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
-    $.ajax({
-        url: '/BANK_ACCOUNT/Create',
-        type: 'GET',
-        success: function (data) {
-            $('#LoadPartialView').html(data);
-        }
-    });
+    $(document).ready(function () {
+        jQuery.ajax({
+            url: '/BANK_ACCOUNT/Create',
+            type: 'GET',
+            success: function (data) {
+                jQuery('#LoadPartialView').html(data)
+            }
+        });
+    })
 </script>
 
 <script>
     function assignDataToPartialView(data) {
-        $.ajax({
+        jQuery.ajax({
             url: '/BANK_ACCOUNT/Edit1',
             type: 'GET',
             data: { id: data },
             success: function (result) {
-                $('#editForm').html(result);
+                jQuery('#editForm').html(result);
             },
             error: function () {
                 alert('Error occurred while loading the PartialView.');
@@ -125,3 +117,4 @@
         });
     }
 </script>
+

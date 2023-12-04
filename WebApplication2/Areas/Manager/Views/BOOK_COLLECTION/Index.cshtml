@@ -107,7 +107,8 @@
                                                 @Html.DisplayFor(modelItem => item.BookCollectionName)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" id="@item.BookCollectionID" data-toggle="modal" data-target="#editModal" value="@item.BookCollectionID" onclick="loadPartialView(this.value)">
+                                                <button type="button" class="btn btn-primary" id="@item.BookCollectionID" data-toggle="modal" data-target="#editModal" value="@item.BookCollectionID" onclick="
+                                                        (this.value)">
                                                     Chỉnh sửa
                                                 </button>
                                             </td>
@@ -142,8 +143,10 @@
     Content body end
 ***********************************-->
 
+
+
 <script>
-    function loadCreatePartialView() {
+    $(document).ready(function () {
         $.ajax({
             url: '/Manager/BOOK_COLLECTION/Create',
             type: 'GET',
@@ -154,8 +157,7 @@
                 $('#CreatePartialViewContainer').html("<p>Error loading partial view.</p>")
             }
         });
-    }
-    loadCreatePartialView();
+    });
 </script>
 
 <script>
