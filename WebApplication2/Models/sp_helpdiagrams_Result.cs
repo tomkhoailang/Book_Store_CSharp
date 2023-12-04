@@ -10,13 +10,13 @@
 namespace WebApplication2.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class V_edition_buy_count
+    public partial class sp_helpdiagrams_Result
     {
-        public int EditionID { get; set; }
-        public Nullable<int> year { get; set; }
-        public Nullable<int> month { get; set; }
-        public Nullable<int> BuyCount { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

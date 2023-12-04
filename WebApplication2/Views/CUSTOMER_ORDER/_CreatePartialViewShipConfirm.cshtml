@@ -1,0 +1,57 @@
+﻿@model WebApplication2.Models.SHIP_CONFIRMATION
+
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("CreateShipConfirm", "CUSTOMER_ORDER", FormMethod.Post, new {
+                enctype = "multipart/form-data" }))
+{
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+        <h4>CUSTOMER_ORDER</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.OrderID, new { @class = "form-control", @disabled = "disabled", @value = ViewBag.orderID })*@
+                @Html.TextBoxFor(model => model.OrderID, new { @class = "form-control", @readonly = "readonly", @value = ViewBag.orderID })
+                @Html.ValidationMessageFor(model => model.OrderID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConfirmationImage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ConfirmationImage, null, new { type = "file", @class = "form-control", accept = "image/*", onchange = "previewImage(this)" })
+                @Html.ValidationMessageFor(model => model.ConfirmationImage, "", new { @class = "text-danger" })
+                <img id="preview" src="#" alt="Preview Image" style="display: none; max-width: 200px; max-height: 200px;" class="mt-2"/>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+function previewImage(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        jQuery('#preview').attr('src', e.target.result);
+        jQuery('#preview').show();
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
+

@@ -12,11 +12,9 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class V_edition_buy_count
+    public partial class V_cus_order_status
     {
-        public int EditionID { get; set; }
-        public Nullable<int> year { get; set; }
-        public Nullable<int> month { get; set; }
-        public Nullable<int> BuyCount { get; set; }
+        public int OrderID { get; set; }
+        public int StatusID { get; set; }
     }
 }

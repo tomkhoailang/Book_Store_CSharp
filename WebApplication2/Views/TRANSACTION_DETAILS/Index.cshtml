@@ -58,9 +58,9 @@
         <th>
             @Html.DisplayNameFor(model => model.BANK_ACCOUNT.BankAccountNumber)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.WALLET.WalletID)
-        </th>
+        </th>*@
         @*<th></th>*@
     </tr>
 
@@ -79,9 +79,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.BANK_ACCOUNT.BankAccountNumber)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.WALLET.WalletID)
-            </td>
+            </td>*@
             @*<td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.TransactionID }) |
                     @Html.ActionLink("Details", "Details", new { id = item.TransactionID }) |
@@ -93,21 +93,21 @@
 </table>
 
 <script>
-    $.ajax({
+    jQuery.ajax({
         url: '/TRANSACTION_DETAILS/CreateDeposit',
         type: 'GET',
         success: function (data) {
-            $('#LoadDepositPartialView').html(data);
+            jQuery('#LoadDepositPartialView').html(data);
         }
     });
 </script>
 
 <script>
-    $.ajax({
+    jQuery.ajax({
         url: '/TRANSACTION_DETAILS/CreateWithdrawal',
         type: 'GET',
         success: function (data) {
-            $('#LoadWithdrawalPartialView').html(data);
+            jQuery('#LoadWithdrawalPartialView').html(data);
         }
     });
 </script>

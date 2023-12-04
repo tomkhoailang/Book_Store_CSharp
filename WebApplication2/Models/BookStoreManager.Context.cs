@@ -53,6 +53,10 @@ namespace WebApplication2.Models
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
+        public virtual DbSet<V_cus_order_status> V_cus_order_status { get; set; }
+        public virtual DbSet<V_cus_order_status_is_cancel> V_cus_order_status_is_cancel { get; set; }
+        public virtual DbSet<V_cus_order_status_is_success> V_cus_order_status_is_success { get; set; }
+        public virtual DbSet<V_cus_order_status_not_success> V_cus_order_status_not_success { get; set; }
         public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
         public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
         public virtual DbSet<V_revenue_of_each_day> V_revenue_of_each_day { get; set; }
@@ -60,6 +64,27 @@ namespace WebApplication2.Models
         public virtual DbSet<V_revenue_of_each_year> V_revenue_of_each_year { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
         public virtual DbSet<V_edition_buy_count> V_edition_buy_count { get; set; }
+    
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
     
         public virtual ObjectResult<Sp_check_valid_promotion_Result> Sp_check_valid_promotion(Nullable<int> editionID)
         {
