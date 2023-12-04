@@ -6,6 +6,8 @@
 
 <h2>Thêm mới</h2>
 
+
+
 @using (Html.BeginForm("Create", "BOOK_EDITION", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -33,7 +35,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-10", })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control", oninput = "this.value = this.value.slice(0, 18)", @required = "required" } })
+                @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control", oninput = "this.value = this.value.slice(0, 18)", @required = "required", type = "number" } })
+
                 @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -79,7 +82,7 @@
                         @foreach (var c in ViewBag.CategoryList)
                         {
                             <input class="form-check-input" type="checkbox" id="@c.CategoryID" name="@c.CategoryID" value="@c.CategoryID" style="border-color:black " />
-                            <label class="form-check-label" for="@c.CategoryID">@c.CategoryName</label> 
+                            <label class="form-check-label" for="@c.CategoryID">@c.CategoryName</label>
                             <br />
                         }
                     </div>

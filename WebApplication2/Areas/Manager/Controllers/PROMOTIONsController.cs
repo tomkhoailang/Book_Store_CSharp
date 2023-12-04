@@ -129,13 +129,11 @@ namespace WebApplication2.Areas.Manager.Controllers
 
                 if (string.IsNullOrEmpty(pROMOTION.PromotionDetails))
                 {
-                    pROMOTION.PromotionDetails = promoDetail;
+                    string uniPromoDetail = "N'" + promoDetail + "'";
+                    pROMOTION.PromotionDetails = uniPromoDetail;
                 }
                 pROMOTION.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
-                //db.PROMOTIONs.Add(pROMOTION);
-
-                string uniPromoDetail = "N'" + promoDetail + "'";
-                db.Database.ExecuteSqlCommand("insert into PROMOTION values (@name , @discount , @start , @end , @managerID , @detail )", new SqlParameter("@name", pROMOTION.PromotionName), new SqlParameter("@discount", pROMOTION.PromotionDiscount), new SqlParameter("@start", pROMOTION.PromotionStartDate), new SqlParameter("@end", pROMOTION.PromotionEndDate), new SqlParameter("@managerID", pROMOTION.ManagerID), new SqlParameter("@detail", uniPromoDetail));
+                db.PROMOTIONs.Add(pROMOTION);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

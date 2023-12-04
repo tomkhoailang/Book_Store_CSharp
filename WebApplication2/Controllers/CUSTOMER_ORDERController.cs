@@ -60,6 +60,10 @@ namespace WebApplication2.Controllers
             }
             ViewBag.currentRole = currentRole;
             ViewBag.cusGiven = currentCus;
+            if(User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+            {
+                return View("IndexForManager", cUSTOMER_ORDER.ToList());
+            }
             return View(cUSTOMER_ORDER.ToList());
         }
 

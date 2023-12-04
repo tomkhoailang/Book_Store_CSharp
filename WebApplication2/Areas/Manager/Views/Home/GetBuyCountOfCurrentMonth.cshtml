@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebApplication2.Models.V_edition_buy_count>
+﻿@model IEnumerable<WebApplication2.Models.StatisticOfMonthViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Danh sách các năm</h4>
+                        <h4 class="card-title">Danh sách trong tháng</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
@@ -62,7 +62,7 @@
                                                 @Html.DisplayFor(modelItem => item.BuyCount)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.TotalPrice)
+                                                @item.TotalPrice.GetValueOrDefault().ToString("#,##0").Replace(",",".") VNĐ
                                             </td>
                                         </tr>
                                     }

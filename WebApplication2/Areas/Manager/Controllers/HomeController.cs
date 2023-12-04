@@ -22,15 +22,46 @@ namespace WebApplication2.Areas.Manager.Controllers
         }
         public ActionResult Dashboard()
         {
+            ViewBag.numberOfSoldProduct = db.V_edition_buy_count.Sum(item => item.BuyCount);
+            ViewBag.revenue = db.V_edition_buy_count.Sum(item => item.TotalPrice);
+            ViewBag.numberOfUser = db.People.Count();
+            if (db.BOOK_REVIEW.ToList().Count() != 0)
+            {
+                ViewBag.satisfaction = (db.BOOK_REVIEW.Sum(r => r.ReviewRating) / (db.BOOK_REVIEW.Count() * 5)) * 100;
+            }
+            else
+                ViewBag.satisfaction = 0;
             return View();
         }
-        //public ActionResult GetBuyCountOfCurrentMonth()
-        //{
+        public ActionResult GetBuyCountOfCurrentMonth()
+        {
 
-        //    var totalBuyCount = db.V_edition_buy_count.OrderByDescending(m => m.BuyCount).OrderByDescending(m => m.TotalPrice).ToList();
+            //var totalBuyCount = db.V_edition_buy_count.OrderByDescending(m => m.BuyCount).OrderByDescending(m => m.TotalPrice).ToList();
+            var totalBuyCount = db.V_edition_buy_count
+                .Where(i => i.year == DateTime.Now.Year && i.month == DateTime.Now.Month)
+                .GroupBy(item => new { item.EditionID, item.year, item.month, item.EditionName })
+                .Select(group => new
+                {
+                    EditionID = group.Key.EditionID,
+                    EditionName = group.Key.EditionName,
+                    BuyCount = group.Sum(item => item.BuyCount),
+                    TotalPrice = group.Sum(item => item.TotalPrice)
+                }).ToList();
 
-        //    return View(totalBuyCount);
-        //}
+
+
+            var result = (from v in totalBuyCount
+                          select new StatisticOfMonthViewModel
+                          {
+                              EditionID = v.EditionID,
+                              EditionName = v.EditionName,
+                              BuyCount = v.BuyCount,
+                              TotalPrice = v.TotalPrice
+                          }).ToList();
+
+
+            return View(result);
+        }
 
         public ActionResult GetRevenueOfEachYear()
         {
@@ -67,7 +98,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         }
         public ActionResult RevenueInOneMonth(string date)
         {
-            if(date != null)
+            if (date != null)
             {
                 string[] dateFormat = date.Split('-');
 
@@ -75,7 +106,7 @@ namespace WebApplication2.Areas.Manager.Controllers
 
                 if (areNumber)
                 {
-                    if(dateFormat[0].Length == 2 && dateFormat[1].Length == 4)
+                    if (dateFormat[0].Length == 2 && dateFormat[1].Length == 4)
                     {
                         int[] numbers = Array.ConvertAll(dateFormat, int.Parse);
                         ViewBag.Month = numbers[0];
@@ -91,7 +122,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                if (int.Parse(dateFormat[0]) >= 1 && int.Parse(dateFormat[1]) <=12)
+                if (int.Parse(dateFormat[0]) >= 1 && int.Parse(dateFormat[1]) <= 12)
                 {
                     ViewBag.Month = dateFormat[0];
                     ViewBag.Year = dateFormat[1];
