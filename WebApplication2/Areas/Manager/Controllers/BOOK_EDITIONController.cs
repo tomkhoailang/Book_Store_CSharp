@@ -14,6 +14,7 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class BOOK_EDITIONController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -67,10 +68,20 @@ namespace WebApplication2.Areas.Manager.Controllers
                     ViewBag.selectedSort = "new";
                     break;
                 case "popular":
+
+                    var tempView = db.V_edition_buy_count
+                        .GroupBy(item => new { item.EditionID })
+                        .Select(group => new
+                        {
+                            EditionID = group.Key.EditionID,
+                            BuyCount = group.Sum(item => item.BuyCount),
+                            TotalPrice = group.Sum(item => item.TotalPrice)
+                        });
                     bookEditions = (from b in db.BOOK_EDITION
-                                    join v in db.V_edition_buy_count on b.EditionID equals v.EditionID into joinedData
+                                    join v in tempView on b.EditionID equals v.EditionID into joinedData
                                     from v in joinedData.DefaultIfEmpty()
-                                    orderby v != null ? v.BuyCount : 0 descending
+                                    orderby v != null ? v.BuyCount : 0 descending,
+                                            v != null ? v.TotalPrice : 0 descending
                                     select b);
                     ViewBag.selectedSort = "popular";
                     break;

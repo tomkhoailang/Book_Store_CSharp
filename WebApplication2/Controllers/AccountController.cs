@@ -76,7 +76,6 @@ namespace WebApplication2.Controllers
             {
                 return View(model);
             }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -215,6 +214,10 @@ namespace WebApplication2.Controllers
 					//await UserManager.AddToRoleAsync(user.Id, "Manager");
 
 					// END: create manager account section
+                    db.SP_Inital_Manager(user.Id);
+                    await UserManager.AddToRoleAsync(user.Id, "Manager");
+
+                    // END: create manager account section
 
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 

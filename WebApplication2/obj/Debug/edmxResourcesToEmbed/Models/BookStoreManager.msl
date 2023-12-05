@@ -251,6 +251,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="TIERs">
       <EntityTypeMapping TypeName="BookStoreManagerModel.TIER">
         <MappingFragment StoreEntitySet="TIER">
@@ -284,11 +295,51 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="V_cus_order_status">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status">
+        <MappingFragment StoreEntitySet="V_cus_order_status">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_cus_order_status_is_cancel">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_is_cancel">
+        <MappingFragment StoreEntitySet="V_cus_order_status_is_cancel">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_cus_order_status_is_success">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_is_success">
+        <MappingFragment StoreEntitySet="V_cus_order_status_is_success">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_cus_order_status_not_success">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_not_success">
+        <MappingFragment StoreEntitySet="V_cus_order_status_not_success">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="V_CustomerSpending">
       <EntityTypeMapping TypeName="BookStoreManagerModel.V_CustomerSpending">
         <MappingFragment StoreEntitySet="V_CustomerSpending">
           <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
           <ScalarProperty Name="TotalSpending" ColumnName="TotalSpending" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="V_edition_buy_count">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
+        <MappingFragment StoreEntitySet="V_edition_buy_count">
+          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+          <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -375,6 +426,7 @@
         <ScalarProperty Name="EditionID" ColumnName="EditionID" />
       </EndProperty>
     </AssociationSetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="BookStoreManagerModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="Sp_check_valid_promotion" FunctionName="BookStoreManagerModel.Store.Sp_check_valid_promotion">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BookStoreManagerModel.Sp_check_valid_promotion_Result">
@@ -388,16 +440,33 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="BookStoreManagerModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="BookStoreManagerModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="BookStoreManagerModel.Store.sp_helpdiagramdefinition">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BookStoreManagerModel.sp_helpdiagramdefinition_Result">
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="BookStoreManagerModel.Store.sp_helpdiagrams">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BookStoreManagerModel.sp_helpdiagrams_Result">
+          <ScalarProperty Name="Database" ColumnName="Database" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Owner" ColumnName="Owner" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
     <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
-    <EntitySetMapping Name="V_edition_buy_count">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
-        <MappingFragment StoreEntitySet="V_edition_buy_count">
-          <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
-          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BookStoreManagerModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_switch_status" FunctionName="BookStoreManagerModel.Store.sp_switch_status" />
+    <FunctionImportMapping FunctionImportName="sp_switch_status_after_cus_given" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_cus_given" />
+    <FunctionImportMapping FunctionImportName="sp_switch_status_after_processing" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_processing" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BookStoreManagerModel.Store.sp_upgraddiagrams" />
   </EntityContainerMapping>
 </Mapping>

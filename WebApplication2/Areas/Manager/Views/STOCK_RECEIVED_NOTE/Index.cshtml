@@ -122,8 +122,8 @@
                                                 <button type="button" class="btn btn-primary" id="@item.StockReceivedNoteID" data-toggle="modal" data-target="#editModal" value="@item.StockReceivedNoteID" onclick="loadDetailsPartialView(this.value)">
                                                     Thêm chi tiết phiếu nhập
                                                 </button>
-                                                <button type="button" class="btn btn-primary" id="@item.StockReceivedNoteID" value="@item.StockReceivedNoteID" onclick="redirectToDetails(this.value)">
-                                                    Chi tiết phiếu nhập
+                                                <button type="button" class="btn btn-dark" id="@item.StockReceivedNoteID" value="@item.StockReceivedNoteID" onclick="redirectToDetails(this.value)">
+                                                    Thông tin chi tiết
                                                 </button>
 
                                             </td>
@@ -131,6 +131,21 @@
                                     }
                                 </tbody>
                             </table>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-sm-6">
+                                    @using (Html.BeginForm("Index", "stock_received_note", FormMethod.Get))
+                                    {
+                                        <p>
+                                            Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                        </p>
+                                    }
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                    Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                                </div>
+                            </div>
+                            @Html.PagedListPager(Model, page => Url.Action("Index", "stock_received_note", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort }))
                         </div>
                     </div>
                 </div>

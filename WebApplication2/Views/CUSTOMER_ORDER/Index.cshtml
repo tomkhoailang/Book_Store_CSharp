@@ -4,71 +4,124 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@{
+    string CurrentStatus;
+    int[] confirm = (int[])ViewBag.confirm;
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
+            Mã đơn hàng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderTotalPrice)
+            Ngày đặt hàng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderShippingMethod)
+            Tổng tiền
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderPaymentMethod)
+            Trạng thái đơn hàng
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Person.PersonName)
-        </th>
-        <th>
-            Order status
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
+        <th></th>
+        <th></th>
+        <th></th>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderTotalPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderShippingMethod)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.OrderPaymentMethod)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Person.PersonName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus)
-    </td>
-    <td>
-        @{
-            if(Convert.ToInt32(ViewBag.currentRole) == 4)
-            {
-                //Cus - này a Duy sửa típ
-                @Html.ActionLink("Cancel", "Delete", new { id = item.OrderID });
-            }
-            else if(Convert.ToInt32(TempData["role"]) == 2)
-            {
-                //Staff
-                @Html.ActionLink("Change status", "ChangeStatus", new { id = item.OrderID })
-            }
-        }
-    </td>
-</tr>
-}
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @item.OrderTotalPrice.ToString("#,##0").Replace(",", ".") VND
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus)
+            </td>
+            <td>
+                @Html.ActionLink("Chi tiết đơn hàng", "Details", new { id = item.OrderID }, new { @class = "btn btn-dark" })
+            </td>
+            <td>
+                @{
+                    CurrentStatus = item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus;
+                    if (Convert.ToInt32(ViewBag.currentRole) == 4 && CurrentStatus == "WAITING")
+                    {
+                        //Cus - này a Duy sửa típ
+                        @Html.ActionLink("Hủy đơn", "CancelByCustomer", new { id = item.OrderID }, new { @class = "btn btn-danger" });
+                    }
+                    else if (Convert.ToInt32(ViewBag.currentRole) == 2 && CurrentStatus != "SUCCESS")
+                    {
+                        //Staff
+                        @Html.ActionLink("Chuyển trạng thái", "ChangeStatus", new { id = item.OrderID })
+                    }
+                    else if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
+                    {
+                        //Deliver
+                        @Html.ActionLink("Hủy đơn", "Deliver", new { id = item.OrderID }, new { @class = "btn btn-danger", style = "width: 100px" })
+                    }
+                    else if (Convert.ToInt32(ViewBag.currentRole) == 3 && item.ShipperID == null && CurrentStatus == "DELIVERING")
+                    {
+                        //Deliver
+                        @Html.ActionLink("Nhận đơn", "Deliver", new { id = item.OrderID }, new { @class = "btn btn-primary", style = "width: 100px" })
+                    }
+                }
+            </td>
+            <td>
+                @{
+                    CurrentStatus = item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus;
+                    if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
+                    {
+                        if (confirm.Contains(item.OrderID))
+                        {
+                            <p>Đã giao</p>
+                        }
+                        else
+                        {
+                            <button type="button" id="confirm" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModal" data-orderid=@item.OrderID>Xác nhận</button>
+                        }
 
-</table>
+                    }
+                }
+            </td>
+        </tr>
+    }
+    </table>
+
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Header</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="LoadPartialView">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        jQuery('#confirm').click(function () {
+            var orderid = jQuery(this).data('orderid');
+
+            jQuery.ajax({
+                url: '/CUSTOMER_ORDER/RenderPartialView',
+                data: { orderid: orderid },
+                success: function (data) {
+                    jQuery('#LoadPartialView').html(data);
+                }
+            });
+        });
+    </script>
+    s

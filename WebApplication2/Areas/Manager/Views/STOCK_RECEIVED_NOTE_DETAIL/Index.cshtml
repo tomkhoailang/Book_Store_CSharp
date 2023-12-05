@@ -1,5 +1,5 @@
-﻿@model IEnumerable<WebApplication2.Models.STOCK_RECEIVED_NOTE_DETAIL>
-
+﻿@model PagedList.IPagedList<WebApplication2.Models.STOCK_RECEIVED_NOTE_DETAIL>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -68,11 +68,19 @@
         </div>
     </div>
 
-    <!-- row -->
-    @*@if (ViewBag.id != null)
-        {
-            <p>Current Stock Received Note: @ViewBag.id</p>
-        }*@
+    @using (Html.BeginForm("Index", "STOCK_RECEIVED_NOTE_Detail", FormMethod.Get, new { @class = "form-inline justify-content-between" }))
+    {
+        <div class="form-group ml-5">
+            <label>Tìm theo tên bộ sưu tập: </label>
+            <input type="Text" class="form-control mx-sm-3" value="@ViewBag.Keyword" name="searchString" placeholder="">
+            <input type="submit" class="btn btn-danger" value="Tìm kiếm">
+        </div>
+        <div class="form-group ml-auto mr-4">
+            <label class="ml-2">Sắp xếp theo ngày nhập: </label>
+            @Html.DropDownList("sortOptions", null, htmlAttributes: new { @class = "form-control  mx-sm-3", @onchange = "this.form.submit();" })
+        </div>
+        <hr />
+    }
 
     <div class="container-fluid">
         <div class="row">
@@ -85,16 +93,16 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)
+                                            @Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionID)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)
+                                            @Html.DisplayNameFor(model => model.First().BOOK_EDITION.EditionName)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.NoteDetailQuantity)
+                                            @Html.DisplayNameFor(model => model.First().NoteDetailQuantity)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.NoteDetailPrice)
+                                            @Html.DisplayNameFor(model => model.First().NoteDetailPrice)
                                         </th>
 
                                         <th>Thao tác</th>
@@ -126,6 +134,26 @@
                                     }
                                 </tbody>
                             </table>
+
+                            @if (Model.PageCount > 0)
+                            {
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-sm-6">
+                                        @using (Html.BeginForm("Index", "stock_received_note_detail", FormMethod.Get))
+                                        {
+                                            <p>
+                                                Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                            </p>
+                                        }
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                        Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                                    </div>
+                                </div>
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "stock_received_note_detail", new { searchString = ViewBag.Keyword, id = ViewBag.id, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort }))
+
+                            }
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -10,25 +11,68 @@ using WebApplication2.Models;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class STOCK_RECEIVED_NOTE_DETAILController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: STOCK_RECEIVED_NOTE_DETAIL
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, int? page, int? size, string sortOptions)
         {
             //note: this id is the StockReceivedNoteID
             var sTOCK_RECEIVED_NOTE_DETAIL = db.STOCK_RECEIVED_NOTE_DETAIL.Include(s => s.BOOK_EDITION).Include(s => s.STOCK_RECEIVED_NOTE);
-            var a = id;
             if (id != null)
             {
                 sTOCK_RECEIVED_NOTE_DETAIL = sTOCK_RECEIVED_NOTE_DETAIL.Where(s => s.StockReceivedNoteID == id);
                 if (sTOCK_RECEIVED_NOTE_DETAIL != null)
-                    ViewBag.id = id;
+                {
+                    //sort order
+                    ViewBag.sortOptions = new SelectList(
+                        new[] {
+                        new SelectListItem { Value = "newest", Text = "Mới nhất" },
+                        new SelectListItem { Value = "oldest", Text = "Cũ nhất" },
+                        }
+                        , "Value", "Text");
+
+                    if (string.IsNullOrEmpty(sortOptions))
+                        sortOptions = "newest";
+                    switch (sortOptions)
+                    {
+                        case "newest":
+                            sTOCK_RECEIVED_NOTE_DETAIL = sTOCK_RECEIVED_NOTE_DETAIL.OrderByDescending(b => b.StockReceivedNoteID);
+                            ViewBag.selectedSort = "newest";
+                            break;
+                        case "oldest":
+                            sTOCK_RECEIVED_NOTE_DETAIL = sTOCK_RECEIVED_NOTE_DETAIL.OrderBy(b => b.StockReceivedNoteID);
+                            ViewBag.selectedSort = "oldest";
+                            break;
+                        default:
+                            sTOCK_RECEIVED_NOTE_DETAIL = sTOCK_RECEIVED_NOTE_DETAIL.OrderByDescending(b => b.StockReceivedNoteID);
+                            ViewBag.selectedSort = "newest";
+                            break;
+                    }
+
+                    // pagination
+                    List<SelectListItem> items = new List<SelectListItem>();
+                    items.Add(new SelectListItem { Text = "10", Value = "10" });
+                    items.Add(new SelectListItem { Text = "20", Value = "20" });
+                    items.Add(new SelectListItem { Text = "50", Value = "50" });
+
+                    foreach (var item in items)
+                        if (item.Value == size.ToString()) item.Selected = true;
+                    ViewBag.size = items;
+                    ViewBag.currentSize = size;
+
+                    int pageSize = size ?? 10;
+                    int pageNumber = (page ?? 1);
+
+                    return View(sTOCK_RECEIVED_NOTE_DETAIL.ToPagedList(pageNumber, pageSize));
+
+                }
                 else
                     return HttpNotFound();
             }
-            return View("Index", sTOCK_RECEIVED_NOTE_DETAIL.ToList());
+            return HttpNotFound();
         }
 
         // GET: STOCK_RECEIVED_NOTE_DETAIL/Details/5

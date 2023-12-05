@@ -83,7 +83,8 @@ CREATE TABLE PROMOTION(
 	ManagerID INT not null,
     FOREIGN KEY (ManagerID) REFERENCES MANAGER(ManagerID)
 )
-alter table PROMOTION add PromotionDetails TEXT;
+alter table PROMOTION add PromotionDetails nvarchar(max);
+--alter table promotion alter column PromotionDetails nvarchar(max);
 CREATE TABLE BOOK_COLLECTION(
 	BookCollectionID INT PRIMARY KEY IDENTITY(1,1),
 	BookCollectionName NVARCHAR(200) NOT NULL,

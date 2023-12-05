@@ -122,21 +122,24 @@
                                     }
                                 </tbody>
                             </table>
-                            <hr />
-                            <div class="row">
-                                <div class="col-md-6 col-lg-6 col-sm-6">
-                                    @using (Html.BeginForm("Index", "Publishers", FormMethod.Get))
-                                    {
-                                        <p>
-                                            Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
-                                        </p>
-                                    }
+                            @if (Model.PageCount > 1)
+                            {
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-sm-6">
+                                        @using (Html.BeginForm("Index", "Publishers", FormMethod.Get))
+                                        {
+                                            <p>
+                                                Kích thước trang: @Html.DropDownList("size", null, new { @onchange = "this.form.submit();" })
+                                            </p>
+                                        }
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
+                                        Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
+                                    </div>
                                 </div>
-                                <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6 text-right">
-                                    Trang @(Model.PageCount < Model.PageNumber ? 0: Model.PageNumber) / @Model.PageCount
-                                </div>
-                            </div>
-                            @Html.PagedListPager(Model, page => Url.Action("Index", "Publishers", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort }))
+                                @Html.PagedListPager(Model, page => Url.Action("Index", "Publishers", new { searchString = ViewBag.Keyword, page, size = ViewBag.currentSize, sortOptions = ViewBag.selectedSort }))
+                            }
                         </div>
                     </div>
                 </div>

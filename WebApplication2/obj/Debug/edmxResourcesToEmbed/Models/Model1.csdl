@@ -349,12 +349,51 @@
     <NavigationProperty Name="Person" Relationship="Self.FK__WALLET__Customer__6C190EBB" FromRole="WALLET" ToRole="Person" />
     <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Walle__4B7734FF" FromRole="WALLET" ToRole="TRANSACTION_DETAILS" />
   </EntityType>
+  <EntityType Name="V_cus_order_status">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status_is_cancel">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status_is_success">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="V_cus_order_status_not_success">
+    <Key>
+      <PropertyRef Name="OrderID" />
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="OrderID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+  </EntityType>
   <EntityType Name="V_CustomerSpending">
     <Key>
       <PropertyRef Name="CustomerID" />
     </Key>
     <Property Name="CustomerID" Type="Int32" Nullable="false" />
     <Property Name="TotalSpending" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_edition_buy_count">
+    <Key>
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="BuyCount" Type="Int32" />
   </EntityType>
   <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
     <Key>
@@ -365,6 +404,33 @@
     <Property Name="TongNhapThangTruoc" Type="Int32" />
     <Property Name="TongTienNhapCuaThang" Type="Decimal" Precision="38" Scale="2" />
     <Property Name="TongTienNhapThangTruoc" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_revenue_of_each_day">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Month" Type="Int32" />
+    <Property Name="Day" Type="Int32" />
+    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_revenue_of_each_month">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Month" Type="Int32" />
+    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
+  <EntityType Name="V_revenue_of_each_year">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
   </EntityType>
   <EntityType Name="V_UserRole">
     <Key>
@@ -846,8 +912,16 @@
     <EntitySet Name="TIERs" EntityType="Self.TIER" />
     <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" />
     <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
+    <EntitySet Name="V_cus_order_status" EntityType="Self.V_cus_order_status" />
+    <EntitySet Name="V_cus_order_status_is_cancel" EntityType="Self.V_cus_order_status_is_cancel" />
+    <EntitySet Name="V_cus_order_status_is_success" EntityType="Self.V_cus_order_status_is_success" />
+    <EntitySet Name="V_cus_order_status_not_success" EntityType="Self.V_cus_order_status_not_success" />
     <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
+    <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" />
     <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
+    <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" />
+    <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" />
+    <EntitySet Name="V_revenue_of_each_year" EntityType="Self.V_revenue_of_each_year" />
     <EntitySet Name="V_UserRole" EntityType="Self.V_UserRole" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1044,6 +1118,9 @@
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_switch_status">
+      <Parameter Name="orderID" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="sp_switch_status_after_cus_given">
       <Parameter Name="orderID" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -1051,12 +1128,6 @@
       <Parameter Name="orderID" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
-    <FunctionImport Name="sp_switch_status">
-      <Parameter Name="orderID" Mode="In" Type="Int32" />
-    </FunctionImport>
-    <EntitySet Name="V_revenue_of_each_day" EntityType="BookStoreManagerModel.V_revenue_of_each_day" />
-    <EntitySet Name="V_revenue_of_each_month" EntityType="BookStoreManagerModel.V_revenue_of_each_month" />
-    <EntitySet Name="V_revenue_of_each_year" EntityType="BookStoreManagerModel.V_revenue_of_each_year" />
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1078,31 +1149,4 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
-  <EntityType Name="V_revenue_of_each_day">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="Month" Type="Int32" />
-    <Property Name="Day" Type="Int32" />
-    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-  </EntityType>
-  <EntityType Name="V_revenue_of_each_month">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="Month" Type="Int32" />
-    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-  </EntityType>
-  <EntityType Name="V_revenue_of_each_year">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int64" Nullable="false" />
-    <Property Name="Year" Type="Int32" />
-    <Property Name="Revenue" Type="Decimal" Precision="38" Scale="2" />
-  </EntityType>
 </Schema>

@@ -14,14 +14,13 @@ namespace WebApplication2.Controllers
     public class BANK_ACCOUNTController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
-
+        [Authorize]
         // GET: BANK_ACCOUNT
         public ActionResult Index()
         {
-            string accID = User.Identity.GetUserId();
-            var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
-
-            var bANK_ACCOUNT = db.BANK_ACCOUNT.Where(b => b.CustomerID == CustomerID);
+            var accID = User.Identity.GetUserId();
+            var personID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
+            var bANK_ACCOUNT = db.BANK_ACCOUNT.Where(b => b.CustomerID == personID);
             return View(bANK_ACCOUNT.ToList());
         }
 

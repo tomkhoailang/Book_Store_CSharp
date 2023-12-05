@@ -10,6 +10,7 @@ using PagedList;
 
 namespace WebApplication2.Areas.Manager.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class UserController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
@@ -25,7 +26,6 @@ namespace WebApplication2.Areas.Manager.Controllers
             //search
             if (!string.IsNullOrEmpty(searchString))
             {
-
                 string[] searchTerms = searchString.Split(' ');
 
                 people = people.Where(p => searchTerms.All(term => p.PersonName.Contains(term)) || searchTerms.All(term => p.AspNetUser.PhoneNumber.Contains(term)));
@@ -34,7 +34,6 @@ namespace WebApplication2.Areas.Manager.Controllers
                     string strimString = searchString.Trim();
                     people = db.People.Where(p => p.AspNetUser.Email.Contains(strimString));
                 }
-
             }
             //filter
             var translationDictionary = new Dictionary<string, string>
@@ -109,7 +108,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             int pageNumber = (page ?? 1);
 
             return View(model.ToPagedList(pageNumber, pageSize));
-            
+
         }
 
         // GET: Manager/User/Details/5
@@ -120,6 +119,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Person person = db.People.Find(id);
+            ViewBag.totalAmount = db.CUSTOMER_ORDER.Where(m => m.CustomerID == person.PersonID).ToList();
             if (person == null)
             {
                 return HttpNotFound();

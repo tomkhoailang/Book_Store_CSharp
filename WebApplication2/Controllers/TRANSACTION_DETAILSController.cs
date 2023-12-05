@@ -18,8 +18,6 @@ namespace WebApplication2.Controllers
         // GET: TRANSACTION_DETAILS
         public ActionResult Index()
         {
-
-            var tRANSACTION_DETAILS = db.TRANSACTION_DETAILS.Include(t => t.BANK_ACCOUNT).Include(t => t.CUSTOMER_ORDER).Include(t => t.WALLET);
             if (TempData["ErrorMessage"] != null)
             {
                 string errorMessage = TempData["ErrorMessage"].ToString();
@@ -40,6 +38,11 @@ namespace WebApplication2.Controllers
                 TempData.Remove("WarningMessage");
                 ViewBag.WarningMessage = warningMessage;
             }
+
+            var accID = User.Identity.GetUserId();
+            var personID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
+            var walletID = db.WALLETs.FirstOrDefault(w => w.CustomerID == personID).WalletID;
+            var tRANSACTION_DETAILS = db.TRANSACTION_DETAILS.Where(t => t.WalletID == walletID);
 
             return View(tRANSACTION_DETAILS.ToList());
         }

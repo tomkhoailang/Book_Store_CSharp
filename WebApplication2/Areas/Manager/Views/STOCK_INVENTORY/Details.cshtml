@@ -13,6 +13,13 @@
         stockTotalPrice += (float)@item.NoteDetailQuantity * (float)@item.NoteDetailPrice;
     }
     var formatedTotalPrice = string.Format(CultureInfo.GetCultureInfo("de-DE"), "{0:N}", stockTotalPrice);
+
+    var totalPrice = 0.0;
+    foreach (var item in ViewBag.totalPriceHistory)
+    {
+        totalPrice += (float)item.DetailCurrentPrice * (float)item.DetailQuantity;
+    }
+    var formatedTotalAmount = string.Format(CultureInfo.GetCultureInfo("de-DE"), "{0:N}", totalPrice);
 }
 
 <div>
@@ -45,22 +52,23 @@
 
 
                             <h4 class="card-title">Chi tiết kho hàng</h4>
+                            <hr />
                             <div class="basic-form">
                                 <form>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label"> @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)</label>
+                                        <label class="col-sm-4 col-form-label font-weight-bold"> @Html.DisplayNameFor(model => model.BOOK_EDITION.EditionID)</label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.BOOK_EDITION.EditionID)
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">@Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)</label>
+                                        <label class="col-sm-4 col-form-label font-weight-bold">@Html.DisplayNameFor(model => model.BOOK_EDITION.EditionName)</label>
                                         <div class="col-sm-6 col-form-label">
                                             @Html.DisplayFor(model => model.BOOK_EDITION.EditionName)
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
                                             @Html.DisplayNameFor(model => model.InventoryStockInTotal)
                                         </label>
                                         <div class="col-sm-6 col-form-label">
@@ -68,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
                                             @Html.DisplayNameFor(model => model.InventoryStockOutTotal)
                                         </label>
                                         <div class="col-sm-6 col-form-label">
@@ -76,7 +84,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
                                             @Html.DisplayNameFor(model => model.InventoryAvailableStock)
                                         </label>
                                         <div class="col-sm-6 col-form-label">
@@ -84,37 +92,53 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-sm-4 col-form-label">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
                                             Tổng giá nhập
                                         </label>
                                         <div class="col-sm-6 col-form-label">
                                             @if (stockTotalPrice == 1)
                                             {
-                                                <p>Chưa nhập sách này</p>
+                                                <div>Chưa nhập sách này</div>
 
                                             }
                                             else
                                             {
-                                                <p>@formatedTotalPrice VNĐ</p>
+                                                <div>@formatedTotalPrice VNĐ</div>
 
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label font-weight-bold">
+                                            Tổng doanh thu
+                                        </label>
+                                        <div class="col-sm-6 col-form-label">
+                                            @if (totalPrice == 0)
+                                            {
+                                                <div>Chưa có doanh thu của sách này</div>
+
+                                            }
+                                            else
+                                            {
+                                                <div>@formatedTotalAmount VNĐ</div>
                                             }
                                         </div>
                                     </div>
                                 </form>
                             </div>
+                            <h4 class="card-title">Lịch sử nhập hàng</h4>
                             <hr />
-                            <h4 class="card-title">Lịch sử nhập hàng:</h4>
                             <div class="basic-form">
                                 <form>
                                     <div class="form-group">
-                                        <ul>
+                                        <ol>
                                             @foreach (var item in ViewBag.stockInHistory)
                                             {
                                                 var noteTotalPrice = @item.NoteDetailQuantity * @item.NoteDetailPrice;
                                                 var formatedNoteTotalPrice = string.Format(CultureInfo.GetCultureInfo("de-DE"), "{0:N}", noteTotalPrice);
-                                                <li>- Nhập @item.NoteDetailQuantity sản phẩm từ mã phiếu: @item.STOCK_RECEIVED_NOTE.StockReceivedNoteID với giá @item.NoteDetailPrice VNĐ. Tổng cộng: @formatedNoteTotalPrice VNĐ  </li>
+                                                <li>Nhập @item.NoteDetailQuantity sản phẩm từ mã phiếu: @item.STOCK_RECEIVED_NOTE.StockReceivedNoteID với giá @item.NoteDetailPrice VNĐ. Tổng cộng: @formatedNoteTotalPrice VNĐ  </li>
                                             }
-                                        </ul>
+                                        </ol>
                                     </div>
                                 </form>
                             </div>
