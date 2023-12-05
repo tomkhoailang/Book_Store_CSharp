@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication2.Custom;
+using WebApplication2.Custom_Functions;
 using WebApplication2.Models;
 
 namespace WebApplication2.Controllers
@@ -18,6 +20,13 @@ namespace WebApplication2.Controllers
 			ViewBag.categoriesList = categories;
 
 			return View();
+		}
+
+		public ActionResult HighestRatingBooks()
+		{
+			var bookEditions = db.BOOK_EDITION.OrderByDescending(edition => edition.BOOK_REVIEW.Average(rv => rv.ReviewRating)).Take(8).ToList();
+			ViewBag.Title = "Sách có đánh giá cao nhất";
+			return PartialView("BookGrid", bookEditions);
 		}
 
 		public ActionResult LatestBooksSection()

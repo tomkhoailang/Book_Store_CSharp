@@ -72,7 +72,6 @@ else
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function () {
-
 			document.querySelector("#confirm").addEventListener('click', function () {
 				var chbox = document.querySelectorAll("[name='checkSelect']");
 				var listID = new Array();
@@ -84,7 +83,7 @@ else
 				}
 				console.log(listID)
 				if (listID.length == 0)
-					createToast("warning", "Giỏ hàng trống!")
+					createToast("warning", "Bạn chưa chọn sản phẩm muốn mua!")
 				else {
 					var url = '/BookCart/SubmitCart?listID=' + listID.join(',');
 					// Redirect to the constructed URL

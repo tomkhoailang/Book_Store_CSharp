@@ -194,6 +194,7 @@
     <Compile Include="Controllers\BOOK_EDITIONController.cs" />
     <Compile Include="Controllers\CATEGORiesController.cs" />
     <Compile Include="Controllers\CUSTOMER_ORDERController.cs" />
+    <Compile Include="Controllers\FavoriteBooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -5386,6 +5387,7 @@
     </Content>
     <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
+    <Content Include="Scripts\helpers.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\toasts.js" />
@@ -5448,6 +5450,8 @@
     <Content Include="Views\User\UserDetail.cshtml" />
     <Content Include="Views\User\UserOrdersHistory.cshtml" />
     <Content Include="Views\User\OrderHistoryItem.cshtml" />
+    <Content Include="Views\User\UserWallet.cshtml" />
+    <Content Include="Views\FavoriteBooks\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

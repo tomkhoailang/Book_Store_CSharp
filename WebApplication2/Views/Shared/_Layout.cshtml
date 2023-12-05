@@ -15,10 +15,11 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 	<!-- Libraries Stylesheet -->
+	<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 	<link href="~/libs/animate/animate.min.css" rel="stylesheet">
 	<link href="~/libs/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
 	<!-- Customized Bootstrap Stylesheet -->
+	<script defer src="~/Scripts/helpers.js"></script>
 	<link href="~/Content/style.css" rel="stylesheet">
 	@Scripts.Render("~/bundles/modernizr")
 
@@ -160,6 +161,7 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 	<script src="~/libs/easing/easing.min.js"></script>
 	<script src="~/libs/owlcarousel/owl.carousel.min.js"></script>
+	
 	<script src="~/Scripts/toasts.js"></script>
 	<script src="~/Scripts/validator.js"></script>
 	@*<script src="~/Scripts/toasts.js"></script>*@
@@ -167,7 +169,6 @@
 	<script src="~/Scripts/UIHandler.js"></script>
 	<script src="~/Scripts/main.js"></script>
 	@RenderSection("scripts", required: false)
-
 
 	@if (!string.IsNullOrEmpty(errorMessage))
 	{

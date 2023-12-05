@@ -18,6 +18,7 @@ namespace WebApplication2.Controllers
 		private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
 		[Authorize]
+		[Authorize(Roles = "Customer")]
 		public ActionResult UserDetail()
 		{
 			string userID = User.Identity.GetUserId();
@@ -33,7 +34,8 @@ namespace WebApplication2.Controllers
 
 			return PartialView();
 		}
-		[Authorize]
+
+		[Authorize(Roles = "Customer")]
 		[HttpPost]
 		public ActionResult UpdateInfomation()
 		{
@@ -97,8 +99,18 @@ namespace WebApplication2.Controllers
 		}
 
 		[Authorize]
+		[Authorize(Roles = "Customer")]
 		public ActionResult UserOrdersHistory()
 		{
+			IDictionary<string, string> orderStatusTranslate = new Dictionary<string, string>() {
+				{ "WAITING", "CHỜ XÁC NHẬN" },
+				{ "CANCEL BY CUSTOMER", "ĐÃ HỦY" },
+				{"PROCESSING", "ĐANG XỬ LÝ"},
+				{"IS AVAILABLE AT STORE", "ĐÃ CÓ TẠI CỬA HÀNG" },
+				{"DELIVERING", "ĐANG GIAO"},
+				{"SUCCESS", "HOÀN THÀNH" },
+				{"CANCEL BECAUSE OF MANY FAILED DELIVERING", "ĐÃ HỦY DO GIAO HÀNG KHÔNG THÀNH CÔNG" }
+			};
 			List<OrderHistoryModel> orderHistory = new List<OrderHistoryModel>();
 			string currentUserId = User.Identity.GetUserId();
 			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
@@ -106,7 +118,7 @@ namespace WebApplication2.Controllers
 			if (relatedPerson == null) return PartialView(orderHistory);
 
 			int currentPersonId = relatedPerson.PersonID;
-			List<CUSTOMER_ORDER> currentUserOrders = db.CUSTOMER_ORDER.Where(o => o.CustomerID == currentPersonId).ToList();
+			List<CUSTOMER_ORDER> currentUserOrders = db.CUSTOMER_ORDER.Where(o => o.CustomerID == currentPersonId).OrderByDescending(o => o.OrderDate).ToList();
 			
 			foreach(CUSTOMER_ORDER order in currentUserOrders)
 			{
@@ -119,13 +131,14 @@ namespace WebApplication2.Controllers
 						bookImage = getBookImage(orderDetail.EditionID),
 						bookName = getBookName(orderDetail.EditionID),
 						quantity = orderDetail.DetailQuantity,
-						price = orderDetail.DetailQuantity * (orderDetail.DetailCurrentPrice ?? 1)
+						price = orderDetail.DetailQuantity * (orderDetail.DetailCurrentPrice ?? 1),
 					});
 				}
 
 				orderHistory.Add(new OrderHistoryModel() {
 					order = order,
-					orderItems = historyItems
+					orderItems = historyItems,
+					orderStatus = orderStatusTranslate[order.CUSTOMER_ORDER_STATUS.LastOrDefault().ORDER_STATUS.OrderStatus]
 				});
 			}
 
@@ -141,6 +154,16 @@ namespace WebApplication2.Controllers
 			return db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == editionId).EditionName;
 		}
 
+		[Authorize(Roles = "Customer")]
+		public ActionResult UserWallet()
+		{
+			string currentUserId = User.Identity.GetUserId();
+			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
+			var wallet = db.WALLETs.FirstOrDefault(w => w.CustomerID == relatedPerson.PersonID);
+			var linkedBankAccount = db.BANK_ACCOUNT.Where(b => b.CustomerID == relatedPerson.PersonID).ToList();
+			ViewBag.linkedBankAccount = linkedBankAccount;
+			return PartialView(wallet);
+		}
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

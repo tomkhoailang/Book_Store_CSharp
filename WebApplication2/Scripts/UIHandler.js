@@ -62,11 +62,12 @@
 
     // Related carousel
     $('.related-carousel').owlCarousel({
-        loop: true,
         margin: 29,
         nav: false,
         autoplay: true,
         smartSpeed: 1000,
+        loop: false,
+        rewind: true,
         responsive: {
             0: {
                 items: 1
@@ -99,6 +100,5 @@
         }
         button.parent().parent().find('input').val(newVal);
     });
-
 })(jQuery);
 

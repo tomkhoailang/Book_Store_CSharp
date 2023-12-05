@@ -108,7 +108,6 @@ namespace WebApplication2.Controllers
         {
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
 
-
             if (BookCart == null)
                 return Content("0");
             return Content(BookCart.Count().ToString());
@@ -139,8 +138,6 @@ namespace WebApplication2.Controllers
         
         public RedirectToRouteResult SubmitCart(string listID)
         {
-            
-            
             return RedirectToAction("Index", "Payment", new { listID = listID});
         }
     }

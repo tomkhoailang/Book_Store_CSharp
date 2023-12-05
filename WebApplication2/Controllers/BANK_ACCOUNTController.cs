@@ -18,7 +18,10 @@ namespace WebApplication2.Controllers
         // GET: BANK_ACCOUNT
         public ActionResult Index()
         {
-            var bANK_ACCOUNT = db.BANK_ACCOUNT.Include(b => b.Person);
+            string accID = User.Identity.GetUserId();
+            var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
+
+            var bANK_ACCOUNT = db.BANK_ACCOUNT.Where(b => b.CustomerID == CustomerID);
             return View(bANK_ACCOUNT.ToList());
         }
 

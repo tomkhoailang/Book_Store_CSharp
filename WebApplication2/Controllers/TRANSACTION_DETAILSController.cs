@@ -18,7 +18,29 @@ namespace WebApplication2.Controllers
         // GET: TRANSACTION_DETAILS
         public ActionResult Index()
         {
+
             var tRANSACTION_DETAILS = db.TRANSACTION_DETAILS.Include(t => t.BANK_ACCOUNT).Include(t => t.CUSTOMER_ORDER).Include(t => t.WALLET);
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.WarningMessage = warningMessage;
+            }
+
             return View(tRANSACTION_DETAILS.ToList());
         }
 
@@ -103,7 +125,7 @@ namespace WebApplication2.Controllers
             ViewBag.currentBalance = currentBalace;
             if(currentBalace < tRANSACTION_DETAILS.TransactionAmount)
             {
-                ViewBag.ErrorMessage = "Số dư không đủ";
+                TempData["ErrorMessage"] = "Số dư không đủ";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)
