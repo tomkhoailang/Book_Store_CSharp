@@ -335,14 +335,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="V_edition_buy_count">
-      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
-        <MappingFragment StoreEntitySet="V_edition_buy_count">
-          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
-          <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
       <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month">
         <MappingFragment StoreEntitySet="V_edition_total_stock_quantity_price_in_this_and_previous_month">
@@ -465,8 +457,18 @@
     <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BookStoreManagerModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_switch_status" FunctionName="BookStoreManagerModel.Store.sp_switch_status" />
-    <FunctionImportMapping FunctionImportName="sp_switch_status_after_cus_given" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_cus_given" />
-    <FunctionImportMapping FunctionImportName="sp_switch_status_after_processing" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_processing" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BookStoreManagerModel.Store.sp_upgraddiagrams" />
+    <EntitySetMapping Name="V_edition_buy_count">
+      <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
+        <MappingFragment StoreEntitySet="V_edition_buy_count">
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="year" ColumnName="year" />
+          <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+          <ScalarProperty Name="EditionName" ColumnName="EditionName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -24,15 +24,24 @@
 		<div class="col-lg-5 mb-30">
 			<div id="product-carousel" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner bg-light">
-					@for (int i = 0; i < Model.imageList.Count; i++)
+					@if (Model?.imageList?.Count > 0)
 					{
-						string className = "carousel-item text-center";
-						if (i == 0)
+						for (int i = 0; i < Model.imageList.Count; i++)
 						{
-							className += " active";
+							string className = "carousel-item text-center";
+							if (i == 0)
+							{
+								className += " active";
+							}
+							<div class="@className" style="height: 400px">
+								<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/@Model.imageList[i].EditionImage" alt="Image">
+							</div>
 						}
-						<div class="@className" style="height: 400px">
-							<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/@Model.imageList[i].EditionImage" alt="Image">
+					}
+					else
+					{
+						<div class="carousel-item text-center active" style="height: 400px">
+							<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/default-book-img.png" alt="Image">
 						</div>
 					}
 				</div>

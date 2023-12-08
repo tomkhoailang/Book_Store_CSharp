@@ -64,11 +64,10 @@
 
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
-
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Modal Header</h4>
+				<h4 class="modal-title">Liên kết ngân hàng</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body" id="LoadPartialView">
@@ -81,43 +80,6 @@
 
 	</div>
 </div>
-<table class="table table-bordered">
-    <tr class="btn-success">
-        <th>
-            @Html.DisplayNameFor(model => model.BankAccountNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BankAccountName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BankCVC)
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankAccountNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankAccountName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankCVC)
-            </td>
-            <td>
-                <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#edit" onclick="assignDataToPartialView(@item.BankAccountID)">Edit</button>
-                @*@Html.ActionLink("Details", "Details", new { id = item.BankAccountID }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.BankAccountID }, new { onclick = "return confirm('Bạn có muốn xóa tài khoản này không?')", @class = "btn btn-success" })
-            </td>
-        </tr>
-    }
-
-</table>
 
 <div id="edit" class="modal fade" role="dialog">
 	<div class="modal-dialog">
@@ -125,7 +87,7 @@
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Modal Header</h4>
+				<h4 class="modal-title">Sửa tài khoản ngân hàng</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="modal-body" id="editForm">
@@ -147,7 +109,18 @@
             url: '/BANK_ACCOUNT/Create',
             type: 'GET',
             success: function (data) {
-                jQuery('#LoadPartialView').html(data)
+				jQuery('#LoadPartialView').html(data)
+
+				validator({
+					form: '#create-bank-account-form',
+					errorSelector: '.form-message',
+					formGroupSelector: '.form-grouping',
+					rules: [
+						validator.isRequired("#BankAccountNumber", "Vui lòng nhập số tài khoản"),
+						validator.equalsTo("#BankAccountNumber", 16, "Số tài khoản phải chứa đủ 16 kí tự"),
+						validator.isRequired("#BankCVC", "Vui lòng nhập cvc"),
+					]
+				})
             }
         });
     })

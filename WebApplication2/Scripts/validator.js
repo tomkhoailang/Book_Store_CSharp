@@ -166,6 +166,15 @@ validator.minLength = (selector, min, message) => {
     };
 };
 
+validator.equalsTo = (selector, equals, message) => {
+    return {
+        selector: selector,
+        test: function (value) {
+            return value.trim().length === equals ? undefined : message || `Vui lòng đặt mật khẩu có ${value} ký tự`
+        }
+    };
+};
+
 validator.minLengthButNotRequired = (selector, min, message) => {
     return {
         selector: selector,

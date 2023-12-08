@@ -109,6 +109,7 @@ namespace WebApplication2.Controllers
             ViewBag.BankAccountID = new SelectList(db.BANK_ACCOUNT, "BankAccountID", "BankAccountNumber", tRANSACTION_DETAILS.BankAccountID);
             ViewBag.OrderID = new SelectList(db.CUSTOMER_ORDER, "OrderID", "OrderStatus", tRANSACTION_DETAILS.OrderID);
             ViewBag.WalletID = new SelectList(db.WALLETs, "WalletID", "WalletID", tRANSACTION_DETAILS.WalletID);
+
             return View(tRANSACTION_DETAILS);
         }
 

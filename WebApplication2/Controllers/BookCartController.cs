@@ -68,17 +68,13 @@ namespace WebApplication2.Controllers
                 {
                     Book_Information = bOOK,
 
-                    BookImage = (bOOK_IMAGE == null) ? null : bOOK_IMAGE.EditionImage,
+                    BookImage = (bOOK_IMAGE == null) ? "default-book-img.png" : bOOK_IMAGE.EditionImage,
                     Discount = (pROMOTION == null) ? 0 : pROMOTION.PromotionDiscount,
                     Amount = 1,
                     Total = 0
                 };
                 cart.Total = UpdateTotal(cart);
                 BookCart.Add(cart);
-            }
-            else
-            {
-
             }
 
             return Redirect(Request.UrlReferrer.ToString());

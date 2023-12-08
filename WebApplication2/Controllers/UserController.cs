@@ -18,7 +18,7 @@ namespace WebApplication2.Controllers
 		private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
 		[Authorize]
-		[Authorize(Roles = "Customer")]
+		//[Authorize(Roles = "Customer")]
 		public ActionResult UserDetail()
 		{
 			string userID = User.Identity.GetUserId();
@@ -35,7 +35,7 @@ namespace WebApplication2.Controllers
 			return PartialView();
 		}
 
-		[Authorize(Roles = "Customer")]
+		//[Authorize(Roles = "Customer")]
 		[HttpPost]
 		public ActionResult UpdateInfomation()
 		{
@@ -99,7 +99,7 @@ namespace WebApplication2.Controllers
 		}
 
 		[Authorize]
-		[Authorize(Roles = "Customer")]
+		//[Authorize(Roles = "Customer")]
 		public ActionResult UserOrdersHistory()
 		{
 			IDictionary<string, string> orderStatusTranslate = new Dictionary<string, string>() {
@@ -147,23 +147,52 @@ namespace WebApplication2.Controllers
 
 		private string getBookImage(int editionId)
 		{ 
-			return db.BOOK_EDITION_IMAGE.FirstOrDefault(b => b.EditionID == editionId).EditionImage;
+			return db?.BOOK_EDITION_IMAGE?.FirstOrDefault(b => b.EditionID == editionId)?.EditionImage ?? "default-book-img.png";
 		}
 		private string getBookName(int editionId)
 		{
 			return db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == editionId).EditionName;
 		}
 
-		[Authorize(Roles = "Customer")]
+		//[Authorize(Roles = "Customer")]
 		public ActionResult UserWallet()
 		{
 			string currentUserId = User.Identity.GetUserId();
 			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
 			var wallet = db.WALLETs.FirstOrDefault(w => w.CustomerID == relatedPerson.PersonID);
 			var linkedBankAccount = db.BANK_ACCOUNT.Where(b => b.CustomerID == relatedPerson.PersonID).ToList();
-			ViewBag.linkedBankAccount = linkedBankAccount;
+			ViewBag.BankAccountID = new SelectList(linkedBankAccount, "BankAccountID", "BankAccountName");
+			ViewBag.BankNumber = linkedBankAccount.Count;
+			
 			return PartialView(wallet);
 		}
+
+		//[Authorize(Roles = "Customer")]
+		public ActionResult Desposit()
+		{
+			string currentUserId = User.Identity.GetUserId();
+			Person relatedPerson = db.People.FirstOrDefault(p => p.AccountID == currentUserId);
+			var amount = Convert.ToDecimal(Request["deposit-amount"]);
+			var bankAccountid = Request["BankAccountID"];
+			var walletId = db.WALLETs.FirstOrDefault(w => w.CustomerID == relatedPerson.PersonID).WalletID;
+
+			TRANSACTION_DETAILS tRANSACTION_DETAILS = new TRANSACTION_DETAILS();
+
+			tRANSACTION_DETAILS.TransactionDate = DateTime.Now;
+			tRANSACTION_DETAILS.OrderID = null;
+			tRANSACTION_DETAILS.TransactionType = "Deposit";
+			tRANSACTION_DETAILS.TransactionAmount = amount;
+			tRANSACTION_DETAILS.BankAccountID = Convert.ToInt32(bankAccountid);
+			tRANSACTION_DETAILS.WalletID = walletId;
+
+			db.TRANSACTION_DETAILS.Add(tRANSACTION_DETAILS);
+			db.SaveChanges();
+
+			TempData["SuccessMessage"] = "Nạp tiền thành công";
+
+			return RedirectToAction("Index", "Manage");
+		}
+
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)

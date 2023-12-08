@@ -1,6 +1,17 @@
 ﻿const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
+const replaceScript = (parentNode) => {
+	const scripts = parentNode.querySelectorAll('script');
+
+	scripts.forEach(script => {
+		const newScript = document.createElement('script');
+		newScript.innerHTML = script.innerHTML;
+		document.body.appendChild(newScript);
+		script.parentNode.removeChild(script);
+	});
+}
+
 const app = {
 	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [], page: 1, sort: "ReleaseYear", order: "asc" },
 
@@ -32,14 +43,7 @@ const app = {
 		const parseData = await data.text();
 		wrapper.innerHTML = parseData;
 
-		const scripts = wrapper.querySelectorAll('script');
-
-		scripts.forEach(script => {
-			const newScript = document.createElement('script');
-			newScript.innerHTML = script.innerHTML;
-			document.body.appendChild(newScript);
-			script.parentNode.removeChild(script);
-		});
+		replaceScript(wrapper);
 
 		// page pagination
 		$$(".page-pagination-btn").forEach(btn => {

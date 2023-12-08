@@ -13,7 +13,8 @@ namespace WebApplication2.Controllers
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
+        [Authorize]
         public ActionResult Index(int? page)
         {
             string currentUserId = User.Identity.GetUserId();
@@ -21,13 +22,14 @@ namespace WebApplication2.Controllers
             List<BOOK_EDITION> personFavoriteBooks = relatedPerson.BOOK_EDITION.ToList();
 
             int pageNumber = page ?? 1;
-            int pageSize = 9;
+            int pageSize = 8;
 
             return View(personFavoriteBooks.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpPost]
-		[Authorize(Roles = "Customer")]
+		//[Authorize(Roles = "Customer")]
+        [Authorize]
 		public ActionResult addToFavorite(int bookId)
 		{
             BOOK_EDITION needToAddBook = db.BOOK_EDITION.Find(bookId);
@@ -71,7 +73,8 @@ namespace WebApplication2.Controllers
 		}
 
         [HttpPost]
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
+        [Authorize]
         public ActionResult removeFromFavorite(int bookId)
         {
             BOOK_EDITION needToDeleteBook = db.BOOK_EDITION.Find(bookId);

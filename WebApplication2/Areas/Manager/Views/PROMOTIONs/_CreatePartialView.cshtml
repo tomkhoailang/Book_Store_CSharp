@@ -58,14 +58,16 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <label>Danh sách được áp dụng khuyến mãi</label>
+                <input class="w-100"/>
                 <hr />
-
-                @foreach (var book in ViewBag.list_of_book)
-                {
-                    string labelName = "Tên sách: " + book.EditionName + " - Mã sách: " + book.EditionID.ToString();
-                    <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID">
-                    <label for="@book.EditionID">@labelName</label><br>
-                }
+                <div style="height: 300px; overflow-y: auto;">
+                    @foreach (var book in ViewBag.list_of_book)
+                    {
+                        string labelName = "Tên sách: " + book.EditionName + " - Mã sách: " + book.EditionID.ToString();
+                        <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID">
+                        <label for="@book.EditionID">@labelName</label><br>
+                    }
+                </div>
             </div>
         </div>
 

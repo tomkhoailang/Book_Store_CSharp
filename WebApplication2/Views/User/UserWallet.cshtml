@@ -11,7 +11,7 @@
 
 <div class="modal fade" id="deposit-modal" tabindex="-1" role="dialog" aria-labelledby="Nạp tiền" aria-hidden="true">
 	<div class="modal-dialog" role="document">
-		<form id="deposit-form" action="#" method="post">
+		<form id="deposit-form" action="/User/Desposit" method="post">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">Nạp tiền</h5>
@@ -25,27 +25,17 @@
 						<input name="deposit-amount" id="deposit-input" style="font-size: 17px;" class="w-100" type="number" />
 						<small class="form-message"></small>
 					</div>
-					<ul class="p-0 py-5">
-						@if (ViewBag.linkedBankAccount.Count > 0)
-						{
-							foreach (var b in ViewBag.linkedBankAccount)
-							{
-								<li class="d-flex justify-content-between">
-									<div>
-										@b.BankAccountName:
-									</div>
-									<div>
-										@b.BankAccountNumber
-									</div>
-								</li>
-							}
-						}else { 
-							<p>
-								Bạn chưa liên kết tài khoản ngân hàng
-								<a href="/BANK_ACCOUNT/Index" style="cursor: pointer" class="text-primary">Liên kết ?</a>
-							</p>
-						}
-					</ul>
+					@if (ViewBag.BankNumber > 0) { 
+						<div class="my-2">
+							<a href="/BANK_ACCOUNT/Index" style="cursor: pointer" class="text-primary w-100">Liên kết tài khoản mới</a>
+						</div>
+						@Html.DropDownList("BankAccountID", null, htmlAttributes: new { name = "BankAccountID", style="font-size: 17px;", @class = "w-100 p-1"})  
+					} else {
+						<p>
+							Bạn chưa liên kết tài khoản ngân hàng
+							<a href="/BANK_ACCOUNT/Index" style="cursor: pointer" class="text-primary">Liên kết ?</a>
+						</p>
+					}
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary">Nạp</button>
@@ -64,7 +54,7 @@
 	rules: [
 		validator.isRequired('#deposit-input', 'Vui lòng nhập số tiền muốn nạp'),
 		validator.customValidator('#deposit-input', 'Bạn chưa liên kết tài khoản ngân hàng, vui lòng liên kết', (value) => {
-			return @ViewBag.linkedBankAccount.Count > 0;
+			return @ViewBag.BankNumber > 0;
 		})
     ]
 });

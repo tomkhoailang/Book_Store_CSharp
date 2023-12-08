@@ -12,13 +12,12 @@ namespace WebApplication2.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class V_edition_buy_count
+    public partial class sysdiagram
     {
-        public string EditionName { get; set; }
-        public int EditionID { get; set; }
-        public Nullable<int> year { get; set; }
-        public Nullable<int> month { get; set; }
-        public Nullable<int> BuyCount { get; set; }
-        public Nullable<decimal> TotalPrice { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

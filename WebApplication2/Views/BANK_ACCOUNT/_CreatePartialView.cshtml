@@ -4,54 +4,30 @@
     Layout = null;
 }
 
-<h2>Create</h2>
-
-
-@using (Html.BeginForm("Create", "BANK_ACCOUNT", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) 
+@using (Html.BeginForm("Create", "BANK_ACCOUNT", FormMethod.Post, new { @class = "form-horizontal", role = "form", id="create-bank-account-form" })) 
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>BANK_ACCOUNT</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BankAccountNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-horizontal w-100">
+        <div class="form-group form-grouping">
+            <label>Số tài khoản</label>
+            @Html.EditorFor(model => model.BankAccountNumber, new { htmlAttributes = new { @class = "form-control w-100" } })
+            <small class="form-message"></small>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.BankAccountName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BankAccountName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BankAccountName, "", new { @class = "text-danger" })
-            </div>
+		<div class="form-grouping form-group">
+			<label>Ngân hàng</label>
+			@Html.DropDownList("BankAccountName", null, htmlAttributes: new { @class = "form-control w-100", name= "BankAccountName" })
+			<small class="form-message"></small>
+		</div>
+
+        <div class="form-group form-grouping">
+           <label>CVC</label>
+           @Html.EditorFor(model => model.BankCVC, new { htmlAttributes = new { @class = "form-control w-100" } })
+           <small class="form-message"></small>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.BankCVC, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.BankCVC, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BankCVC, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.CustomerID, "CustomerID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CustomerID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+		<button class="btn btn-success" type="submit">
+			Liên kết
+		</button>
     </div>
 }
 

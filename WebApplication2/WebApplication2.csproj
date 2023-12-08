@@ -178,6 +178,7 @@
     <Compile Include="Areas\Manager\Controllers\BOOK_COLLECTIONController.cs" />
     <Compile Include="Areas\Manager\Controllers\BOOK_EDITIONController.cs" />
     <Compile Include="Areas\Manager\Controllers\CATEGORiesController.cs" />
+    <Compile Include="Areas\Manager\Controllers\CustomerOrderForManagerController.cs" />
     <Compile Include="Areas\Manager\Controllers\HomeController.cs" />
     <Compile Include="Areas\Manager\Controllers\PROMOTIONsController.cs" />
     <Compile Include="Areas\Manager\Controllers\STOCK_INVENTORYController.cs" />
@@ -300,6 +301,13 @@
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StatisticOfMonthViewModel.cs" />
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -309,6 +317,9 @@
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TIER.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
@@ -316,6 +327,18 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_CustomerSpending.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_cus_order_status.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_cus_order_status_is_cancel.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_cus_order_status_is_success.cs">
+      <DependentUpon>BookStoreManager.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\V_cus_order_status_not_success.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_edition_buy_count.cs">
@@ -5340,6 +5363,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\default-book-img.png" />
     <Content Include="libs\owlcarousel\assets\ajax-loader.gif" />
     <Content Include="libs\owlcarousel\assets\owl.carousel.css" />
     <Content Include="libs\owlcarousel\assets\owl.carousel.min.css" />
@@ -5386,6 +5410,8 @@
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
+    <Content Include="Areas\Manager\Views\CustomerOrderForManager\Details.cshtml" />
+    <Content Include="Areas\Manager\Views\CustomerOrderForManager\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\helpers.js" />
     <Content Include="Scripts\main.js" />
@@ -5452,11 +5478,11 @@
     <Content Include="Views\User\OrderHistoryItem.cshtml" />
     <Content Include="Views\User\UserWallet.cshtml" />
     <Content Include="Views\FavoriteBooks\Index.cshtml" />
+    <Content Include="Views\CUSTOMER_ORDER\_CreatePartialViewShipConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Manager\Data\" />
-    <Folder Include="Images\" />
     <Folder Include="Views\Staff\" />
     <Folder Include="Views\Toast\" />
   </ItemGroup>

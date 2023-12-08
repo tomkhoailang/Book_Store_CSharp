@@ -388,13 +388,6 @@
     <Property Name="CustomerID" Type="Int32" Nullable="false" />
     <Property Name="TotalSpending" Type="Decimal" Precision="38" Scale="2" />
   </EntityType>
-  <EntityType Name="V_edition_buy_count">
-    <Key>
-      <PropertyRef Name="EditionID" />
-    </Key>
-    <Property Name="EditionID" Type="Int32" Nullable="false" />
-    <Property Name="BuyCount" Type="Int32" />
-  </EntityType>
   <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
     <Key>
       <PropertyRef Name="EditionID" />
@@ -917,7 +910,6 @@
     <EntitySet Name="V_cus_order_status_is_success" EntityType="Self.V_cus_order_status_is_success" />
     <EntitySet Name="V_cus_order_status_not_success" EntityType="Self.V_cus_order_status_not_success" />
     <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
-    <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" />
     <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
     <EntitySet Name="V_revenue_of_each_day" EntityType="Self.V_revenue_of_each_day" />
     <EntitySet Name="V_revenue_of_each_month" EntityType="Self.V_revenue_of_each_month" />
@@ -1128,6 +1120,7 @@
       <Parameter Name="orderID" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="V_edition_buy_count" EntityType="BookStoreManagerModel.V_edition_buy_count" />
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -1149,4 +1142,16 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
+  <EntityType Name="V_edition_buy_count">
+    <Key>
+      <PropertyRef Name="EditionName" />
+      <PropertyRef Name="EditionID" />
+    </Key>
+    <Property Name="EditionName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EditionID" Type="Int32" Nullable="false" />
+    <Property Name="year" Type="Int32" />
+    <Property Name="month" Type="Int32" />
+    <Property Name="BuyCount" Type="Int32" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="2" />
+  </EntityType>
 </Schema>
