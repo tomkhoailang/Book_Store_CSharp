@@ -2,11 +2,10 @@
 -- trigger to calculate balance from transaction
 use BookStoreManager;
 GO
-CREATE TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_TRANSACTION_DETAIL ON  TRANSACTION_DETAILS FOR INSERT AS
+CREATE or alter TRIGGER TR_CALCULATE_BALANCE_OF_CUSTOMER_FROM_TRANSACTION_DETAIL ON  TRANSACTION_DETAILS FOR INSERT AS
 BEGIN
 	Declare @walletID INT;
-	select @walletID =  W.WalletID from WALLET  W, INSERTED I
-	WHERE W.WalletID = I.WalletID
+	select @walletID =  W.WalletID from WALLET  W, INSERTED I WHERE W.WalletID = I.WalletID
 
 	Declare @currentBalance decimal(12,2) = 0;
 	Declare @insertedTransaction decimal(12,2) = 0;
@@ -25,6 +24,14 @@ BEGIN
 		where WalletID = @walletID
 	end
 END
+
+select * from Person
+select * from BANK_ACCOUNT
+select * from WALLET
+insert into TRANSACTION_DETAILS(TransactionDate, TransactionType, TransactionAmount, WalletID, BankAccountID) values
+(getdate(), 'Deposit', 5000, 2, 4)
+select * from WALLET
+select * from TRANSACTION_DETAILS
 --trigger to check if book is in stock when adding
 --note when the user taps on proceed to payment, a order will be created and each book from card will be added to this order
 GO

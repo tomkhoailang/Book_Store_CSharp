@@ -1,25 +1,59 @@
-﻿@model IEnumerable<WebApplication2.Models.BOOK_EDITION>
+﻿@model PagedList.IPagedList<WebApplication2.Models.BOOK_EDITION>
 
 @if (Model.Count() > 0)
 {
-	foreach (var i in Model)
+	foreach (var i in Model.ToList())
 	{
 		<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-			@Html.Partial("_Book", i)
+			@Html.Action("Book", "SharedViews", i)
 		</div>
 	}
 	<div class="col-12">
 		<nav>
 			<ul class="pagination justify-content-center">
 				@{
-					int pageAmount = (int)Math.Ceiling((Model.Count() * 1.0 / 9));
+					int pageAmount = (int)Math.Ceiling(((int)ViewBag.totalItemAmount * 1.0 / 9));
+					int currentPage = ViewBag.currentPage ?? 1;
 				}
-				<li class="page-item disabled"><a class="page-link" href="#"><span>Previous</span></a></li>
+				@if (currentPage > 1)
+				{
+					<li class="page-item page-pagination-btn" page="@(currentPage - 1)">
+						<a class="page-link" href="#">Previous</a>
+					</li>
+				}
+				else
+				{
+					<li class="page-item disabled page-pagination-btn" style="pointer-events: none; page="1">
+						<a class="page-link" href="#">Previous</a>
+					</li>
+				}
 				@for (int i = 1; i <= pageAmount; i++)
 				{
-					<li class="page-item active"><a class="page-link" href="#">@i</a></li>
+					if (i == currentPage)
+					{
+						<li class="page-item active page-pagination-btn" page="@i">
+							<a class="page-link">@i</a>
+						</li>
+					}
+					else
+					{
+						<li class="page-item page-pagination-btn" page="@i">
+							<a class="page-link">@i</a>
+						</li>
+					}
 				}
-				<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+				@if (currentPage < pageAmount)
+				{
+					<li class="page-item page-pagination-btn" page="@(currentPage + 1)">
+						<a class="page-link" href="#">Next</a>
+					</li>
+				}
+				else
+				{
+					<li class="page-item disabled page-pagination-btn" style="pointer-events: none;" page="@pageAmount">
+						<a class="page-link" href="#">Next</a>
+					</li>
+				}
 			</ul>
 		</nav>
 	</div>
@@ -30,5 +64,4 @@ else
 		<p class="h1 font-weight-light">Không có kết quả</p>
 	</div>
 }
-
 

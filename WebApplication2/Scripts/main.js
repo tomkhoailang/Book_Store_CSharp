@@ -1,28 +1,38 @@
-﻿
-
-const $ = document.querySelector.bind(document);
+﻿const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
+const replaceScript = (parentNode) => {
+	const scripts = parentNode.querySelectorAll('script');
+
+	scripts.forEach(script => {
+		const newScript = document.createElement('script');
+		newScript.innerHTML = script.innerHTML;
+		document.body.appendChild(newScript);
+		script.parentNode.removeChild(script);
+	});
+}
+
 const app = {
-	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [], page: 1 },
+	filterData: { minVal: Infinity, maxVal: -Infinity, categories: [], page: 1, sort: "ReleaseYear", order: "asc" },
 
 	navigate: function (controller, action, params) {
-		const keys = Object.keys(params);
+		const keys = Object?.keys(params);
 		let urlString = `/${controller}/${action}`;
 
-		if (keys.length > 0) {
+		if (keys?.length > 0) {
 			const paramsString = keys.reduce((paramStr, key) => {
 				paramStr.append(key, params[key]);
 				return paramStr;
 			}, new URLSearchParams());
 
 			urlString += `?${paramsString}`;
-		}
+		} 
 		window.location.href = urlString;
 	},
 
 	submitFilterForm: async function () {
-		const data = await fetch("/BOOK_EDITION/FilteredBook", {
+		_this = this;
+		const data = await fetch("/BOOK_EDITION/Filter", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"
@@ -32,6 +42,18 @@ const app = {
 		const wrapper = $("#_filtered-book-wrapper");
 		const parseData = await data.text();
 		wrapper.innerHTML = parseData;
+
+		replaceScript(wrapper);
+
+		// page pagination
+		$$(".page-pagination-btn").forEach(btn => {
+			btn.onclick = function (e) {
+				e.preventDefault();
+				const clickedPage = this.getAttribute("page");
+				_this.filterData.page = parseInt(clickedPage);
+				_this.submitFilterForm();
+			}
+		})
 	},
 
 	handleEvents: function () {
@@ -45,24 +67,28 @@ const app = {
 				const checkedPriceInputs = $$('#filter-by-prices input[type=checkbox]:not(:disabled):checked');
 
 				if (Array.from(checkedPriceInputs).length > 0) {
-					let minCheckedPrice = parseInt([...$(`#filter-by-prices label[for=${checkedPriceInputs[0].id}]`).textContent.trim().matchAll(/\$(\d+)\b/g)][0][1]);
-					let maxCheckedPrice = parseInt([...$(`#filter-by-prices label[for=${checkedPriceInputs[0].id}]`).textContent.trim().matchAll(/\$(\d+)\b/g)][1][1]);
+					const matches = $(`#filter-by-prices label[for=${checkedPriceInputs[0].id}]`).textContent.trim().match(/\d{1,3}(?:\.\d{3})*(?:\.\d+)?/g);
+
+					let minCheckedPrice = parseFloat(matches[0].replace(/\./g, ''));
+					let maxCheckedPrice = parseFloat(matches[1].replace(/\./g, ''));
 
 					for (let i of checkedPriceInputs) {
-						const regex = /\$(\d+)\b/g;
+						const regex = /\d{1,3}(?:\.\d{3})*(?:\.\d+)?/g;
 						const relativeLabel = $(`#filter-by-prices label[for=${i.id}]`);
 						const priceRange = [];
-						for (let m of relativeLabel.textContent.trim().matchAll(regex)) {
-							priceRange.push(parseInt(m[1]));
+						for (let m of relativeLabel.textContent.trim().match(regex)) {
+							console.log(m)
+							priceRange.push(parseFloat(m.replace(/\./g, '')));
 						}
 						_this.filterData.minVal = (priceRange[0] < minCheckedPrice) ? priceRange[0] : minCheckedPrice;
 						_this.filterData.maxVal = (priceRange[1] > maxCheckedPrice) ? priceRange[1] : maxCheckedPrice;
 					}
+					console.log(_this.filterData)
 				} else {
 					_this.filterData.minVal = 0;
 					_this.filterData.maxVal = Infinity;
 				}
-				
+				_this.filterData.page = 1;
 				_this.submitFilterForm();
 			}
 		});
@@ -79,15 +105,13 @@ const app = {
 
 		categories.forEach((c) => {
 			c.onchange = (e) => {
-				console.log("check")
 				const categoryId = c.getAttribute("cate-id");
 				if (c.checked) {
 					_this.filterData.categories.push(categoryId);
 				} else {
 					_this.filterData.categories = _this.filterData.categories.filter(cat => cat != categoryId);
 				}
-				console.log(_this.filterData)
-
+				_this.filterData.page = 1;
 				_this.submitFilterForm();
 			}
 		})
@@ -116,6 +140,49 @@ const app = {
 			}
 		});
 
+		// page pagination
+		$$(".page-pagination-btn").forEach(btn => {
+			btn.onclick = function (e) {
+				e.preventDefault();
+				const clickedPage = this.getAttribute("page");
+				_this.filterData.page = parseInt(clickedPage);
+				console.log(_this.filterData, clickedPage)
+				_this.submitFilterForm();
+			}
+		})
+
+		// sort button click
+		$$(".sort-option").forEach(btn => {
+			btn.onclick = () => {
+				const sortOption = btn.getAttribute("sort-option");
+				
+				switch (sortOption) {
+					case "lastest":
+						_this.filterData.sort = "ReleaseYear";
+						break;
+					case "popularity":
+						_this.filterData.sort = "Popularity";
+						
+						break;
+					case "rating":
+						_this.filterData.sort = "Rating";
+						break;
+					default:
+						break;
+				}
+				console.log(_this.filterData)
+				_this.submitFilterForm();
+			};
+		})
+
+		// sort order button click
+		$$(".sort-order").forEach(btn => {
+			btn.onclick = () => {
+				const sortOption = btn.getAttribute("sort-order");
+				_this.filterData.order = sortOption;
+				_this.submitFilterForm();
+			};
+		})
 	},
 
 	run: function (e) {

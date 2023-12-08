@@ -7,10 +7,39 @@
 			foreach (var o in Model)
 			{
 				<div class="order d-flex flex-column border-bottom border-light py-3">
-					<div class="heading-light d-flex justify-content-between">
-						<div class="payment-method">Ngày mua: @o.order.OrderDate</div>
-						<div class="shipping-method">Phương thức giao hàng: @o.order.OrderShippingMethod</div>
-						<div class="payment-method">Phương thức thanh toán: @o.order.OrderPaymentMethod</div>
+					<div class="heading-light d-flex justify-content-between mb-3">
+						<div class="payment-method font-weight-bold">Ngày mua: @o.order.OrderDate</div>
+						<div class="shipping-method font-weight-bold">
+							Phương thức giao hàng:
+							@{
+								switch (o.order.OrderShippingMethod)
+								{
+									case "RECEIVE AT STORE":
+										@Html.Raw("Nhận tại cửa hàng");
+										break;
+									case "SHIPPING":
+										@Html.Raw("Giao tận nhà");
+										break;
+									default:
+										break;
+								}
+							}
+						</div>
+						<div class="payment-method font-weight-bold">Phương thức thanh toán: @{
+							switch(o.order.OrderPaymentMethod) {
+								case "CURRENT BALANCE":
+									@Html.Raw("Số dư hiện tại");
+									break;
+								case "CASH":
+									@Html.Raw("Tiền mặt");
+									break;
+								default:
+									break;
+							}
+						}</div>
+						<div class="payment-method font-weight-bold" class="order-status">
+							Trạng thái: @o.orderStatus
+						</div>
 					</div>
 					<div>
 						@foreach (var oi in o.orderItems)

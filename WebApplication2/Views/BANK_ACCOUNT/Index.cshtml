@@ -1,91 +1,104 @@
 ﻿@model IEnumerable<WebApplication2.Models.BANK_ACCOUNT>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>*@
 
-<button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModal">Add new bank account</button>
+<div class="container-fluid">
+	<button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModal">Liên kết tài khoản ngân hàng</button>
+	@if (Model.Count() > 0)
+	{
+		<table class="table table-bordered">
+			<tr class="btn-success">
+				<th>
+					@Html.DisplayNameFor(model => model.BankAccountNumber)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.BankAccountName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.BankCVC)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Person.PersonName)
+				</th>
+				<th>
+					Action
+				</th>
+			</tr>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.BankAccountNumber)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.BankAccountName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.BankCVC)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Person.PersonName)
+					</td>
+					<td>
+						<button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#edit" onclick="assignDataToPartialView(@item.BankAccountID)">Edit</button>
+						@*@Html.ActionLink("Details", "Details", new { id = item.BankAccountID }) |*@
+						@Html.ActionLink("Delete", "Delete", new { id = item.BankAccountID }, new { onclick = "return confirm('Bạn có muốn xóa tài khoản này không?')", @class = "btn btn-success" })
+					</td>
+				</tr>
+			}
+
+		</table>
+	}
+	else
+	{
+		<p class="text-center p-5 font-weight-bold" style="font-size: 20px;">Bạn chưa liên kết tài khoản ngân hàng nào</p>
+	}
+</div>
 
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Liên kết ngân hàng</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" id="LoadPartialView">
+				@*@Html.Partial("_CreatePartialView")*@
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Header</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="LoadPartialView">
-                @*@Html.Partial("_CreatePartialView")*@
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
+	</div>
 </div>
-<table class="table table-bordered">
-    <tr class="btn-success">
-        <th>
-            @Html.DisplayNameFor(model => model.BankAccountNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BankAccountName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BankCVC)
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankAccountNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankAccountName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BankCVC)
-            </td>
-            <td>
-                <button type="button" class="btn btn-success mr-2" data-toggle="modal" data-target="#edit" onclick="assignDataToPartialView(@item.BankAccountID)">Edit</button>
-                @*@Html.ActionLink("Details", "Details", new { id = item.BankAccountID }) |*@
-                @Html.ActionLink("Delete", "Delete", new { id = item.BankAccountID }, new { onclick = "return confirm('Bạn có muốn xóa tài khoản này không?')", @class = "btn btn-success" })
-            </td>
-        </tr>
-    }
-
-</table>
 
 <div id="edit" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+	<div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Header</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" id="editForm">
-                @*@Html.Partial("_CreatePartialView")*@
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Sửa tài khoản ngân hàng</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body" id="editForm">
+				@*@Html.Partial("_CreatePartialView")*@
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
 
-    </div>
+	</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -96,7 +109,18 @@
             url: '/BANK_ACCOUNT/Create',
             type: 'GET',
             success: function (data) {
-                jQuery('#LoadPartialView').html(data)
+				jQuery('#LoadPartialView').html(data)
+
+				validator({
+					form: '#create-bank-account-form',
+					errorSelector: '.form-message',
+					formGroupSelector: '.form-grouping',
+					rules: [
+						validator.isRequired("#BankAccountNumber", "Vui lòng nhập số tài khoản"),
+						validator.equalsTo("#BankAccountNumber", 16, "Số tài khoản phải chứa đủ 16 kí tự"),
+						validator.isRequired("#BankCVC", "Vui lòng nhập cvc"),
+					]
+				})
             }
         });
     })

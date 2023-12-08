@@ -1,0 +1,61 @@
+﻿@model WebApplication2.Models.WALLET
+
+<div class="container-fluid p-3">
+	<p class="text-dark font-weight-bold" style="font-size: 20px;">
+		Số dư hiện tại: @Model.Balance.ToString("#,##0").Replace(",", ".") VND
+		<a>
+			<i type="button" id="" data-toggle="modal" data-target="#deposit-modal" title="Nạp tiền vào tài khoản" style="font-size: 17px" class="fa-solid fa-plus text-success withdrawal-btn"></i>
+		</a>
+	</p>
+</div>
+
+<div class="modal fade" id="deposit-modal" tabindex="-1" role="dialog" aria-labelledby="Nạp tiền" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<form id="deposit-form" action="/User/Desposit" method="post">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Nạp tiền</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="edit-modal-body modal-body">
+					<div class="form-grouping">
+						<label class="text-dark font-weight-bold">Số tiền muốn nạp:</label>
+						<input name="deposit-amount" id="deposit-input" style="font-size: 17px;" class="w-100" type="number" />
+						<small class="form-message"></small>
+					</div>
+					@if (ViewBag.BankNumber > 0) { 
+						<div class="my-2">
+							<a href="/BANK_ACCOUNT/Index" style="cursor: pointer" class="text-primary w-100">Liên kết tài khoản mới</a>
+						</div>
+						@Html.DropDownList("BankAccountID", null, htmlAttributes: new { name = "BankAccountID", style="font-size: 17px;", @class = "w-100 p-1"})  
+					} else {
+						<p>
+							Bạn chưa liên kết tài khoản ngân hàng
+							<a href="/BANK_ACCOUNT/Index" style="cursor: pointer" class="text-primary">Liên kết ?</a>
+						</p>
+					}
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Nạp</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Hủy</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	validator({
+    form: '#deposit-form',
+    errorSelector: '.form-message',
+    formGroupSelector: '.form-grouping',
+	rules: [
+		validator.isRequired('#deposit-input', 'Vui lòng nhập số tiền muốn nạp'),
+		validator.customValidator('#deposit-input', 'Bạn chưa liên kết tài khoản ngân hàng, vui lòng liên kết', (value) => {
+			return @ViewBag.BankNumber > 0;
+		})
+    ]
+});
+</script>

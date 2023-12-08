@@ -18,10 +18,32 @@ namespace WebApplication2.Controllers
         // GET: TRANSACTION_DETAILS
         public ActionResult Index()
         {
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.WarningMessage = warningMessage;
+            }
+
             var accID = User.Identity.GetUserId();
             var personID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
             var walletID = db.WALLETs.FirstOrDefault(w => w.CustomerID == personID).WalletID;
             var tRANSACTION_DETAILS = db.TRANSACTION_DETAILS.Where(t => t.WalletID == walletID);
+
             return View(tRANSACTION_DETAILS.ToList());
         }
 
@@ -87,6 +109,7 @@ namespace WebApplication2.Controllers
             ViewBag.BankAccountID = new SelectList(db.BANK_ACCOUNT, "BankAccountID", "BankAccountNumber", tRANSACTION_DETAILS.BankAccountID);
             ViewBag.OrderID = new SelectList(db.CUSTOMER_ORDER, "OrderID", "OrderStatus", tRANSACTION_DETAILS.OrderID);
             ViewBag.WalletID = new SelectList(db.WALLETs, "WalletID", "WalletID", tRANSACTION_DETAILS.WalletID);
+
             return View(tRANSACTION_DETAILS);
         }
 
@@ -106,7 +129,7 @@ namespace WebApplication2.Controllers
             ViewBag.currentBalance = currentBalace;
             if(currentBalace < tRANSACTION_DETAILS.TransactionAmount)
             {
-                ViewBag.ErrorMessage = "Số dư không đủ";
+                TempData["ErrorMessage"] = "Số dư không đủ";
                 return RedirectToAction("Index");
             }
             if (ModelState.IsValid)

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<WebApplication2.Models.BOOK_EDITION>
-
+﻿@model PagedList.IPagedList<WebApplication2.Models.BOOK_EDITION>
+@using PagedList.Mvc;
 @{
 	ViewBag.Title = "BookFilterView";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<div id="shopFilter">
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
 	<div class="row px-xl-5">
@@ -42,14 +42,14 @@
 							{
 								<div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
 									<input type="checkbox" minPrice="@ViewBag.priceRanges[0].Item1" maxPrice="@ViewBag.priceRanges[0].Item2" class="custom-control-input" id="price-@i">
-									<label class="custom-control-label" for="price-@i">> $@ViewBag.priceRanges[i].Item1</label>
+									<label class="custom-control-label" for="price-@i">> @ViewBag.priceRanges[i].Item1.ToString("#,##0").Replace(",", ".") VND</label>
 								</div>
 							}
 							else
 							{
 								<div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
 									<input type="checkbox" minPrice="@ViewBag.priceRanges[0].Item1" maxPrice="@ViewBag.priceRanges[0].Item2" class="custom-control-input" id="price-@i">
-									<label class="custom-control-label" for="price-@i">$@ViewBag.priceRanges[i].Item1 - $@ViewBag.priceRanges[i].Item2</label>
+									<label class="custom-control-label" for="price-@i">@ViewBag.priceRanges[i].Item1.ToString("#,##0").Replace(",", ".") ~ @ViewBag.priceRanges[i].Item2.ToString("#,##0").Replace(",", ".") VND</label>
 								</div>
 							}
 						}
@@ -91,29 +91,29 @@
 					<div class="d-flex align-items-center justify-content-between mb-2">
 						<div class="ml-2">
 							<div class="btn-group">
-								<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
+								<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Xắp xếp</button>
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="#">Latest</a>
-									<a class="dropdown-item" href="#">Popularity</a>
-									<a class="dropdown-item" href="#">Best Rating</a>
+									<a class="dropdown-item sort-option" style="cursor: pointer;" sort-option="lastest">Mới nhất</a>
+									<a class="dropdown-item sort-option" style="cursor: pointer;" sort-option="popularity">Phổ biến nhất</a>
+									<a class="dropdown-item sort-option" style="cursor: pointer;" sort-option="rating">Được đánh giá cao nhất</a>
 								</div>
 							</div>
 							<div class="btn-group ml-2">
-								<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
+								<button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Thứ tự</button>
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href="#">10</a>
-									<a class="dropdown-item" href="#">20</a>
-									<a class="dropdown-item" href="#">30</a>
+									<a class="dropdown-item sort-order" style="cursor: pointer;" sort-order="asc">A -> Z</a>
+									<a class="dropdown-item sort-order" style="cursor: pointer;" sort-order="desc">Z -> A</a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div id="_filtered-book-wrapper" class="row w-100 pr-4">
-					@Html.Partial("_FilteredBook", Model.Take(9))
+					@Html.Partial("_FilteredBook", Model)
 				</div>
 			</div>
-		<!-- Shop Product End -->
+			<!-- Shop Product End -->
+		</div>
 	</div>
+	<!-- Shop End -->
 </div>
-<!-- Shop End -->

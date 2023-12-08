@@ -24,15 +24,24 @@
 		<div class="col-lg-5 mb-30">
 			<div id="product-carousel" class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner bg-light">
-					@for (int i = 0; i < Model.imageList.Count; i++)
+					@if (Model?.imageList?.Count > 0)
 					{
-						string className = "carousel-item text-center";
-						if (i == 0)
+						for (int i = 0; i < Model.imageList.Count; i++)
 						{
-							className += " active";
+							string className = "carousel-item text-center";
+							if (i == 0)
+							{
+								className += " active";
+							}
+							<div class="@className" style="height: 400px">
+								<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/@Model.imageList[i].EditionImage" alt="Image">
+							</div>
 						}
-						<div class="@className" style="height: 400px">
-							<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/@Model.imageList[i].EditionImage" alt="Image">
+					}
+					else
+					{
+						<div class="carousel-item text-center active" style="height: 400px">
+							<img style="object-fit: cover; object-position: center;" class="w-100 h-100" src="~/Images/default-book-img.png" alt="Image">
 						</div>
 					}
 				</div>
@@ -63,7 +72,7 @@
 
 					<small class="pt-1">(@Model.bookReviews.Count Đánh giá)</small>
 				</div>
-				<h3 class="font-weight-semi-bold mb-4">$@Html.DisplayFor(model => model.currentBook.EditionPrice)</h3>
+				<h3 class="font-weight-semi-bold mb-4">@Model.currentBook.EditionPrice.ToString("#,##0").Replace(",", ".") VND</h3>
 				<p class="mb-4">
 					@Html.DisplayFor(model => model.currentBook.EditionDescription)
 				</p>
@@ -236,6 +245,24 @@
 		</div>
 	</div>
 </div>
+<style>
+	.owl-dots {
+		text-align: center;
+	}
+
+	.owl-dot {
+		height: 10px;
+		width: 10px;
+		background-color: var(--dark);
+		border-radius: 100vmax;
+		display: inline-block;
+		margin: 0px 10px;
+	}
+
+	.owl-dot.active {
+		background-color: var(--primary);
+	}
+</style>
 <!-- Shop Detail End -->
 <!-- Products Start -->
 <div class="container-fluid py-5">
@@ -245,7 +272,7 @@
 			<div class="owl-carousel related-carousel">
 				@foreach (var b in Model.similarBooks)
 				{
-					@Html.Partial("_Book", b);
+					@Html.Action("Book", "SharedViews", b)
 				}
 			</div>
 		</div>
@@ -264,5 +291,4 @@
 			validator.customValidator('input[name="ReviewRating"]', "Hãy cho chúng tôi biết độ hài lòng của bạn", (val) => val !== '0')
 		]
 	});
-
 </script>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -59,13 +60,11 @@ namespace WebApplication2.Controllers
             return View(m);
         }
 
-        public ActionResult Filter()
-        {
-            List<BOOK_EDITION> books = (List<BOOK_EDITION>)TempData["bookList"] ?? db.BOOK_EDITION.ToList();
-            ViewBag.selectedCategory = TempData["selectedCategory"];
+        public List<(int, int)> getPriceRange(List<BOOK_EDITION> bookList)
+		{
             List<(int, int)> priceRange = new List<(int, int)>();
 
-            decimal minPrice = db.BOOK_EDITION.ToList().Aggregate(decimal.MaxValue, (acc, curr) =>
+            decimal minPrice = bookList.Aggregate(decimal.MaxValue, (acc, curr) =>
             {
                 if (curr.EditionPrice < acc)
                 {
@@ -74,7 +73,7 @@ namespace WebApplication2.Controllers
                 return acc;
             });
 
-            decimal maxPrice = db.BOOK_EDITION.ToList().Aggregate(decimal.MinValue, (acc, curr) =>
+            decimal maxPrice = bookList.Aggregate(decimal.MinValue, (acc, curr) =>
             {
                 if (curr.EditionPrice > acc)
                 {
@@ -83,7 +82,7 @@ namespace WebApplication2.Controllers
                 return acc;
             });
 
-			
+
             try
             {
                 int gap = (int)Math.Ceiling((double)(maxPrice - minPrice) / 4);
@@ -104,54 +103,96 @@ namespace WebApplication2.Controllers
                     priceRange.Add(((int)maxPrice, (int)maxPrice));
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 priceRange.Add((0, 0));
             }
 
-            ViewBag.priceRanges = priceRange;
-            ViewBag.categories = db.CATEGORies.ToList();
-
-            return View(books);
+            return priceRange;
         }
 
-        public ActionResult FilteredBook()
+        public ActionResult Filter()
         {
+            List<BOOK_EDITION> books = (List<BOOK_EDITION>)TempData["bookList"] ?? db.BOOK_EDITION.ToList();
+
+            ViewBag.selectedCategory = TempData["selectedCategory"];
+            ViewBag.priceRanges = getPriceRange(books);
+            ViewBag.categories = db.CATEGORies.ToList();
+            ViewBag.totalItemAmount = books.Count;
+
             var serializer = new JavaScriptSerializer();
             var requestBody = Request.InputStream;
             var jsonString = new StreamReader(requestBody).ReadToEnd();
             var jsonData = serializer.Deserialize<dynamic>(jsonString);
+            int pageSize = 9;
+            int pageNumber = 1;
 
-            List<object> categoryIDs = ((object[])jsonData["categories"]).ToList();
-            List<int> categoryIDInts = categoryIDs.Select(c => Convert.ToInt32(c)).ToList();
+            if (jsonData != null)
+			{
+                List<object> categoryIDs = ((object[])jsonData["categories"])?.ToList();
+                List<int> categoryIDInts = categoryIDs?.Select(c => Convert.ToInt32(c)).ToList();
+                var minPrice = jsonData["minVal"];
+                var maxPrice = jsonData["maxVal"];
+                var page = jsonData["page"];
+                var sortOptions = jsonData["sort"];
+                var order = jsonData["order"];
 
-            var minPrice = jsonData["minVal"];
-            var maxPrice = jsonData["maxVal"];
-            var page = jsonData["page"];
+                if (minPrice != null && maxPrice != null)
+                {
+                    books = BooksFilter.filterByPrice((decimal)minPrice, (decimal)maxPrice);
+                }
+                else
+                {
+                    books = BooksFilter.filterByPrice();
+                }
 
-            List<BOOK_EDITION> filteredBooks = new List<BOOK_EDITION>();
+                if (categoryIDInts != null && categoryIDInts.Count > 0)
+                {
+                    books = BooksFilter.filterByCategories(categoryIDInts, books);
+                }
 
-            if (minPrice != null && maxPrice != null)
-            {
-                filteredBooks = BooksFilter.filterByPrice((decimal)minPrice, (decimal)maxPrice);
+                if(page != null)
+				{
+                    pageNumber = page;
+				}
+
+                if(sortOptions != null)
+				{
+                    switch(sortOptions)
+					{
+                        case "Rating":
+                            books = books.OrderByDescending(edition => edition?.BOOK_REVIEW?.Average(rv => rv?.ReviewRating ?? 0)).ToList();
+                            break;
+                        case "ReleaseYear":
+                            books = books.OrderByDescending(edition => edition?.EditionYear).ToList();
+                            break;
+                        case "Popularity":
+                            books = books.OrderByDescending(edition => edition.CUSTOMER_ORDER_DETAIL.Count).ToList();
+                            break;
+                        default:
+                            break;
+					}
+				}
+
+                if (order != null)
+				{
+                    switch(order)
+					{
+                        case "desc":
+                            books.Reverse();
+                            break;
+                        default:
+                            break;
+					}
+				}
+
+                ViewBag.totalItemAmount = books.Count;
+                ViewBag.currentPage = pageNumber;
+
+                return PartialView("_FilteredBook", books.ToPagedList(pageNumber, pageSize));
             }
-            else
-            {
-                filteredBooks = BooksFilter.filterByPrice();
-            }
 
-            if (categoryIDInts != null && categoryIDInts.Count > 0)
-            {
-                filteredBooks = BooksFilter.filterByCategories(categoryIDInts, filteredBooks);
-            }
-
-   //         if(page == null)
-			//{
-   //             page = 1;
-			//}
-
-   //         filteredBooks = BooksFilter.pagePagination(page, filteredBooks);
-
-            return PartialView("_FilteredBook", filteredBooks);
+            return View(books.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult FilterByCategory(int id)

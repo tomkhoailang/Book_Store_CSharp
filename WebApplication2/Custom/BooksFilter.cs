@@ -87,6 +87,27 @@ namespace WebApplication2.Custom_Functions
 			return booksList;
 		}
 
+		public static List<BOOK_EDITION> sortByHighestRating(List<BOOK_EDITION> booksList = null)
+		{
+			booksList = booksList ?? db.BOOK_EDITION.ToList();
+
+			return booksList.OrderByDescending(edition => edition.BOOK_REVIEW.Average(rv => rv.ReviewRating)).ToList();
+		}
+
+		public static List<BOOK_EDITION> sortByReleaseYear(List<BOOK_EDITION> booksList = null)
+		{
+			booksList = booksList ?? db.BOOK_EDITION.ToList();
+
+			return booksList.OrderByDescending(edition => edition.EditionYear).ToList();
+		}
+
+		public static List<BOOK_EDITION> sortByPopularity(List<BOOK_EDITION> booksList = null)
+		{
+			booksList = booksList ?? db.BOOK_EDITION.ToList();
+
+			return booksList.OrderByDescending(edition => edition.CUSTOMER_ORDER_DETAIL.Count).ToList();
+		}
+
 		public static List<BOOK_EDITION> filterByText(string text)
 		{
 			if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text)) return null;
@@ -103,13 +124,6 @@ namespace WebApplication2.Custom_Functions
 				}
 			}
 			return booksList;
-		}
-
-		public static List<BOOK_EDITION> pagePagination(int pageNumber, List<BOOK_EDITION> booksList = null)
-		{
-			booksList = booksList ?? db.BOOK_EDITION.ToList();
-
-			return booksList.Skip(pageNumber - 1).Take(9).ToList(); ;
 		}
 	}
 }

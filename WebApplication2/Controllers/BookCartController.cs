@@ -68,17 +68,13 @@ namespace WebApplication2.Controllers
                 {
                     Book_Information = bOOK,
 
-                    BookImage = (bOOK_IMAGE == null) ? null : bOOK_IMAGE.EditionImage,
+                    BookImage = (bOOK_IMAGE == null) ? "default-book-img.png" : bOOK_IMAGE.EditionImage,
                     Discount = (pROMOTION == null) ? 0 : pROMOTION.PromotionDiscount,
                     Amount = 1,
                     Total = 0
                 };
                 cart.Total = UpdateTotal(cart);
                 BookCart.Add(cart);
-            }
-            else
-            {
-
             }
 
             return Redirect(Request.UrlReferrer.ToString());
@@ -107,7 +103,6 @@ namespace WebApplication2.Controllers
         public ActionResult getTotalCart()
         {
             List<CartModels> BookCart = Session["ShoppingCart"] as List<CartModels>;
-
 
             if (BookCart == null)
                 return Content("0");
@@ -139,8 +134,6 @@ namespace WebApplication2.Controllers
         
         public RedirectToRouteResult SubmitCart(string listID)
         {
-            
-            
             return RedirectToAction("Index", "Payment", new { listID = listID});
         }
     }
