@@ -305,6 +305,7 @@
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StatisticOfMonthViewModel.cs" />
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>

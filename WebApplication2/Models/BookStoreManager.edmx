@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookStoreManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -361,10 +361,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_CustomerSpending' does not 
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_buy_count' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_edition_buy_count">
           <Key>
+            <PropertyRef Name="EditionName" />
             <PropertyRef Name="EditionID" />
           </Key>
+          <Property Name="EditionName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EditionID" Type="int" Nullable="false" />
+          <Property Name="year" Type="int" />
+          <Property Name="month" Type="int" />
           <Property Name="BuyCount" Type="int" />
+          <Property Name="TotalPrice" Type="decimal" Precision="38" Scale="2" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_edition_total_stock_quantity_price_in_this_and_previous_month' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -959,6 +964,9 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Parameter Name="version" Type="int" Mode="In" />
           <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
         </Function>
+        <Function Name="sp_cancel_by_not_delivering" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="orderID" Type="int" Mode="In" />
+        </Function>
         <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="editionID" Type="int" Mode="In" />
         </Function>
@@ -1066,8 +1074,12 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </EntitySet>
           <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [V_edition_buy_count].[EditionName] AS [EditionName], 
     [V_edition_buy_count].[EditionID] AS [EditionID], 
-    [V_edition_buy_count].[BuyCount] AS [BuyCount]
+    [V_edition_buy_count].[year] AS [year], 
+    [V_edition_buy_count].[month] AS [month], 
+    [V_edition_buy_count].[BuyCount] AS [BuyCount], 
+    [V_edition_buy_count].[TotalPrice] AS [TotalPrice]
     FROM [dbo].[V_edition_buy_count] AS [V_edition_buy_count]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" store:Type="Views" store:Schema="dbo">
@@ -1284,8 +1296,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookStoreManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1680,9 +1691,14 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
         <EntityType Name="V_edition_buy_count">
           <Key>
             <PropertyRef Name="EditionID" />
+            <PropertyRef Name="EditionName" />
           </Key>
           <Property Name="EditionID" Type="Int32" Nullable="false" />
           <Property Name="BuyCount" Type="Int32" />
+          <Property Name="EditionName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="year" Type="Int32" />
+          <Property Name="month" Type="Int32" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
         <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
           <Key>
@@ -2375,7 +2391,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <Parameter Name="definition" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
-            <Parameter Name="editionID" Mode="In" Type="Int32" />
+          <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_creatediagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -2396,7 +2412,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
-            <Parameter Name="AccountID" Mode="In" Type="String" />
+          <Parameter Name="AccountID" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Person">
             <Parameter Name="AccountID" Mode="In" Type="String" />
@@ -2408,15 +2424,18 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_switch_status">
-            <Parameter Name="orderID" Mode="In" Type="Int32" />
+          <Parameter Name="orderID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_switch_status_after_cus_given">
-            <Parameter Name="orderID" Mode="In" Type="Int32" />
+          <Parameter Name="orderID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_switch_status_after_processing">
-            <Parameter Name="orderID" Mode="In" Type="Int32" />
+          <Parameter Name="orderID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="sp_cancel_by_not_delivering">
+            <Parameter Name="orderID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2781,6 +2800,10 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySetMapping Name="V_edition_buy_count">
             <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
               <MappingFragment StoreEntitySet="V_edition_buy_count">
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="EditionName" ColumnName="EditionName" />
                 <ScalarProperty Name="EditionID" ColumnName="EditionID" />
                 <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
               </MappingFragment>
@@ -2911,6 +2934,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <FunctionImportMapping FunctionImportName="sp_switch_status_after_cus_given" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_cus_given" />
           <FunctionImportMapping FunctionImportName="sp_switch_status_after_processing" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_processing" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BookStoreManagerModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_cancel_by_not_delivering" FunctionName="BookStoreManagerModel.Store.sp_cancel_by_not_delivering" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

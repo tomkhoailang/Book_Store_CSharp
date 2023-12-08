@@ -391,9 +391,14 @@
   <EntityType Name="V_edition_buy_count">
     <Key>
       <PropertyRef Name="EditionID" />
+      <PropertyRef Name="EditionName" />
     </Key>
     <Property Name="EditionID" Type="Int32" Nullable="false" />
     <Property Name="BuyCount" Type="Int32" />
+    <Property Name="EditionName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="year" Type="Int32" />
+    <Property Name="month" Type="Int32" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="2" />
   </EntityType>
   <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
     <Key>
@@ -1128,6 +1133,9 @@
       <Parameter Name="orderID" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="sp_cancel_by_not_delivering">
+      <Parameter Name="orderID" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="Sp_check_valid_promotion_Result">
     <Property Type="Int32" Name="PromotionID" Nullable="false" />

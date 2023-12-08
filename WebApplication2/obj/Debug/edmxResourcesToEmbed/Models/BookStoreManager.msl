@@ -338,6 +338,10 @@
     <EntitySetMapping Name="V_edition_buy_count">
       <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
         <MappingFragment StoreEntitySet="V_edition_buy_count">
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+          <ScalarProperty Name="month" ColumnName="month" />
+          <ScalarProperty Name="year" ColumnName="year" />
+          <ScalarProperty Name="EditionName" ColumnName="EditionName" />
           <ScalarProperty Name="EditionID" ColumnName="EditionID" />
           <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
         </MappingFragment>
@@ -468,5 +472,6 @@
     <FunctionImportMapping FunctionImportName="sp_switch_status_after_cus_given" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_cus_given" />
     <FunctionImportMapping FunctionImportName="sp_switch_status_after_processing" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_processing" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BookStoreManagerModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="sp_cancel_by_not_delivering" FunctionName="BookStoreManagerModel.Store.sp_cancel_by_not_delivering" />
   </EntityContainerMapping>
 </Mapping>
