@@ -28,15 +28,15 @@ namespace WebApplication2.Controllers
                         return RedirectToAction("BookDetailsClient", "BOOK_EDITION", new { id = newReview.EditionID });
                     };
 
-     //               var orderDetails = db.CUSTOMER_ORDER_DETAIL.Where(od => od.EditionID == newReview.EditionID);
+					var orderDetails = db.CUSTOMER_ORDER_DETAIL.Where(od => od.EditionID == newReview.EditionID && od.CUSTOMER_ORDER.CustomerID == person.PersonID);
 
-     //               if(!orderDetails.Any(od => od.CUSTOMER_ORDER.CustomerID == person.PersonID))
-					//{
-     //                   TempData["ErrorMessage"] = "Hãy mua sách để đánh giá";
-     //                   return RedirectToAction("BookDetailsClient", "BOOK_EDITION", new { id = newReview.EditionID });
-     //               }
+					if (!orderDetails.Any())
+					{
+						TempData["ErrorMessage"] = "Hãy mua sách để đánh giá";
+						return RedirectToAction("BookDetailsClient", "BOOK_EDITION", new { id = newReview.EditionID });
+					}
 
-                    if (db.BOOK_REVIEW.FirstOrDefault(rv => rv.CustomerID == person.PersonID) != null)
+					if (db.BOOK_REVIEW.FirstOrDefault(rv => rv.CustomerID == person.PersonID && rv.EditionID == newReview.EditionID) != null)
 					{
                         TempData["ErrorMessage"] = "Bạn đã đánh giá rồi";
                         return RedirectToAction("BookDetailsClient", "BOOK_EDITION", new { id = newReview.EditionID });

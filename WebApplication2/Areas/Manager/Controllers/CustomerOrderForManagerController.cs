@@ -80,6 +80,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             if (order == null)
                 return HttpNotFound();
             ViewBag.OrderDetailList = db.CUSTOMER_ORDER_DETAIL.Where(m => m.OrderID == id).ToList();
+            ViewBag.OrderStatus = db.CUSTOMER_ORDER_STATUS.Where(m => m.OrderID == id).OrderBy(m => m.StatusID).ToList();
             return View(order);
         }
     }

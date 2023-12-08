@@ -1,0 +1,38 @@
+﻿@model PagedList.IPagedList<WebApplication2.Models.BOOK_EDITION>
+@using PagedList.Mvc;
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+	.pagination {
+		justify-content: center;
+	}
+
+	.page-link {
+		font-size: 20px;
+	}
+</style>
+
+<div class="container-fluid">
+	@if (Model.Any())
+	{
+		<div class="row">
+			@foreach (var item in Model.ToList())
+			{
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					@Html.Action("Book", "SharedViews", item)
+				</div>
+			}
+		</div>
+	}
+	else
+	{
+		<p style="font-size: 20px;" class="w-100 text-secondary">Danh sách trống</p>
+	}
+</div>
+<div class="text-center w-100 text-light">
+	@Html.PagedListPager(Model, page => Url.Action("Index", "FavoriteBooks", new { page }))
+</div>
+

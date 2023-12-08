@@ -40,9 +40,9 @@ else
 						@cart.Discount.ToString("#,##0").Replace(",", ".")%
 					</td>
 					<td>
-						<form id="update-amount-form" action="@Url.Action("UpdateAmount")" method="get">
+						<form id="update-amount-form-@cart.Book_Information.EditionID" action="@Url.Action("UpdateAmount")" method="get">
 							<input type="hidden" name="BookID" value="@cart.Book_Information.EditionID" />
-							<input type="number" id="cart-item-quantity" name="Amount" min="1" step="1" value="@cart.Amount" style="width:60px; height:37.6px" />
+							<input book-id="@cart.Book_Information.EditionID" type="number" class="cart-item-quantity" name="Amount" min="1" step="1" value="@cart.Amount" style="width:60px; height:37.6px" />
 						</form>
 					</td>
 					<td>
@@ -72,7 +72,6 @@ else
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function () {
-
 			document.querySelector("#confirm").addEventListener('click', function () {
 				var chbox = document.querySelectorAll("[name='checkSelect']");
 				var listID = new Array();
@@ -84,7 +83,7 @@ else
 				}
 				console.log(listID)
 				if (listID.length == 0)
-					createToast("warning", "Giỏ hàng trống!")
+					createToast("warning", "Bạn chưa chọn sản phẩm muốn mua!")
 				else {
 					var url = '/BookCart/SubmitCart?listID=' + listID.join(',');
 					// Redirect to the constructed URL
@@ -104,9 +103,13 @@ else
 			document.getElementById("txtTotal").innerHTML = text.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
 		}
 
-		document.querySelector("#cart-item-quantity").addEventListener('input', () => {
-			document.querySelector("#update-amount-form").submit();
+		document.querySelectorAll(".cart-item-quantity").forEach(btn => {
+			btn.addEventListener('input', () => {
+				const bookId = btn.getAttribute("book-id");
+				document.querySelector(`#update-amount-form-${bookId}`).submit();
+			})
 		})
+
 	</script>
 }
 

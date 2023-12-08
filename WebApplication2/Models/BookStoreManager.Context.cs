@@ -50,6 +50,7 @@ namespace WebApplication2.Models
         public virtual DbSet<STOCK_INVENTORY> STOCK_INVENTORY { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE> STOCK_RECEIVED_NOTE { get; set; }
         public virtual DbSet<STOCK_RECEIVED_NOTE_DETAIL> STOCK_RECEIVED_NOTE_DETAIL { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TIER> TIERs { get; set; }
         public virtual DbSet<TRANSACTION_DETAILS> TRANSACTION_DETAILS { get; set; }
         public virtual DbSet<WALLET> WALLETs { get; set; }
@@ -95,17 +96,64 @@ namespace WebApplication2.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_check_valid_promotion_Result>("Sp_check_valid_promotion", editionIDParameter);
         }
     
-        public virtual int SP_CREATE_CUSTOMER_ORDER_STATUS(Nullable<int> orderID, Nullable<int> statusID)
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
-            var orderIDParameter = orderID.HasValue ?
-                new ObjectParameter("OrderID", orderID) :
-                new ObjectParameter("OrderID", typeof(int));
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
     
-            var statusIDParameter = statusID.HasValue ?
-                new ObjectParameter("StatusID", statusID) :
-                new ObjectParameter("StatusID", typeof(int));
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_CREATE_CUSTOMER_ORDER_STATUS", orderIDParameter, statusIDParameter);
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
         }
     
         public virtual int SP_Inital_Manager(string accountID)
@@ -128,6 +176,55 @@ namespace WebApplication2.Models
                 new ObjectParameter("ManagerID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_Inital_Person", accountIDParameter, managerIDParameter);
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_switch_status(Nullable<int> orderID)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("orderID", orderID) :
+                new ObjectParameter("orderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_switch_status", orderIDParameter);
+        }
+    
+        public virtual int sp_switch_status_after_cus_given(Nullable<int> orderID)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("orderID", orderID) :
+                new ObjectParameter("orderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_switch_status_after_cus_given", orderIDParameter);
+        }
+    
+        public virtual int sp_switch_status_after_processing(Nullable<int> orderID)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("orderID", orderID) :
+                new ObjectParameter("orderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_switch_status_after_processing", orderIDParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
     }
 }

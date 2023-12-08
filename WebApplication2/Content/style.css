@@ -9782,19 +9782,19 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
     .custom-toast.success {
-        background-color: rgba(0, 128, 0, 0.4);
+        background-color: rgba(0, 128, 0, 0.7);
         border-left: 5px solid;
         border-color: rgb(0, 128, 0);
     }
 
     .custom-toast.error {
-        background-color: rgba(255, 0, 0, 0.4) !important;
+        background-color: rgba(255, 0, 0, 0.7) !important;
         border-left: 5px solid;
         border-color: rgb(255, 0, 0);
     }
 
     .custom-toast.warning {
-        background-color: rgba(255, 165, 0, 0.5);
+        background-color: rgba(255, 165, 0, 0.7);
         border-left: 5px solid;
         border-color: rgb(255, 165, 0);
     }
@@ -9870,4 +9870,17 @@ a.text-dark:hover, a.text-dark:focus {
 .form-grouping.invalid .form-message {
     color: #f33a58;
     font-size: 15px;
+}
+
+.withdrawal-btn{
+    transition: all linear .3s;
+}
+
+.withdrawal-btn:hover {
+    transform: scale(1.2) rotate(180deg) !important;
+    cursor: pointer;
+}
+
+.page-pagination-btn {
+    cursor: pointer;
 }

@@ -9,5 +9,6 @@ namespace WebApplication2.Models
 	{
 		public CUSTOMER_ORDER order { get; set; }
 		public List<OrderHistoryItemModel> orderItems { get; set; }
+		public string orderStatus { get; set; }
 	}
 }

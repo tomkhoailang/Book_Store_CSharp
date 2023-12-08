@@ -37,18 +37,11 @@ namespace WebApplication2.Controllers
                     return RedirectToAction("Index", "BookCart");
                 }
 			}
-
-            int id = person.PersonID;
-            var current = db.WALLETs.FirstOrDefault(m => m.Person.PersonID == id).Balance;
-            
-            if(current < total)
-			{
-                TempData["ErrorMessage"] = "Không đủ số dư";
-                return RedirectToAction("Index", "BookCart");
-            }
                  
             TempData["Total"] = total.ToString("#,##0").Replace(",", ".");
+            TempData["IntTotal"] = total;
             TempData["ListID"] = listID;
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
             return View(SelectedCarts);
         }
         [Authorize]
@@ -64,6 +57,13 @@ namespace WebApplication2.Controllers
             List<CartModels> carts = getSelectedCarts(listID);
             var userId = User.Identity.GetUserId();
             int person = db.People.FirstOrDefault(p => p.AccountID == userId).PersonID;
+            var current = db.WALLETs.FirstOrDefault(m => m.Person.PersonID == person).Balance;
+
+            if (current < (decimal)TempData["IntTotal"] && Request["PaymentMethod"] == "CURRENT BALANCE")
+            {
+                TempData["ErrorMessage"] = "Không đủ số dư";
+                return RedirectToAction("Index", new{ listID = listID });
+            }
 
             CUSTOMER_ORDER new_Order = new CUSTOMER_ORDER
             {
@@ -73,6 +73,7 @@ namespace WebApplication2.Controllers
                 OrderPaymentMethod = Request["PaymentMethod"].ToString(),
                 CustomerID = person
             };
+
             db.CUSTOMER_ORDER.Add(new_Order);
             db.SaveChanges();
             var id = db.CUSTOMER_ORDER.OrderByDescending(row => row.OrderID).FirstOrDefault().OrderID;

@@ -4,77 +4,69 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-@if(Model.Count() == 0 || Model == null)
-            {
-                <p>null</p>
-            }
-else{
-    <form action="@Url.Action("CreateOrder")" method="post">
-        <table class="table">
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Book_Information.EditionID) </th>
-                <th>@Html.DisplayNameFor(model => model.BookImage) </th>
-                <th>@Html.DisplayNameFor(model => model.Book_Information.EditionName) </th>
-                <th>@Html.DisplayNameFor(model => model.Book_Information.EditionPrice) </th>
-                <th>@Html.DisplayNameFor(model => model.Discount) </th>
-                <th>@Html.DisplayNameFor(model => model.Amount) </th>
-                <th>@Html.DisplayNameFor(model => model.Total) </th>
-            </tr>
-            @foreach (var cart in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(m => cart.Book_Information.EditionID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => cart.BookImage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => cart.Book_Information.EditionName)
-                    </td>
-                    <td>
-                        @cart.Book_Information.EditionPrice.ToString("#,##0").Replace(",", ".")VND
-                    </td>
-                    <td>
-                        @cart.Discount.ToString("#,##0").Replace(",", ".")%
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => cart.Amount)
-                    </td>
-                    <td>
-                        @cart.Total.ToString("#,##0").Replace(",", ".")VND
-                    </td>
-
-                </tr>
-            }
-            <tr>
-                <td>@Html.Label("Shipping method")</td>
-                <td>
-                    @Html.RadioButton("ShippingMethod", "SHIPPING", true) SHIPPING
-                    @Html.RadioButton("ShippingMethod", "RECEIVE AT STORE") RECEIVE AT STORE
-                </td>
-            </tr>
-            <tr>
-                <td>@Html.Label("Payment method")</td>
-                <td>
-                    @Html.RadioButton("PaymentMethod", "CASH", true) CASH
-                    @Html.RadioButton("PaymentMethod", "CURRENT BALANCE") CURRENT BALANCE
-                </td>
-            </tr>
-
-
-        </table>
-        <div style="width:100%; height:60px;position:relative">
-            <div style="position:absolute; right:0; width:40%">
-                <p style="display: inline; padding-inline: 10px">Total: </p>
-
-                <p id="txtTotal" style="display: inline; padding-inline: 10px; width: 80%; text-align: right">@TempData["Total"] VND</p>
-                <input type="submit" id="confirm" class="btn btn-primary" style="right:0" onclick="return confirm('Are you sure ?')" />
-            </div>
-
-        </div>
-    </form>
-    
+@if(Model.Count() == 0 || Model == null){
+    <p>null</p>
+}
+else
+{
+    <div class="container-fluid px-5">
+        <form action="@Url.Action("CreateOrder")" method="post">
+			<table class="table table-bordered bg-light p-3">
+				<tr>
+					<th style="font-size: 20px;">@Html.DisplayNameFor(model => model.BookImage)</th>
+					<th style="font-size: 20px;">@Html.DisplayNameFor(model => model.Book_Information.EditionName) </th>
+					<th style="font-size: 20px;">@Html.DisplayNameFor(model => model.Book_Information.EditionPrice) </th>
+					<th style="font-size: 20px;">@Html.DisplayNameFor(model => model.Discount)</th>
+					<th style="font-size: 20px;">@Html.DisplayNameFor(model => model.Amount)</th>
+					<th style="font-size: 20px;">@Html.DisplayNameFor(model => model.Total)</th>
+				</tr>
+				@foreach (var cart in Model)
+				{
+					<tr>
+						<td>
+							<img class="img-fluid" style="height: 100px; object-fit: cover; object-position: center;" src="~/Images/@Html.DisplayFor(m => cart.BookImage)" />
+						</td>
+						<td>
+							@Html.DisplayFor(m => cart.Book_Information.EditionName)
+						</td>
+						<td>
+							@cart.Book_Information.EditionPrice.ToString("#,##0").Replace(",", ".") VND
+						</td>
+						<td>
+							@cart.Discount.ToString("#,##0").Replace(",", ".")%
+						</td>
+						<td>
+							@Html.DisplayFor(m => cart.Amount)
+						</td>
+						<td>
+							@cart.Total.ToString("#,##0").Replace(",", ".")VND
+						</td>
+					</tr>
+				}
+				</table>
+			<div class="mt-3 p-3 bg-light">
+				<div class="d-flex w-100 align-items-center py-1">
+					@Html.Label("Phương thức giao hàng: ", new { style = "font-size: 17px;", @class = "font-weight-bold"})
+					<div class="ml-3">
+						@Html.RadioButton("ShippingMethod", "SHIPPING", true) Giao tận nhà
+						@Html.RadioButton("ShippingMethod", "RECEIVE AT STORE", new { @class = "ml-3" }) Nhận tại cửa hàng
+					</div>
+				</div>
+				<div class="d-flex w-100 align-items-center py-1">
+					@Html.Label("Hình thức thanh toán: ", new { style = "font-size: 17px;", @class = "font-weight-bold" })
+					<div class="ml-3">
+						@Html.RadioButton("PaymentMethod", "CASH", true) Tiền mặt
+						@Html.RadioButton("PaymentMethod", "CURRENT BALANCE", new { @class = "ml-3" }) Số dư hiện tại
+					</div>
+				</div>
+				<div class="pt-4 mt-3 border border-left-0 border-right-0 border-bottom-0 border-top-1 border-dark w-100">
+					<div style="font-size: 17px">
+						<span class="font-weight-bold">Tổng tiền: </span> <span id="txtTotal">@TempData["Total"] VND</span>
+					</div>
+					<input type="submit" id="confirm" value="Đặt hàng" class="btn btn-primary mt-4" style="right:0; min-width: 150px" />
+				</div>
+			</div>
+        </form>
+    </div>
 }
 

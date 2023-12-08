@@ -32,7 +32,7 @@
 						@Html.Action("UserDetail", "User", new { area = "" })
 					</div>
 					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-						
+						@Html.Action("UserWallet", "User", new { area = "" })
 					</div>
 					<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 						@Html.Action("UserOrdersHistory", "User", new { area = "" })

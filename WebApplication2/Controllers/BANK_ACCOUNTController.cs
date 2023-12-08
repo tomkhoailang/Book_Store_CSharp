@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication2.Models;
@@ -14,6 +17,40 @@ namespace WebApplication2.Controllers
     public class BANK_ACCOUNTController : Controller
     {
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
+
+        private class BankModel
+        {
+            public string Code { get; set; }
+            public string Desc { get; set; }
+            public List<BankDataModel> Data { get; set; }
+        }
+
+        private class BankDataModel
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Code { get; set; }
+            public string Bin { get; set; }
+            public string ShortName { get; set; }
+            public string Logo { get; set; }
+            public int TransferSupported { get; set; }
+            public int LookupSupported { get; set; }
+            public string Short_Name { get; set; }
+            public int Support { get; set; }
+            public int IsTransfer { get; set; }
+            public string SwiftCode { get; set; }
+        }
+
+        private async Task<HttpResponseMessage> getBanksInfomation()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://api.vietqr.io");
+                HttpResponseMessage response = await client.GetAsync("/v2/banks");
+                return response;
+            }
+        }
+
         [Authorize]
         // GET: BANK_ACCOUNT
         public ActionResult Index()
@@ -40,17 +77,26 @@ namespace WebApplication2.Controllers
         }
 
         // GET: BANK_ACCOUNT/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             ViewBag.CustomerID = new SelectList(db.People, "PersonID", "PersonName");
+
+            HttpResponseMessage response = await getBanksInfomation();
+
+            if(response.IsSuccessStatusCode)
+			{
+                string json = await response.Content.ReadAsStringAsync();
+
+                BankModel model = JsonConvert.DeserializeObject<BankModel>(json);
+
+                ViewBag.BankAccountName = new SelectList(model.Data, "ShortName", "ShortName");
+            }
+            
             return PartialView("_CreatePartialView");
         }
 
         // POST: BANK_ACCOUNT/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "BankAccountID,BankAccountNumber,BankAccountName,BankCVC")] BANK_ACCOUNT bANK_ACCOUNT)
         {
             string accID = User.Identity.GetUserId();
