@@ -59,12 +59,12 @@ namespace WebApplication2.Models
         public virtual DbSet<V_cus_order_status_is_success> V_cus_order_status_is_success { get; set; }
         public virtual DbSet<V_cus_order_status_not_success> V_cus_order_status_not_success { get; set; }
         public virtual DbSet<V_CustomerSpending> V_CustomerSpending { get; set; }
+        public virtual DbSet<V_edition_buy_count> V_edition_buy_count { get; set; }
         public virtual DbSet<V_edition_total_stock_quantity_price_in_this_and_previous_month> V_edition_total_stock_quantity_price_in_this_and_previous_month { get; set; }
         public virtual DbSet<V_revenue_of_each_day> V_revenue_of_each_day { get; set; }
         public virtual DbSet<V_revenue_of_each_month> V_revenue_of_each_month { get; set; }
         public virtual DbSet<V_revenue_of_each_year> V_revenue_of_each_year { get; set; }
         public virtual DbSet<V_UserRole> V_UserRole { get; set; }
-        public virtual DbSet<V_edition_buy_count> V_edition_buy_count { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
@@ -225,6 +225,15 @@ namespace WebApplication2.Models
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual int sp_cancel_by_not_delivering(Nullable<int> orderID)
+        {
+            var orderIDParameter = orderID.HasValue ?
+                new ObjectParameter("orderID", orderID) :
+                new ObjectParameter("orderID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_cancel_by_not_delivering", orderIDParameter);
         }
     }
 }

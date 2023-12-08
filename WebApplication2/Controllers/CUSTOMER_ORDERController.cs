@@ -44,7 +44,7 @@ namespace WebApplication2.Controllers
             var id = User.Identity.GetUserId();
             var currentCus = db.People.FirstOrDefault(c => c.AccountID.Equals(id)).PersonID;
             var currentRole = db.AspNetUsers.FirstOrDefault(p => p.Id == id).AspNetRoles.FirstOrDefault().Id;
-            var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Include(c => c.Person).Include(c => c.Person1).Include(c => c.Person2);
+            var cUSTOMER_ORDER = db.CUSTOMER_ORDER.Where(c => c.CustomerID == currentCus);
             if(Convert.ToInt32(currentRole) == 3)
             {
                 int[] cusID = db.V_cus_order_status.Select(v => v.OrderID).ToArray();
@@ -62,8 +62,31 @@ namespace WebApplication2.Controllers
             ViewBag.cusGiven = currentCus;
             if(User.Identity.IsAuthenticated && User.IsInRole("Manager"))
             {
+                cUSTOMER_ORDER = db.CUSTOMER_ORDER;
                 return View("IndexForManager", cUSTOMER_ORDER.ToList());
             }
+
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.WarningMessage = warningMessage;
+            }
+
             return View(cUSTOMER_ORDER.ToList());
         }
 
@@ -188,8 +211,31 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Index");
         }
 
+        //[ValidateAntiForgeryToken]
+        public ActionResult CancelByNotDelivering(int id)
+        {
+            CUSTOMER_ORDER_STATUS cusOrderStatus = new CUSTOMER_ORDER_STATUS();
+            cusOrderStatus.OrderID = id;
+            cusOrderStatus.StatusID = 8;
+            cusOrderStatus.UpdateTime = DateTime.Now;
+            db.CUSTOMER_ORDER_STATUS.Add(cusOrderStatus);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            //return Json(new { redirectToAction = true, actionUrl = Url.Action("Index") });
+        }
+
         public ActionResult ChangeStatus(int id)
         {
+            var editionID = db.CUSTOMER_ORDER_DETAIL.FirstOrDefault(e => e.OrderID == id).EditionID;
+            var amount = db.CUSTOMER_ORDER_DETAIL.FirstOrDefault(e => e.OrderID == id).DetailQuantity;
+            var amountAvailable = db.STOCK_INVENTORY.FirstOrDefault(a => a.EditionID == editionID).InventoryAvailableStock;
+            var currentStatus = db.CUSTOMER_ORDER_STATUS.ToList().LastOrDefault(c => c.OrderID == id).StatusID;
+
+            if (amountAvailable < amount && currentStatus == 2)
+            {
+                TempData["ErrorMessage"] = "Không đủ số lượng";
+                return RedirectToAction("Index", "CUSTOMER_ORDER");
+            }
             var parameter1 = new SqlParameter("@orderID", id);
             db.Database.ExecuteSqlCommand("sp_switch_status @orderID", parameter1);
             db.SaveChanges();

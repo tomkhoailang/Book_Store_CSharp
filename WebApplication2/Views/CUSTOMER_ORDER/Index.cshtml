@@ -9,7 +9,7 @@
     string CurrentStatus;
     int[] confirm = (int[])ViewBag.confirm;
 }
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
 <table class="table">
     <tr>
@@ -58,7 +58,7 @@
                     else if (Convert.ToInt32(ViewBag.currentRole) == 2 && CurrentStatus != "SUCCESS")
                     {
                         //Staff
-                        @Html.ActionLink("Chuyển trạng thái", "ChangeStatus", new { id = item.OrderID })
+                        @Html.ActionLink("Chuyển trạng thái", "ChangeStatus", new { id = item.OrderID }, new { @class = "btn btn-primary", style = "width: 100px" })
                     }
                     else if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
                     {
@@ -75,7 +75,7 @@
             <td>
                 @{
                     CurrentStatus = item.CUSTOMER_ORDER_STATUS.LastOrDefault(p => p.OrderID == item.OrderID).ORDER_STATUS.OrderStatus;
-                    if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID && CurrentStatus == "DELIVERING")
+                    if (Convert.ToInt32(ViewBag.currentRole) == 3 && Convert.ToInt32(ViewBag.cusGiven) == item.ShipperID)
                     {
                         if (confirm.Contains(item.OrderID))
                         {
@@ -86,6 +86,11 @@
                             <button type="button" id="confirm" class="btn btn-success mb-2" data-toggle="modal" data-target="#myModal" data-orderid=@item.OrderID>Xác nhận</button>
                         }
 
+                    }
+                    else if (Convert.ToInt32(ViewBag.currentRole) == 2 && CurrentStatus == "DELIVERING")
+                    {
+                        @*<button type="button" class="btn btn-primary" onclick="loadController(@item.OrderID)">Xoá</button>*@
+                        @Html.ActionLink("Xóa", "CancelByNotDelivering", new { id = item.OrderID }, new { onclick = "return confirm('Bạn có muốn hủy đơn hàng này không?')", @class = "btn btn-danger" })
                     }
                 }
             </td>
@@ -110,7 +115,7 @@
 
         </div>
     </div>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         jQuery('#confirm').click(function () {
             var orderid = jQuery(this).data('orderid');
@@ -124,4 +129,28 @@
             });
         });
     </script>
-    s
+
+    @*<script>
+
+        function loadController(id) {
+            var userResponse = confirm("Bạn có chắc muốn hủy đơn đặt hàng này ?");
+            if (userResponse == true) {
+                //var token = $('input[name="__RequestVerificationToken"]').val();
+                jQuery.ajax({
+                    url: '/CUSTOMER_ORDER/CancelByNotDelivering',
+                    data: { id: id},
+                    type: 'POST',
+                    success: function (data) {
+                        //console.log(data)
+                        //if (data.redirectToAction) {
+                        //    window.location.href = data.actionUrl;
+                        //} else {
+                        //    $(".error-message").html(data);
+                        //}
+                    }
+                });
+            }
+
+        }
+
+    </script>*@

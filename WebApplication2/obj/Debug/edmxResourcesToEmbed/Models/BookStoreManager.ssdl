@@ -959,6 +959,9 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     <Parameter Name="version" Type="int" Mode="In" />
     <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
   </Function>
+  <Function Name="sp_cancel_by_not_delivering" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="orderID" Type="int" Mode="In" />
+  </Function>
   <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="editionID" Type="int" Mode="In" />
   </Function>
