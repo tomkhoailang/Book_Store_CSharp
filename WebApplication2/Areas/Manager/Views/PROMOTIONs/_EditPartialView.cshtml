@@ -13,19 +13,16 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal w-100">
         <h4>Thông tin khuyến mãi</h4>
 
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.PromotionID)
 
-        <div class="form-group">
-            <div class="error-message">
-            </div>
-        </div>
-
-        <div class="form-group">
+      
+    <div class="row">
+        <div class="form-group col-6">
             @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label col-md-10 " })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
@@ -33,28 +30,14 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-6">
             @Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label col-md-10  " })
             <div class="col-md-10">
                 <input class="form-control" id="PromotionDiscount" , name="PromotionDiscount" value="@((int)Model.PromotionDiscount)" required type="number" />
                 @Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label col-md-10 " })
-            <div class="col-md-10">
-                <textarea class="form-control " rows="6" id="editPromotionDetails" name="PromotionDetails" >@Model.PromotionDetails</textarea>
-                @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label for="auto-generate">Tự động tạo:</label>
-                <input type="checkbox" id="auto-generate" name="auto-generate" value="enable" />
-            </div>
-        </div>
-
-        <div class="form-group">
+        <div class="form-group col-6">
             @Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label col-md-10  " })
             <div class="col-md-10">
                 <input type="datetime-local" id="PromotionStartDateEdit" name="PromotionStartDate" class="form-control" value="@ViewBag.startDateFormat" />
@@ -62,46 +45,68 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-6">
             @Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label  col-md-10 " })
             <div class="col-md-10">
                 <input type="datetime-local" id="PromotionEndDateEdit" name="PromotionEndDate" class="form-control" value="@ViewBag.endDateFormat" />
                 @Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="form-group">
 
+
+        <div class="form-group col-6">
+            @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label col-md-10 " })
+            <div class="col-md-10">
+                <textarea class="form-control " rows="6" id="editPromotionDetails" name="PromotionDetails">@Model.PromotionDetails</textarea>
+                @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
+                <br />
+                <label for="auto-generate">Tự động tạo:</label>
+                <input type="checkbox" id="auto-generate" name="auto-generate" value="enable" />
+            </div>
         </div>
-        <div class="form-group">
+        <div class="form-group col-6">
+            <div class="col-md-10">Danh sách sách đã chọn:</div>
+            <div id="labelEditSelect" style="height: 100px; overflow-y: auto;" class="col-md-10">
+            </div>
+        </div>
+
+
+
+        <div class="form-group col-6">
             <div class="col-md-offset-2 col-md-10">
                 <label>Danh sách được áp dụng khuyến mãi</label>
+                <div>
+                    <span>Tìm kiếm: </span>
+                    <input class="w-100" oninput="reloadCheckbox(this.value)" />
+                </div>
                 <hr />
 
-                @foreach (var book in ViewBag.list_of_book)
-                {
-                    string labelName = "Tên sách: " + book.EditionName + " - Mã sách: " + book.EditionID.ToString();
-                    if (ViewBag.list_of_selected_book != null && ViewBag.list_of_selected_book.Contains(@book.EditionID.ToString()))
-                    {
-                        <input checked="checked" type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID" />
-                    }
-                    else
-                    {
-                        <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID" />
-                    }
+                <div style="height: 300px; overflow-y: auto;" id="editEditionSelect">
 
-                    <label for="@book.EditionID">@labelName</label><br>
-                }
+
+
+                </div>
             </div>
         </div>
 
 
+        <input type="hidden" id="editSelectedValueInput" name="editSelectedValueInput" />
 
-        <div class="form-group">
+
+        <div class="form-group col-6" style="margin-top:250px; padding-left:100px">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu" class="btn btn-default" />
-                <button type="button" class="btn btn-primary" onclick="loadController(@Model.PromotionID)">Xóa</button>
+                <label>Tác vụ</label>
+                <br />
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                <button type="button" class="btn btn-dark" onclick="loadController(@Model.PromotionID)">Xóa</button>
             </div>
         </div>
+        <div class="form-group col-6">
+            <div class="error-message ">
+            </div>
+        </div>
+    </div>
+
     </div>
 }
 
@@ -157,4 +162,107 @@
             }
         });
     });
+</script>
+
+
+<script>
+    var editSelectedValue = []
+
+    $('form').on('submit', function () {
+        $('#editSelectedValueInput').val(JSON.stringify(editSelectedValue));
+        console.log(JSON.stringify(editSelectedValue))
+    });
+
+    function editSelectCheckbox(value) {
+        if (editSelectedValue.includes(value)) {
+            editSelectedValue = editSelectedValue.filter(v => v !== value)
+        } else {
+            if (value != 0)
+                editSelectedValue.push(value)
+        }
+        const selectElement = document.getElementById('labelEditSelect');
+        selectElement.innerHTML = "";
+
+        if (editSelectedValue.length > 0) {
+            $.ajax({
+                url: '/Manager/BOOK_EDITION/getSelectedBooks',
+                data: { paraList: editSelectedValue },
+                traditional: true,
+                type: 'GET',
+                success: function (data) {
+                    var editions = JSON.parse(data)
+                    let html = "";
+                    Object.keys(editions).forEach(key => {
+                        const str = `
+                                    <li>${"Tên sách : " + editions[key].EditionName + " - Mã: " + key}</li>
+                        `;
+                        html += str;
+                    });
+                    selectElement.innerHTML = html;
+                }
+            });
+        }
+    }
+    function reloadCheckbox(keyword) {
+        $.ajax({
+            url: '/Manager/BOOK_EDITION/getAllBookEdition',
+            data: { keyword: keyword },
+            type: 'GET',
+            success: function (data) {
+                var editions = JSON.parse(data)
+                const selectElement = document.getElementById('editEditionSelect');
+                let html = "";
+
+                let isDisabled = ""
+                const startDate = (new Date($("#PromotionStartDateEdit").val()).getTime());
+                if (startDate <= new Date().getTime()) {
+                    isDisabled = "disabled"
+                }
+                if (isDisabled !== "") {
+                    html += `<p style="color: red">Không thể thay đổi danh sách áp dụng khuyến mãi khi chương trình khuyến mãi đã bắt đầu<p/> <br/>`
+                }
+
+                Object.keys(editions).forEach(key => {
+                    let check = ""
+                    if (editSelectedValue.includes(parseInt(key))) {
+                        check = "checked"
+                    }
+
+                    const style = `
+                            width: 1.2rem;
+                            height: 1.2rem;
+                            border-radius: 0px;
+                            background: #fff;
+                        `
+
+                    
+                    const str = `
+                                    <input class="custom-checkbox" style="${style}" type="checkbox" id=${key} value=${key}  onchange="editSelectCheckbox(${key})" ${check} ${isDisabled} />
+                                    <label>${"Tên sách: " + editions[key].EditionName + " - Mã: " + key}</label>
+                                    </br>
+                        `;
+                    html += str;
+                });
+                selectElement.innerHTML = html;
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Manager/BOOK_EDITION/getSelectedBookFromPromo',
+            data: { id: @Html.Raw(ViewBag.promotionID) },
+            type: 'GET',
+            success: function (data) {
+                var editions = JSON.parse(data)
+                Object.keys(editions).forEach(key => {
+                    editSelectedValue.push(parseInt(key))
+                });
+                reloadCheckbox("")
+                editSelectCheckbox(0);
+            }
+        });
+
+    })
 </script>

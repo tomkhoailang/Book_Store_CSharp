@@ -19,6 +19,7 @@ namespace WebApplication2.Models
         {
             this.TRANSACTION_DETAILS = new HashSet<TRANSACTION_DETAILS>();
         }
+    
         public int BankAccountID { get; set; }
         public string BankAccountNumber { get; set; }
         public string BankAccountName { get; set; }

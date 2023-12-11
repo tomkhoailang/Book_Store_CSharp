@@ -101,7 +101,7 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.First().TierLevel)
                                         </th>
-                                        <th>Thao tác</th>
+                                        @*<th>Thao tác</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,12 +117,12 @@
                                             <td>
                                                 @item.TierLevel.ToString("#,##0").Replace(",", ".") VNĐ
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 <button type="button" class="btn btn-primary" id="@item.TierID" data-toggle="modal" data-target="#editModal" value="@item.TierID" onclick="loadPartialView(this.value)">
                                                     Chỉnh sửa
                                                 </button>
 
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using PagedList;
 using PagedList.Mvc;
 using WebApplication2.Models;
@@ -107,7 +108,59 @@ namespace WebApplication2.Areas.Manager.Controllers
 
             return View(bookEditions.ToPagedList(pageNumber, pageSize));
         }
+        public ActionResult getAllBookEdition(string keyword)
+        {
+            IQueryable<BOOK_EDITION> bookEditions = db.BOOK_EDITION;
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                bookEditions = bookEditions.Where(b => b.EditionName.Contains(keyword));
+            }
+            var JSON = bookEditions.ToDictionary(i => i.EditionID, i => new
+            {
+                EditionName = i.EditionName,
+            });
 
+            var booksJson = JsonConvert.SerializeObject(JSON);
+            return Json(booksJson, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getSelectedBookFromPromo(int? id)
+        {
+            if(id == null)
+            {
+                return HttpNotFound();
+            }
+            var bookEditions = db.PROMOTIONs.Find(id).BOOK_EDITION;
+            var JSON = bookEditions.ToDictionary(i => i.EditionID, i => new
+            {
+                EditionName = i.EditionName,
+            });
+
+            var booksJson = JsonConvert.SerializeObject(JSON);
+            return Json(booksJson, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult getSelectedBooks(int[] paraList)
+        {
+            if(paraList == null)
+            {
+                return HttpNotFound();
+            }
+            if(paraList.Length == 0)
+            {
+                return HttpNotFound();
+            }
+            var editionIDList = paraList.ToList();
+            if ( editionIDList.Count > 0)
+            {
+                var matchedBook = db.BOOK_EDITION.Where(b => editionIDList.Contains(b.EditionID));
+                var JSON = matchedBook.ToDictionary(i => i.EditionID, i => new
+                {
+                    EditionName = i.EditionName,
+                });
+                var booksJson = JsonConvert.SerializeObject(JSON);
+                return Json(booksJson, JsonRequestBehavior.AllowGet);
+            }
+            return HttpNotFound();
+        }
         // GET: BOOK_EDITION/Details/5
         public ActionResult Details(int? id)
         {

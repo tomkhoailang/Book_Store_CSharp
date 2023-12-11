@@ -301,12 +301,6 @@
     <Compile Include="Models\Sp_check_valid_promotion_Result.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\StatisticOfMonthViewModel.cs" />
     <Compile Include="Models\STOCK_INVENTORY.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
@@ -315,9 +309,6 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STOCK_RECEIVED_NOTE_DETAIL.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TIER.cs">
@@ -330,12 +321,6 @@
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_cus_order_status.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\V_cus_order_status_is_cancel.cs">
-      <DependentUpon>BookStoreManager.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\V_cus_order_status_is_success.cs">
       <DependentUpon>BookStoreManager.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\V_cus_order_status_not_success.cs">
@@ -5402,6 +5387,9 @@
     <Content Include="Areas\Manager\Views\Home\Index.cshtml" />
     <Content Include="Areas\Manager\Views\Home\_RevenueInOneMonthPartialView.cshtml" />
     <Content Include="Areas\Manager\Views\Home\Details.cshtml" />
+    <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
+    <Content Include="Areas\Manager\Views\CustomerOrderForManager\Details.cshtml" />
+    <Content Include="Areas\Manager\Views\CustomerOrderForManager\Index.cshtml" />
     <EntityDeploy Include="Models\BookStoreManager.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BookStoreManager.Designer.cs</LastGenOutput>
@@ -5409,9 +5397,6 @@
     <Content Include="Models\BookStoreManager.edmx.diagram">
       <DependentUpon>BookStoreManager.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
-    <Content Include="Areas\Manager\Views\CustomerOrderForManager\Details.cshtml" />
-    <Content Include="Areas\Manager\Views\CustomerOrderForManager\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\helpers.js" />
     <Content Include="Scripts\main.js" />

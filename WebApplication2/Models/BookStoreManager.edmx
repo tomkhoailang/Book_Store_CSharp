@@ -218,7 +218,7 @@
           <Property Name="PromotionStartDate" Type="datetime" Nullable="false" />
           <Property Name="PromotionEndDate" Type="datetime" Nullable="false" />
           <Property Name="ManagerID" Type="int" Nullable="false" />
-          <Property Name="PromotionDetails" Type="text" />
+          <Property Name="PromotionDetails" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PUBLISHER">
           <Key>
@@ -268,16 +268,6 @@
           <Property Name="EditionID" Type="int" Nullable="false" />
           <Property Name="StockReceivedNoteID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="TIER">
           <Key>
             <PropertyRef Name="TierID" />
@@ -311,26 +301,6 @@
         <!--Errors Found During Generation:
 warning 6002: The table/view 'BookStoreManager.dbo.V_cus_order_status' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="V_cus_order_status">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="StatusID" />
-          </Key>
-          <Property Name="OrderID" Type="int" Nullable="false" />
-          <Property Name="StatusID" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'BookStoreManager.dbo.V_cus_order_status_is_cancel' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="V_cus_order_status_is_cancel">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="StatusID" />
-          </Key>
-          <Property Name="OrderID" Type="int" Nullable="false" />
-          <Property Name="StatusID" Type="int" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'BookStoreManager.dbo.V_cus_order_status_is_success' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="V_cus_order_status_is_success">
           <Key>
             <PropertyRef Name="OrderID" />
             <PropertyRef Name="StatusID" />
@@ -430,7 +400,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="PersonID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__BANK_ACCO__Custo__71D1E811">
+        <Association Name="FK__BANK_ACCO__Custo__5070F446">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="*" />
           <ReferentialConstraint>
@@ -442,7 +412,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_CATE__Categ__0E6E26BF">
+        <Association Name="FK__BOOK_CATE__Categ__6D0D32F4">
           <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="1" />
           <End Role="BOOK_CATEGORY" Type="Self.BOOK_CATEGORY" Multiplicity="*" />
           <ReferentialConstraint>
@@ -454,7 +424,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_CATE__Editi__0D7A0286">
+        <Association Name="FK__BOOK_CATE__Editi__6C190EBB">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="BOOK_CATEGORY" Type="Self.BOOK_CATEGORY" Multiplicity="*" />
           <ReferentialConstraint>
@@ -466,7 +436,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_COLL__Manag__01142BA1">
+        <Association Name="FK__BOOK_COLL__Manag__5FB337D6">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -478,7 +448,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_EDIT__BookC__0F624AF8">
+        <Association Name="FK__BOOK_EDIT__BookC__6E01572D">
           <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="0..1" />
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -490,7 +460,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_EDIT__Editi__30C33EC3">
+        <Association Name="FK__BOOK_EDIT__Editi__0F624AF8">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="BOOK_EDITION_IMAGE" Type="Self.BOOK_EDITION_IMAGE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -502,7 +472,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_EDIT__Manag__06CD04F7">
+        <Association Name="FK__BOOK_EDIT__Manag__656C112C">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -514,7 +484,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_PROM__Editi__1332DBDC">
+        <Association Name="FK__BOOK_PROM__Editi__71D1E811">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="BOOK_PROMOTION" Type="Self.BOOK_PROMOTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -526,7 +496,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_PROM__Promo__123EB7A3">
+        <Association Name="FK__BOOK_PROM__Promo__70DDC3D8">
           <End Role="PROMOTION" Type="Self.PROMOTION" Multiplicity="1" />
           <End Role="BOOK_PROMOTION" Type="Self.BOOK_PROMOTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -538,7 +508,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_REVI__Custo__2CF2ADDF">
+        <Association Name="FK__BOOK_REVI__Custo__0B91BA14">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
           <ReferentialConstraint>
@@ -550,7 +520,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_REVI__Editi__2BFE89A6">
+        <Association Name="FK__BOOK_REVI__Editi__0A9D95DB">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
           <ReferentialConstraint>
@@ -562,7 +532,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CATEGORY__Manage__797309D9">
+        <Association Name="FK__CATEGORY__Manage__5812160E">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="*" />
           <ReferentialConstraint>
@@ -574,7 +544,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Custo__3A4CA8FD">
+        <Association Name="FK__CUSTOMER___Custo__18EBB532">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -586,7 +556,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Editi__45BE5BA9">
+        <Association Name="FK__CUSTOMER___Editi__245D67DE">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -598,7 +568,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Order__40058253">
+        <Association Name="FK__CUSTOMER___Order__1EA48E88">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -610,7 +580,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Order__46B27FE2">
+        <Association Name="FK__CUSTOMER___Order__25518C17">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -622,7 +592,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Shipp__3B40CD36">
+        <Association Name="FK__CUSTOMER___Shipp__19DFD96B">
           <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -634,7 +604,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Staff__395884C4">
+        <Association Name="FK__CUSTOMER___Staff__17F790F9">
           <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -646,7 +616,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Statu__40F9A68C">
+        <Association Name="FK__CUSTOMER___Statu__1F98B2C1">
           <End Role="ORDER_STATUS" Type="Self.ORDER_STATUS" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -658,7 +628,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MARKED_BO__Custo__09A971A2">
+        <Association Name="FK__MARKED_BO__Custo__68487DD7">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="MARKED_BOOK" Type="Self.MARKED_BOOK" Multiplicity="*" />
           <ReferentialConstraint>
@@ -670,7 +640,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MARKED_BO__Editi__0A9D95DB">
+        <Association Name="FK__MARKED_BO__Editi__693CA210">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="MARKED_BOOK" Type="Self.MARKED_BOOK" Multiplicity="*" />
           <ReferentialConstraint>
@@ -682,7 +652,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Person__ManagerI__6754599E">
+        <Association Name="FK__Person__ManagerI__45F365D3">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
           <ReferentialConstraint>
@@ -694,7 +664,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Person__TierID__66603565">
+        <Association Name="FK__Person__TierID__44FF419A">
           <End Role="TIER" Type="Self.TIER" Multiplicity="0..1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
           <ReferentialConstraint>
@@ -706,7 +676,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PROMOTION__Manag__7E37BEF6">
+        <Association Name="FK__PROMOTION__Manag__5CD6CB2B">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="PROMOTION" Type="Self.PROMOTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -718,7 +688,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PUBLISHER__Manag__75A278F5">
+        <Association Name="FK__PUBLISHER__Manag__5441852A">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -730,7 +700,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SHIP_CONF__Order__531856C7">
+        <Association Name="FK__SHIP_CONF__Order__31B762FC">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
           <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -742,7 +712,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SHIP_CONF__Shipp__540C7B00">
+        <Association Name="FK__SHIP_CONF__Shipp__32AB8735">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -754,7 +724,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_INV__Editi__2739D489">
+        <Association Name="FK__STOCK_INV__Editi__05D8E0BE">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="STOCK_INVENTORY" Type="Self.STOCK_INVENTORY" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -766,7 +736,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Editi__1EA48E88">
+        <Association Name="FK__STOCK_REC__Editi__7D439ABD">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -778,7 +748,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Manag__17F790F9">
+        <Association Name="FK__STOCK_REC__Manag__76969D2E">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -790,7 +760,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Publi__17036CC0">
+        <Association Name="FK__STOCK_REC__Publi__75A278F5">
           <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -802,7 +772,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Stock__1F98B2C1">
+        <Association Name="FK__STOCK_REC__Stock__7E37BEF6">
           <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -814,7 +784,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TIER__ManagerID__60A75C0F">
+        <Association Name="FK__TIER__ManagerID__3F466844">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="TIER" Type="Self.TIER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -826,7 +796,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TRANSACTI__BankA__4C6B5938">
+        <Association Name="FK__TRANSACTI__BankA__2B0A656D">
           <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="0..1" />
           <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -838,7 +808,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TRANSACTI__Order__4D5F7D71">
+        <Association Name="FK__TRANSACTI__Order__2BFE89A6">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="0..1" />
           <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -850,7 +820,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TRANSACTI__Walle__4B7734FF">
+        <Association Name="FK__TRANSACTI__Walle__2A164134">
           <End Role="WALLET" Type="Self.WALLET" Multiplicity="0..1" />
           <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -862,7 +832,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WALLET__Customer__6C190EBB">
+        <Association Name="FK__WALLET__Customer__4AB81AF0">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="WALLET" Type="Self.WALLET" Multiplicity="*" />
           <ReferentialConstraint>
@@ -954,39 +924,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
         <Function Name="FN_GetTierID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
           <Parameter Name="personID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_cancel_by_not_delivering" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="orderID" Type="int" Mode="In" />
         </Function>
         <Function Name="Sp_check_valid_promotion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="editionID" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="version" Type="int" Mode="In" />
-          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-        </Function>
-        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
+        <Function Name="SP_CREATE_CUSTOMER_ORDER_STATUS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="int" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_Inital_Manager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
@@ -995,21 +941,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Parameter Name="AccountID" Type="nvarchar" Mode="In" />
           <Parameter Name="ManagerID" Type="int" Mode="In" />
         </Function>
-        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-          <Parameter Name="owner_id" Type="int" Mode="In" />
-          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-        </Function>
-        <Function Name="sp_switch_status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="orderID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_switch_status_after_cus_given" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="orderID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_switch_status_after_processing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="orderID" Type="int" Mode="In" />
-        </Function>
-        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="BookStoreManagerModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -1038,7 +969,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TIER" EntityType="Self.TIER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WALLET" EntityType="Self.WALLET" Schema="dbo" store:Type="Tables" />
@@ -1047,18 +977,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_cus_order_status].[OrderID] AS [OrderID], 
     [V_cus_order_status].[StatusID] AS [StatusID]
     FROM [dbo].[V_cus_order_status] AS [V_cus_order_status]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="V_cus_order_status_is_cancel" EntityType="Self.V_cus_order_status_is_cancel" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [V_cus_order_status_is_cancel].[OrderID] AS [OrderID], 
-    [V_cus_order_status_is_cancel].[StatusID] AS [StatusID]
-    FROM [dbo].[V_cus_order_status_is_cancel] AS [V_cus_order_status_is_cancel]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="V_cus_order_status_is_success" EntityType="Self.V_cus_order_status_is_success" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [V_cus_order_status_is_success].[OrderID] AS [OrderID], 
-    [V_cus_order_status_is_success].[StatusID] AS [StatusID]
-    FROM [dbo].[V_cus_order_status_is_success] AS [V_cus_order_status_is_success]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="V_cus_order_status_not_success" EntityType="Self.V_cus_order_status_not_success" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -1123,151 +1041,151 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
     [V_UserRole].[PersonID] AS [PersonID]
     FROM [dbo].[V_UserRole] AS [V_UserRole]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__BANK_ACCO__Custo__71D1E811" Association="Self.FK__BANK_ACCO__Custo__71D1E811">
+          <AssociationSet Name="FK__BANK_ACCO__Custo__5070F446" Association="Self.FK__BANK_ACCO__Custo__5070F446">
             <End Role="Person" EntitySet="Person" />
             <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_CATE__Categ__0E6E26BF" Association="Self.FK__BOOK_CATE__Categ__0E6E26BF">
+          <AssociationSet Name="FK__BOOK_CATE__Categ__6D0D32F4" Association="Self.FK__BOOK_CATE__Categ__6D0D32F4">
             <End Role="CATEGORY" EntitySet="CATEGORY" />
             <End Role="BOOK_CATEGORY" EntitySet="BOOK_CATEGORY" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_CATE__Editi__0D7A0286" Association="Self.FK__BOOK_CATE__Editi__0D7A0286">
+          <AssociationSet Name="FK__BOOK_CATE__Editi__6C190EBB" Association="Self.FK__BOOK_CATE__Editi__6C190EBB">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="BOOK_CATEGORY" EntitySet="BOOK_CATEGORY" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_COLL__Manag__01142BA1" Association="Self.FK__BOOK_COLL__Manag__01142BA1">
+          <AssociationSet Name="FK__BOOK_COLL__Manag__5FB337D6" Association="Self.FK__BOOK_COLL__Manag__5FB337D6">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_EDIT__BookC__0F624AF8" Association="Self.FK__BOOK_EDIT__BookC__0F624AF8">
+          <AssociationSet Name="FK__BOOK_EDIT__BookC__6E01572D" Association="Self.FK__BOOK_EDIT__BookC__6E01572D">
             <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_EDIT__Editi__30C33EC3" Association="Self.FK__BOOK_EDIT__Editi__30C33EC3">
+          <AssociationSet Name="FK__BOOK_EDIT__Editi__0F624AF8" Association="Self.FK__BOOK_EDIT__Editi__0F624AF8">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="BOOK_EDITION_IMAGE" EntitySet="BOOK_EDITION_IMAGE" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_EDIT__Manag__06CD04F7" Association="Self.FK__BOOK_EDIT__Manag__06CD04F7">
+          <AssociationSet Name="FK__BOOK_EDIT__Manag__656C112C" Association="Self.FK__BOOK_EDIT__Manag__656C112C">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_PROM__Editi__1332DBDC" Association="Self.FK__BOOK_PROM__Editi__1332DBDC">
+          <AssociationSet Name="FK__BOOK_PROM__Editi__71D1E811" Association="Self.FK__BOOK_PROM__Editi__71D1E811">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="BOOK_PROMOTION" EntitySet="BOOK_PROMOTION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_PROM__Promo__123EB7A3" Association="Self.FK__BOOK_PROM__Promo__123EB7A3">
+          <AssociationSet Name="FK__BOOK_PROM__Promo__70DDC3D8" Association="Self.FK__BOOK_PROM__Promo__70DDC3D8">
             <End Role="PROMOTION" EntitySet="PROMOTION" />
             <End Role="BOOK_PROMOTION" EntitySet="BOOK_PROMOTION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_REVI__Custo__2CF2ADDF" Association="Self.FK__BOOK_REVI__Custo__2CF2ADDF">
+          <AssociationSet Name="FK__BOOK_REVI__Custo__0B91BA14" Association="Self.FK__BOOK_REVI__Custo__0B91BA14">
             <End Role="Person" EntitySet="Person" />
             <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_REVI__Editi__2BFE89A6" Association="Self.FK__BOOK_REVI__Editi__2BFE89A6">
+          <AssociationSet Name="FK__BOOK_REVI__Editi__0A9D95DB" Association="Self.FK__BOOK_REVI__Editi__0A9D95DB">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
           </AssociationSet>
-          <AssociationSet Name="FK__CATEGORY__Manage__797309D9" Association="Self.FK__CATEGORY__Manage__797309D9">
+          <AssociationSet Name="FK__CATEGORY__Manage__5812160E" Association="Self.FK__CATEGORY__Manage__5812160E">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="CATEGORY" EntitySet="CATEGORY" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Custo__3A4CA8FD" Association="Self.FK__CUSTOMER___Custo__3A4CA8FD">
+          <AssociationSet Name="FK__CUSTOMER___Custo__18EBB532" Association="Self.FK__CUSTOMER___Custo__18EBB532">
             <End Role="Person" EntitySet="Person" />
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Editi__45BE5BA9" Association="Self.FK__CUSTOMER___Editi__45BE5BA9">
+          <AssociationSet Name="FK__CUSTOMER___Editi__245D67DE" Association="Self.FK__CUSTOMER___Editi__245D67DE">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Order__40058253" Association="Self.FK__CUSTOMER___Order__40058253">
+          <AssociationSet Name="FK__CUSTOMER___Order__1EA48E88" Association="Self.FK__CUSTOMER___Order__1EA48E88">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Order__46B27FE2" Association="Self.FK__CUSTOMER___Order__46B27FE2">
+          <AssociationSet Name="FK__CUSTOMER___Order__25518C17" Association="Self.FK__CUSTOMER___Order__25518C17">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Shipp__3B40CD36" Association="Self.FK__CUSTOMER___Shipp__3B40CD36">
+          <AssociationSet Name="FK__CUSTOMER___Shipp__19DFD96B" Association="Self.FK__CUSTOMER___Shipp__19DFD96B">
             <End Role="Person" EntitySet="Person" />
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Staff__395884C4" Association="Self.FK__CUSTOMER___Staff__395884C4">
+          <AssociationSet Name="FK__CUSTOMER___Staff__17F790F9" Association="Self.FK__CUSTOMER___Staff__17F790F9">
             <End Role="Person" EntitySet="Person" />
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Statu__40F9A68C" Association="Self.FK__CUSTOMER___Statu__40F9A68C">
+          <AssociationSet Name="FK__CUSTOMER___Statu__1F98B2C1" Association="Self.FK__CUSTOMER___Statu__1F98B2C1">
             <End Role="ORDER_STATUS" EntitySet="ORDER_STATUS" />
             <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
           </AssociationSet>
-          <AssociationSet Name="FK__MARKED_BO__Custo__09A971A2" Association="Self.FK__MARKED_BO__Custo__09A971A2">
+          <AssociationSet Name="FK__MARKED_BO__Custo__68487DD7" Association="Self.FK__MARKED_BO__Custo__68487DD7">
             <End Role="Person" EntitySet="Person" />
             <End Role="MARKED_BOOK" EntitySet="MARKED_BOOK" />
           </AssociationSet>
-          <AssociationSet Name="FK__MARKED_BO__Editi__0A9D95DB" Association="Self.FK__MARKED_BO__Editi__0A9D95DB">
+          <AssociationSet Name="FK__MARKED_BO__Editi__693CA210" Association="Self.FK__MARKED_BO__Editi__693CA210">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="MARKED_BOOK" EntitySet="MARKED_BOOK" />
           </AssociationSet>
-          <AssociationSet Name="FK__Person__ManagerI__6754599E" Association="Self.FK__Person__ManagerI__6754599E">
+          <AssociationSet Name="FK__Person__ManagerI__45F365D3" Association="Self.FK__Person__ManagerI__45F365D3">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
-          <AssociationSet Name="FK__Person__TierID__66603565" Association="Self.FK__Person__TierID__66603565">
+          <AssociationSet Name="FK__Person__TierID__44FF419A" Association="Self.FK__Person__TierID__44FF419A">
             <End Role="TIER" EntitySet="TIER" />
             <End Role="Person" EntitySet="Person" />
           </AssociationSet>
-          <AssociationSet Name="FK__PROMOTION__Manag__7E37BEF6" Association="Self.FK__PROMOTION__Manag__7E37BEF6">
+          <AssociationSet Name="FK__PROMOTION__Manag__5CD6CB2B" Association="Self.FK__PROMOTION__Manag__5CD6CB2B">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="PROMOTION" EntitySet="PROMOTION" />
           </AssociationSet>
-          <AssociationSet Name="FK__PUBLISHER__Manag__75A278F5" Association="Self.FK__PUBLISHER__Manag__75A278F5">
+          <AssociationSet Name="FK__PUBLISHER__Manag__5441852A" Association="Self.FK__PUBLISHER__Manag__5441852A">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="PUBLISHER" EntitySet="PUBLISHER" />
           </AssociationSet>
-          <AssociationSet Name="FK__SHIP_CONF__Order__531856C7" Association="Self.FK__SHIP_CONF__Order__531856C7">
+          <AssociationSet Name="FK__SHIP_CONF__Order__31B762FC" Association="Self.FK__SHIP_CONF__Order__31B762FC">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
           </AssociationSet>
-          <AssociationSet Name="FK__SHIP_CONF__Shipp__540C7B00" Association="Self.FK__SHIP_CONF__Shipp__540C7B00">
+          <AssociationSet Name="FK__SHIP_CONF__Shipp__32AB8735" Association="Self.FK__SHIP_CONF__Shipp__32AB8735">
             <End Role="Person" EntitySet="Person" />
             <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_INV__Editi__2739D489" Association="Self.FK__STOCK_INV__Editi__2739D489">
+          <AssociationSet Name="FK__STOCK_INV__Editi__05D8E0BE" Association="Self.FK__STOCK_INV__Editi__05D8E0BE">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="STOCK_INVENTORY" EntitySet="STOCK_INVENTORY" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Editi__1EA48E88" Association="Self.FK__STOCK_REC__Editi__1EA48E88">
+          <AssociationSet Name="FK__STOCK_REC__Editi__7D439ABD" Association="Self.FK__STOCK_REC__Editi__7D439ABD">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Manag__17F790F9" Association="Self.FK__STOCK_REC__Manag__17F790F9">
+          <AssociationSet Name="FK__STOCK_REC__Manag__76969D2E" Association="Self.FK__STOCK_REC__Manag__76969D2E">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Publi__17036CC0" Association="Self.FK__STOCK_REC__Publi__17036CC0">
+          <AssociationSet Name="FK__STOCK_REC__Publi__75A278F5" Association="Self.FK__STOCK_REC__Publi__75A278F5">
             <End Role="PUBLISHER" EntitySet="PUBLISHER" />
             <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Stock__1F98B2C1" Association="Self.FK__STOCK_REC__Stock__1F98B2C1">
+          <AssociationSet Name="FK__STOCK_REC__Stock__7E37BEF6" Association="Self.FK__STOCK_REC__Stock__7E37BEF6">
             <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
             <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__TIER__ManagerID__60A75C0F" Association="Self.FK__TIER__ManagerID__60A75C0F">
+          <AssociationSet Name="FK__TIER__ManagerID__3F466844" Association="Self.FK__TIER__ManagerID__3F466844">
             <End Role="MANAGER" EntitySet="MANAGER" />
             <End Role="TIER" EntitySet="TIER" />
           </AssociationSet>
-          <AssociationSet Name="FK__TRANSACTI__BankA__4C6B5938" Association="Self.FK__TRANSACTI__BankA__4C6B5938">
+          <AssociationSet Name="FK__TRANSACTI__BankA__2B0A656D" Association="Self.FK__TRANSACTI__BankA__2B0A656D">
             <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
-          <AssociationSet Name="FK__TRANSACTI__Order__4D5F7D71" Association="Self.FK__TRANSACTI__Order__4D5F7D71">
+          <AssociationSet Name="FK__TRANSACTI__Order__2BFE89A6" Association="Self.FK__TRANSACTI__Order__2BFE89A6">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
-          <AssociationSet Name="FK__TRANSACTI__Walle__4B7734FF" Association="Self.FK__TRANSACTI__Walle__4B7734FF">
+          <AssociationSet Name="FK__TRANSACTI__Walle__2A164134" Association="Self.FK__TRANSACTI__Walle__2A164134">
             <End Role="WALLET" EntitySet="WALLET" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
-          <AssociationSet Name="FK__WALLET__Customer__6C190EBB" Association="Self.FK__WALLET__Customer__6C190EBB">
+          <AssociationSet Name="FK__WALLET__Customer__4AB81AF0" Association="Self.FK__WALLET__Customer__4AB81AF0">
             <End Role="Person" EntitySet="Person" />
             <End Role="WALLET" EntitySet="WALLET" />
           </AssociationSet>
@@ -1370,8 +1288,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="BankAccountName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BankCVC" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Person" Relationship="Self.FK__BANK_ACCO__Custo__71D1E811" FromRole="BANK_ACCOUNT" ToRole="Person" />
-          <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__BankA__4C6B5938" FromRole="BANK_ACCOUNT" ToRole="TRANSACTION_DETAILS" />
+          <NavigationProperty Name="Person" Relationship="Self.FK__BANK_ACCO__Custo__5070F446" FromRole="BANK_ACCOUNT" ToRole="Person" />
+          <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__BankA__2B0A656D" FromRole="BANK_ACCOUNT" ToRole="TRANSACTION_DETAILS" />
         </EntityType>
         <EntityType Name="BOOK_COLLECTION">
           <Key>
@@ -1380,8 +1298,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="BookCollectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BookCollectionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__BOOK_COLL__Manag__01142BA1" FromRole="BOOK_COLLECTION" ToRole="MANAGER" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__BookC__0F624AF8" FromRole="BOOK_COLLECTION" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__BOOK_COLL__Manag__5FB337D6" FromRole="BOOK_COLLECTION" ToRole="MANAGER" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__BookC__6E01572D" FromRole="BOOK_COLLECTION" ToRole="BOOK_EDITION" />
         </EntityType>
         <EntityType Name="BOOK_EDITION">
           <Key>
@@ -1396,13 +1314,13 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="EditionAuthor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
           <Property Name="BookCollectionID" Type="Int32" />
-          <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_EDIT__BookC__0F624AF8" FromRole="BOOK_EDITION" ToRole="BOOK_COLLECTION" />
-          <NavigationProperty Name="BOOK_EDITION_IMAGE" Relationship="Self.FK__BOOK_EDIT__Editi__30C33EC3" FromRole="BOOK_EDITION" ToRole="BOOK_EDITION_IMAGE" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__BOOK_EDIT__Manag__06CD04F7" FromRole="BOOK_EDITION" ToRole="MANAGER" />
-          <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Editi__2BFE89A6" FromRole="BOOK_EDITION" ToRole="BOOK_REVIEW" />
-          <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Editi__45BE5BA9" FromRole="BOOK_EDITION" ToRole="CUSTOMER_ORDER_DETAIL" />
-          <NavigationProperty Name="STOCK_INVENTORY" Relationship="Self.FK__STOCK_INV__Editi__2739D489" FromRole="BOOK_EDITION" ToRole="STOCK_INVENTORY" />
-          <NavigationProperty Name="STOCK_RECEIVED_NOTE_DETAIL" Relationship="Self.FK__STOCK_REC__Editi__1EA48E88" FromRole="BOOK_EDITION" ToRole="STOCK_RECEIVED_NOTE_DETAIL" />
+          <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_EDIT__BookC__6E01572D" FromRole="BOOK_EDITION" ToRole="BOOK_COLLECTION" />
+          <NavigationProperty Name="BOOK_EDITION_IMAGE" Relationship="Self.FK__BOOK_EDIT__Editi__0F624AF8" FromRole="BOOK_EDITION" ToRole="BOOK_EDITION_IMAGE" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__BOOK_EDIT__Manag__656C112C" FromRole="BOOK_EDITION" ToRole="MANAGER" />
+          <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Editi__0A9D95DB" FromRole="BOOK_EDITION" ToRole="BOOK_REVIEW" />
+          <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Editi__245D67DE" FromRole="BOOK_EDITION" ToRole="CUSTOMER_ORDER_DETAIL" />
+          <NavigationProperty Name="STOCK_INVENTORY" Relationship="Self.FK__STOCK_INV__Editi__05D8E0BE" FromRole="BOOK_EDITION" ToRole="STOCK_INVENTORY" />
+          <NavigationProperty Name="STOCK_RECEIVED_NOTE_DETAIL" Relationship="Self.FK__STOCK_REC__Editi__7D439ABD" FromRole="BOOK_EDITION" ToRole="STOCK_RECEIVED_NOTE_DETAIL" />
           <NavigationProperty Name="CATEGORies" Relationship="Self.BOOK_CATEGORY" FromRole="BOOK_EDITION" ToRole="CATEGORY" />
           <NavigationProperty Name="PROMOTIONs" Relationship="Self.BOOK_PROMOTION" FromRole="BOOK_EDITION" ToRole="PROMOTION" />
           <NavigationProperty Name="People" Relationship="Self.MARKED_BOOK" FromRole="BOOK_EDITION" ToRole="Person" />
@@ -1414,7 +1332,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="EditionImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EditionImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EditionID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Editi__30C33EC3" FromRole="BOOK_EDITION_IMAGE" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Editi__0F624AF8" FromRole="BOOK_EDITION_IMAGE" ToRole="BOOK_EDITION" />
         </EntityType>
         <EntityType Name="BOOK_REVIEW">
           <Key>
@@ -1426,8 +1344,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="EditionID" Type="Int32" Nullable="false" />
           <Property Name="ReviewRating" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_REVI__Editi__2BFE89A6" FromRole="BOOK_REVIEW" ToRole="BOOK_EDITION" />
-          <NavigationProperty Name="Person" Relationship="Self.FK__BOOK_REVI__Custo__2CF2ADDF" FromRole="BOOK_REVIEW" ToRole="Person" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_REVI__Editi__0A9D95DB" FromRole="BOOK_REVIEW" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="Person" Relationship="Self.FK__BOOK_REVI__Custo__0B91BA14" FromRole="BOOK_REVIEW" ToRole="Person" />
         </EntityType>
         <EntityType Name="CATEGORY">
           <Key>
@@ -1437,7 +1355,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CategoryDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__CATEGORY__Manage__797309D9" FromRole="CATEGORY" ToRole="MANAGER" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__CATEGORY__Manage__5812160E" FromRole="CATEGORY" ToRole="MANAGER" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_CATEGORY" FromRole="CATEGORY" ToRole="BOOK_EDITION" />
         </EntityType>
         <EntityType Name="CUSTOMER_ORDER">
@@ -1452,13 +1370,13 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="StaffID" Type="Int32" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="ShipperID" Type="Int32" />
-          <NavigationProperty Name="Person" Relationship="Self.FK__CUSTOMER___Custo__3A4CA8FD" FromRole="CUSTOMER_ORDER" ToRole="Person" />
-          <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Order__40058253" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_STATUS" />
-          <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Order__46B27FE2" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_DETAIL" />
-          <NavigationProperty Name="Person1" Relationship="Self.FK__CUSTOMER___Shipp__3B40CD36" FromRole="CUSTOMER_ORDER" ToRole="Person" />
-          <NavigationProperty Name="Person2" Relationship="Self.FK__CUSTOMER___Staff__395884C4" FromRole="CUSTOMER_ORDER" ToRole="Person" />
-          <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Order__531856C7" FromRole="CUSTOMER_ORDER" ToRole="SHIP_CONFIRMATION" />
-          <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Order__4D5F7D71" FromRole="CUSTOMER_ORDER" ToRole="TRANSACTION_DETAILS" />
+          <NavigationProperty Name="Person" Relationship="Self.FK__CUSTOMER___Custo__18EBB532" FromRole="CUSTOMER_ORDER" ToRole="Person" />
+          <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Order__1EA48E88" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_STATUS" />
+          <NavigationProperty Name="CUSTOMER_ORDER_DETAIL" Relationship="Self.FK__CUSTOMER___Order__25518C17" FromRole="CUSTOMER_ORDER" ToRole="CUSTOMER_ORDER_DETAIL" />
+          <NavigationProperty Name="Person1" Relationship="Self.FK__CUSTOMER___Shipp__19DFD96B" FromRole="CUSTOMER_ORDER" ToRole="Person" />
+          <NavigationProperty Name="Person2" Relationship="Self.FK__CUSTOMER___Staff__17F790F9" FromRole="CUSTOMER_ORDER" ToRole="Person" />
+          <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Order__31B762FC" FromRole="CUSTOMER_ORDER" ToRole="SHIP_CONFIRMATION" />
+          <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Order__2BFE89A6" FromRole="CUSTOMER_ORDER" ToRole="TRANSACTION_DETAILS" />
         </EntityType>
         <EntityType Name="CUSTOMER_ORDER_DETAIL">
           <Key>
@@ -1469,8 +1387,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="DetailQuantity" Type="Int32" Nullable="false" />
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="EditionID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__CUSTOMER___Editi__45BE5BA9" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="BOOK_EDITION" />
-          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__46B27FE2" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__CUSTOMER___Editi__245D67DE" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__25518C17" FromRole="CUSTOMER_ORDER_DETAIL" ToRole="CUSTOMER_ORDER" />
         </EntityType>
         <EntityType Name="CUSTOMER_ORDER_STATUS">
           <Key>
@@ -1480,8 +1398,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
           <Property Name="UpdateTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__40058253" FromRole="CUSTOMER_ORDER_STATUS" ToRole="CUSTOMER_ORDER" />
-          <NavigationProperty Name="ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__40F9A68C" FromRole="CUSTOMER_ORDER_STATUS" ToRole="ORDER_STATUS" />
+          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Order__1EA48E88" FromRole="CUSTOMER_ORDER_STATUS" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__1F98B2C1" FromRole="CUSTOMER_ORDER_STATUS" ToRole="ORDER_STATUS" />
         </EntityType>
         <EntityType Name="MANAGER">
           <Key>
@@ -1490,14 +1408,14 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="ManagerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AccountID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_MANAGER_AspNetUsers" FromRole="MANAGER" ToRole="AspNetUsers" />
-          <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__01142BA1" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__06CD04F7" FromRole="MANAGER" ToRole="BOOK_EDITION" />
-          <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__797309D9" FromRole="MANAGER" ToRole="CATEGORY" />
-          <NavigationProperty Name="People" Relationship="Self.FK__Person__ManagerI__6754599E" FromRole="MANAGER" ToRole="Person" />
-          <NavigationProperty Name="PROMOTIONs" Relationship="Self.FK__PROMOTION__Manag__7E37BEF6" FromRole="MANAGER" ToRole="PROMOTION" />
-          <NavigationProperty Name="PUBLISHERs" Relationship="Self.FK__PUBLISHER__Manag__75A278F5" FromRole="MANAGER" ToRole="PUBLISHER" />
-          <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Manag__17F790F9" FromRole="MANAGER" ToRole="STOCK_RECEIVED_NOTE" />
-          <NavigationProperty Name="TIERs" Relationship="Self.FK__TIER__ManagerID__60A75C0F" FromRole="MANAGER" ToRole="TIER" />
+          <NavigationProperty Name="BOOK_COLLECTION" Relationship="Self.FK__BOOK_COLL__Manag__5FB337D6" FromRole="MANAGER" ToRole="BOOK_COLLECTION" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__BOOK_EDIT__Manag__656C112C" FromRole="MANAGER" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="CATEGORies" Relationship="Self.FK__CATEGORY__Manage__5812160E" FromRole="MANAGER" ToRole="CATEGORY" />
+          <NavigationProperty Name="People" Relationship="Self.FK__Person__ManagerI__45F365D3" FromRole="MANAGER" ToRole="Person" />
+          <NavigationProperty Name="PROMOTIONs" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="MANAGER" ToRole="PROMOTION" />
+          <NavigationProperty Name="PUBLISHERs" Relationship="Self.FK__PUBLISHER__Manag__5441852A" FromRole="MANAGER" ToRole="PUBLISHER" />
+          <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Manag__76969D2E" FromRole="MANAGER" ToRole="STOCK_RECEIVED_NOTE" />
+          <NavigationProperty Name="TIERs" Relationship="Self.FK__TIER__ManagerID__3F466844" FromRole="MANAGER" ToRole="TIER" />
         </EntityType>
         <EntityType Name="ORDER_STATUS">
           <Key>
@@ -1505,7 +1423,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           </Key>
           <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__40F9A68C" FromRole="ORDER_STATUS" ToRole="CUSTOMER_ORDER_STATUS" />
+          <NavigationProperty Name="CUSTOMER_ORDER_STATUS" Relationship="Self.FK__CUSTOMER___Statu__1F98B2C1" FromRole="ORDER_STATUS" ToRole="CUSTOMER_ORDER_STATUS" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -1519,15 +1437,15 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="TierID" Type="Int32" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Person_AspNetUsers" FromRole="Person" ToRole="AspNetUsers" />
-          <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__71D1E811" FromRole="Person" ToRole="BANK_ACCOUNT" />
-          <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Custo__2CF2ADDF" FromRole="Person" ToRole="BOOK_REVIEW" />
-          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Custo__3A4CA8FD" FromRole="Person" ToRole="CUSTOMER_ORDER" />
-          <NavigationProperty Name="CUSTOMER_ORDER1" Relationship="Self.FK__CUSTOMER___Shipp__3B40CD36" FromRole="Person" ToRole="CUSTOMER_ORDER" />
-          <NavigationProperty Name="CUSTOMER_ORDER2" Relationship="Self.FK__CUSTOMER___Staff__395884C4" FromRole="Person" ToRole="CUSTOMER_ORDER" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__Person__ManagerI__6754599E" FromRole="Person" ToRole="MANAGER" />
-          <NavigationProperty Name="TIER" Relationship="Self.FK__Person__TierID__66603565" FromRole="Person" ToRole="TIER" />
-          <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Shipp__540C7B00" FromRole="Person" ToRole="SHIP_CONFIRMATION" />
-          <NavigationProperty Name="WALLETs" Relationship="Self.FK__WALLET__Customer__6C190EBB" FromRole="Person" ToRole="WALLET" />
+          <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__BANK_ACCO__Custo__5070F446" FromRole="Person" ToRole="BANK_ACCOUNT" />
+          <NavigationProperty Name="BOOK_REVIEW" Relationship="Self.FK__BOOK_REVI__Custo__0B91BA14" FromRole="Person" ToRole="BOOK_REVIEW" />
+          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__CUSTOMER___Custo__18EBB532" FromRole="Person" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="CUSTOMER_ORDER1" Relationship="Self.FK__CUSTOMER___Shipp__19DFD96B" FromRole="Person" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="CUSTOMER_ORDER2" Relationship="Self.FK__CUSTOMER___Staff__17F790F9" FromRole="Person" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__Person__ManagerI__45F365D3" FromRole="Person" ToRole="MANAGER" />
+          <NavigationProperty Name="TIER" Relationship="Self.FK__Person__TierID__44FF419A" FromRole="Person" ToRole="TIER" />
+          <NavigationProperty Name="SHIP_CONFIRMATION" Relationship="Self.FK__SHIP_CONF__Shipp__32AB8735" FromRole="Person" ToRole="SHIP_CONFIRMATION" />
+          <NavigationProperty Name="WALLETs" Relationship="Self.FK__WALLET__Customer__4AB81AF0" FromRole="Person" ToRole="WALLET" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.MARKED_BOOK" FromRole="Person" ToRole="BOOK_EDITION" />
         </EntityType>
         <EntityType Name="PROMOTION">
@@ -1540,8 +1458,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="PromotionStartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PromotionEndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__7E37BEF6" FromRole="PROMOTION" ToRole="MANAGER" />
+          <Property Name="PromotionDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__PROMOTION__Manag__5CD6CB2B" FromRole="PROMOTION" ToRole="MANAGER" />
           <NavigationProperty Name="BOOK_EDITION" Relationship="Self.BOOK_PROMOTION" FromRole="PROMOTION" ToRole="BOOK_EDITION" />
         </EntityType>
         <EntityType Name="PUBLISHER">
@@ -1553,8 +1471,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="PublisherDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PublisherImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__PUBLISHER__Manag__75A278F5" FromRole="PUBLISHER" ToRole="MANAGER" />
-          <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Publi__17036CC0" FromRole="PUBLISHER" ToRole="STOCK_RECEIVED_NOTE" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__PUBLISHER__Manag__5441852A" FromRole="PUBLISHER" ToRole="MANAGER" />
+          <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Publi__75A278F5" FromRole="PUBLISHER" ToRole="STOCK_RECEIVED_NOTE" />
         </EntityType>
         <EntityType Name="SHIP_CONFIRMATION">
           <Key>
@@ -1565,8 +1483,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="ConfirmationImage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OrderID" Type="Int32" Nullable="false" />
           <Property Name="ShipperID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__SHIP_CONF__Order__531856C7" FromRole="SHIP_CONFIRMATION" ToRole="CUSTOMER_ORDER" />
-          <NavigationProperty Name="Person" Relationship="Self.FK__SHIP_CONF__Shipp__540C7B00" FromRole="SHIP_CONFIRMATION" ToRole="Person" />
+          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__SHIP_CONF__Order__31B762FC" FromRole="SHIP_CONFIRMATION" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="Person" Relationship="Self.FK__SHIP_CONF__Shipp__32AB8735" FromRole="SHIP_CONFIRMATION" ToRole="Person" />
         </EntityType>
         <EntityType Name="STOCK_INVENTORY">
           <Key>
@@ -1576,7 +1494,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="InventoryStockOutTotal" Type="Int32" Nullable="false" />
           <Property Name="InventoryAvailableStock" Type="Int32" Nullable="false" />
           <Property Name="EditionID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_INV__Editi__2739D489" FromRole="STOCK_INVENTORY" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_INV__Editi__05D8E0BE" FromRole="STOCK_INVENTORY" ToRole="BOOK_EDITION" />
         </EntityType>
         <EntityType Name="STOCK_RECEIVED_NOTE">
           <Key>
@@ -1586,9 +1504,9 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="StockReceivedNoteDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PublisherID" Type="Int32" Nullable="false" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__STOCK_REC__Manag__17F790F9" FromRole="STOCK_RECEIVED_NOTE" ToRole="MANAGER" />
-          <NavigationProperty Name="PUBLISHER" Relationship="Self.FK__STOCK_REC__Publi__17036CC0" FromRole="STOCK_RECEIVED_NOTE" ToRole="PUBLISHER" />
-          <NavigationProperty Name="STOCK_RECEIVED_NOTE_DETAIL" Relationship="Self.FK__STOCK_REC__Stock__1F98B2C1" FromRole="STOCK_RECEIVED_NOTE" ToRole="STOCK_RECEIVED_NOTE_DETAIL" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__STOCK_REC__Manag__76969D2E" FromRole="STOCK_RECEIVED_NOTE" ToRole="MANAGER" />
+          <NavigationProperty Name="PUBLISHER" Relationship="Self.FK__STOCK_REC__Publi__75A278F5" FromRole="STOCK_RECEIVED_NOTE" ToRole="PUBLISHER" />
+          <NavigationProperty Name="STOCK_RECEIVED_NOTE_DETAIL" Relationship="Self.FK__STOCK_REC__Stock__7E37BEF6" FromRole="STOCK_RECEIVED_NOTE" ToRole="STOCK_RECEIVED_NOTE_DETAIL" />
         </EntityType>
         <EntityType Name="STOCK_RECEIVED_NOTE_DETAIL">
           <Key>
@@ -1599,18 +1517,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="NoteDetailPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
           <Property Name="EditionID" Type="Int32" Nullable="false" />
           <Property Name="StockReceivedNoteID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_REC__Editi__1EA48E88" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="BOOK_EDITION" />
-          <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Stock__1F98B2C1" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="STOCK_RECEIVED_NOTE" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="BOOK_EDITION" Relationship="Self.FK__STOCK_REC__Editi__7D439ABD" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="BOOK_EDITION" />
+          <NavigationProperty Name="STOCK_RECEIVED_NOTE" Relationship="Self.FK__STOCK_REC__Stock__7E37BEF6" FromRole="STOCK_RECEIVED_NOTE_DETAIL" ToRole="STOCK_RECEIVED_NOTE" />
         </EntityType>
         <EntityType Name="TIER">
           <Key>
@@ -1621,8 +1529,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="TierDiscount" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="TierLevel" Type="Int32" Nullable="false" />
           <Property Name="ManagerID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MANAGER" Relationship="Self.FK__TIER__ManagerID__60A75C0F" FromRole="TIER" ToRole="MANAGER" />
-          <NavigationProperty Name="People" Relationship="Self.FK__Person__TierID__66603565" FromRole="TIER" ToRole="Person" />
+          <NavigationProperty Name="MANAGER" Relationship="Self.FK__TIER__ManagerID__3F466844" FromRole="TIER" ToRole="MANAGER" />
+          <NavigationProperty Name="People" Relationship="Self.FK__Person__TierID__44FF419A" FromRole="TIER" ToRole="Person" />
         </EntityType>
         <EntityType Name="TRANSACTION_DETAILS">
           <Key>
@@ -1635,9 +1543,9 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="WalletID" Type="Int32" />
           <Property Name="BankAccountID" Type="Int32" />
           <Property Name="OrderID" Type="Int32" />
-          <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__TRANSACTI__BankA__4C6B5938" FromRole="TRANSACTION_DETAILS" ToRole="BANK_ACCOUNT" />
-          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__TRANSACTI__Order__4D5F7D71" FromRole="TRANSACTION_DETAILS" ToRole="CUSTOMER_ORDER" />
-          <NavigationProperty Name="WALLET" Relationship="Self.FK__TRANSACTI__Walle__4B7734FF" FromRole="TRANSACTION_DETAILS" ToRole="WALLET" />
+          <NavigationProperty Name="BANK_ACCOUNT" Relationship="Self.FK__TRANSACTI__BankA__2B0A656D" FromRole="TRANSACTION_DETAILS" ToRole="BANK_ACCOUNT" />
+          <NavigationProperty Name="CUSTOMER_ORDER" Relationship="Self.FK__TRANSACTI__Order__2BFE89A6" FromRole="TRANSACTION_DETAILS" ToRole="CUSTOMER_ORDER" />
+          <NavigationProperty Name="WALLET" Relationship="Self.FK__TRANSACTI__Walle__2A164134" FromRole="TRANSACTION_DETAILS" ToRole="WALLET" />
         </EntityType>
         <EntityType Name="WALLET">
           <Key>
@@ -1646,40 +1554,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Name="WalletID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerID" Type="Int32" Nullable="false" />
           <Property Name="Balance" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
-          <NavigationProperty Name="Person" Relationship="Self.FK__WALLET__Customer__6C190EBB" FromRole="WALLET" ToRole="Person" />
-          <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Walle__4B7734FF" FromRole="WALLET" ToRole="TRANSACTION_DETAILS" />
-        </EntityType>
-        <EntityType Name="V_cus_order_status">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="StatusID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="V_cus_order_status_is_cancel">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="StatusID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="V_cus_order_status_is_success">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="StatusID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="V_cus_order_status_not_success">
-          <Key>
-            <PropertyRef Name="OrderID" />
-            <PropertyRef Name="StatusID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Person" Relationship="Self.FK__WALLET__Customer__4AB81AF0" FromRole="WALLET" ToRole="Person" />
+          <NavigationProperty Name="TRANSACTION_DETAILS" Relationship="Self.FK__TRANSACTI__Walle__2A164134" FromRole="WALLET" ToRole="TRANSACTION_DETAILS" />
         </EntityType>
         <EntityType Name="V_CustomerSpending">
           <Key>
@@ -1690,14 +1566,14 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
         </EntityType>
         <EntityType Name="V_edition_buy_count">
           <Key>
-            <PropertyRef Name="EditionID" />
             <PropertyRef Name="EditionName" />
+            <PropertyRef Name="EditionID" />
           </Key>
+          <Property Name="EditionName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EditionID" Type="Int32" Nullable="false" />
-          <Property Name="BuyCount" Type="Int32" />
-          <Property Name="EditionName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="year" Type="Int32" />
           <Property Name="month" Type="Int32" />
+          <Property Name="BuyCount" Type="Int32" />
           <Property Name="TotalPrice" Type="Decimal" Precision="38" Scale="2" />
         </EntityType>
         <EntityType Name="V_edition_total_stock_quantity_price_in_this_and_previous_month">
@@ -1801,7 +1677,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BANK_ACCO__Custo__71D1E811">
+        <Association Name="FK__BANK_ACCO__Custo__5070F446">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1813,7 +1689,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TRANSACTI__BankA__4C6B5938">
+        <Association Name="FK__TRANSACTI__BankA__2B0A656D">
           <End Role="BANK_ACCOUNT" Type="Self.BANK_ACCOUNT" Multiplicity="0..1" />
           <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1825,7 +1701,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_COLL__Manag__01142BA1">
+        <Association Name="FK__BOOK_COLL__Manag__5FB337D6">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1837,7 +1713,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_EDIT__BookC__0F624AF8">
+        <Association Name="FK__BOOK_EDIT__BookC__6E01572D">
           <End Role="BOOK_COLLECTION" Type="Self.BOOK_COLLECTION" Multiplicity="0..1" />
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1849,7 +1725,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_EDIT__Editi__30C33EC3">
+        <Association Name="FK__BOOK_EDIT__Editi__0F624AF8">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="BOOK_EDITION_IMAGE" Type="Self.BOOK_EDITION_IMAGE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1861,7 +1737,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_EDIT__Manag__06CD04F7">
+        <Association Name="FK__BOOK_EDIT__Manag__656C112C">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1873,7 +1749,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_REVI__Editi__2BFE89A6">
+        <Association Name="FK__BOOK_REVI__Editi__0A9D95DB">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1885,7 +1761,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Editi__45BE5BA9">
+        <Association Name="FK__CUSTOMER___Editi__245D67DE">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1897,7 +1773,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_INV__Editi__2739D489">
+        <Association Name="FK__STOCK_INV__Editi__05D8E0BE">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="STOCK_INVENTORY" Type="Self.STOCK_INVENTORY" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -1909,7 +1785,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Editi__1EA48E88">
+        <Association Name="FK__STOCK_REC__Editi__7D439ABD">
           <End Role="BOOK_EDITION" Type="Self.BOOK_EDITION" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1921,7 +1797,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__BOOK_REVI__Custo__2CF2ADDF">
+        <Association Name="FK__BOOK_REVI__Custo__0B91BA14">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="BOOK_REVIEW" Type="Self.BOOK_REVIEW" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1933,7 +1809,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CATEGORY__Manage__797309D9">
+        <Association Name="FK__CATEGORY__Manage__5812160E">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1945,7 +1821,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Custo__3A4CA8FD">
+        <Association Name="FK__CUSTOMER___Custo__18EBB532">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1957,7 +1833,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Order__40058253">
+        <Association Name="FK__CUSTOMER___Order__1EA48E88">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1969,7 +1845,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Order__46B27FE2">
+        <Association Name="FK__CUSTOMER___Order__25518C17">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_DETAIL" Type="Self.CUSTOMER_ORDER_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1981,7 +1857,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Shipp__3B40CD36">
+        <Association Name="FK__CUSTOMER___Shipp__19DFD96B">
           <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1993,7 +1869,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Staff__395884C4">
+        <Association Name="FK__CUSTOMER___Staff__17F790F9">
           <End Role="Person" Type="Self.Person" Multiplicity="0..1" />
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2005,7 +1881,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SHIP_CONF__Order__531856C7">
+        <Association Name="FK__SHIP_CONF__Order__31B762FC">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="1" />
           <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2017,7 +1893,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TRANSACTI__Order__4D5F7D71">
+        <Association Name="FK__TRANSACTI__Order__2BFE89A6">
           <End Role="CUSTOMER_ORDER" Type="Self.CUSTOMER_ORDER" Multiplicity="0..1" />
           <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2029,7 +1905,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CUSTOMER___Statu__40F9A68C">
+        <Association Name="FK__CUSTOMER___Statu__1F98B2C1">
           <End Role="ORDER_STATUS" Type="Self.ORDER_STATUS" Multiplicity="1" />
           <End Role="CUSTOMER_ORDER_STATUS" Type="Self.CUSTOMER_ORDER_STATUS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2041,7 +1917,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Person__ManagerI__6754599E">
+        <Association Name="FK__Person__ManagerI__45F365D3">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2053,7 +1929,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PROMOTION__Manag__7E37BEF6">
+        <Association Name="FK__PROMOTION__Manag__5CD6CB2B">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="PROMOTION" Type="Self.PROMOTION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2065,7 +1941,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PUBLISHER__Manag__75A278F5">
+        <Association Name="FK__PUBLISHER__Manag__5441852A">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2077,7 +1953,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Manag__17F790F9">
+        <Association Name="FK__STOCK_REC__Manag__76969D2E">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2089,7 +1965,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TIER__ManagerID__60A75C0F">
+        <Association Name="FK__TIER__ManagerID__3F466844">
           <End Role="MANAGER" Type="Self.MANAGER" Multiplicity="1" />
           <End Role="TIER" Type="Self.TIER" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2101,7 +1977,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Person__TierID__66603565">
+        <Association Name="FK__Person__TierID__44FF419A">
           <End Role="TIER" Type="Self.TIER" Multiplicity="0..1" />
           <End Role="Person" Type="Self.Person" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2113,7 +1989,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SHIP_CONF__Shipp__540C7B00">
+        <Association Name="FK__SHIP_CONF__Shipp__32AB8735">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="SHIP_CONFIRMATION" Type="Self.SHIP_CONFIRMATION" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2125,7 +2001,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__WALLET__Customer__6C190EBB">
+        <Association Name="FK__WALLET__Customer__4AB81AF0">
           <End Role="Person" Type="Self.Person" Multiplicity="1" />
           <End Role="WALLET" Type="Self.WALLET" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2137,7 +2013,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Publi__17036CC0">
+        <Association Name="FK__STOCK_REC__Publi__75A278F5">
           <End Role="PUBLISHER" Type="Self.PUBLISHER" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2149,7 +2025,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STOCK_REC__Stock__1F98B2C1">
+        <Association Name="FK__STOCK_REC__Stock__7E37BEF6">
           <End Role="STOCK_RECEIVED_NOTE" Type="Self.STOCK_RECEIVED_NOTE" Multiplicity="1" />
           <End Role="STOCK_RECEIVED_NOTE_DETAIL" Type="Self.STOCK_RECEIVED_NOTE_DETAIL" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2161,7 +2037,7 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TRANSACTI__Walle__4B7734FF">
+        <Association Name="FK__TRANSACTI__Walle__2A164134">
           <End Role="WALLET" Type="Self.WALLET" Multiplicity="0..1" />
           <End Role="TRANSACTION_DETAILS" Type="Self.TRANSACTION_DETAILS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2213,14 +2089,9 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySet Name="STOCK_INVENTORY" EntityType="Self.STOCK_INVENTORY" />
           <EntitySet Name="STOCK_RECEIVED_NOTE" EntityType="Self.STOCK_RECEIVED_NOTE" />
           <EntitySet Name="STOCK_RECEIVED_NOTE_DETAIL" EntityType="Self.STOCK_RECEIVED_NOTE_DETAIL" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="TIERs" EntityType="Self.TIER" />
           <EntitySet Name="TRANSACTION_DETAILS" EntityType="Self.TRANSACTION_DETAILS" />
           <EntitySet Name="WALLETs" EntityType="Self.WALLET" />
-          <EntitySet Name="V_cus_order_status" EntityType="Self.V_cus_order_status" />
-          <EntitySet Name="V_cus_order_status_is_cancel" EntityType="Self.V_cus_order_status_is_cancel" />
-          <EntitySet Name="V_cus_order_status_is_success" EntityType="Self.V_cus_order_status_is_success" />
-          <EntitySet Name="V_cus_order_status_not_success" EntityType="Self.V_cus_order_status_not_success" />
           <EntitySet Name="V_CustomerSpending" EntityType="Self.V_CustomerSpending" />
           <EntitySet Name="V_edition_buy_count" EntityType="Self.V_edition_buy_count" />
           <EntitySet Name="V_edition_total_stock_quantity_price_in_this_and_previous_month" EntityType="Self.V_edition_total_stock_quantity_price_in_this_and_previous_month" />
@@ -2244,127 +2115,127 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Person" EntitySet="People" />
           </AssociationSet>
-          <AssociationSet Name="FK__BANK_ACCO__Custo__71D1E811" Association="Self.FK__BANK_ACCO__Custo__71D1E811">
+          <AssociationSet Name="FK__BANK_ACCO__Custo__5070F446" Association="Self.FK__BANK_ACCO__Custo__5070F446">
             <End Role="Person" EntitySet="People" />
             <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
           </AssociationSet>
-          <AssociationSet Name="FK__TRANSACTI__BankA__4C6B5938" Association="Self.FK__TRANSACTI__BankA__4C6B5938">
+          <AssociationSet Name="FK__TRANSACTI__BankA__2B0A656D" Association="Self.FK__TRANSACTI__BankA__2B0A656D">
             <End Role="BANK_ACCOUNT" EntitySet="BANK_ACCOUNT" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_COLL__Manag__01142BA1" Association="Self.FK__BOOK_COLL__Manag__01142BA1">
+          <AssociationSet Name="FK__BOOK_COLL__Manag__5FB337D6" Association="Self.FK__BOOK_COLL__Manag__5FB337D6">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_EDIT__BookC__0F624AF8" Association="Self.FK__BOOK_EDIT__BookC__0F624AF8">
+          <AssociationSet Name="FK__BOOK_EDIT__BookC__6E01572D" Association="Self.FK__BOOK_EDIT__BookC__6E01572D">
             <End Role="BOOK_COLLECTION" EntitySet="BOOK_COLLECTION" />
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_EDIT__Editi__30C33EC3" Association="Self.FK__BOOK_EDIT__Editi__30C33EC3">
+          <AssociationSet Name="FK__BOOK_EDIT__Editi__0F624AF8" Association="Self.FK__BOOK_EDIT__Editi__0F624AF8">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="BOOK_EDITION_IMAGE" EntitySet="BOOK_EDITION_IMAGE" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_EDIT__Manag__06CD04F7" Association="Self.FK__BOOK_EDIT__Manag__06CD04F7">
+          <AssociationSet Name="FK__BOOK_EDIT__Manag__656C112C" Association="Self.FK__BOOK_EDIT__Manag__656C112C">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_REVI__Editi__2BFE89A6" Association="Self.FK__BOOK_REVI__Editi__2BFE89A6">
+          <AssociationSet Name="FK__BOOK_REVI__Editi__0A9D95DB" Association="Self.FK__BOOK_REVI__Editi__0A9D95DB">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Editi__45BE5BA9" Association="Self.FK__CUSTOMER___Editi__45BE5BA9">
+          <AssociationSet Name="FK__CUSTOMER___Editi__245D67DE" Association="Self.FK__CUSTOMER___Editi__245D67DE">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_INV__Editi__2739D489" Association="Self.FK__STOCK_INV__Editi__2739D489">
+          <AssociationSet Name="FK__STOCK_INV__Editi__05D8E0BE" Association="Self.FK__STOCK_INV__Editi__05D8E0BE">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="STOCK_INVENTORY" EntitySet="STOCK_INVENTORY" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Editi__1EA48E88" Association="Self.FK__STOCK_REC__Editi__1EA48E88">
+          <AssociationSet Name="FK__STOCK_REC__Editi__7D439ABD" Association="Self.FK__STOCK_REC__Editi__7D439ABD">
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
             <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__BOOK_REVI__Custo__2CF2ADDF" Association="Self.FK__BOOK_REVI__Custo__2CF2ADDF">
+          <AssociationSet Name="FK__BOOK_REVI__Custo__0B91BA14" Association="Self.FK__BOOK_REVI__Custo__0B91BA14">
             <End Role="Person" EntitySet="People" />
             <End Role="BOOK_REVIEW" EntitySet="BOOK_REVIEW" />
           </AssociationSet>
-          <AssociationSet Name="FK__CATEGORY__Manage__797309D9" Association="Self.FK__CATEGORY__Manage__797309D9">
+          <AssociationSet Name="FK__CATEGORY__Manage__5812160E" Association="Self.FK__CATEGORY__Manage__5812160E">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="CATEGORY" EntitySet="CATEGORies" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Custo__3A4CA8FD" Association="Self.FK__CUSTOMER___Custo__3A4CA8FD">
+          <AssociationSet Name="FK__CUSTOMER___Custo__18EBB532" Association="Self.FK__CUSTOMER___Custo__18EBB532">
             <End Role="Person" EntitySet="People" />
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Order__40058253" Association="Self.FK__CUSTOMER___Order__40058253">
+          <AssociationSet Name="FK__CUSTOMER___Order__1EA48E88" Association="Self.FK__CUSTOMER___Order__1EA48E88">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Order__46B27FE2" Association="Self.FK__CUSTOMER___Order__46B27FE2">
+          <AssociationSet Name="FK__CUSTOMER___Order__25518C17" Association="Self.FK__CUSTOMER___Order__25518C17">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="CUSTOMER_ORDER_DETAIL" EntitySet="CUSTOMER_ORDER_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Shipp__3B40CD36" Association="Self.FK__CUSTOMER___Shipp__3B40CD36">
+          <AssociationSet Name="FK__CUSTOMER___Shipp__19DFD96B" Association="Self.FK__CUSTOMER___Shipp__19DFD96B">
             <End Role="Person" EntitySet="People" />
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Staff__395884C4" Association="Self.FK__CUSTOMER___Staff__395884C4">
+          <AssociationSet Name="FK__CUSTOMER___Staff__17F790F9" Association="Self.FK__CUSTOMER___Staff__17F790F9">
             <End Role="Person" EntitySet="People" />
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
           </AssociationSet>
-          <AssociationSet Name="FK__SHIP_CONF__Order__531856C7" Association="Self.FK__SHIP_CONF__Order__531856C7">
+          <AssociationSet Name="FK__SHIP_CONF__Order__31B762FC" Association="Self.FK__SHIP_CONF__Order__31B762FC">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
           </AssociationSet>
-          <AssociationSet Name="FK__TRANSACTI__Order__4D5F7D71" Association="Self.FK__TRANSACTI__Order__4D5F7D71">
+          <AssociationSet Name="FK__TRANSACTI__Order__2BFE89A6" Association="Self.FK__TRANSACTI__Order__2BFE89A6">
             <End Role="CUSTOMER_ORDER" EntitySet="CUSTOMER_ORDER" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
-          <AssociationSet Name="FK__CUSTOMER___Statu__40F9A68C" Association="Self.FK__CUSTOMER___Statu__40F9A68C">
+          <AssociationSet Name="FK__CUSTOMER___Statu__1F98B2C1" Association="Self.FK__CUSTOMER___Statu__1F98B2C1">
             <End Role="ORDER_STATUS" EntitySet="ORDER_STATUS" />
             <End Role="CUSTOMER_ORDER_STATUS" EntitySet="CUSTOMER_ORDER_STATUS" />
           </AssociationSet>
-          <AssociationSet Name="FK__Person__ManagerI__6754599E" Association="Self.FK__Person__ManagerI__6754599E">
+          <AssociationSet Name="FK__Person__ManagerI__45F365D3" Association="Self.FK__Person__ManagerI__45F365D3">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="Person" EntitySet="People" />
           </AssociationSet>
-          <AssociationSet Name="FK__PROMOTION__Manag__7E37BEF6" Association="Self.FK__PROMOTION__Manag__7E37BEF6">
+          <AssociationSet Name="FK__PROMOTION__Manag__5CD6CB2B" Association="Self.FK__PROMOTION__Manag__5CD6CB2B">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="PROMOTION" EntitySet="PROMOTIONs" />
           </AssociationSet>
-          <AssociationSet Name="FK__PUBLISHER__Manag__75A278F5" Association="Self.FK__PUBLISHER__Manag__75A278F5">
+          <AssociationSet Name="FK__PUBLISHER__Manag__5441852A" Association="Self.FK__PUBLISHER__Manag__5441852A">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="PUBLISHER" EntitySet="PUBLISHERs" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Manag__17F790F9" Association="Self.FK__STOCK_REC__Manag__17F790F9">
+          <AssociationSet Name="FK__STOCK_REC__Manag__76969D2E" Association="Self.FK__STOCK_REC__Manag__76969D2E">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
           </AssociationSet>
-          <AssociationSet Name="FK__TIER__ManagerID__60A75C0F" Association="Self.FK__TIER__ManagerID__60A75C0F">
+          <AssociationSet Name="FK__TIER__ManagerID__3F466844" Association="Self.FK__TIER__ManagerID__3F466844">
             <End Role="MANAGER" EntitySet="MANAGERs" />
             <End Role="TIER" EntitySet="TIERs" />
           </AssociationSet>
-          <AssociationSet Name="FK__Person__TierID__66603565" Association="Self.FK__Person__TierID__66603565">
+          <AssociationSet Name="FK__Person__TierID__44FF419A" Association="Self.FK__Person__TierID__44FF419A">
             <End Role="TIER" EntitySet="TIERs" />
             <End Role="Person" EntitySet="People" />
           </AssociationSet>
-          <AssociationSet Name="FK__SHIP_CONF__Shipp__540C7B00" Association="Self.FK__SHIP_CONF__Shipp__540C7B00">
+          <AssociationSet Name="FK__SHIP_CONF__Shipp__32AB8735" Association="Self.FK__SHIP_CONF__Shipp__32AB8735">
             <End Role="Person" EntitySet="People" />
             <End Role="SHIP_CONFIRMATION" EntitySet="SHIP_CONFIRMATION" />
           </AssociationSet>
-          <AssociationSet Name="FK__WALLET__Customer__6C190EBB" Association="Self.FK__WALLET__Customer__6C190EBB">
+          <AssociationSet Name="FK__WALLET__Customer__4AB81AF0" Association="Self.FK__WALLET__Customer__4AB81AF0">
             <End Role="Person" EntitySet="People" />
             <End Role="WALLET" EntitySet="WALLETs" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Publi__17036CC0" Association="Self.FK__STOCK_REC__Publi__17036CC0">
+          <AssociationSet Name="FK__STOCK_REC__Publi__75A278F5" Association="Self.FK__STOCK_REC__Publi__75A278F5">
             <End Role="PUBLISHER" EntitySet="PUBLISHERs" />
             <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
           </AssociationSet>
-          <AssociationSet Name="FK__STOCK_REC__Stock__1F98B2C1" Association="Self.FK__STOCK_REC__Stock__1F98B2C1">
+          <AssociationSet Name="FK__STOCK_REC__Stock__7E37BEF6" Association="Self.FK__STOCK_REC__Stock__7E37BEF6">
             <End Role="STOCK_RECEIVED_NOTE" EntitySet="STOCK_RECEIVED_NOTE" />
             <End Role="STOCK_RECEIVED_NOTE_DETAIL" EntitySet="STOCK_RECEIVED_NOTE_DETAIL" />
           </AssociationSet>
-          <AssociationSet Name="FK__TRANSACTI__Walle__4B7734FF" Association="Self.FK__TRANSACTI__Walle__4B7734FF">
+          <AssociationSet Name="FK__TRANSACTI__Walle__2A164134" Association="Self.FK__TRANSACTI__Walle__2A164134">
             <End Role="WALLET" EntitySet="WALLETs" />
             <End Role="TRANSACTION_DETAILS" EntitySet="TRANSACTION_DETAILS" />
           </AssociationSet>
@@ -2384,32 +2255,12 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <End Role="Person" EntitySet="People" />
             <End Role="BOOK_EDITION" EntitySet="BOOK_EDITION" />
           </AssociationSet>
-          <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
           <FunctionImport Name="Sp_check_valid_promotion" ReturnType="Collection(BookStoreManagerModel.Sp_check_valid_promotion_Result)">
           <Parameter Name="editionID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="version" Mode="In" Type="Int32" />
-            <Parameter Name="definition" Mode="In" Type="Binary" />
-          </FunctionImport>
-          <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(BookStoreManagerModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(BookStoreManagerModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          <FunctionImport Name="SP_CREATE_CUSTOMER_ORDER_STATUS">
+            <Parameter Name="OrderID" Mode="In" Type="Int32" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_Inital_Manager">
           <Parameter Name="AccountID" Mode="In" Type="String" />
@@ -2418,24 +2269,8 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
             <Parameter Name="AccountID" Mode="In" Type="String" />
             <Parameter Name="ManagerID" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
-            <Parameter Name="owner_id" Mode="In" Type="Int32" />
-            <Parameter Name="new_diagramname" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_switch_status">
-          <Parameter Name="orderID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_switch_status_after_cus_given">
-          <Parameter Name="orderID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_switch_status_after_processing">
-          <Parameter Name="orderID" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_upgraddiagrams" />
-          <FunctionImport Name="sp_cancel_by_not_delivering">
-            <Parameter Name="orderID" Mode="In" Type="Int32" />
-          </FunctionImport>
+          <EntitySet Name="V_cus_order_status_not_success" EntityType="BookStoreManagerModel.V_cus_order_status_not_success" />
+          <EntitySet Name="V_cus_order_status" EntityType="BookStoreManagerModel.V_cus_order_status" />
         </EntityContainer>
         <ComplexType Name="Sp_check_valid_promotion_Result">
           <Property Type="Int32" Name="PromotionID" Nullable="false" />
@@ -2444,19 +2279,24 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <Property Type="DateTime" Name="PromotionStartDate" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="PromotionEndDate" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="ManagerID" Nullable="false" />
-          <Property Type="String" Name="PromotionDetails" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="PromotionDetails" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_helpdiagramdefinition_Result">
-          <Property Type="Int32" Name="version" Nullable="true" />
-          <Property Type="Binary" Name="definition" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_helpdiagrams_Result">
-          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
-          <Property Type="Int32" Name="ID" Nullable="false" />
-          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
-          <Property Type="Int32" Name="OwnerID" Nullable="false" />
-        </ComplexType>
+        <EntityType Name="V_cus_order_status_not_success">
+          <Key>
+            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="V_cus_order_status">
+          <Key>
+            <PropertyRef Name="OrderID" />
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2713,17 +2553,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TIERs">
             <EntityTypeMapping TypeName="BookStoreManagerModel.TIER">
               <MappingFragment StoreEntitySet="TIER">
@@ -2757,38 +2586,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="V_cus_order_status">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status">
-              <MappingFragment StoreEntitySet="V_cus_order_status">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_cus_order_status_is_cancel">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_is_cancel">
-              <MappingFragment StoreEntitySet="V_cus_order_status_is_cancel">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_cus_order_status_is_success">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_is_success">
-              <MappingFragment StoreEntitySet="V_cus_order_status_is_success">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="V_cus_order_status_not_success">
-            <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_not_success">
-              <MappingFragment StoreEntitySet="V_cus_order_status_not_success">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="V_CustomerSpending">
             <EntityTypeMapping TypeName="BookStoreManagerModel.V_CustomerSpending">
               <MappingFragment StoreEntitySet="V_CustomerSpending">
@@ -2800,12 +2597,12 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
           <EntitySetMapping Name="V_edition_buy_count">
             <EntityTypeMapping TypeName="BookStoreManagerModel.V_edition_buy_count">
               <MappingFragment StoreEntitySet="V_edition_buy_count">
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="month" ColumnName="month" />
-                <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="EditionName" ColumnName="EditionName" />
                 <ScalarProperty Name="EditionID" ColumnName="EditionID" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="month" ColumnName="month" />
                 <ScalarProperty Name="BuyCount" ColumnName="BuyCount" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2892,7 +2689,6 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               <ScalarProperty Name="EditionID" ColumnName="EditionID" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="BookStoreManagerModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="Sp_check_valid_promotion" FunctionName="BookStoreManagerModel.Store.Sp_check_valid_promotion">
             <ResultMapping>
               <ComplexTypeMapping TypeName="BookStoreManagerModel.Sp_check_valid_promotion_Result">
@@ -2906,35 +2702,25 @@ warning 6002: The table/view 'BookStoreManager.dbo.V_UserRole' does not have a p
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="BookStoreManagerModel.Store.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="BookStoreManagerModel.Store.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="BookStoreManagerModel.Store.sp_helpdiagramdefinition">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BookStoreManagerModel.sp_helpdiagramdefinition_Result">
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="BookStoreManagerModel.Store.sp_helpdiagrams">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="BookStoreManagerModel.sp_helpdiagrams_Result">
-                <ScalarProperty Name="Database" ColumnName="Database" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CREATE_CUSTOMER_ORDER_STATUS" FunctionName="BookStoreManagerModel.Store.SP_CREATE_CUSTOMER_ORDER_STATUS" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Manager" FunctionName="BookStoreManagerModel.Store.SP_Inital_Manager" />
           <FunctionImportMapping FunctionImportName="SP_Inital_Person" FunctionName="BookStoreManagerModel.Store.SP_Inital_Person" />
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="BookStoreManagerModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_switch_status" FunctionName="BookStoreManagerModel.Store.sp_switch_status" />
-          <FunctionImportMapping FunctionImportName="sp_switch_status_after_cus_given" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_cus_given" />
-          <FunctionImportMapping FunctionImportName="sp_switch_status_after_processing" FunctionName="BookStoreManagerModel.Store.sp_switch_status_after_processing" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="BookStoreManagerModel.Store.sp_upgraddiagrams" />
-          <FunctionImportMapping FunctionImportName="sp_cancel_by_not_delivering" FunctionName="BookStoreManagerModel.Store.sp_cancel_by_not_delivering" />
+          <EntitySetMapping Name="V_cus_order_status_not_success">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status_not_success">
+              <MappingFragment StoreEntitySet="V_cus_order_status_not_success">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="V_cus_order_status">
+            <EntityTypeMapping TypeName="BookStoreManagerModel.V_cus_order_status">
+              <MappingFragment StoreEntitySet="V_cus_order_status">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

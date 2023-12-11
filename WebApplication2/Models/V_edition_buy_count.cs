@@ -16,11 +16,8 @@ namespace WebApplication2.Models
     {
         public string EditionName { get; set; }
         public int EditionID { get; set; }
-        public Nullable<int> BuyCount { get; set; }
-        public string EditionName { get; set; }
         public Nullable<int> year { get; set; }
         public Nullable<int> month { get; set; }
-
         public Nullable<int> BuyCount { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
     }

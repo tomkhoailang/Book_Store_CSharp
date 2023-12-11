@@ -6,77 +6,91 @@
 
 <h2>Thêm mới</h2>
 
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal w-100">
         <h4>Thông tin khuyến mãi</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label " })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
-                @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="form-group col-6">
+                @Html.LabelFor(model => model.PromotionName, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PromotionName, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.PromotionName, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label " })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PromotionDiscount, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "number" } })
-                @Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
+            <div class="form-group  col-6">
+                @Html.LabelFor(model => model.PromotionDiscount, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PromotionDiscount, new { htmlAttributes = new { @class = "form-control", @required = "required", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.PromotionDiscount, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label " })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.PromotionDetails,  new { @class = "form-control", placeholder = "Tự động tạo khi để trống" } )
-                @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-10">
-                <input type="datetime-local" id="PromotionStartDate" name="PromotionStartDate" class="form-control" required />
-                @Html.ValidationMessageFor(model => model.PromotionStartDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label " })
-            <div class="col-md-10">
-                <input type="datetime-local" id="PromotionEndDate" name="PromotionEndDate" class="form-control" required />
-                @Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <label>Danh sách được áp dụng khuyến mãi</label>
-                <input class="w-100"/>
-                <hr />
-                <div style="height: 300px; overflow-y: auto;">
-                    @foreach (var book in ViewBag.list_of_book)
-                    {
-                        string labelName = "Tên sách: " + book.EditionName + " - Mã sách: " + book.EditionID.ToString();
-                        <input type="checkbox" id="@book.EditionID" name="@book.EditionID" value="@book.EditionID">
-                        <label for="@book.EditionID">@labelName</label><br>
-                    }
+            <div class="form-group  col-6">
+                @Html.LabelFor(model => model.PromotionStartDate, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-10">
+                    <input type="datetime-local" id="PromotionStartDate" name="PromotionStartDate" class="form-control" required />
+                    @Html.ValidationMessageFor(model => model.PromotionStartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group  col-6">
+                @Html.LabelFor(model => model.PromotionEndDate, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    <input type="datetime-local" id="PromotionEndDate" name="PromotionEndDate" class="form-control" required />
+                    @Html.ValidationMessageFor(model => model.PromotionEndDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group col-6" style="height:160px">
+                @Html.LabelFor(model => model.PromotionDetails, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.PromotionDetails, new { @class = "form-control", placeholder = "Tự động tạo khi để trống", rows = "6" })
+                    @Html.ValidationMessageFor(model => model.PromotionDetails, "", new { @class = "text-danger", })
+                </div>
+            </div>
+
+            <div class="form-group col-6" style="height:160px">
+                Danh sách sách đã chọn:
+                <div style="height: 300px; overflow-y: auto;" id="createEditionSelected">
+                </div>
+
+            </div>
+
+
+            <div class="form-group  col-6">
+                <div class="col-md-offset-2 col-md-10">
+                    <label>Danh sách được áp dụng khuyến mãi</label>
+                    <div>
+                        <span>Tìm kiếm: </span>
+                        <input class="w-100" oninput="reloadCheckbox(this.value)" />
+                    </div>
+                    <hr />
+                    <div style="height: 200px; overflow-y: auto;" id="editionSelect">
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <input type="hidden" id="selectedValueInput" name="selectedValueInput" />
+
+
+            <div class="form-group col-6 ">
+                <div class="col-md-10">
+                    <label>Tác vụ</label>
+                    <br />
+                    <input type="submit" value="Tạo mới" class="btn btn-default" />
                 </div>
             </div>
         </div>
 
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
 }
 
@@ -86,11 +100,13 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 
+
+
 <script>
     $(document).ready(function () {
         var initial = new Date();
         initial.setHours(initial.getHours() + 7);
-        initial.setMinutes(initial.getMinutes() + 1);
+        initial.setMinutes(initial.getMinutes() + 15);
 
         $("#PromotionStartDate").val(initial.toISOString().slice(0, 16));
         $("#PromotionStartDate").prop("min", initial.toISOString().slice(0, 16));
@@ -108,10 +124,90 @@
     function updateMinAttribute() {
         var currentDate = new Date();
         currentDate.setHours(currentDate.getHours() + 7);
-        currentDate.setMinutes(currentDate.getMinutes() + 1);
+        currentDate.setMinutes(currentDate.getMinutes() + 15);
         var currentDateString = currentDate.toISOString().slice(0, 16);
         $("#PromotionStartDate").prop("min", currentDateString);
         $("#PromotionStartDate").val(currentDate.toISOString().slice(0, 16));
     }
-    setInterval(updateMinAttribute, 60000);
+    setInterval(updateMinAttribute, 1000);
+</script>
+
+
+<script>
+    let selectedValue = []
+
+    $('form').on('submit', function () {
+        $('#selectedValueInput').val(JSON.stringify(selectedValue));
+    });
+
+
+    function selectCheckbox(value) {
+        if (selectedValue.includes(value)) {
+            selectedValue = selectedValue.filter(v => v !== value)
+        } else {
+            selectedValue.push(value)
+        }
+        const selectElement = document.getElementById('createEditionSelected');
+        selectElement.innerHTML = "";
+        if (selectedValue.length > 0)
+            $.ajax({
+                url: '/Manager/BOOK_EDITION/getSelectedBooks',
+                data: { paraList: selectedValue },
+                traditional: true,
+                type: 'GET',
+                success: function (data) {
+                    var editions = JSON.parse(data)
+                    let html = "";
+                    Object.keys(editions).forEach(key => {
+                        const style = `
+                        width: 1.2rem;
+                        height: 1.2rem;
+                        border-radius: 0px;
+                        background: #fff;
+                    `
+                        const str = `
+                                <li>${"Tên sách : " + editions[key].EditionName + " - Mã: " + key}</li>
+                    `;
+                        html += str;
+                    });
+                    selectElement.innerHTML = html;
+                }
+            })
+    }
+
+
+    function reloadCheckbox(keyword) {
+        $.ajax({
+            url: '/Manager/BOOK_EDITION/getAllBookEdition',
+            data: { keyword: keyword },
+            type: 'GET',
+            success: function (data) {
+                var editions = JSON.parse(data)
+                const selectElement = document.getElementById('editionSelect');
+                let html = "";
+                Object.keys(editions).forEach(key => {
+                    let check = ""
+                    if (selectedValue.includes(parseInt(key))) {
+                        check = "checked"
+                    }
+                    const style = `
+                        width: 1.2rem;
+                        height: 1.2rem;
+                        border-radius: 0px;
+                        background: #fff;
+                    `
+                    const str = `
+                                <input class="custom-checkbox" style="${style}" type="checkbox" id=${key} value=${key}  onchange="selectCheckbox(${key})" ${check}/>
+                                <label>${"Tên sách: " + editions[key].EditionName + " - Mã: " + key}</label>
+                                </br>
+                    `;
+                    html += str;
+                });
+                selectElement.innerHTML = html;
+            }
+        });
+    }
+    reloadCheckbox("")
+
+
 </script>
