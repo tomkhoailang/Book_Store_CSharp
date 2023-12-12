@@ -161,7 +161,11 @@ namespace WebApplication2.Controllers
                     switch(sortOptions)
 					{
                         case "Rating":
-                            books = books.OrderByDescending(edition => edition?.BOOK_REVIEW?.Average(rv => rv?.ReviewRating ?? 0)).ToList();
+                            books = books.OrderByDescending(edition =>
+                            {
+                                var reviewRatings = edition.BOOK_REVIEW.Select(rv => rv.ReviewRating);
+                                return reviewRatings.Any() ? reviewRatings.Average() : 0;
+                            }).ToList();
                             break;
                         case "ReleaseYear":
                             books = books.OrderByDescending(edition => edition?.EditionYear).ToList();
@@ -178,7 +182,7 @@ namespace WebApplication2.Controllers
 				{
                     switch(order)
 					{
-                        case "desc":
+                        case "asc":
                             books.Reverse();
                             break;
                         default:

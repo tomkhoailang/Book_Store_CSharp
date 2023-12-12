@@ -1,12 +1,26 @@
 ﻿@model WebApplication2.Models.WALLET
 
-<div class="container-fluid p-3">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container-fluid p-3 overflow-hidden">
 	<p class="text-dark font-weight-bold" style="font-size: 20px;">
 		Số dư hiện tại: @Model.Balance.ToString("#,##0").Replace(",", ".") VND
 		<a>
 			<i type="button" id="" data-toggle="modal" data-target="#deposit-modal" title="Nạp tiền vào tài khoản" style="font-size: 17px" class="fa-solid fa-plus text-success withdrawal-btn"></i>
 		</a>
 	</p>
+	<h4>Biểu đồ chi tiêu trong năm</h4>
+	<div class="row">
+		<div class="col-8">
+			<canvas id="pie-chart" height="500" width="700"></canvas>
+		</div>
+		<div class="col-4">
+			<h5>Thống kê</h5>
+			<p>Tổng số tiền đã chi: @ViewBag.totalSpending.ToString("#,##0").Replace(",", ".") VND</p>
+			<p>Tháng chi nhiều nhất: @ViewBag.mostSpendingMonth.Key (@ViewBag.mostSpendingMonth.Value.ToString("#,##0").Replace(",", ".") VND)</p>
+			<p>Số sách đã mua: @ViewBag.boughtBooks cuốn</p>
+		</div>
+	</div>
 </div>
 
 <div class="modal fade" id="deposit-modal" tabindex="-1" role="dialog" aria-labelledby="Nạp tiền" aria-hidden="true">
@@ -55,7 +69,59 @@
 		validator.isRequired('#deposit-input', 'Vui lòng nhập số tiền muốn nạp'),
 		validator.customValidator('#deposit-input', 'Bạn chưa liên kết tài khoản ngân hàng, vui lòng liên kết', (value) => {
 			return @ViewBag.BankNumber > 0;
+		}),
+		validator.customValidator('#deposit-input', 'Dữ liệu nhập vào không hợp lệ', (value) => {
+			try {
+				const number = parseFloat(value);
+
+				if (number <= 0) return false;
+
+				return true;
+			} catch (e) {
+				return false;
+			}
 		})
     ]
-});
+	});
+
+	const label = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+	const value = [];
+
+	@{ 
+		var label = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
+	}
+
+	@foreach (var month in label)
+	{
+		if (ViewBag.userSpending.ContainsKey(month))
+		{
+			<text>
+				value.push(@(ViewBag.userSpending[month]));
+			</text>
+		}
+		else
+		{
+			<text>
+				value.push(0);
+			</text>
+		}
+	}
+
+	new Chart(document.getElementById("pie-chart"), {
+		type: 'bar',
+		data: {
+			labels: label,
+			datasets: [{
+				label: "Tổng tiền chi tiêu theo từng tháng",
+				data: value
+			}]
+		},
+		options: {
+			title: {
+				display: true,
+				text: 'Tổng tiền đã chi theo từng tháng'
+			},
+			responsive: false
+		}
+	});
 </script>
