@@ -5412,6 +5412,8 @@
     <Content Include="Areas\Manager\Views\Home\Dashboard.cshtml" />
     <Content Include="Areas\Manager\Views\CustomerOrderForManager\Details.cshtml" />
     <Content Include="Areas\Manager\Views\CustomerOrderForManager\Index.cshtml" />
+    <Content Include="libman.json" />
+    <Content Include="Areas\Manager\Views\Home\GetBuyCountOfCurrentMonth.cshtml" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="Scripts\helpers.js" />
     <Content Include="Scripts\main.js" />

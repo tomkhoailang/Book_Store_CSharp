@@ -58,6 +58,28 @@ namespace WebApplication2.Controllers
             var accID = User.Identity.GetUserId();
             var personID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
             var bANK_ACCOUNT = db.BANK_ACCOUNT.Where(b => b.CustomerID == personID);
+
+            if (TempData["SuccessMessage"] != null)
+            {
+                string successMessage = TempData["SuccessMessage"].ToString();
+                TempData.Remove("SuccessMessage");
+                ViewBag.SuccessMessage = successMessage;
+            }
+
+            if (TempData["WarningMessage"] != null)
+            {
+                string warningMessage = TempData["WarningMessage"].ToString();
+                TempData.Remove("WarningMessage");
+                ViewBag.WarningMessage = warningMessage;
+            }
+
+            if (TempData["ErrorMessage"] != null)
+            {
+                string errorMessage = TempData["ErrorMessage"].ToString();
+                TempData.Remove("ErrorMessage");
+                ViewBag.ErrorMessage = errorMessage;
+            }
+
             return View(bANK_ACCOUNT.ToList());
         }
 
@@ -100,13 +122,20 @@ namespace WebApplication2.Controllers
         public ActionResult Create([Bind(Include = "BankAccountID,BankAccountNumber,BankAccountName,BankCVC")] BANK_ACCOUNT bANK_ACCOUNT)
         {
             string accID = User.Identity.GetUserId();
-            var CustomerID = db.People.FirstOrDefault(p => p.AccountID == accID).PersonID;
-            bANK_ACCOUNT.CustomerID = CustomerID;
+            var person = db.People.FirstOrDefault(p => p.AccountID == accID);
+            bANK_ACCOUNT.CustomerID = person.PersonID;
+
+            if(person.BANK_ACCOUNT.Any(ba => ba.BankAccountName == bANK_ACCOUNT.BankAccountName))
+			{
+                TempData["ErrorMessage"] = "Ngân hàng đã tồn tại";
+                return RedirectToAction("Index");
+			}
 
             if (ModelState.IsValid)
             {
                 db.BANK_ACCOUNT.Add(bANK_ACCOUNT);
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "Liên kết ngân hàng thành công";
                 return RedirectToAction("Index");
             }
 
