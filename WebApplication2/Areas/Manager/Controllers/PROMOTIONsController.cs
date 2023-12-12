@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using PagedList;
 using PagedList.Mvc;
 using WebApplication2.Models;
@@ -19,7 +20,7 @@ namespace WebApplication2.Areas.Manager.Controllers
         private BookStoreManagerEntities db = new BookStoreManagerEntities();
 
         // GET: PROMOTIONs
-        public ActionResult Index(string searchString,DateTime? startDate, DateTime? endDate, int? page, int? size, string sortOptions)
+        public ActionResult Index(string searchString, DateTime? startDate, DateTime? endDate, int? page, int? size, string sortOptions)
         {
 
             IQueryable<PROMOTION> promotions = db.PROMOTIONs;
@@ -115,16 +116,25 @@ namespace WebApplication2.Areas.Manager.Controllers
             if (ModelState.IsValid)
             {
                 string promoDetail = "";
-                for (int i = 6; i < form.AllKeys.Length; i++)
+                List<int> editionList = JsonConvert.DeserializeObject<List<int>>(Request["selectedValueInput"]);
+
+                foreach (int editionID in editionList)
                 {
-                    if (form.AllKeys[i] != null)
-                    {
-                        int bookID = int.Parse(form.AllKeys[i]);
-                        BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == bookID);
-                        pROMOTION.BOOK_EDITION.Add(book);
-                        promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName +" ";
-                    }
+                    BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == editionID);
+                    pROMOTION.BOOK_EDITION.Add(book);
+                    promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName + " ,";
                 }
+
+                //for (int i = 6; i < form.AllKeys.Length; i++)
+                //{
+                //    if (form.AllKeys[i] != null)
+                //    {
+                //        int bookID = int.Parse(form.AllKeys[i]);
+                //        BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == bookID);
+                //        pROMOTION.BOOK_EDITION.Add(book);
+                //        promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName +" ";
+                //    }
+                //}
                 promoDetail += " sẽ được áp dụng khuyến mãi " + pROMOTION.PromotionDiscount + "% từ ngày " + pROMOTION.PromotionStartDate.ToString() + " đến ngày " + pROMOTION.PromotionEndDate.ToString();
 
                 if (string.IsNullOrEmpty(pROMOTION.PromotionDetails))
@@ -140,7 +150,6 @@ namespace WebApplication2.Areas.Manager.Controllers
             ViewBag.list_of_book = db.BOOK_EDITION;
             return View(pROMOTION);
         }
-
         // GET: PROMOTIONs/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -165,6 +174,7 @@ namespace WebApplication2.Areas.Manager.Controllers
                 }
                 ViewBag.list_of_selected_book = list_of_selected_book.ToList();
             }
+            ViewBag.promotionID = id;
             ViewBag.startDateFormat = Custom.Custom_Function.ConvertDate(pROMOTION.PromotionStartDate);
             ViewBag.endDateFormat = Custom.Custom_Function.ConvertDate(pROMOTION.PromotionEndDate);
             return PartialView("_EditPartialView", pROMOTION);
@@ -191,23 +201,24 @@ namespace WebApplication2.Areas.Manager.Controllers
                     p.PromotionEndDate = pROMOTION.PromotionEndDate;
                     p.ManagerID = (db.MANAGERs.ToList())[0].ManagerID;
 
-                    int init = 6;
+
                     var autoGenerate = Request["auto-generate"];
                     bool useGenerate = false;
                     if (autoGenerate != null && autoGenerate == "enable")
                     {
-                        init = 7;
                         useGenerate = true;
                     }
-
-                    for (; init < form.AllKeys.Count(); init++)
+                    if (p.PromotionStartDate > DateTime.Now)
                     {
-                        // add the new book id
-                        int bookID = int.Parse(form.AllKeys[init]);
-                        BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == bookID);
-                        p.BOOK_EDITION.Add(book);
-                        promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName + " ";
+                        List<int> editionList = JsonConvert.DeserializeObject<List<int>>(Request["editSelectedValueInput"]);
+                        foreach (int editionID in editionList)
+                        {
+                            BOOK_EDITION book = db.BOOK_EDITION.FirstOrDefault(b => b.EditionID == editionID);
+                            p.BOOK_EDITION.Add(book);
+                            promoDetail += "Mã sách: " + book.EditionID.ToString() + " - Tên: " + book.EditionName + " , ";
+                        }
                     }
+
                     if (useGenerate)
                     {
                         promoDetail += " sẽ được áp dụng khuyến mãi " + p.PromotionDiscount + "% từ ngày" + p.PromotionStartDate.ToString() + " đến ngày " + p.PromotionEndDate.ToString();
@@ -248,7 +259,7 @@ namespace WebApplication2.Areas.Manager.Controllers
             PROMOTION pROMOTION = db.PROMOTIONs.Find(id);
             if (pROMOTION.BOOK_EDITION == null)
             {
-                ViewBag.ErrorMessage = "Unable to delete. The promotion is currently linked with other edition";
+                ViewBag.ErrorMessage = "Không thể xóa.";
                 return PartialView("_ErrorMessagePartialView");
             }
             db.PROMOTIONs.Remove(pROMOTION);

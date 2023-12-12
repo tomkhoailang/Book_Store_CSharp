@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0798a87bd1e54beb96e58e25db9b782d" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="fdae592b111f4a9fa64ad33dddca2cfe" Name="Diagram1">
         <EntityTypeShape EntityType="BookStoreManagerModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.AspNetRole" Width="1.5" PointX="0.75" PointY="24.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="17" IsExpanded="true" />
@@ -32,11 +32,12 @@
         <EntityTypeShape EntityType="BookStoreManagerModel.TRANSACTION_DETAILS" Width="1.5" PointX="14.25" PointY="36" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.WALLET" Width="1.5" PointX="12" PointY="44.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreManagerModel.V_CustomerSpending" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_day" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_month" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_year" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.V_UserRole" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_edition_buy_count" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_edition_total_stock_quantity_price_in_this_and_previous_month" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_day" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_month" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_revenue_of_each_year" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_UserRole" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <AssociationConnector Association="BookStoreManagerModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.FK_MANAGER_AspNetUsers" ManuallyRouted="false" />
@@ -76,7 +77,8 @@
         <AssociationConnector Association="BookStoreManagerModel.BOOK_CATEGORY" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.BOOK_PROMOTION" ManuallyRouted="false" />
         <AssociationConnector Association="BookStoreManagerModel.MARKED_BOOK" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="BookStoreManagerModel.V_edition_buy_count" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_cus_order_status_not_success" Width="1.5" PointX="3.375" PointY="6.75" />
+        <EntityTypeShape EntityType="BookStoreManagerModel.V_cus_order_status" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

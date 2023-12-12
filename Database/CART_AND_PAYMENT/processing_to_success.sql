@@ -1,5 +1,5 @@
 ﻿use BookStoreManager
-
+select * from ORDER_STATUS
 go;
 create or alter proc sp_switch_status(@orderID int) as
 begin
@@ -22,6 +22,20 @@ begin
 	else if(@currentStatus = 5)
 	begin
 		insert into CUSTOMER_ORDER_STATUS VALUES(@orderID, 7, GETDATE())
+	end
+end
+
+go;
+
+--select * from ORDER_STATUS
+
+create or alter proc sp_cancel_by_not_delivering (@orderID int)as
+begin
+	declare @currentStatus int
+	select @currentStatus = max(StatusID) from CUSTOMER_ORDER_STATUS where OrderID =  @orderID
+	if(@currentStatus = 6)
+	begin
+		insert into CUSTOMER_ORDER_STATUS values(@orderID, 7, GETDATE())
 	end
 end
 

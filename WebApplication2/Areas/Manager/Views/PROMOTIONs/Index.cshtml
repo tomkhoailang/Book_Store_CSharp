@@ -32,9 +32,9 @@
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 700px">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sách</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -50,7 +50,7 @@
 
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 700px">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -132,36 +132,41 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PromotionID)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PromotionName)
-                                            </td>
-                                            <td>
-                                                @((int)item.PromotionDiscount) %
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PromotionStartDate)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PromotionEndDate)
-                                            </td>
-                                            @if (DateTime.Now >= item.PromotionStartDate && DateTime.Now <= item.PromotionEndDate)
-                                            {
-                                                <td style="color:green">Đang diễn ra</td>
-                                            }
-                                            else
-                                            {
-                                                <td>Đã kết thúc</td>
-                                            }
-                                            <td>
-                                                <button type="button" class="btn btn-primary" id="@item.PromotionID" data-toggle="modal" data-target="#editModal" value="@item.PromotionID" onclick="loadPartialView(this.value)">
-                                                    Chỉnh sửa
-                                                </button>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PromotionID)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PromotionName)
+                                        </td>
+                                        <td>
+                                            @((int)item.PromotionDiscount) %
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PromotionStartDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PromotionEndDate)
+                                        </td>
+                                        @if (DateTime.Now < item.PromotionStartDate)
+                                        {
+                                            <td style="color:saddlebrown" >Chưa bắt đầu</td>
+                                        }
+
+                                        else if (DateTime.Now <= item.PromotionEndDate)
+                                        {
+                                            <td style="color:green">Đang diễn ra</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Đã kết thúc</td>
+                                        }
+                                        <td>
+                                            <button type="button" class="btn btn-primary" id="@item.PromotionID" data-toggle="modal" data-target="#editModal" value="@item.PromotionID" onclick="loadPartialView(this.value)">
+                                                Chỉnh sửa
+                                            </button>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
